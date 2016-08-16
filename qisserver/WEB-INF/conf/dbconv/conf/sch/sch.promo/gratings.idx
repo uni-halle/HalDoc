@@ -1,0 +1,2 @@
+{### gratings ################################################################}
+CREATE UNIQUE INDEX i_gratings_id  ON gratings (id);

@@ -1,0 +1,112 @@
+#if (!$contentVM)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    	
+<html>
+	<head>
+		<title>LSF</title>
+		<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+			#parse ("header.vm")
+	</head>
+	<body class="background">
+		#parse("head.vm")
+		#parse("Controls.vm")
+		#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+			#parse("wlogin/LoginInfo.vm")
+		#end
+#end
+
+#set($printLink = $import.getChild("application").getChild("pluginReturn").getChild("printLink"))
+#set($printLink2 = $import.getChild("application").getChild("pluginReturn").getChild("sended").getChild("printLink2"))
+#set($mailconfirm = $import.getChild("application").getChild("pluginReturn").getChild("sended").getChild("mailconfirm"))
+#set($mailerror = $import.getChild("application").getChild("pluginReturn").getChild("sended").getChild("mailerror"))
+#set($fillingData = $import.getChild("application").getChild("pluginReturn").getChild("fillingData"))
+
+#set($webPath = "publish/pmodul/vm/graduate/application")
+#set($labelStyle = "width: 240px; display: inline-block; text-align: right; padding-right: 5px;")
+#set($inputStyle = "width: 330px;")
+#set($divStyle = "padding: 0px 0px 5px 0px;")
+#set($selectStyle = "padding: 0px 0px 0px 0px; margin: 0em 0em 0em -4px; width: 334px;")
+#set($selectStyleGrid = "margin-left: 0px; width: 200px;")
+
+<h1>$lang.docOpenHeader</h1>
+#if($printLink)
+	#set($printLink = $printLink.getValue())
+#else
+	#set($printLink = "${servlet.SERVLETURL}?${servlet.QUERYSTRING}")
+#end
+<form action="$printLink" method="post" id="openForm">
+#if($mailconfirm)
+	<div>
+		$mailconfirm.getText()<br/><br/>
+	</div>
+#elseif($mailerror || $fillingData)
+	#if($mailerror)
+	<div>
+		$mailerror.getText()<br/><br/>
+		<div style="$divStyle" class="$errorClass"><label style="$labelStyle" for="searchmail" id="searchmail_label">$lang.docOpenEmail</label><input id="searchmail" name="open_searchmail" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_registernr")" required /></div>
+		<button type="submit" class="submit4" style="margin-top:5px;" name="open_search" value="sended">$lang.docAppSubmit</button>
+	</div>
+</form>
+<form action="$printLink2.getValue()" method="post" id="openForm2">
+	#end
+	<div id="tabs" style="clear: both;">
+	  <ul>
+	    <li><a href="#tabs-1">$lang.docAppTabPersData</a></li>
+	    <li><a href="#tabs-2" style="white-space: normal;">$lang.docAppTabOffice</a></li>
+	    <li><a href="#tabs-3" style="white-space: normal;">$lang.docAppTabPromo</a></li>
+	    <li><a href="#tabs-4" style="white-space: normal;">$lang.docAppTabPers</a></li>
+	    #if($fillingData.getChildText("promotion_med.promotion_id").trim() != "")
+	    <li><a href="#tabs-5" style="white-space: normal;">$lang.docAppTabMed</a></li>
+	    #end
+	  </ul>
+	  <div id="tabs-1">
+	  	#parse("$webPath/openingTab1.vm")
+	  </div>
+	  <div id="tabs-2">
+	    #parse("$webPath/openingTab2.vm")
+	  </div>
+	  <div id="tabs-3">
+	    #parse("$webPath/openingTab3.vm")
+	  </div>
+	  <div id="tabs-4">
+	    #parse("$webPath/openingTab4.vm")
+	  </div>
+	  #if($fillingData.getChildText("promotion_med.promotion_id").trim() != "")
+	  <div id="tabs-5">
+	    #parse("$webPath/openingTab5.vm")
+	  </div>
+	  #end
+	  #if($errorElementForCheck)
+		<div class="ui-state-error" style="padding: 5px;">
+		  $errorElementForCheck.getChildText("ERROR")
+		</div>
+	  #end
+	  ##XMLOut($fillingData)
+	</div>
+	<div>
+		<div>
+			<h2 id="errorHeader" style="display:none">$lang.docOpenErrorHeader:</h2>
+			<ul class="errorMessages"></ul>
+		</div>
+		<input type="hidden" name="open_print" value="sended" />
+		<button class="submit4" style="margin-top:5px;" name="open_print" id="open_print" value="sended">$lang.docAppPrint</button>
+	</div>
+#else
+	<div>
+		$lang.docOpenInfo<br/><br/>
+		<div style="$divStyle" class="$errorClass"><label style="$labelStyle" for="searchmail" id="searchmail_label">$lang.docOpenEmail</label><input id="searchmail" name="open_searchmail" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_registernr")" required /></div>
+		<button type="submit" class="submit4" style="margin-top:5px;" name="open_search" value="sended">$lang.docAppSubmit</button>
+	</div>
+#end
+</form>
+
+##XMLOut($import)
+
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}jquery/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src='${servlet.SERVER_URL}${servlet.PUBURLROOT}js/jquery-ui-1.11.2/jquery-ui.js'></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/application_HalleDoc.js"></script>
+
+#if (!$contentVM)
+		#parse("foot.vm")
+	</body>
+</html>
+#end

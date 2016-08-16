@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<login>
+	<auth>
+		<ldap active="y" type="ldap" modules="PROMO">
+			<connect>
+				<server>server</server>
+				<port>port</port>
+				<security>SSL</security>
+				<username>Kette für den Username</username>
+				<password>[password]</password>
+				<attributes>cn AS login</attributes>
+			</connect>
+		</ldap>
+		<extern-promo active="y" type="db" database="promo" modules="PROMO">
+			<test>authenticated</test>
+			<select>
+				SELECT personal.pid AS pid, personal.pid As ident_M, personal.nachname AS nachname,
+				personal.vorname AS vorname, personal.geschl AS geschl,
+				qis_nutzer.login AS username, r_kollektionnutzer.kollid AS role,
+				r_kollektionnutzer.sortierung
+				FROM r_kollektionnutzer, r_pernutzer, qis_nutzer, personal, k_kollektion
+				WHERE personal.pid = r_pernutzer.pid
+				AND r_kollektionnutzer.nid = r_pernutzer.nid
+				AND qis_nutzer.nid = r_pernutzer.nid
+				AND
+				r_kollektionnutzer.kollid = k_kollektion.kollid
+				AND login = '[login]'
+				ORDER BY r_kollektionnutzer.sortierung, r_kollektionnutzer.kollid
+			</select>
+			<RoleMapping>
+				<_1>admin</_1>
+				<_2>dekan</_2>
+				<_3>promov</_3>
+				<_4>promoverw</_4>
+				<_5>biblio</_5>
+				<_6>gradakad</_6>
+				<_7>intoffice</_7>
+			</RoleMapping>
+			<change-lastlogin>
+				<update>
+					UPDATE qis_nutzer SET lastlogin = [timestamp] WHERE nid=[pwtidc]
+				</update>
+			</change-lastlogin>
+			<break />
+		</extern-promo>
+	</auth>
+</login>

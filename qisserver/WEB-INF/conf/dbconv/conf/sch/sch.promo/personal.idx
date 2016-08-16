@@ -1,0 +1,4 @@
+{### personal ################################################################}
+CREATE index i_personal on personal (perstatusid);             
+CREATE UNIQUE INDEX i_pid  ON personal (pid);
+CREATE index i_pers_mtknr on personal (mtknr);

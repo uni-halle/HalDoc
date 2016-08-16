@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<personSearch version="1.0" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<session>moduleParameter</session>
+	<title>$lang.searchpersonpromov</title>
+	<size>50</size>
+	<rights>
+		<admin>
+			<select />
+		</admin>
+		<gradakad>
+			<select />
+		</gradakad>
+		<intoffice>
+			<select />
+		</intoffice>
+	</rights>
+	<helptext>
+		&lt;div&gt;
+			Hier können Sie Promovierende suchen, welche eine eMail erhalten sollen. &lt;br /&gt;Geben Sie kein Suchkriterium ein, so werden Ihnen alle relevanten Promovierende ermittelt.&lt;br /&gt;&lt;br /&gt;
+			In die Datumsfelder können Sie entweder mit einem konkreten Datum ("JJJJ-MM-TT" oder "TT.MM.JJJJ"), &lt;br /&gt;oder durch die Angabe von ">=JJJJ-MM-TT" ab einem bestimmten Datum arbeiten.
+		&lt;/div&gt;	
+	</helptext>
+	<SearchOptions>
+		<option default="y">10</option>
+		<option>20</option>
+		<option>30</option>
+		<option>50</option>
+		<option value="999" context="admin">$lang.all</option>
+	</SearchOptions>
+	<Suchfelder>
+		<Mtknr type="input" db="v_sos.mtknr" size="50" checktype="wildcard" context="admin" />
+		<Nachname type="input" db="v_sos.nachname" ignorecase="y" size="50" context="admin" checktype="wildcard" />
+		<Vorname type="input" db="v_sos.vorname" ignorecase="y" size="50" context="admin" checktype="wildcard" />
+		<Geschlecht type="listbox" db="v_sos.geschl" prop="_stripkey" lookup="-&gt;sex" emptyallowed="y" cssclass="selectInChange" listboxsize="28" />
+		<Fakultät type="listbox" multiple="5" db="promotion.einrichtungid" emptyallowed="admin,gradakad,intoffice" lookup="promo.einrichtungFaks" listboxsize="28" cssclass="selectInChange">
+			<restrictions>
+				<promoverw>AND einrichtung.id = [session_AssignedFak]</promoverw>
+			</restrictions>
+		</Fakultät>
+		<Nationalität type="listbox" multiple="5" db="v_sos.staat" lookup="-&gt;promo.v_k_akfz" emptyallowed="y" cssclass="selectInChange" listboxsize="28" />
+		<Status type="listbox" multiple="5" db="v_sos.res13" lookup="-&gt;promo.k_applicantstatus" emptyallowed="y" cssclass="selectInChange" listboxsize="28" />
+		<Applied type="input" label="Antrag auf Annahme gestellt am" db="promotion.applicationofassumption" cssclass="marginBottom12" context="admin" />
+		<Annahme type="input" label="Angenommen am" db="promotion.assumptioncommitee" />
+		<Zulassung type="input" label="Antrag auf Zulassung gestellt am" db="promotion.applicationofadmission" cssclass="marginBottom12" context="admin" />
+		<Opening type="input" label="Verfahren eröffnet am" db="promotion.openingofprocedure" context="admin" />
+		<Colloquium type="input" label="Verteidigt am" db="promotion.dateofcolloquium" context="admin" />
+		<Abgeschlossen type="input" label="Abgeschlossen am" db="promotion.handovertolibrary" context="admin" />
+		<Programm type="checkbox" db="promotion.promoprogramm" value="J" label="strukturierten Programmen" />
+		<Framework type="checkbox" db="promotion.framework" value="J" label="bi-nat. Promotionsverf." />
+		<germanlist type="checkbox" label="Deutsch-sprachiger Raum" db="v_sos.staat" dbalias="germanlist" />
+		<interlist type="checkbox" label="International (alle)" db="v_sos.staat" dbalias="interlist" />
+		<intergerlist type="checkbox" label="International (außer dt.-spr. Raum)" db="v_sos.staat" dbalias="intergerlist" />
+	</Suchfelder>
+	<defaults>
+		<admin>
+			<germanlist>
+				<Suche>SELECT germanlist FROM v_germanlist</Suche>
+        <Suche_prop>germanlist="_key"</Suche_prop>
+			</germanlist>
+			<interlist>
+				<Suche>SELECT interlist FROM v_interlist</Suche>
+        <Suche_prop>interlist="_key"</Suche_prop>
+			</interlist>
+			<intergerlist>
+				<Suche>SELECT intergerlist FROM v_intergerlist</Suche>
+        <Suche_prop>intergerlist="_key"</Suche_prop>
+			</intergerlist>
+		</admin>
+		<gradakad>
+			<germanlist>
+				<Suche>SELECT germanlist FROM v_germanlist</Suche>
+        <Suche_prop>germanlist="_key"</Suche_prop>
+			</germanlist>
+			<interlist>
+				<Suche>SELECT interlist FROM v_interlist</Suche>
+        <Suche_prop>interlist="_key"</Suche_prop>
+			</interlist>
+			<intergerlist>
+				<Suche>SELECT intergerlist FROM v_intergerlist</Suche>
+        <Suche_prop>intergerlist="_key"</Suche_prop>
+			</intergerlist>
+		</gradakad>
+		<intoffice>
+			<germanlist>
+				<Suche>SELECT germanlist FROM v_germanlist</Suche>
+        <Suche_prop>germanlist="_key"</Suche_prop>
+			</germanlist>
+			<interlist>
+				<Suche>SELECT interlist FROM v_interlist</Suche>
+        <Suche_prop>interlist="_key"</Suche_prop>
+			</interlist>
+			<intergerlist>
+				<Suche>SELECT intergerlist FROM v_intergerlist</Suche>
+        <Suche_prop>intergerlist="_key"</Suche_prop>
+			</intergerlist>
+		</intoffice>
+	</defaults>
+	<auswahl mailForAkad="state=verpublish&amp;publishContainer=getMailForAkad&amp;fromsearch=y&amp;markall=y"
+		 mailForIO="state=verpublish&amp;publishContainer=getMailForAkad&amp;fromsearch=y&amp;markall=y">
+		state=change&amp;type=3&amp;moduleParameter=personPromov&amp;nextdir=change&amp;next=TableSelect.vm&amp;subdir=graduate/promo
+	</auswahl>
+</personSearch>
+

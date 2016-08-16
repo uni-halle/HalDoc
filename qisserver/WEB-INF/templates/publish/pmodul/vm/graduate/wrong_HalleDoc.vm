@@ -1,0 +1,62 @@
+#if (!$contentVM)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    	
+<html>
+	<head>
+		<title>LSF</title>
+		<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+			#parse ("header.vm")
+	</head>
+	<body class="background">
+		#parse("head.vm")
+		#parse("Controls.vm")
+		#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+			#parse("wlogin/LoginInfo.vm")
+		#end
+#end
+##XMLOut($import)
+#if ($import.getChildren().size() != 0)
+	<h1>Gefundene Fälle ($import.getChildren("sos").size())</h1>
+	<table summary="Grunddaten zum Student">
+		<tr>
+			<th class="mod" id="basic_1">Mtknr</th>
+			<th class="mod" id="basic_1">exmandat</th>
+			<th class="mod" id="basic_1">exmgrund</th>
+			<th class="mod" id="basic_1">exmdat</th>
+			<th class="mod" id="basic_1">Anzahl Stg</th>
+			<th class="mod" id="basic_1">Stg</th>
+			<th class="mod" id="basic_1">Abschl</th>
+			<th class="mod" id="basic_1">StgNr</th>
+			<th class="mod" id="basic_1">Semester</th>
+			<th class="mod" id="basic_1">Endedatum</th>
+			<th class="mod" id="basic_1">Stg-Status</th>
+			<th class="mod" id="basic_1">Stg-Status-Ex</th>
+		</tr>
+		#set($lineBackGr = "mod_n_odd")
+		#foreach ($sos in $import.getChildren("sos"))
+			#foreach ($stg in $sos.getChildren("stg"))
+		<tr>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!stg.getChildText("mtknr")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!sos.getChildText("exmandat")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1" nowrap>$!sos.getChildText("exmgrund")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!sos.getChildText("exmdat")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!sos.getChildText("stgCount")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!stg.getChildText("stg")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!stg.getChildText("abschl")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!stg.getChildText("stgnr")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!stg.getChildText("semester")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!stg.getChild("stg2").getChildText("endedat")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!stg.getChild("stg2").getChildText("status")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!stg.getChild("stg2").getChildText("statusex")</td>
+		</tr>
+			#end
+				#if($lineBackGr == "mod_n_even") #set($lineBackGr = "mod_n_odd") #else #set($lineBackGr = "mod_n_even") #end
+		#end
+	</table>
+#else
+	<h1>$lang.Erg3_keine_daten</h1>
+#end
+#if (!$contentVM)
+		#parse("foot.vm")
+	</body>
+</html>
+#end

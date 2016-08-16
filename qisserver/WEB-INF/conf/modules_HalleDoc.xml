@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugins version="1.0">
+	<PROMO active="y">
+		<mailService active="y">
+			<class>de.his.servlet.mail.MailService</class>
+			<config>mail/mailService.xml</config>
+		</mailService>
+		<GradMailJob-scheduler active="n" load-on-startup="y">
+			<class>de.his.servlet.jobscheduler.QuartzJobSchedulerStarter</class>
+			<config>printout/publishModul/graduate/job/quartz.properties</config>
+		</GradMailJob-scheduler>
+		<SOSPhoneticJob-scheduler active="y" load-on-startup="y">
+			<class>de.his.servlet.jobscheduler.QuartzJobSchedulerStarter</class>
+			<config>printout/publishModul/graduate/job/quartzSOSPhonetic.properties</config>
+		</SOSPhoneticJob-scheduler>
+	</PROMO>
+</plugins>

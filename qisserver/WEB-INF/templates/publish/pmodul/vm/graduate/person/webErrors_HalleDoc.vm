@@ -1,0 +1,25 @@
+#set($Persons = $Promotion.getChild("Personen"))
+##XMLOut($Persons)
+#if($Persons.getChildText("MentorID1").trim().equals("") && !$Persons.getChildText("mentor1name").trim().equals(""))
+	#set($errors = "$!errors<li>Betreuer 1 muss zugeordnet werden!</li>")
+#end
+#if($Persons.getChildText("MentorID2").trim().equals("") && !$Persons.getChildText("mentor2name").trim().equals(""))
+	#set($errors = "$!errors<li>Betreuer 2 muss zugeordnet werden!</li>")
+#end
+#if($Persons.getChildText("MentorID3").trim().equals("") && !$Persons.getChildText("mentor3name").trim().equals(""))
+	#set($errors = "$!errors<li>Betreuer 3 muss zugeordnet werden!</li>")
+#end
+#if($Persons.getChildText("evaluator1id").trim().equals(""))
+	#set($errors = "$!errors<li>Gutachter 1 muss zugeordnet werden!</li>")
+#end
+#if($Persons.getChildText("evaluator2id").trim().equals(""))
+	#set($errors = "$!errors<li>Gutachter 2 muss zugeordnet werden!</li>")
+#end
+#if($errors)
+<div class="ui-state-error" >
+	<span style="font-size: 1.2em;font-weight: bold;line-height: 1.4; color:black;">Fehlende Daten</span>
+	<ul>
+		$errors
+	</ul>
+</div>
+#end

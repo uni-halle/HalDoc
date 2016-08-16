@@ -1,0 +1,270 @@
+#if (!$contentVM)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    	
+<html>
+	<head>
+		<title>LSF</title>
+		<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+			#parse ("header.vm")
+	</head>
+	<body class="background">
+		#parse("head.vm")
+		#parse("Controls.vm")
+		#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+			#parse("wlogin/LoginInfo.vm")
+		#end
+#end
+##XMLOut($import)
+#if ($import.getChildren().size() != 0)
+	#set($returnEle = $import.getChild("sos").getChild("pluginReturn"));
+<form method="post">
+<div style="background-color: white; position: absolute; left: 0; top: 10px; width: 100%; z-index: 1000; border: 1px solid black; overflow: auto;">
+	<h2 style="color: #9BC34B; padding-top: 3px; padding-left: 5px; margin-top: 0;">Gefundene Fälle</h2>
+	<div style="display: inline; float: left; width: 100%; overflow: auto;">
+		<table border="1">
+			<thead>
+				<tr><th colspan="$returnEle.getChild("student").getChild("sos").getChildren().size()">SOS-Grunddaten</th></tr>
+				<tr>
+					#foreach($col in $returnEle.getChild("student").getChild("sos").getChildren())
+						<th>$col.getName()</th>
+					#end
+				</tr>
+			</thead>
+			<tbody>
+				#foreach($stud in $returnEle.getChildren("student"))
+					<tr>
+					#foreach($col in $stud.getChild("sos").getChildren())
+						#set($oid = $stud.getChild("sos").getChildText("oid"))
+						#set($colName = $col.getName())
+						#set($id = "sos_" + $oid + "_" + $colName)
+						<td>
+							#if($col.getAttributeValue("isEditable") == "n")
+								#set($readonly = "readonly")
+								#set($color = "color: darkgray;")
+							#else
+								#set($readonly = "")
+								#set($color = "")
+							#end
+							<input type="text" id="$id" name="$id" value="$col.getText()" style="width: 6em; $color" $!readonly />
+						</td>
+					#end
+					</tr>
+				#end
+			</tbody>
+		</table>
+	</div>
+	<div style="clear: both;">
+		<div style="display: inline; float: left; width: 40%; overflow: auto; max-height: 600px;">
+			<table border="1">
+				<thead>
+					<tr><th colspan="$returnEle.getChild("student").getChild("stgs").getChild("stg").getChildren().size()">Stg</th></tr>
+					<tr>
+						#foreach($col in $returnEle.getChild("student").getChild("stgs").getChild("stg").getChildren())
+							<th>$col.getName()</th>
+						#end
+					</tr>
+				</thead>
+				<tbody>
+					#foreach($stud in $returnEle.getChildren("student"))
+						#foreach($stg in $stud.getChild("stgs").getChildren())
+						<tr>
+							#foreach($col in $stg.getChildren())
+								#set($oid = $stg.getChildText("oid"))
+								#set($colName = $col.getName())
+								#set($id = "stg_" + $oid + "_" + $colName)
+								<td>
+									#if($col.getAttributeValue("isEditable") == "n")
+										#set($readonly = "readonly")
+										#set($color = "color: darkgray;")
+									#else
+										#set($readonly = "")
+										#set($color = "")
+									#end
+									<input type="text" id="$id" name="$id" value="$col.getText()" style="width: 6em; $color" $!readonly />
+								</td>
+							#end
+						</tr>
+						#end
+					#end
+				</tbody>
+			</table>
+		</div>
+		<div style="display: inline; float: left; width: 60%; overflow: auto;">
+			<table border="1">
+				<thead>
+					<tr><th colspan="$returnEle.getChild("student").getChild("anschris").getChild("anschri").getChildren().size()">Anschri</th></tr>
+					<tr>
+						#foreach($col in $returnEle.getChild("student").getChild("anschris").getChild("anschri").getChildren())
+							<th>$col.getName()</th>
+						#end
+					</tr>
+				</thead>
+				<tbody>
+					#foreach($stud in $returnEle.getChildren("student"))
+						#foreach($anschri in $stud.getChild("anschris").getChildren())
+						<tr>
+							#foreach($col in $anschri.getChildren())
+								#set($oid = $anschri.getChildText("oid"))
+								#set($colName = $col.getName())
+								#set($id = "anschri_" + $oid + "_" + $colName)
+								<td>
+									#if($col.getAttributeValue("isEditable") == "n")
+										#set($readonly = "readonly")
+										#set($color = "color: darkgray;")
+									#else
+										#set($readonly = "")
+										#set($color = "")
+									#end
+									<input type="text" id="$id" name="$id" value="$col.getText()" style="width: 6em; $color" $!readonly />
+								</td>
+							#end
+						</tr>
+						#end
+					#end
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div style="clear: both;">
+		#set($showBew = "none")
+		#set($widthPromo = "100%")
+		#set($widthBew = "0%")
+		#if($returnEle.getChild("student").getChild("bew"))
+			#set($showBew = "inline")
+			#set($widthPromo = "60%")
+			#set($widthBew = "40%")
+		#end
+		<div style="display: inline; float: left; width: $widthPromo; overflow: auto;">
+			<table border="1">
+				<thead>
+					<tr><th colspan="$returnEle.getChild("student").getChild("promos").getChild("promo").getChildren().size()">Promotionen</th></tr>
+					<tr>
+						#set($columns = $returnEle.getChild("student").getChild("promos").getChild("promo").getChildren())
+						#if(!$columns)
+							#set($columns = $returnEle.getChildren("student").get(1).getChild("promos").getChild("promo").getChildren())
+						#end
+						#foreach($col in $columns)
+							<th>$col.getName()</th>
+						#end
+					</tr>
+				</thead>
+				<tbody>
+					#foreach($stud in $returnEle.getChildren("student"))
+						#foreach($ele in $stud.getChild("promos").getChildren())
+						<tr>
+							#foreach($col in $ele.getChildren())
+								#set($oid = $ele.getChildText("oid"))
+								#set($colName = $col.getName())
+								#set($id = "promo_" + $oid + "_" + $colName)
+								<td>
+									#if($col.getAttributeValue("isEditable") == "n")
+										#set($readonly = "readonly")
+										#set($color = "color: darkgray;")
+									#else
+										#set($readonly = "")
+										#set($color = "")
+									#end
+									<input type="text" id="$id" name="$id" value="$col.getText()" style="width: 6em; $color" $!readonly />
+								</td>
+							#end
+						</tr>
+						#end
+					#end
+				</tbody>
+			</table>
+		</div>
+		<div style="display: $showBew; float: left; width: $widthBew">
+			<table border="1">
+				<thead>
+					<tr><th colspan="$returnEle.getChild("student").getChild("bew").getChildren().size()">Bewerber</th></tr>
+					<tr>
+						#foreach($col in $returnEle.getChild("student").getChild("bew").getChildren())
+							<th>$col.getName()</th>
+						#end
+					</tr>
+				</thead>
+				<tbody>
+					#foreach($stud in $returnEle.getChildren("student"))
+						<tr>
+							#foreach($col in $stud.getChild("bew").getChildren())
+								#set($oid = $ele.getChildText("oid"))
+								#set($colName = $col.getName())
+								#set($id = "bew_" + $oid + "_" + $colName)
+								<td>
+									#if($col.getAttributeValue("isEditable") == "n")
+										#set($readonly = "readonly")
+										#set($color = "color: darkgray;")
+									#else
+										#set($readonly = "")
+										#set($color = "")
+									#end
+									<input type="text" id="$id" name="$id" value="$col.getText()" style="width: 6em; $color" $!readonly />
+								</td>
+							#end
+						</tr>
+					#end
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<div style="clear: both; text-align: center; padding-top: 10px; padding-bottom: 10px;">
+		##XMLOut($returnEle.getChild("control"))
+		#set ( $isUpdated = false )
+		#if($returnEle.getChild("control").getChild("isUpdated") && $returnEle.getChild("control").getChildText("isUpdated") == "true")
+			#set ( $isUpdated = true )
+		#end
+		#if(!$isUpdated)
+			#set ( $array = ['Mtknr for provide','Mtknr for delete'] )
+			#set ( $arrayPostfix = ['_prov','_del'] )
+			<div style="padding-bottom: 10px;">
+				#set($Integer = 0)
+				#set($promoCount = $Integer.parseInt($returnEle.getChild("control").getChildText("promoCount")))
+				#if($promoCount > 1)
+					#foreach($stud in $returnEle.getChildren("student"))
+						#set($mtknr = $stud.getChild("sos").getChildText("mtknr"))
+						<input type="text" value="$mtknr" style="width: 6em;" readonly />
+					#end
+			</div>
+			<div style="padding-bottom: 10px;">
+					<label for="mtknr_del">${array.get(1)}: </label>
+					<input type="text" id="mtknr_del" name="mtknr_del" style="width: 6em;" />
+				#else
+					#foreach($stud in $returnEle.getChildren("student"))
+						#set($idx = ($velocityCount - 1))
+						#set($mtknr = $stud.getChild("sos").getChildText("mtknr"))
+						#set($id = "mtknr_" + $velocityCount + ${arrayPostfix.get($idx)})
+						<label for="$id">${array.get($idx)}: </label>
+						<input type="text" id="$id" name="$id" value="$mtknr" style="width: 6em;" />
+					#end
+				#end
+			</div>
+			#set($errorEle = $returnEle.getChild("error"))
+			#if($errorEle)
+			<div class="ui-state-error">
+				<h3>Fehler: </h3>
+				<ul>
+				#foreach($ele in $errorEle.getChildren())
+					<li>$ele.getText()</li>
+				#end
+				</ul>
+			</div>
+			#end
+			<div style="padding-bottom: 10px;">
+				<input type="radio" id="act_save" name="act_method" value="save"><label for="act_save"> Speichern</label>
+				<input type="radio" id="act_test" name="act_method" value="test" checked="checked"><label for="act_test">  Testen</label>
+			</div> 
+			<input type="submit" value="Senden" />
+		#end
+		#set ($pageUrl = "state=verpublish&status=init&vmfile=no&moduleCall=double&publishConfFile=import&publishSubDir=graduate")
+		#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+		<a href="$link" style="-webkit-appearance: button; -moz-appearance: button; appearance: button; text-decoration: none; color: initial; height: 18px; width: 45px; text-align: center; vertical-align: middle;">Zurück</a>
+	</div>
+</div>
+</form>
+#else
+	<h1>$lang.Erg3_keine_daten</h1>
+#end
+#if (!$contentVM)
+		#parse("foot.vm")
+	</body>
+</html>
+#end

@@ -1,0 +1,3 @@
+{### personal ################################################################}
+CREATE unique index i_r_refextobj on r_refextobj (refextobjid);
+

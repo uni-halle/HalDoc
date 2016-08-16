@@ -1,0 +1,83 @@
+<div class="abstand_veranstaltung"></div>
+##XMLOut($import)
+<div class="prints">
+	<h2>Druckerzeugnisse <img src="$servlet.IMAGEURL/$servlet.B_PFEILRECHTS" style="width: 12px; cursor: pointer;" id="printImg" /></h2>
+	<ul style="display: none" id="printListe">
+		<li>
+			#set($url = "state=verpublish&amp;publishContainer=AnnahmeErklaerung&amp;promotion.promotionid=$Promotion.getChildText('ID')")
+			<a href="$response.encodeURL("$servlet.SERVLETURL?$url")" hreflang="de">Bestätigung Annahme als Doktorand oder Doktorandin</a>
+		</li>
+		<li>
+			#set($url = "state=verpublish&amp;publishContainer=AnnahmeErklaerungZusatz&amp;promotion.promotionid=$Promotion.getChildText('ID')")
+			<a href="$response.encodeURL("$servlet.SERVLETURL?$url")" hreflang="de">Bestätigung Annahme als Doktorand oder Doktorandin mit zusätzlichen Leistungen</a>
+		</li>
+		#*
+		<li>
+			#set($url = "state=verpublish&amp;publishContainer=Ablehnung&amp;promotion.promotionid=$Promotion.getChildText('ID')")
+			<a href="$response.encodeURL("$servlet.SERVLETURL?$url")" hreflang="de">Ablehnung als Doktorand oder Doktorandin</a>
+		</li>
+		*#
+		<li>
+			#set($url = "state=verpublish&amp;publishContainer=Deckblatt&amp;promotion.promotionid=$Promotion.getChildText('ID')")
+			<a href="$response.encodeURL("$servlet.SERVLETURL?$url")" hreflang="de">Deckblatt zur Promotionsakte</a>
+		</li>
+		<li>
+			#set($url = "state=verpublish&amp;publishContainer=Eroeffnung&amp;promotion.promotionid=$Promotion.getChildText('ID')")
+			<a href="$response.encodeURL("$servlet.SERVLETURL?$url")" hreflang="de">Eröffnung Ihres Promotionsverfahrens</a>
+		</li>
+		<li>
+			#set($url = "state=verpublish&amp;publishContainer=NichtEroeffnung&amp;promotion.promotionid=$Promotion.getChildText('ID')")
+			<a href="$response.encodeURL("$servlet.SERVLETURL?$url")" hreflang="de">Nicht-Eröffnung Ihres Promotionsverfahrens</a>
+		</li> 
+		<li>
+			#set($url = "state=verpublish&amp;publishContainer=Kommission&amp;promotion.promotionid=$Promotion.getChildText('ID')")
+			#set($url = $response.encodeURL("$servlet.SERVLETURL?$url"))
+			<a href="#" hreflang="de" link="$url" id="popupForm" method="Kommission">Mitglied in Promotionskommission</a>
+		</li>
+		<li>
+			#set($url = "state=verpublish&amp;publishContainer=Gutachter&amp;promotion.promotionid=$Promotion.getChildText('ID')")
+			#set($url = $response.encodeURL("$servlet.SERVLETURL?$url"))
+			#foreach($Gutachter in $Promotion.getChild("Personen").getChildren("Evaluator"))
+				<input type="hidden" name="Gutachter_option" value="$Gutachter.getChildText('vorname') $Gutachter.getChildText('nachname')" id="$Gutachter.getChildText('ID')" />
+			#end
+			<a href="#" hreflang="de" link="$url" id="popupForm" method="Gutachter">Gutachteranschreiben</a>
+		</li> 
+		<li>
+			#set($url = "state=verpublish&amp;publishContainer=Gutachtermahnung&amp;promotion.promotionid=$Promotion.getChildText('ID')")
+			#set($url = $response.encodeURL("$servlet.SERVLETURL?$url"))
+			#foreach($Gutachter in $Promotion.getChild("Personen").getChildren("Evaluator"))
+				<input type="hidden" name="Gutachtermahnung_option" value="$Gutachter.getChildText('vorname') $Gutachter.getChildText('nachname')" id="$Gutachter.getChildText('ID')" />
+			#end
+			<input type="hidden" name="Gutachtermahnung_freitext" value="$!Promotion.getChild('Texte').getChildText('Mahnung')" />
+			<a href="#" hreflang="de" link="$url" id="popupForm" method="Gutachtermahnung">Gutachtermahnung</a>
+		</li>
+		<li>
+			#set($url = "state=verpublish&amp;publishContainer=Weiterfuehrung&amp;promotion.promotionid=$Promotion.getChildText('ID')")
+			<a href="$response.encodeURL("$servlet.SERVLETURL?$url")" hreflang="de">Weiterführung Verfahren nach Gutachteneingang</a>
+		</li>
+		<li>
+			#set($url = "state=verpublish&amp;publishContainer=ListeEinsichtnahme&amp;promotion.promotionid=$Promotion.getChildText('ID')")
+			#set($url = $response.encodeURL("$servlet.SERVLETURL?$url"))
+			<a href="#" hreflang="de" link="$url" id="popupForm" method="ListeEinsichtnahme">Liste zur Einsichtnahme in Dissertation und Gutachten</a>
+		</li> 
+		<li>
+			#set($url = "state=verpublish&amp;publishContainer=AushangVerteidigung&amp;promotion.promotionid=$Promotion.getChildText('ID')")
+			#set($url = $response.encodeURL("$servlet.SERVLETURL?$url"))
+			<a href="#" hreflang="de" link="$url" id="popupForm" method="AushangVerteidigung">Aushang Verteidigung</a>
+		</li>
+		<li>
+			#set($url = "state=verpublish&amp;publishContainer=AppForCertificate&amp;promotion.promotionid=$Promotion.getChildText('ID')")
+			#set($url = $response.encodeURL("$servlet.SERVLETURL?$url"))
+			<a href="#" hreflang="de" link="$url" id="popupForm" method="AppForCertificate">Anforderung für eine Promotionsurkunde</a>
+		</li>
+		<li>
+			#set($url = "state=verpublish&amp;publishContainer=Certificate&amp;promotion.promotionid=$Promotion.getChildText('ID')")
+			#set($url = $response.encodeURL("$servlet.SERVLETURL?$url"))
+			<a href="#" hreflang="de" link="$url" id="popupForm" method="Certificate">Bescheinigung über erbrachte Leistungen</a>
+		</li>
+		<li>
+			#set($url = "state=verpublish&amp;publishContainer=Empfang&amp;promotion.promotionid=$Promotion.getChildText('ID')")
+			<a href="$response.encodeURL("$servlet.SERVLETURL?$url")" hreflang="de">Empfangsbestätigung Urkunde</a>
+		</li>
+	</ul>
+</div>

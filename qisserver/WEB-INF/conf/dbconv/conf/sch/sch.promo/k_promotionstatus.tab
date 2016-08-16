@@ -1,0 +1,12 @@
+{### k_promotionstatus #######################################################}
+{ Bearbeitungsstatus der Promotion }
+CREATE TABLE k_promotionstatus (
+   statusid	SERIAL NOT NULL,           { Primary Key                      }
+   aikz		CHAR(1),             { Aktiv/-Inaktiv-Kennzeichen       }	
+   ktxt		CHAR(10),            { Kurztext				  }
+   dtxt		CHAR(25),            { Drucktext			        }
+   ltxt		VARCHAR(255,0),      { Langtext				  }
+   prozessorder	INTEGER,      			 { Prozessreihenfolge				  }
+   key		CHAR(25),            { Systemkey			        }
+   zeitstempel	DATETIME year to fraction(5)  { Aenderungsdatum/-zeit  }
+);

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<person active="y" object="personal" objectid="personal.pid" protsuppl="Personal" modules="PROMO">
+	<subitem>editperson</subitem>
+	<dbhandlername>promo</dbhandlername>
+	<title condition="de.his.busobjs.ParamConditionEvaluator _form='sach'">
+		<new>$lang.newperson (Sachbearbeiter)</new>
+		<edit>$lang.editperson (Sachbearbeiter)</edit>
+	</title>
+	<title condition="de.his.busobjs.ParamConditionEvaluator _form='gut'">
+		<new>$lang.newperson (Gutachter / Betreuer)</new>
+		<edit>$lang.editperson (Gutachter / Betreuer)</edit>
+	</title>
+	<title condition="de.his.busobjs.ParamConditionEvaluator !_form">
+		<new>$lang.newperson</new>
+		<edit>$lang.editperson</edit>
+	</title>
+	<insert />
+	<update protocol="y" />
+	<delete protocol="y" />
+	<header />
+	<size>75</size>
+	<script>calendar</script>
+	<session>personal.pid, personal.geschl, _form, status</session>
+	<success-redirect>next</success-redirect>
+	<buttons>
+		<store>Speichern &amp; weiter</store>
+	</buttons>
+	<rights>
+		<admin>
+			<insert />
+			<update />
+			<delete />
+			<select />
+		</admin>
+		<promoverw>
+			<insert />
+			<update condition="de.his.busobjs.ParamConditionEvaluator _form='sach'">SELECT count(*) FROM personal WHERE personal.pid=[personal.pid] AND personal.einrichtungid=[session_AssignedFak]</update>
+			<update condition="de.his.busobjs.ParamConditionEvaluator _form='gut'" />
+			<update condition="de.his.busobjs.ParamConditionEvaluator !_form" />
+			<delete condition="de.his.busobjs.ParamConditionEvaluator _form='sach'">SELECT count(*) FROM personal WHERE personal.pid=[personal.pid] AND personal.einrichtungid=[session_AssignedFak]</delete>
+			<delete condition="de.his.busobjs.ParamConditionEvaluator _form='gut'" />
+			<delete condition="de.his.busobjs.ParamConditionEvaluator !_form" />
+			<select />
+		</promoverw>
+	</rights>
+	<trigger name="PhoneticValues" active="y">
+		de.mlu.change.trigger.PhoneticValuesTrigger
+		<forValues tablename="personal" tabpk="personal.pid">
+			<value>nachname</value>
+			<value>vorname</value>
+		</forValues>
+	</trigger>
+	<search condition="de.his.busobjs.ParamConditionEvaluator _form='sach'">
+		SELECT DISTINCT personal.pid as ID, personal.nachname as Nachname, personal.vorname as Vorname
+		FROM personal [from]
+		WHERE perstatusid IN (SELECT perstatusid FROM k_perstatus WHERE ktxt='SB') [where] [restriction]
+	</search>
+	<search condition="de.his.busobjs.ParamConditionEvaluator _form='gut'">
+		SELECT DISTINCT personal.pid as ID, personal.nachname as Nachname, personal.vorname as Vorname
+		FROM personal [from]
+		WHERE perstatusid IN (SELECT perstatusid FROM k_perstatus WHERE ktxt='LH') [where] [restriction]
+	</search>
+	<search condition="de.his.busobjs.ParamConditionEvaluator !_form">
+		SELECT DISTINCT personal.pid as ID, personal.nachname as Nachname, personal.vorname as Vorname
+		FROM personal [from]
+		WHERE perstatusid IN (SELECT perstatusid FROM k_perstatus WHERE ktxt &lt;&gt; 'Pro') [where] [restriction]
+	</search>
+	<searchOrder template="y" default="ORDER BY 2, 3">ORDER BY [orderby] [orderdesc]</searchOrder>
+	<searchParameter>state=verpublish&amp;status=init&amp;vmfile=no&amp;moduleCall=webInfo&amp;publishConfFile=webInfoPerson&amp;publishSubDir=graduate</searchParameter>
+	<change>SELECT DISTINCT personal.pid as ID,
+		personal.aikz AS Aktiv,
+		personal.kuerzel AS PerKurz,
+		personal.nachname as Nachname,
+		personal.vorname as Vorname,
+		personal.namenbestand AS Namensbestandteile,
+		personal.geschl AS Geschlecht,
+		personal.perstatusid As PersonalStatus,
+		personal.status As Status,
+		personal.titelid AS TitelID,
+		personal.gradid AS AkadGradID,
+		personal.gradid_nach AS AkadGradNachID,
+		personal.einrichtungid AS EinrichtungID,
+		personal.zeitstempel As Zeitstempel
+		FROM personal
+		WHERE personal.pid = [personal.pid]
+		ORDER BY 2, 3, 1
+	</change>
+	<change_prop>
+		<column name="Aktiv" default="A" listboxsize="22" size="40" stripkey="y" listonly="-&gt;iakz" cssclass="selectInChange" />
+		<column name="PerKurz" stripkey="y" size="40" />
+		<column name="Bemerkung" language="y" size="40" />
+		<column name="GebDat" datatype="date" size="40" />
+		<column name="Geschlecht" mandatory="y" stripkey="y" listboxsize="22" listonly="-&gt;sex" session="y" cssclass="selectInChange" />
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<column name="Nachname" mandatory="y" link="personal.pid" size="40" />
+		<column name="Namensbestandteile" size="40" />
+		<column name="PersonalStatus" mandatory="y" listboxsize="15" listonly="-&gt;promo.k_perstatus" cssclass="selectInChange" noshow="y" condition="de.his.busobjs.ParamConditionEvaluator _form='sach'" default="SELECT perstatusid FROM k_perstatus WHERE ktxt='SB'" />
+		<column name="PersonalStatus" mandatory="y" listboxsize="18" listonly="-&gt;promo.k_perstatus" cssclass="selectInChange" noshow="y" condition="de.his.busobjs.ParamConditionEvaluator _form='gut'" default="SELECT perstatusid FROM k_perstatus WHERE ktxt='LH'" />
+		<column name="PersonalStatus" mandatory="y" listboxsize="18" listonly="-&gt;promo.k_perstatus" cssclass="selectInChange" condition="de.his.busobjs.ParamConditionEvaluator !_form" />
+		<column name="Publikation" noshow="y" />
+		<column name="Status" default="I" stripkey="y" listboxsize="22" listonly="-&gt;externintern" cssclass="selectInChange" />
+		<column name="Vorname" mandatory="y" size="40" />
+		<column name="Zeitstempel" noupdate="y" noshow="y" />
+		<column name="AkadGradID" listboxsize="22" listonly="-&gt;promo.k_akadgradPromoVor" cssclass="selectInChange" />
+		<column name="AkadGradNachID" listboxsize="22" listonly="-&gt;promo.k_akadgradNach" cssclass="selectInChange" /><!-- promo.einrichtung -->
+		<column name="TitelID" listboxsize="22" listonly="-&gt;promo.k_titel" cssclass="selectInChange" />
+		<column name="EinrichtungID" listboxsize="22" listonly="-&gt;promo.einrichtungFaks" cssclass="selectInChange" condition="de.his.busobjs.ParamConditionEvaluator _form='gut'" />
+		<column name="EinrichtungID" mandatory="y" listboxsize="22" listonly="-&gt;promo.einrichtung" cssclass="selectInChange" condition="de.his.busobjs.ParamConditionEvaluator _form!='gut'" />
+	</change_prop>
+	<additionalDBActions>
+		<delete>
+			<action type="delete" table="r_belongsto" where="tabpk=[personal.pid] AND tabelle='personal'" />
+			<action type="delete" table="r_belongsto" where="ownerid=[personal.pid] AND tabelle='k_abstgv' AND ownertab = 'personal'" />
+			<action type="delete" table="r_belongsto" where="ownerid=[personal.pid] AND ownertab='personal' AND tabelle='einrichtung' AND belongstotype='rolle' AND belongstovalue='fachbereich'" />
+			<action type="delete" table="r_kollektionnutzer" where="nid IN (SELECT nid FROM r_pernutzer WHERE pid=[personal.pid])" />
+			<action type="delete" table="qis_nutzer" where="nid IN (SELECT nid FROM r_pernutzer WHERE pid=[personal.pid])" />
+			<action type="delete" table="r_pernutzer" where="pid=[personal.pid]" />
+			<action type="delete" table="kontakt" where="tabelle='personal' AND tabpk=[personal.pid]" />
+			<action type="delete" table="person_phoneticvalue" where="person_id=[personal.pid]" />
+		</delete>
+	</additionalDBActions>
+	<links align1="left">
+		<link moduleParameter="person" key="personal.pid" lookup="personal.pid" template="SingleInput.vm" type="2">
+			<de>Person</de>
+			<en>Person</en>
+		</link>
+		<link moduleParameter="dienstadresse" key="personal.pid" lookup="personal.pid" template="SingleInput.vm" type="2">
+			<de>Kontaktdaten</de>
+			<en>contact datas</en>
+		</link>
+		<link active="n" moduleParameter="personMediaFiles" key="personal.pid" lookup="personal.pid" template="GridInput.vm" type="2">
+			<de>Externe Dokumente</de>
+			<en>External Documents</en>
+		</link>
+		<link moduleParameter="promos" active="n" key="personal.pid" lookup="personal.pid" template="GridInput.vm" type="2" condition="SELECT count(*) FROM promotion WHERE mentor1id=[personal.pid] OR mentor2id=[personal.pid] OR mentor3id=[personal.pid]">
+			<de>Promotionen</de>
+			<en>Promotions</en>
+		</link>
+		<link moduleParameter="nutzer" key="personal.pid" lookup="personal.pid" template="GridInput.vm" type="2" condition="de.his.busobjs.ParamConditionEvaluator session_bereich='admin'">
+			<de>Login</de>
+			<en>Login</en>
+		</link>
+		<link moduleParameter="personRefsystem" key="personal.pid" lookup="personal.pid" template="GridInput.vm" type="2" context="admin">
+			<de>Zuordnung zu anderen Systemen</de>
+			<en>Assign to other systems</en>
+		</link>
+		<link active="n" moduleParameter="personalLink" key="personal.pid" lookup="personal.pid" template="GridInput.vm" type="2">
+			<de>Links</de>
+			<en>Links</en>
+		</link>
+		<link active="y" moduleParameter="einrichtung" key="personal.pid" lookup="personal.pid" template="GridInput.vm" type="2" condition="select aikz from k_status where [session_ident_M]=[personal.pid] or [session_bereich]='admin' LIMIT 1">
+			<de>Einrichtung</de>
+		</link>
+	</links>
+	<!--auswahl load="y">state=change&amp;type=3&amp;moduleParameter=person&amp;nextdir=change&amp;next=TableSelect.vm&amp;subdir=schulung</auswahl>
+	<parent>state=change&amp;type=5&amp;moduleParameter=personSearch&amp;next=search.vm&amp;subdir=schulung</parent-->
+	<specialPlausis>
+		<PhoneticPlausi>
+			<class>de.mlu.busobjs.PhoneticPlausi</class>
+			<params>
+				<tablename>personal</tablename>
+				<!-- 
+					Es können drei Attribute getestet werden: checkVorname, checkNachname und checkGeburtsname.
+					Die Elemente enthalten den entsprechenden Spaltennamen aus <tablename>.
+				 -->
+				<checkVorname>vorname</checkVorname>
+				<checkNachname>nachname</checkNachname>
+				<!-- erste Spalte muss immer der Identifier sein -->
+				<selectColumns>personal.pid, personal.nachname, personal.vorname</selectColumns>
+				<selectTables>personal</selectTables>
+				<!--selectWheres>personal.geschl='[personal.geschl]'</selectWheres-->
+				<error>$lang.error_message_person01</error>
+				<error_subText>$lang.error_message_person02</error_subText>
+				<errorlevel>error</errorlevel>
+				<admin_errorlevel>warning</admin_errorlevel>
+				<promoverw_errorlevel>warning</promoverw_errorlevel>
+			</params>
+		</PhoneticPlausi>
+	</specialPlausis>
+</person>

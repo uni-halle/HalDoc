@@ -1,0 +1,62 @@
+<div class="abstand_veranstaltung"></div>
+<a name="basicdata"></a>
+
+<table summary="$lang.Erg2alles_Basics">
+	<caption class="t_capt">$lang.Erg2alles_Basics</caption>
+	<tr>
+		<th class="mod" id="basic_1">$lang.last_name</th>
+		<td class="mod_n_basic" headers="basic_1">$!Person.getChildText("PerNac")</td>
+		
+		<th class="mod" id="basic_2">$lang.geschl</th>
+		<td class="mod_n_basic" headers="basic_2">
+			#if ($Person.getChildText("Geschl") == 'W' || $Person.getChildText("Geschl") == 'w')
+				$lang.female
+			#else
+				#if ($Person.getChildText("Geschl") == 'M' || $Person.getChildText("Geschl") == 'm')
+					$lang.male
+				#else
+					$!Person.getChildText("Geschl")
+				#end
+			#end
+		</td>
+	</tr>
+	<tr>
+		<th class="mod" id="basic_3">$lang.first_name</th>
+		<td class="mod_n_basic" headers="basic_3">$!Person.getChildText("PerVor")</td>
+		
+		<th class="mod" id="basic_6">$lang.memberstatus</th>
+		<td class="mod_n_basic" headers="basic_6">$!Person.getChild("Perstatus").getChildText("PerStatus")</td>
+	</tr>
+	#if($Promotion)
+		<tr><td colspan="4"><h3>$lang.Erg2alles_Academic</h3></td></tr>
+		<tr>
+			<th class="mod" id="basic_9">$lang.degree vorgestellt</th>
+			<td class="mod_n_basic" headers="basic_9">$!Person.getChild("AkadGradVorID").getChildText("dtxt")</td>
+			
+			<th class="mod" id="basic_9">Aktueller Status</th>
+			<td class="mod_n_basic" headers="basic_9">$!Person.getChild("AppStatus").getChildText("PerStatus")</td>
+		</tr>
+		<tr>
+			<th class="mod" id="basic_9">Erreicht an einer FH</th>
+			<td class="mod_n_basic" headers="basic_9">#if($!Person.getChildText("gradfh").equals("Y")) Ja #else Nein #end</td>
+	
+			<th class="mod" id="basic_9">Matrikelnummer</th>
+			<td class="mod_n_basic" headers="basic_9">$!Person.getChildText("MtkNr")</td>
+		</tr>
+		<tr><td colspan="4"><h3>$lang.Erg2alles_Birth</h3></td></tr>
+		<tr>
+			<th class="mod" id="basic_7">$lang.qis_gebdat</th>
+			<td class="mod_n_basic" headers="basic_7">$!Person.getChildText("GebDat")</td>
+			<th class="mod" id="basic_6">$lang.qis_gebort</th>
+			<td class="mod_n_basic" headers="basic_6">$!Person.getChildText("GebOrt")</td>
+		</tr>
+		<tr>
+			<th class="mod" id="basic_9">$lang.db_zul_bew_gebland</th>
+			<td class="mod_n_basic" headers="basic_9">$!Person.getChild("GebLand").getChildText("dtxt")</td>
+			
+			<th class="mod" id="basic_9">$lang.db_zul_bew_staat</th>
+			<td class="mod_n_basic" headers="basic_9">$!Person.getChild("Nation").getChildText("dtxt")</td>
+		</tr>
+	#end
+</table>
+	

@@ -1,0 +1,4 @@
+{### r_personal_akadgrad ##############################################################}
+CREATE unique index i_r_personal_akadgrad on r_personal_akadgrad (id);  
+CREATE index i_r_peraka1 on r_personal_akadgrad (gradid);
+CREATE index i_r_peraka2 on r_personal_akadgrad (pid);

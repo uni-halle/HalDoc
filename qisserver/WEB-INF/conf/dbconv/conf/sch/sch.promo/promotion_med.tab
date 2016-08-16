@@ -1,0 +1,24 @@
+{### promotion_med ################################################################}
+CREATE TABLE promotion_med (
+   id					        						SERIAL NOT NULL,	{ Primary Key                            						}
+   promotion_id	       						INTEGER,	  			{ ->promotion.promotionid Promotionsdaten						}
+   diss_lang_id										INTEGER,					{ ->k_language.id  Sprache der Dissertation					}
+   vert_lang_id										INTEGER,					{ ->k_language.id  Sprache der Verteidigung					}
+   prev_promo											VARCHAR(1),	  		{ Frühere Promotionsversuche             						}
+   prev_promo_where								VARCHAR(255),			{ Ort der früheren Promotionsversuche								}
+   center_of_research_id					INTEGER,					{ ->k_center_of_research.id Forschungsschwerpunkte	}
+   eval_ethnical_com							VARCHAR(1),				{ Beurteilung durch Ethik-Kommission								}
+   eval_ethnical_com_date					DATE,							{ Datum der Beurteilung durch Ethik-Kommission			}
+   research_training_group				VARCHAR(1),				{ Teilnahme am Graduiertenkolleg										}
+   research_training_group_detail	VARCHAR(255),			{ Name der Einrichtung															}
+   statistical_consulting					VARCHAR(1),				{ Statistische Beratung															}
+   statistical_consulting_detail	VARCHAR(255),			{ Name der Einrichtung															}
+   type_of_dissertation_id				INTEGER,					{ ->k_type_of_dissertation.id Form der Dissertaion	}
+   date_of_physikum								DATE,							{ Datum des Pysikums																}
+   date_of_pj											DATE,							{ Datum des PJ																			}
+   date_of_degree									DATE,							{ Datum des Hochschulabschlusses										}
+   date_of_medicinelicense				DATE,							{ Datum der Approbation															}
+   study_start_semester						INTEGER,					{ ->sossys.aktsem  Studienzeitraum Beginn						}
+   study_end_semester							INTEGER,					{ ->sossys.aktsem  Studienzeitraum Ende							}
+   zeitstempel        						DATETIME year to fraction(5) { Aenderungsdatum-/zeit          				}
+);

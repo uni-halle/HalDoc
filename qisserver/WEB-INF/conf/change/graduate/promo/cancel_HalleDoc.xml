@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cancel active="y" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>60</size>
+	<session>sos.mtknr, promotion.promotionid, moduleParameter</session>
+	<title>$lang.editpersonpromov</title>
+	<rowMarker>y</rowMarker>
+	<insert />
+	<update />
+	<nodelete />
+	<rights ignoreParentRights="y">
+		<admin>
+			<insert />
+			<update />
+			<delete />
+			<select />
+		</admin>
+		<biblio>
+			<noinsert />
+			<noupdate />
+			<nodelete />
+			<select />
+		</biblio>
+		<promoverw>
+			<insert />
+			<update>SELECT count(*) FROM promotion WHERE promotion.einrichtungid = [session_AssignedFak] AND promotion.promotionid=[promotion.promotionid]</update>
+			<delete />
+			<select />
+		</promoverw>
+	</rights>
+	<change>
+		SELECT r_promotion_k_reason_for_cancel.id AS ID, r_promotion_k_reason_for_cancel.k_reason_for_cancel_id, 
+			r_promotion_k_reason_for_cancel.promotion_id AS promotion_id, k_reason_for_cancel.type AS Type, k_reason_for_cancel.ltxt AS Name
+		FROM r_promotion_k_reason_for_cancel, k_reason_for_cancel
+		WHERE r_promotion_k_reason_for_cancel.k_reason_for_cancel_id=k_reason_for_cancel.id AND r_promotion_k_reason_for_cancel.promotion_id=[promotion.promotionid]
+		ORDER BY Type, Name
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<column name="r_promotion_k_reason_for_cancel.k_reason_for_cancel_id" listonly="->promo.k_reason_for_cancel" listboxsize="50" stripkey="y" />
+		<column name="promotion_id" default="[promotion.promotionid]" noshow="y" />
+		<column name="Type" noshow="y" />
+		<column name="Name" noshow="y" />
+	</change_prop>
+	<parentModuleParameter>personPromov</parentModuleParameter>
+</cancel>
+

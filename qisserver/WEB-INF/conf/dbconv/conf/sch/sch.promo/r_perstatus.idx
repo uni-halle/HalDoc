@@ -1,0 +1,4 @@
+{### r_perstatus ##############################################################}
+CREATE unique index i_r_perstatus on r_perstatus (perstatusid);    
+CREATE index i_r_perstat1 on r_perstatus (statusid);
+CREATE index i_r_perstat2 on r_perstatus (pid);   

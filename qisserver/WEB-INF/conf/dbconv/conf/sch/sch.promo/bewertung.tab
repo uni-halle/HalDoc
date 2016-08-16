@@ -1,0 +1,11 @@
+{### bewertung ################################################################}
+CREATE TABLE bewertung (
+   id        		SERIAL NOT NULL,							{ Primary Key       		}
+   key        	VARCHAR(10),	  							{ Objekt-Tabelle				}
+   dtxt  				VARCHAR(500), 								{ Information						}
+   isrig       	INTEGER,	  									{ Objekt-ID							}
+   isdiss      	INTEGER,	  									{ Info-Type							}
+   isvert       INTEGER,	  									{ Sortierung						}
+   isges       	INTEGER,	  									{ Sortierung						}
+   zeitstempel  DATETIME year to fraction(5)	{ Aenderungsdatum-/zeit	}
+);

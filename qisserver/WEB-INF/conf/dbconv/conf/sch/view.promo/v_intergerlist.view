@@ -1,0 +1,4 @@
+CREATE VIEW v_intergerlist AS 
+ SELECT array_to_string(ARRAY( SELECT btrim(v_k_akfz.akfz::text) AS btrim
+           FROM v_k_akfz
+          WHERE v_k_akfz.aikz = 'A'::bpchar AND v_k_akfz.sprache = 'D'::bpchar AND (v_k_akfz.akfz <> ALL (ARRAY['D'::bpchar, 'CH'::bpchar, 'A'::bpchar]))), ','::text) AS intergerlist;

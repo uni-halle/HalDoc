@@ -1,0 +1,25 @@
+#set($promoId = $Promotion.getChildText('ID'))
+<div class="functionnavi">
+	<ul>
+		#if ( $BC.darf($User.bereich, "R_PROMOEDIT"))
+			<li class="randlos">
+				<a href="$response.encodeURL("$servlet.SERVLETURL?state=change&amp;type=2&amp;moduleParameter=promo&amp;next=SingleInput.vm&amp;promotion.promotionid=$promoId&amp;sqlmode=update&amp;subdir=graduate/promo&amp;comingfromselection=y&amp;menuid=editpersonal&amp;purge=y")" hreflang="de" charset="ISO-8859-1" class="ver">
+					<img class="edit" src="$servlet.IMAGEURL/$servlet.B_EDIT" alt="Promotionsdaten bearbeiten" title="Promotionsdaten bearbeiten">
+				</a>
+			</li>
+	    	<li>Antrag auf Zulassung:</li>
+	    #else
+	    	<li class="randlos">Antrag auf Zulassung:</li>
+		#end
+    	<li class="randlos">
+        	<a href="$response.encodeURL("$servlet.SERVLETURL?state=verpublish&amp;publishContainer=zulAntrag&amp;publishid=$promoId&amp;lang=de")" hreflang="de" charset="ISO-8859-1" class="ver">
+        		<img  src="$servlet.IMAGEURL_HISINONE/$servlet.IMG_FLAG_DE" alt="Antrag auf Zulassung (deutsch)" title="Antrag auf Zulassung (deutsch)">
+        	</a>
+    	</li>
+    	<li class="randlos">
+        	<a href="$response.encodeURL("$servlet.SERVLETURL?state=verpublish&amp;publishContainer=zulAntrag&amp;publishid=$promoId&amp;lang=en")" hreflang="en" charset="ISO-8859-1" class="ver">
+        		<img  src="$servlet.IMAGEURL_HISINONE/$servlet.IMG_FLAG_EN" alt="Antrag auf Zulassung (englisch)" title="Antrag auf Zulassung (englisch)">
+        	</a>
+    	</li>
+	</ul>
+</div>

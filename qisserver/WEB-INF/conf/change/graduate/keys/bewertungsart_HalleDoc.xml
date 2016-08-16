@@ -1,0 +1,35 @@
+<bewertungsart active="y" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>60</size>
+	<session>moduleParameter</session>
+	<title>Bewertungen</title>
+	<noheader />
+	<rowMarker>y</rowMarker>
+	<insert />
+	<update />
+	<delete />
+	<rights>
+		<admin>
+			<insert />
+			<update />
+			<delete />
+			<select />
+		</admin>
+	</rights>
+	<change>
+		SELECT bewertungsart.id AS ID, bewertungsart.key AS Key, bewertungsart.dtxt AS Dtxt, bewertungsart.sort AS Order
+		FROM bewertungsart
+		ORDER BY sort::integer,key, dtxt
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<column name="Key" label="Key" size="5" />
+		<column name="Dtxt" label="Drucktext" size="50" />
+		<column name="Order" label="Sortierung" size="5" />
+	</change_prop>
+	<additionallinks comment="Einrichtungszuordnung">
+		<link moduleParameter="rBewertungsartEinrichtung" key="bewertungsart.id" lookup="bewertungsart.id" template="GridInput.vm" type="2">
+			<de>Einrichtungszuordnung</de>
+		</link>
+	</additionallinks>
+</bewertungsart>

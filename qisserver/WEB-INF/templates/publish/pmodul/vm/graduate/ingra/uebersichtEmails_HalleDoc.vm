@@ -1,0 +1,97 @@
+#if (!$contentVM)
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    	
+	<html>
+		<head>
+			<title>LSF</title>
+			<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+				#parse ("header.vm")
+</head>
+<body class="background">
+	#parse("head.vm")
+	#parse("Controls.vm")
+	#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+		#parse("wlogin/LoginInfo.vm")
+	#end
+	<br>
+		<br>
+#end
+<h1>Übersichten</h1>
+#set($statistik = $import.getChild("Statistiken"))
+##XMLOut($import)
+<fieldset style="margin-bottom: 10px; padding: 10px;">
+	<legend>Übersicht über die Sachbearbeiter</legend>
+	<table>
+		<tr>
+			<th scope="col" class="mod" id="basic_1">Emailadresse</th>
+			<th scope="col" class="mod" id="basic_1">Nachname</th>
+			<th scope="col" class="mod" id="basic_1">Vorname</th>
+			<th scope="col" class="mod" id="basic_1">Geschlecht</th>
+			<th scope="col" class="mod" id="basic_1">Promotionstitel</th>
+			<th scope="col" class="mod" id="basic_1">Einrichtung</th>
+			<th scope="col" class="mod" id="basic_1">MtkNr</th>
+		</tr>
+		#set($lineBackGr = "mod_n_even")
+		#foreach($case in $import.getChildren())
+			#set($isNewEinrichtung = 0)
+			#if($eid != $case.getChildText("einrichtungid"))
+				#set($isNewEinrichtung = 1)
+			#end
+			#set($eid = $case.getChildText("einrichtungid"))
+			#if($isNewEinrichtung == 1)
+				#set($msg = "Liebe Kolleginnen und Kollegen,\n\nHerr Meinicke sind mal wieder fehlerhafte Emailadressen im HalDoc aufgefallen. Wir bitten Sie hiermit diese zu prüfen und ggf. direkt in HalDoc zu korrigieren.\nSollte keine Korrektur möglich sein, dann bitte löschen.")
+				#set($msg = $msg + "\n\nEmailAdresse; Nachname; Vorname; Geschlecht; MtkNr; Promotionstitel:\n")
+				#foreach($case2 in $import.getChildren())
+					#if($eid == $case2.getChildText("einrichtungid"))
+						#set($titleLength = 40)
+						#set($length = $case2.getChildText("title").length())
+						#if($length < $titleLength)
+							#set($titleLength = $length)
+						#end
+						#set($msg = $msg + "- "+ $case2.getChildText("emailAddr") +"; "+ $case2.getChildText("nachname") +"; "+ $case2.getChildText("vorname") +"; "+ $case2.getChildText("geschl") +"; "+ $case2.getChildText("mtknr") +"; "+ $case2.getChildText("title").substring(0,$titleLength) +"...\n")
+					#end
+				#end
+				#set($msg = $msg + "\n\nVielen Dank und mit freundlichen Grüßen\nMichael Schäfer")
+				#set($msg = $msg.replace(" ", "%20"))
+				#set($msg = $msg.replace("\n", "%0D%0A"))
+				#set($msg = $msg.replace("\t", "%09"))
+				#set($msg = $msg.replace("ä", "%E4"))
+				#set($msg = $msg.replace("ö", "%F6"))
+				#set($msg = $msg.replace("ü", "%FC"))
+				#set($msg = $msg.replace("Ä", "%C4"))
+				#set($msg = $msg.replace("Ö", "%D6"))
+				#set($msg = $msg.replace("Ü", "%DC"))
+				#set($msg = $msg.replace("ß", "%DF"))
+
+				#set($mailtoAddr = "")
+				#foreach($sb in $case.getChild("SBs").getChildren())
+					#if($!sb.getChild("email"))
+						#if($mailtoAddr == "")
+							#set($mailtoAddr = $!sb.getChildText("email"))
+						#else
+							#set($mailtoAddr = $mailtoAddr + ",%20" + $!sb.getChildText("email"))
+						#end
+					#end
+				#end
+				
+				<tr>
+					<td class="mod_n_odd" colspan="7"><a href="mailto:$mailtoAddr?subject=Fehlerhafte%20Emailadressen&body=$msg">Link zum Versenden der Email an $case.getChildText("einrichtungName")</a></td>
+				</tr>
+			#end
+			<tr>
+				<td class="$lineBackGr">$case.getChildText("emailAddr")</td>
+				<td class="$lineBackGr">$case.getChildText("nachname")</td>
+				<td class="$lineBackGr">$case.getChildText("vorname")</td>
+				<td class="$lineBackGr">$case.getChildText("geschl")</td>
+				<td class="$lineBackGr">$case.getChildText("title")</td>
+				<td class="$lineBackGr">$case.getChildText("einrichtungName")</td>
+				<td class="$lineBackGr">$case.getChildText("mtknr")</td>
+			</tr>
+			#if($lineBackGr == "mod_n_even")#set($lineBackGr = "mod_n_odd")#else#set($lineBackGr = "mod_n_even")#end
+		#end
+	</table>
+</fieldset>
+#if (!$contentVM)
+	#parse("foot.vm")
+</body>
+</html>
+#end

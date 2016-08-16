@@ -1,0 +1,5 @@
+{### r_blob  #################################################################}
+CREATE unique INDEX i_r_blob on r_blob (rblobid);  
+CREATE INDEX i_r_blob_tab ON r_blob (tabelle);
+CREATE INDEX i_r_blob_pk ON r_blob (tabpk);
+CREATE INDEX i_r_blob_bl ON r_blob (blobid);

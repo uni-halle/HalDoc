@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mediaFiles active="y" protsuppl="ExtDokument" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>75</size>
+	<session>moduleParameter</session>
+	<update protocol="y" />
+	<insert protocol="y" />
+	<delete protocol="y" />
+	<protProcessor>
+		<r_mediafiles.mfid>
+			<ignore>y</ignore>
+		</r_mediafiles.mfid>
+		<r_mediafiles.tabpk>
+			<ignore>y</ignore>
+		</r_mediafiles.tabpk>
+		<r_mediafiles.tabelle>
+			<ignore>y</ignore>
+		</r_mediafiles.tabelle>
+		<r_mediafiles.mediatype>
+			<ignore>y</ignore>
+		</r_mediafiles.mediatype>
+		<r_mediafiles.description>
+			<label>Name</label>
+		</r_mediafiles.description>
+		<r_mediafiles.filename>
+			<label>Ursprünglicher Dateiname</label>
+		</r_mediafiles.filename>
+	</protProcessor>
+	<change>SELECT r_mediafiles.mfid AS ID,
+		r_mediafiles.aikz AS Aktiv,
+		r_mediafiles.description AS Name,
+		r_mediafiles.filename AS Dateiname,
+		r_mediafiles.sortierung AS Sort,
+		r_mediafiles.tabpk AS tabpk,
+		r_mediafiles.tabelle AS tabelle,
+		r_mediafiles.mediatype AS mediatype,
+		r_mediafiles.apptype AS Application,
+		r_mediafiles.height AS Height,
+		r_mediafiles.width AS Width,
+		r_mediafiles.bemerkung AS Bemerkung
+		FROM r_mediafiles, personal
+		WHERE personal.pid = r_mediafiles.tabpk
+		AND r_mediafiles.tabelle='personal'
+		AND personal.pid = [personal.pid]
+		ORDER BY r_mediafiles.sortierung
+	</change>
+	<change_prop>
+		<column name="Aktiv" update="y" show="y" stripkey="y" listmatch="-&gt;iakz" size="4" default="A" />
+		<column name="ID" where="y" key="y" serial="y" noshow="y" />
+		<column name="Name" mandatory="y" size="50" />
+		<column name="Dateiname" size="50" noupdate="y" />
+		<column name="tabpk" noshow="y" default="[personal.pid]" />
+		<column name="tabelle" noshow="y" default="personal" />
+		<column name="mediatype" noshow="y" />
+		<column name="Sort" label="$lang.missing_reihenfolge" size="10" datatype="int" />
+		<column name="Application" label="$lang.use" listonly="-&gt;mediatype" stripkey="y" default="document" />
+		<column name="Height" size="5" />
+		<column name="Width" size="5" />
+		<column name="Bemerkung" noshow="y" size="5" />
+	</change_prop>
+	<additionallinks color="#000080" comment="Wählen Sie eine Datei ...">
+		<link moduleParameter="personExtdocument" key="personal.pid" lookup="personal.pid" template="upload.vm" type="2">
+			<de>Dateiauswahl</de>
+			<en>Choose file</en>
+		</link>
+	</additionallinks>
+	<filename>[r_mediafiles.tabelle]/[r_mediafiles.mfid].[r_mediafiles.mediatype]</filename>
+	<parentModuleParameter>person</parentModuleParameter>
+</mediaFiles>
+

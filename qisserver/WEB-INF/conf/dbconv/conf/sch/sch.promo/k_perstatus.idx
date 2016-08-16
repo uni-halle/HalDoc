@@ -1,0 +1,2 @@
+{### k_perstatus #############################################################}
+CREATE UNIQUE INDEX i_k_perstatus ON k_perstatus (perstatusid);

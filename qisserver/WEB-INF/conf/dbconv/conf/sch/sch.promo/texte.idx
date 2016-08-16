@@ -1,0 +1,3 @@
+{### texte ############################################################}
+CREATE unique index i_texte_texteid on texte (texteid);
+

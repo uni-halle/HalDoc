@@ -1,0 +1,133 @@
+<p style="font-size: 0.8em;">$lang.docAppPersDataInfo</p>
+<p>
+	<div style="$divStyle"><b>$lang.docAppPersDataBasic</b></div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_lastname"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass"><label style="$labelStyle" for="lastname" id="lastname_label">* $lang.docAppPersDataLName</label><input id="lastname" name="app_lastname" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_lastname")" /></div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_firstname"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass"><label style="$labelStyle" for="firstname" id="firstname_label">* $lang.docAppPersDataFName</label><input id="firstname" name="app_firstname" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_firstname")" /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="birthname" id="birthname_label">$lang.docAppPersDataGName</label><input id="birthname" name="app_birthname" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_birthname")" /></div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_gender"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="gender" id="gender_label">* $lang.docAppPersDataGen</label>
+		<select id="gender" name="app_gender" style="$selectStyle">
+			<option value="">$lang.docAppSelect</option>
+			#if($!valueElement.getChildText("app_gender") == "W")
+				<option value="W" selected>$lang.docAppPersDataF</option>
+			#else
+				<option value="W">$lang.docAppPersDataF</option>
+			#end
+			#if($!valueElement.getChildText("app_gender") == "M")
+				<option value="M" selected>$lang.docAppPersDataM</option>
+			#else
+				<option value="M">$lang.docAppPersDataM</option>
+			#end
+		</select>
+	</div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_registernr"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass"><label style="$labelStyle" for="registernr" id="registernr_label">$lang.docAppPersDataMtkNr</label><input id="registernr" name="app_registernr" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_registernr")" /></div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_dateOfBirth"))
+		#set($errorClass = "ui-state-error")
+	#end
+	#if($errorElementForCheck && $errorElementForCheck.getChild("ERROR").getChild("dateError").getChild("app_dateOfBirth"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="dateOfBirth" id="dateOfBirth_label">* $lang.docAppPersDataGebDat</label><input id="dateOfBirth" name="app_dateOfBirth" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_dateOfBirth")" />
+		<label for="dateOfBirth" id="dateOfBirth_label" style="font-size:0.8em;">$lang.docAppDatForm</label>
+	</div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_placeOfBirth"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass"><label style="$labelStyle" for="placeOfBirth" id="placeOfBirth_label">* $lang.docAppPersDataGebOrt</label><input id="placeOfBirth" name="app_placeOfBirth" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_placeOfBirth")" /></div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_countryOfBirth"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="countryOfBirth" id="countryOfBirth_label">* $lang.docAppPersDataGebLand</label>
+		<select id="countryOfBirth" name="app_countryOfBirth" style="$selectStyle">
+			<option value="">$lang.docAppSelect</option>
+			#foreach($country in $import.getChild("application").getChild("Countries").getChildren())
+				#if($valueElement.getChildText("app_countryOfBirth") == $country.getChildText("akfz") || ($country.getChildText("akfz") == "D" && ($valueElement.getChildText("app_countryOfBirth") == "" || !$valueElement.getChildText("app_countryOfBirth"))))
+					<option value="$country.getChildText("akfz")" selected>$country.getChildText("dtxt")</option>
+				#else
+					<option value="$country.getChildText("akfz")">$country.getChildText("dtxt")</option>
+				#end
+			#end
+		</select>
+	</div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_national"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="national" id="national_label">* $lang.docAppPersDataNat</label>
+		<select id="national" name="app_national" style="$selectStyle">
+			<option value="">$lang.docAppSelect</option>
+			#foreach($country in $import.getChild("application").getChild("Countries").getChildren())
+				#if($valueElement.getChildText("app_national") == $country.getChildText("akfz") || ($country.getChildText("akfz") == "D" && ($valueElement.getChildText("app_national") == "" || !$valueElement.getChildText("app_national"))))
+					<option value="$country.getChildText("akfz")" selected>$country.getChildText("dtxt")</option>
+				#else
+					<option value="$country.getChildText("akfz")">$country.getChildText("dtxt")</option>
+				#end
+			#end
+		</select>
+	</div>
+	<div style="$divStyle"><b>$lang.docAppPersDataCont</b></div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_street"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass"><label style="$labelStyle" for="street" id="street_label">* $lang.docAppPersDataStr</label><input id="street" name="app_street" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_street")" /></div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_postcode"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass"><label style="$labelStyle" for="postcode" id="postcode_label">* $lang.docAppPersDataPLZ</label><input id="postcode" name="app_postcode" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_postcode")" /></div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_city"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass"><label style="$labelStyle" for="city" id="city_label">* $lang.docAppPersDataCity</label><input id="city" name="app_city" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_city")" /></div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_country"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="country" id="country_label">* $lang.docAppPersDataLand</label>
+		<select id="country" name="app_country" style="$selectStyle">
+			<option value="">$lang.docAppSelect</option>
+			#foreach($country in $import.getChild("application").getChild("Countries").getChildren())
+				#if($valueElement.getChildText("app_country") == $country.getChildText("akfz") || ($country.getChildText("akfz") == "D" &&  ($valueElement.getChildText("app_country") == "" || !$valueElement.getChildText("app_country"))))
+					<option value="$country.getChildText("akfz")" selected>$country.getChildText("dtxt")</option>
+				#else
+					<option value="$country.getChildText("akfz")">$country.getChildText("dtxt")</option>
+				#end
+			#end
+		</select>
+	</div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_email"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass"><label style="$labelStyle" for="email" id="email_label">* $lang.docAppPersDataMail</label><input id="email" name="app_email" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_email")" /></div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_telefon"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass"><label style="$labelStyle" for="telefon" id="telefon_label">* $lang.docAppPersDataTel</label><input id="telefon" name="app_telefon" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_telefon")" /></div>
+</p>

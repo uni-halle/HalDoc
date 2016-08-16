@@ -1,0 +1,9 @@
+CREATE OR REPLACE VIEW v_k_semester AS 
+ SELECT sossys.aktsem AS id, sossys.aktsem AS ktxt, 
+        CASE
+            WHEN "substring"(sossys.aktsem::text, 5, 1) = '1'::text THEN 'SoSe '::text || "substring"(sossys.aktsem::text, 1, 4)
+            ELSE 'WiSe '::text || "substring"(sossys.aktsem::text, 1, 4)
+        END AS dtxt
+   FROM public.sossys
+  WHERE sossys.aktsem > 20000
+  ORDER BY sossys.aktsem DESC;

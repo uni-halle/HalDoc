@@ -1,0 +1,29 @@
+<rEinrichtungBewertungsart active="y" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>60</size>
+	<session>moduleParameter</session>
+	<rowMarker>y</rowMarker>
+	<insert />
+	<update />
+	<delete />
+	<rights>
+		<admin>
+			<insert />
+			<update />
+			<delete />
+			<select />
+		</admin>
+	</rights>
+	<change>
+		SELECT r_einrichtung_bewertungsart.id AS ID, bewertungsart_id, einrichtung_eid
+		FROM r_einrichtung_bewertungsart
+		WHERE einrichtung_eid = [einrichtung.id]
+		ORDER BY bewertungsart_id
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<column name="bewertungsart_id" label="Bewertungsart" size="70" listmatch="->promo.bewertungsart" />
+		<column name="einrichtung_eid" default="[einrichtung.id]" noshow="y" />
+	</change_prop>
+	<parentModuleParameter>einrichtungzuord</parentModuleParameter>
+</rEinrichtungBewertungsart>

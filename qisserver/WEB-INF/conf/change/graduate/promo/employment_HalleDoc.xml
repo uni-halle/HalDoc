@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dienstadresse active="y" protsuppl="Beschäftigung" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>40</size>
+	<session>sos.mtknr, promotion.promotionid, moduleParameter</session>
+	<update protocol="y" />
+	<insert protocol="y" />
+	<delete protocol="y" />
+	<success-redirect>next</success-redirect>
+	<buttons>
+		<store>Speichern &amp; weiter</store>
+	</buttons>
+	<change>SELECT DISTINCT employment.id AS eID,
+		employment.aikz AS empAktiv,
+		employment.name AS empName,
+		employment.job AS empJob,
+		employment.mtknr AS Mtknr, 
+		v_anschri.strasse As Strasse,
+		v_anschri.plz As PLZ,
+		v_anschri.ort As Ort,
+		v_anschri.tel As Telefon,
+		v_anschri.fax As Fax,
+		v_anschri.email As eMail,
+		v_anschri.anschrkz As Kennzeichen,
+		v_anschri.mtknr As MtkNr
+		FROM employment, v_anschri
+		WHERE employment.mtknr = [sos.mtknr]
+		AND v_anschri.anschrkz = 'D' AND v_anschri.mtknr = employment.mtknr
+	</change>
+	<change_prop>
+		<column name="ID" noupdate="y" key="y" serial="y" noshow="y" />
+		<column name="empAktiv" default="A" stripkey="y" listonly="-&gt;iakz" size="10" noshow="promoverw" />
+		<column name="Aktiv" default="A" noshow="y" />
+		<column name="eID" noshow="y" />
+		<column name="PID" noshow="y" default="[personal.pid]" />
+		<column name="PLZ" />
+		<column name="Ort" />
+		<column name="Strasse"/>
+		<column name="Telefon"/>
+		<column name="eMail" datatype="email" />
+		<column name="Kennzeichen" default="D" noshow="y" />
+		<column name="MtkNr" default="[sos.mtknr]" noshow="y" />
+	</change_prop>
+	<additionalDBActions>
+		<insert>
+			<action type="update" table="kontakt" where="kid=[kontakt.kid]">
+				<tabpk>(SELECT employment.id FROM employment WHERE mtknr=[sos.mtknr])</tabpk>
+			</action>
+		</insert>
+		<delete>
+			<action type="delete" table="employment" where="id=[employment.id]" />
+			<action type="delete" table="v_anschri" where="tabpk=[employment.id] AND tabelle='employment'" />
+		</delete>
+	</additionalDBActions>
+	<parentModuleParameter>personPromov</parentModuleParameter>
+</dienstadresse>
+

@@ -1,0 +1,659 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ingra mischattribut="ElementName" WriteXMLFileTo1="D://temp//export.xml" global="[_timestemp]">
+	<overview 
+		RootElement="webPublish" 
+		database="promo" 
+		VMFile="publish/pmodul/vm/graduate/ingra/uebersicht.vm" 
+		useCache="n" 
+		nologin="n"
+		PageFormat="n"
+		context="gradakad,admin"
+		htmlheader="Systemübersicht für die InGra">
+		<Transform.SQL ElementName="Uebersicht">
+			SELECT count(mtknr) AS countPromovendenAll FROM v_sos WHERE mtknr IN (SELECT DISTINCT mtknr FROM promotion)
+			<Transform.Parent ElementName="SBs">
+				<Transform.SubSQL ElementName="SB">
+					SELECT pid, vorname, nachname, geschl, einrichtungid FROM personal WHERE perstatusid = (SELECT perstatusid FROM k_perstatus WHERE ktxt='SB') ORDER BY einrichtungid, nachname, vorname
+					<Transform.SubSQL ElementName="sub1" singleTag="einrichtungname">
+						SELECT dtxt AS einrichtungname FROM einrichtung WHERE id=[einrichtungid]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub2" singleTag="email" context="admin">
+						SELECT email FROM kontakt WHERE tabpk=[pid] AND tabelle='personal'
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="telefon" context="admin">
+						SELECT telefon FROM kontakt WHERE tabpk=[pid] AND tabelle='personal'
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="emails">
+				<Transform.SubSQL ElementName="email">
+					SELECT email,tabpk AS einrichtungid FROM kontakt WHERE tabelle='einrichtung' ORDER BY einrichtungid
+					<Transform.SubSQL ElementName="sub1" singleTag="einrichtungname">
+						SELECT dtxt AS einrichtungname FROM einrichtung WHERE id=[einrichtungid]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="Guts">
+				<Transform.SubSQL ElementName="Gut">
+					SELECT pid, vorname, nachname, geschl, einrichtungid FROM personal WHERE perstatusid = (SELECT perstatusid FROM k_perstatus WHERE ktxt='LH') ORDER BY einrichtungid, nachname, vorname
+					<Transform.SubSQL ElementName="sub1" singleTag="einrichtungname">
+						SELECT dtxt AS einrichtungname FROM einrichtung WHERE id=[einrichtungid]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub2" singleTag="email" context="admin">
+						SELECT email FROM kontakt WHERE tabpk=[pid] AND tabelle='personal'
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+			</Transform.Parent>
+		</Transform.SQL>
+	</overview>
+	<statForInGra 
+		RootElement="webPublish" 
+		database="promo" 
+		VMFile="publish/pmodul/vm/graduate/ingra/statistik.vm" 
+		useCache="n" 
+		nologin="n"
+		context="gradakad,admin,intoffice"
+		PageFormat="n"
+		htmlheader="Übersichtsstatistik für die InGra"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Statistiken">
+			SELECT count(v_sos.mtknr) AS countPromovendenAll FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr
+			<Transform.SubSQL ElementName="sub1" singleTag="countPromovendenAllFemale">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllFemale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND geschl='W'
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub2" singleTag="countPromovendenAllMale">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllMale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND geschl='M'
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenAllOther">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllOther FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND geschl='O'
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenAllUnknown">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllUnknown FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND geschl='U'
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub4" singleTag="countPromovendenAllProgramm">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllProgramm FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND promoprogramm='J'
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub5" singleTag="countPromovendenActive">
+				SELECT count(v_sos.mtknr) AS countPromovendenActive FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub6" singleTag="countPromovendenActiveFemale">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveFemale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND geschl='W'
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub7" singleTag="countPromovendenActiveMale">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveMale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND geschl='M'
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub8" singleTag="countPromovendenActiveOther">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveOther FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND geschl='O'
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub8" singleTag="countPromovendenActiveUnknown">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveUnknown FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND geschl='U'
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub9" singleTag="countPromovendenActiveProgramm">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveProgramm FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND promoprogramm='J'
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub10" singleTag="countPromovendenAllFH">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllFH FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND res5 = 'Y'
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub11" singleTag="countPromovendenAllUni">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllUni FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND (res5 = 'N' OR res5 IS NULL)
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub12" singleTag="countPromovendenActiveFH">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveFH FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND res5 = 'Y'
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub13" singleTag="countPromovendenActiveUni">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveUni FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND (res5 = 'N' OR res5 IS NULL)
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub14" singleTag="countPromovendenAllBiNat">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllBiNat FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND framework='J'
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub15" singleTag="countPromovendenActiveBiNat">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveBiNat FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND framework='J'
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub16" singleTag="countPromovendenAllMLUAbsolvent">
+				SELECT count(DISTINCT promotion.mtknr) AS countPromovendenAllMLUAbsolvent FROM promotion, v_lab WHERE promotion.mtknr=v_lab.mtknr AND pnr=9000 AND pstatus = 'BE'
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub17" singleTag="countPromovendenActiveMLUAbsolvent">
+				SELECT count(DISTINCT promotion.mtknr) AS countPromovendenActiveMLUAbsolvent FROM promotion, v_lab WHERE promotion.mtknr=v_lab.mtknr AND handovertolibrary IS NULL AND pnr=9000 AND pstatus = 'BE'
+			</Transform.SubSQL>
+			<Transform.Parent ElementName="StatusAll">
+				<Transform.SubSQL ElementName="Status">
+					SELECT count(v_sos.mtknr) AS count,dtxt AS label, k_applicantstatus.applicantstatusid AS key FROM promotion,v_sos,k_applicantstatus WHERE promotion.mtknr=v_sos.mtknr AND v_sos.res13::integer=k_applicantstatus.applicantstatusid GROUP BY label,key ORDER BY count,label DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="StatusActive">
+				<Transform.SubSQL ElementName="Status">
+					SELECT count(v_sos.mtknr) AS count,dtxt AS label, k_applicantstatus.applicantstatusid AS key FROM promotion,v_sos,k_applicantstatus WHERE promotion.mtknr=v_sos.mtknr AND v_sos.res13::integer=k_applicantstatus.applicantstatusid AND handovertolibrary IS NULL AND date_for_cancel IS NULL GROUP BY label,key ORDER BY count,label DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="CountriesAllValue">
+				<Transform.SubSQL ElementName="country">
+					SELECT count(v_sos.mtknr) AS Count,dtxt AS label, v_k_akfz.akfz AS key FROM promotion,v_sos,v_k_akfz WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat=v_k_akfz.akfz GROUP BY label,key ORDER BY count,label DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="CountriesActiveValue">
+				<Transform.SubSQL ElementName="country">
+					SELECT count(v_sos.mtknr) AS Count,dtxt AS label, v_k_akfz.akfz AS key FROM promotion,v_sos,v_k_akfz WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat=v_k_akfz.akfz AND handovertolibrary IS NULL AND date_for_cancel IS NULL GROUP BY label,key ORDER BY count,label DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="CountriesAllLabel">
+				<Transform.SubSQL ElementName="country">
+					SELECT count(v_sos.mtknr) AS Count,dtxt AS label, v_k_akfz.akfz AS key FROM promotion,v_sos,v_k_akfz WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat=v_k_akfz.akfz GROUP BY label,key ORDER BY label DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="CountriesActiveLabel">
+				<Transform.SubSQL ElementName="country">
+					SELECT count(v_sos.mtknr) AS Count,dtxt AS label, v_k_akfz.akfz AS key FROM promotion,v_sos,v_k_akfz WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat=v_k_akfz.akfz AND handovertolibrary IS NULL AND date_for_cancel IS NULL GROUP BY label,key ORDER BY label DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="InstitutesAll">
+				<Transform.SubSQL ElementName="Institute">
+					SELECT count(promotionid),dtxt AS label FROM promotion,einrichtung,v_sos WHERE promotion.einrichtungid=einrichtung.id AND promotion.mtknr=v_sos.mtknr GROUP BY label ORDER BY label
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="InstitutesActive">
+				<Transform.SubSQL ElementName="Institute">
+					SELECT count(promotionid),dtxt AS label FROM promotion,einrichtung,v_sos WHERE promotion.einrichtungid=einrichtung.id AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND promotion.mtknr=v_sos.mtknr GROUP BY label ORDER BY label
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="Germany">
+				<Transform.SubSQL ElementName="All">
+					SELECT count(v_sos.mtknr) AS countPromovendenAllGermany FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D')
+					<Transform.SubSQL ElementName="sub1" singleTag="countPromovendenFemale">
+						SELECT count(v_sos.mtknr) AS countPromovendenFemale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='W'
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub2" singleTag="countPromovendenMale">
+						SELECT count(v_sos.mtknr) AS countPromovendenMale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='M'
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenOther">
+						SELECT count(v_sos.mtknr) AS countPromovendenOther FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='O'
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenUnknown">
+						SELECT count(v_sos.mtknr) AS countPromovendenUnknown FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='U'
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Active">
+					SELECT count(v_sos.mtknr) AS countPromovendenActiveGermany FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D')
+					<Transform.SubSQL ElementName="sub1" singleTag="countPromovendenFemale">
+						SELECT count(v_sos.mtknr) AS countPromovendenFemale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='W'
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub2" singleTag="countPromovendenMale">
+						SELECT count(v_sos.mtknr) AS countPromovendenMale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='M'
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenOther">
+						SELECT count(v_sos.mtknr) AS countPromovendenOther FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='O'
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenUnknown">
+						SELECT count(v_sos.mtknr) AS countPromovendenUnknown FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='U'
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="International">
+				<Transform.SubSQL ElementName="All">
+					SELECT count(v_sos.mtknr) AS countPromovendenAll FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D')
+					<Transform.SubSQL ElementName="sub1" singleTag="countPromovendenFemale">
+						SELECT count(v_sos.mtknr) AS countPromovendenFemale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='W'
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub2" singleTag="countPromovendenMale">
+						SELECT count(v_sos.mtknr) AS countPromovendenMale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='M'
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenOther">
+						SELECT count(v_sos.mtknr) AS countPromovendenOther FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='O'
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenUnknown">
+						SELECT count(v_sos.mtknr) AS countPromovendenUnknown FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='U'
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Active">
+					SELECT count(v_sos.mtknr) AS countPromovendenActive FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D')
+					<Transform.SubSQL ElementName="sub1" singleTag="countPromovendenFemale">
+						SELECT count(v_sos.mtknr) AS countPromovendenFemale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='W'
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub2" singleTag="countPromovendenMale">
+						SELECT count(v_sos.mtknr) AS countPromovendenMale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='M'
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenOther">
+						SELECT count(v_sos.mtknr) AS countPromovendenOther FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='O'
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenUnknown">
+						SELECT count(v_sos.mtknr) AS countPromovendenUnknown FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='U'
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="BetreuungenAlle" context="gradakad,intoffice,admin">
+				<Transform.SubSQL ElementName="Ausland">
+					SELECT DISTINCT mentor1id AS ment1Id, count(v_sos.mtknr) AS Anzahl
+					FROM promotion, v_sos
+					WHERE promotion.mtknr=v_sos.mtknr AND staat is not null AND staat!='D' AND mentor1id IS NOT NULL
+					GROUP BY mentor1id
+					ORDER BY Anzahl DESC
+					LIMIT 10;
+					<Transform.SubSQL ElementName="Person">
+						SELECT personal.geschl AS Geschl, k_titel.ktxt AS Titel, k_akadgrad.ktxt AS Grad, vorname, nachname, einrichtung.dtxt AS Einrichtung
+						FROM personal 
+							LEFT JOIN k_titel ON (k_titel.titelid=personal.titelid) 
+							LEFT JOIN k_akadgrad ON (k_akadgrad.gradid=personal.gradid)
+							LEFT JOIN einrichtung ON (personal.einrichtungid=einrichtung.id)
+						WHERE pid=[ment1Id]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Inland">
+					SELECT DISTINCT mentor1id AS ment1Id, count(v_sos.mtknr) AS Anzahl
+					FROM promotion, v_sos
+					WHERE promotion.mtknr=v_sos.mtknr AND staat is not null AND staat='D' AND mentor1id IS NOT NULL
+					GROUP BY mentor1id
+					ORDER BY Anzahl DESC
+					LIMIT 10;
+					<Transform.SubSQL ElementName="Person">
+						SELECT personal.geschl AS Geschl, k_titel.ktxt AS Titel, k_akadgrad.ktxt AS Grad, vorname, nachname, einrichtung.dtxt AS Einrichtung
+						FROM personal 
+							LEFT JOIN k_titel ON (k_titel.titelid=personal.titelid) 
+							LEFT JOIN k_akadgrad ON (k_akadgrad.gradid=personal.gradid)
+							LEFT JOIN einrichtung ON (personal.einrichtungid=einrichtung.id)
+						WHERE pid=[ment1Id]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Alle">
+					SELECT DISTINCT mentor1id AS ment1Id, count(v_sos.mtknr) AS Anzahl
+					FROM promotion, v_sos
+					WHERE promotion.mtknr=v_sos.mtknr AND staat is not null AND mentor1id IS NOT NULL
+					GROUP BY mentor1id
+					ORDER BY Anzahl DESC
+					LIMIT 10;
+					<Transform.SubSQL ElementName="Person">
+						SELECT personal.geschl AS Geschl, k_titel.ktxt AS Titel, k_akadgrad.ktxt AS Grad, vorname, nachname, einrichtung.dtxt AS Einrichtung
+						FROM personal 
+							LEFT JOIN k_titel ON (k_titel.titelid=personal.titelid) 
+							LEFT JOIN k_akadgrad ON (k_akadgrad.gradid=personal.gradid)
+							LEFT JOIN einrichtung ON (personal.einrichtungid=einrichtung.id)
+						WHERE pid=[ment1Id]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="BetreuungenActive" context="gradakad,intoffice,admin">
+				<Transform.SubSQL ElementName="Ausland">
+					SELECT DISTINCT mentor1id AS ment1Id, count(v_sos.mtknr) AS Anzahl
+					FROM promotion, v_sos
+					WHERE promotion.mtknr=v_sos.mtknr AND staat is not null AND staat!='D' AND mentor1id IS NOT NULL AND promotion.handovertolibrary IS NULL
+					GROUP BY mentor1id
+					ORDER BY Anzahl DESC
+					LIMIT 10;
+					<Transform.SubSQL ElementName="Person">
+						SELECT personal.geschl AS Geschl, k_titel.ktxt AS Titel, k_akadgrad.ktxt AS Grad, vorname, nachname, einrichtung.dtxt AS Einrichtung
+						FROM personal 
+							LEFT JOIN k_titel ON (k_titel.titelid=personal.titelid) 
+							LEFT JOIN k_akadgrad ON (k_akadgrad.gradid=personal.gradid)
+							LEFT JOIN einrichtung ON (personal.einrichtungid=einrichtung.id)
+						WHERE pid=[ment1Id]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Inland">
+					SELECT DISTINCT mentor1id AS ment1Id, count(v_sos.mtknr) AS Anzahl
+					FROM promotion, v_sos
+					WHERE promotion.mtknr=v_sos.mtknr AND staat is not null AND staat='D' AND mentor1id IS NOT NULL AND promotion.handovertolibrary IS NULL
+					GROUP BY mentor1id
+					ORDER BY Anzahl DESC
+					LIMIT 10;
+					<Transform.SubSQL ElementName="Person">
+						SELECT personal.geschl AS Geschl, k_titel.ktxt AS Titel, k_akadgrad.ktxt AS Grad, vorname, nachname, einrichtung.dtxt AS Einrichtung
+						FROM personal 
+							LEFT JOIN k_titel ON (k_titel.titelid=personal.titelid) 
+							LEFT JOIN k_akadgrad ON (k_akadgrad.gradid=personal.gradid)
+							LEFT JOIN einrichtung ON (personal.einrichtungid=einrichtung.id)
+						WHERE pid=[ment1Id]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Alle">
+					SELECT DISTINCT mentor1id AS ment1Id, count(v_sos.mtknr) AS Anzahl
+					FROM promotion, v_sos
+					WHERE promotion.mtknr=v_sos.mtknr AND staat is not null AND mentor1id IS NOT NULL AND promotion.handovertolibrary IS NULL
+					GROUP BY mentor1id
+					ORDER BY Anzahl DESC
+					LIMIT 10;
+					<Transform.SubSQL ElementName="Person">
+						SELECT personal.geschl AS Geschl, k_titel.ktxt AS Titel, k_akadgrad.ktxt AS Grad, vorname, nachname, einrichtung.dtxt AS Einrichtung
+						FROM personal 
+							LEFT JOIN k_titel ON (k_titel.titelid=personal.titelid) 
+							LEFT JOIN k_akadgrad ON (k_akadgrad.gradid=personal.gradid)
+							LEFT JOIN einrichtung ON (personal.einrichtungid=einrichtung.id)
+						WHERE pid=[ment1Id]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Plugin ElementName="Zeiten" context="gradakad,admin">
+				<class name="de.mlu.printout.publishModul.plugins.GraduateStatistics" database="promo">
+					<duration start="begin" ende="abgabe" key='key' label='label'>
+						<gender>SELECT openingofprocedure AS begin, dateofcolloquium AS abgabe, geschl AS key, CASE WHEN geschl='M' THEN 'männlich' WHEN geschl='U' THEN 'unbekannt' WHEN geschl='O' THEN 'anderes' ELSE 'weiblich' END AS label FROM v_sos,promotion WHERE v_sos.mtknr=promotion.mtknr AND dateofcolloquium IS NOT NULL AND openingofprocedure IS NOT NULL</gender>
+						<programm>SELECT openingofprocedure AS begin, dateofcolloquium AS abgabe, CASE WHEN promoprogramm='J' THEN 'J' ELSE 'N' END AS key, CASE WHEN promoprogramm='J' THEN 'innerhalb' ELSE 'ohne' END AS label FROM v_sos,promotion WHERE v_sos.mtknr=promotion.mtknr AND dateofcolloquium IS NOT NULL AND openingofprocedure IS NOT NULL</programm>
+						<institute>SELECT openingofprocedure AS begin, dateofcolloquium AS abgabe, promotion.einrichtungid AS key, ktxt AS label FROM v_sos,promotion,einrichtung WHERE v_sos.mtknr=promotion.mtknr AND dateofcolloquium IS NOT NULL AND openingofprocedure IS NOT NULL AND promotion.einrichtungid=einrichtung.id ORDER BY label</institute>
+						<nationality>SELECT openingofprocedure AS begin, dateofcolloquium AS abgabe, staat AS key, dtxt AS label FROM v_sos,promotion,v_k_akfz WHERE v_sos.mtknr=promotion.mtknr AND dateofcolloquium IS NOT NULL AND openingofprocedure IS NOT NULL AND v_sos.staat=v_k_akfz.akfz ORDER BY label</nationality>
+					</duration>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</statForInGra>
+	<statForFaks 
+		RootElement="webPublish" 
+		database="promo" 
+		VMFile="publish/pmodul/vm/graduate/ingra/statistik.vm" 
+		useCache="n" 
+		nologin="n"
+		context="gradakad,admin,promoverw,intoffice"
+		PageFormat="n"
+		htmlheader="Übersichtsstatistik für die InGra"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Statistiken">
+			SELECT count(v_sos.mtknr) AS countPromovendenAll FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND einrichtungid=[session_AssignedFak]
+			<Transform.SubSQL ElementName="sub1" singleTag="countPromovendenAllFemale">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllFemale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND geschl='W' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub2" singleTag="countPromovendenAllMale">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllMale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND geschl='M' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenAllOther">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllOther FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND geschl='O' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenAllUnknown">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllUnknown FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND geschl='U' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub4" singleTag="countPromovendenAllProgramm">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllProgramm FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND promoprogramm='J' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub5" singleTag="countPromovendenActive">
+				SELECT count(v_sos.mtknr) AS countPromovendenActive FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub6" singleTag="countPromovendenActiveFemale">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveFemale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND geschl='W' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub7" singleTag="countPromovendenActiveMale">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveMale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND geschl='M' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub8" singleTag="countPromovendenActiveOther">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveOther FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND geschl='O' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub8" singleTag="countPromovendenActiveUnknown">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveUnknown FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND geschl='U' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub9" singleTag="countPromovendenActiveProgramm">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveProgramm FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND promoprogramm='J' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub10" singleTag="countPromovendenAllFH">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllFH FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND res5 = 'Y' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub11" singleTag="countPromovendenAllUni">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllUni FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND (res5 = 'N' OR res5 IS NULL) AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub12" singleTag="countPromovendenActiveFH">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveFH FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND res5 = 'Y' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub13" singleTag="countPromovendenActiveUni">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveUni FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND (res5 = 'N' OR res5 IS NULL) AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub14" singleTag="countPromovendenAllBiNat">
+				SELECT count(v_sos.mtknr) AS countPromovendenAllBiNat FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND framework='J' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub15" singleTag="countPromovendenActiveBiNat">
+				SELECT count(v_sos.mtknr) AS countPromovendenActiveBiNat FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND framework='J' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub16" singleTag="countPromovendenAllMLUAbsolvent">
+				SELECT count(DISTINCT promotion.mtknr) AS countPromovendenAllMLUAbsolvent FROM promotion, v_lab WHERE promotion.mtknr=v_lab.mtknr AND pnr=9000 AND pstatus = 'BE' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="sub17" singleTag="countPromovendenActiveMLUAbsolvent">
+				SELECT count(DISTINCT promotion.mtknr) AS countPromovendenActiveMLUAbsolvent FROM promotion, v_lab WHERE promotion.mtknr=v_lab.mtknr AND handovertolibrary IS NULL AND pnr=9000 AND pstatus = 'BE' AND einrichtungid=[session_AssignedFak]
+			</Transform.SubSQL>
+			<Transform.Parent ElementName="StatusAll">
+				<Transform.SubSQL ElementName="Status">
+					SELECT count(v_sos.mtknr) AS count,dtxt AS label, k_applicantstatus.applicantstatusid AS key FROM promotion,v_sos,k_applicantstatus WHERE promotion.mtknr=v_sos.mtknr AND v_sos.res13::integer=k_applicantstatus.applicantstatusid AND einrichtungid=[session_AssignedFak] GROUP BY label,key ORDER BY count,label DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="StatusActive">
+				<Transform.SubSQL ElementName="Status">
+					SELECT count(v_sos.mtknr) AS count,dtxt AS label, k_applicantstatus.applicantstatusid AS key FROM promotion,v_sos,k_applicantstatus WHERE promotion.mtknr=v_sos.mtknr AND v_sos.res13::integer=k_applicantstatus.applicantstatusid AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND einrichtungid=[session_AssignedFak] GROUP BY label,key ORDER BY count,label DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="CountriesAllValue">
+				<Transform.SubSQL ElementName="country">
+					SELECT count(v_sos.mtknr) AS Count,dtxt AS label, v_k_akfz.akfz AS key FROM promotion,v_sos,v_k_akfz WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat=v_k_akfz.akfz AND einrichtungid=[session_AssignedFak] GROUP BY label,key ORDER BY count,label DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="CountriesActiveValue">
+				<Transform.SubSQL ElementName="country">
+					SELECT count(v_sos.mtknr) AS Count,dtxt AS label, v_k_akfz.akfz AS key FROM promotion,v_sos,v_k_akfz WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat=v_k_akfz.akfz AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND einrichtungid=[session_AssignedFak] GROUP BY label,key ORDER BY count,label DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="CountriesAllLabel">
+				<Transform.SubSQL ElementName="country">
+					SELECT count(v_sos.mtknr) AS Count,dtxt AS label, v_k_akfz.akfz AS key FROM promotion,v_sos,v_k_akfz WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat=v_k_akfz.akfz AND einrichtungid=[session_AssignedFak] GROUP BY label,key ORDER BY label DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="CountriesActiveLabel">
+				<Transform.SubSQL ElementName="country">
+					SELECT count(v_sos.mtknr) AS Count,dtxt AS label, v_k_akfz.akfz AS key FROM promotion,v_sos,v_k_akfz WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat=v_k_akfz.akfz AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND einrichtungid=[session_AssignedFak] GROUP BY label,key ORDER BY label DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="Germany">
+				<Transform.SubSQL ElementName="All">
+					SELECT count(v_sos.mtknr) AS countPromovendenAllGermany FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND einrichtungid=[session_AssignedFak]
+					<Transform.SubSQL ElementName="sub1" singleTag="countPromovendenFemale">
+						SELECT count(v_sos.mtknr) AS countPromovendenFemale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='W' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub2" singleTag="countPromovendenMale">
+						SELECT count(v_sos.mtknr) AS countPromovendenMale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='M' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenOther">
+						SELECT count(v_sos.mtknr) AS countPromovendenOther FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='O' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenUnknown">
+						SELECT count(v_sos.mtknr) AS countPromovendenUnknown FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='U' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Active">
+					SELECT count(v_sos.mtknr) AS countPromovendenActiveGermany FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND einrichtungid=[session_AssignedFak]
+					<Transform.SubSQL ElementName="sub1" singleTag="countPromovendenFemale">
+						SELECT count(v_sos.mtknr) AS countPromovendenFemale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='W' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub2" singleTag="countPromovendenMale">
+						SELECT count(v_sos.mtknr) AS countPromovendenMale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='M' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenOther">
+						SELECT count(v_sos.mtknr) AS countPromovendenOther FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='O' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenUnknown">
+						SELECT count(v_sos.mtknr) AS countPromovendenUnknown FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat = (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='U' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="International">
+				<Transform.SubSQL ElementName="All">
+					SELECT count(v_sos.mtknr) AS countPromovendenAll FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND einrichtungid=[session_AssignedFak]
+					<Transform.SubSQL ElementName="sub1" singleTag="countPromovendenFemale">
+						SELECT count(v_sos.mtknr) AS countPromovendenFemale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='W' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub2" singleTag="countPromovendenMale">
+						SELECT count(v_sos.mtknr) AS countPromovendenMale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='M' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenOther">
+						SELECT count(v_sos.mtknr) AS countPromovendenOther FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='O' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenUnknown">
+						SELECT count(v_sos.mtknr) AS countPromovendenUnknown FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='U' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Active">
+					SELECT count(v_sos.mtknr) AS countPromovendenActive FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND einrichtungid=[session_AssignedFak]
+					<Transform.SubSQL ElementName="sub1" singleTag="countPromovendenFemale">
+						SELECT count(v_sos.mtknr) AS countPromovendenFemale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='W' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub2" singleTag="countPromovendenMale">
+						SELECT count(v_sos.mtknr) AS countPromovendenMale FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='M' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenOther">
+						SELECT count(v_sos.mtknr) AS countPromovendenOther FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='O' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="sub3" singleTag="countPromovendenUnknown">
+						SELECT count(v_sos.mtknr) AS countPromovendenUnknown FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr AND handovertolibrary IS NULL AND date_for_cancel IS NULL AND v_sos.staat != (SELECT akfz FROM v_k_akfz WHERE iso_code='DE' AND sprache='D') AND geschl='U' AND einrichtungid=[session_AssignedFak]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+			</Transform.Parent>
+		</Transform.SQL>
+	</statForFaks>
+
+	<semStat 
+		RootElement="webPublish" 
+		database="promo" 
+		VMFile="publish/pmodul/vm/graduate/ingra/semStatistik.vm" 
+		useCache="n" 
+		nologin="n"
+		context="gradakad,admin,intoffice"
+		PageFormat="n"
+		htmlheader="Semesterbezogene Statistik"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Statistiken">
+			SELECT count(v_sos.mtknr) AS countPromovendenAll FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr
+			<Transform.Parent ElementName="SemesterData">
+				<Transform.SubSQL ElementName="Semester">
+					select distinct v_k_semester.id AS SemId, v_k_semester.dtxt AS Label
+					from v_k_semester
+						join v_sos on (v_k_semester.id=v_sos.semester)
+						join promotion on (promotion.mtknr=v_sos.mtknr)
+						join v_lab on (promotion.mtknr=v_lab.mtknr and v_lab.abschl='06' AND v_k_semester.id=v_lab.psem)
+					order by SemId DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="Statistik">
+				<Transform.Parent ElementName="Table">
+					<Transform.SubSQL ElementName="Fak" storeFields="FakId">
+						SELECT DISTINCT einrichtung.id AS FakId, einrichtung.dtxt AS FakName FROM promotion join einrichtung on (promotion.einrichtungid=einrichtung.id) ORDER BY FakName
+						<Transform.SubSQL ElementName="Stg">
+							select DISTINCT v_k_abstgv.abstgvnr AS StgId, v_k_abstgv.ltxt AS StgName FROM promotion
+								join einrichtung on (promotion.einrichtungid=einrichtung.id)
+								join v_k_abstgv on (promotion.k_abstgv_id=v_k_abstgv.abstgvnr)
+								join v_lab on (v_k_abstgv.stg=v_lab.stg AND v_lab.abschl='06')
+							WHERE promotion.einrichtungid=[FakId] AND v_lab.psem=[labSemester]
+							ORDER BY StgName
+							<Transform.SubSQL ElementName="sub1" singleTag="countAll">
+								SELECT count(v_sos.mtknr) AS countAll FROM promotion,v_sos,v_lab WHERE promotion.mtknr=v_sos.mtknr AND promotion.einrichtungid=[Fak.FakId] AND promotion.k_abstgv_id=[StgId] AND v_sos.mtknr=v_lab.mtknr and v_lab.abschl='06' AND v_lab.psem=[labSemester]
+							</Transform.SubSQL>
+							<Transform.SubSQL ElementName="sub2" singleTag="countAllFemale">
+								SELECT count(v_sos.mtknr) AS countAllFemale FROM promotion,v_sos,v_lab WHERE promotion.mtknr=v_sos.mtknr AND geschl='W' AND promotion.einrichtungid=[Fak.FakId] AND promotion.k_abstgv_id=[StgId] AND v_sos.mtknr=v_lab.mtknr and v_lab.abschl='06' AND v_lab.psem=[labSemester]
+							</Transform.SubSQL>
+							<Transform.SubSQL ElementName="sub3" singleTag="countAllMale">
+								SELECT count(v_sos.mtknr) AS countAllMale FROM promotion,v_sos,v_lab WHERE promotion.mtknr=v_sos.mtknr AND geschl='M' AND promotion.einrichtungid=[Fak.FakId] AND promotion.k_abstgv_id=[StgId] AND v_sos.mtknr=v_lab.mtknr and v_lab.abschl='06' AND v_lab.psem=[labSemester]
+							</Transform.SubSQL>
+							<Transform.SubSQL ElementName="sub4" singleTag="countImma">
+								SELECT count(v_sos.mtknr) AS countImma FROM promotion,v_sos,v_lab WHERE promotion.mtknr=v_sos.mtknr AND promotion.einrichtungid=[Fak.FakId] AND promotion.k_abstgv_id=[StgId] AND v_sos.status!='Y' AND v_sos.mtknr=v_lab.mtknr and v_lab.abschl='06' AND v_lab.psem=[labSemester]
+							</Transform.SubSQL>
+							<Transform.SubSQL ElementName="sub5" singleTag="countImmaFemale">
+								SELECT count(v_sos.mtknr) AS countImmaFemale FROM promotion,v_sos,v_lab WHERE promotion.mtknr=v_sos.mtknr AND geschl='W' AND promotion.einrichtungid=[Fak.FakId] AND promotion.k_abstgv_id=[StgId] AND v_sos.status!='Y' AND v_sos.mtknr=v_lab.mtknr and v_lab.abschl='06' AND v_lab.psem=[labSemester]
+							</Transform.SubSQL>
+							<Transform.SubSQL ElementName="sub6" singleTag="countImmaMale">
+								SELECT count(v_sos.mtknr) AS countImmaMale FROM promotion,v_sos,v_lab WHERE promotion.mtknr=v_sos.mtknr AND geschl='M' AND promotion.einrichtungid=[Fak.FakId] AND promotion.k_abstgv_id=[StgId] AND v_sos.status!='Y' AND v_sos.mtknr=v_lab.mtknr and v_lab.abschl='06' AND v_lab.psem=[labSemester]
+							</Transform.SubSQL>
+						</Transform.SubSQL>
+					</Transform.SubSQL>
+				</Transform.Parent>
+				<Transform.Parent ElementName="Ages">
+					<Transform.SubSQL ElementName="Age">
+						SELECT date_part('year',age(v_lab.pdatum,v_sos.gebdat)) AS Age, count(date_part('year',age(v_lab.pdatum,v_sos.gebdat))) AS ageCount
+						FROM promotion 
+							join v_sos on (promotion.mtknr=v_sos.mtknr) 
+							join v_lab on (v_sos.mtknr=v_lab.mtknr AND v_lab.abschl='06') 
+						WHERE v_lab.psem=[labSemester]
+						GROUP BY Age
+						ORDER BY Age
+					</Transform.SubSQL>
+				</Transform.Parent>
+			</Transform.Parent>
+		</Transform.SQL>
+	</semStat>
+	<semStatForFaks 
+		RootElement="webPublish" 
+		database="promo" 
+		VMFile="publish/pmodul/vm/graduate/ingra/semStatistik.vm" 
+		useCache="n" 
+		nologin="n"
+		context="gradakad,admin,promoverw,intoffice"
+		PageFormat="n"
+		htmlheader="Semesterbezogene Statistik"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Statistiken">
+			SELECT count(v_sos.mtknr) AS countPromovendenAll FROM promotion,v_sos WHERE promotion.mtknr=v_sos.mtknr
+			<Transform.Parent ElementName="SemesterData">
+				<Transform.SubSQL ElementName="Semester">
+					select distinct v_k_semester.id AS SemId, v_k_semester.dtxt AS Label
+					from v_k_semester
+						join v_sos on (v_k_semester.id=v_sos.semester)
+						join promotion on (promotion.mtknr=v_sos.mtknr)
+						join v_lab on (promotion.mtknr=v_lab.mtknr and v_lab.abschl='06' AND v_k_semester.id=v_lab.psem)
+					where promotion.einrichtungid=[session_AssignedFak]
+					order by SemId DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="Statistik">
+				<Transform.Parent ElementName="Table">
+					<Transform.SubSQL ElementName="Fak" storeFields="FakId">
+						SELECT DISTINCT einrichtung.id AS FakId, einrichtung.dtxt AS FakName FROM promotion join einrichtung on (promotion.einrichtungid=einrichtung.id) WHERE einrichtungid=[session_AssignedFak] ORDER BY FakName
+						<Transform.SubSQL ElementName="Stg">
+							select DISTINCT v_k_abstgv.abstgvnr AS StgId, v_k_abstgv.ltxt AS StgName FROM promotion
+								join einrichtung on (promotion.einrichtungid=einrichtung.id)
+								join v_k_abstgv on (promotion.k_abstgv_id=v_k_abstgv.abstgvnr)
+							WHERE promotion.einrichtungid=[FakId]
+							ORDER BY StgName
+							<Transform.SubSQL ElementName="sub1" singleTag="countAll">
+								SELECT count(v_sos.mtknr) AS countAll FROM promotion,v_sos,v_lab WHERE promotion.mtknr=v_sos.mtknr AND promotion.einrichtungid=[Fak.FakId] AND promotion.k_abstgv_id=[StgId] AND v_sos.mtknr=v_lab.mtknr and v_lab.abschl='06' AND v_lab.psem=[labSemester]
+							</Transform.SubSQL>
+							<Transform.SubSQL ElementName="sub2" singleTag="countAllFemale">
+								SELECT count(v_sos.mtknr) AS countAllFemale FROM promotion,v_sos,v_lab WHERE promotion.mtknr=v_sos.mtknr AND geschl='W' AND promotion.einrichtungid=[Fak.FakId] AND promotion.k_abstgv_id=[StgId] AND v_sos.mtknr=v_lab.mtknr and v_lab.abschl='06' AND v_lab.psem=[labSemester]
+							</Transform.SubSQL>
+							<Transform.SubSQL ElementName="sub3" singleTag="countAllMale">
+								SELECT count(v_sos.mtknr) AS countAllMale FROM promotion,v_sos,v_lab WHERE promotion.mtknr=v_sos.mtknr AND geschl='M' AND promotion.einrichtungid=[Fak.FakId] AND promotion.k_abstgv_id=[StgId] AND v_sos.mtknr=v_lab.mtknr and v_lab.abschl='06' AND v_lab.psem=[labSemester]
+							</Transform.SubSQL>
+							<Transform.SubSQL ElementName="sub4" singleTag="countImma">
+								SELECT count(v_sos.mtknr) AS countImma FROM promotion,v_sos,v_lab WHERE promotion.mtknr=v_sos.mtknr AND promotion.einrichtungid=[Fak.FakId] AND promotion.k_abstgv_id=[StgId] AND v_sos.status!='Y' AND v_sos.mtknr=v_lab.mtknr and v_lab.abschl='06' AND v_lab.psem=[labSemester]
+							</Transform.SubSQL>
+							<Transform.SubSQL ElementName="sub5" singleTag="countImmaFemale">
+								SELECT count(v_sos.mtknr) AS countImmaFemale FROM promotion,v_sos,v_lab WHERE promotion.mtknr=v_sos.mtknr AND geschl='W' AND promotion.einrichtungid=[Fak.FakId] AND promotion.k_abstgv_id=[StgId] AND v_sos.status!='Y' AND v_sos.mtknr=v_lab.mtknr and v_lab.abschl='06' AND v_lab.psem=[labSemester]
+							</Transform.SubSQL>
+							<Transform.SubSQL ElementName="sub6" singleTag="countImmaMale">
+								SELECT count(v_sos.mtknr) AS countImmaMale FROM promotion,v_sos,v_lab WHERE promotion.mtknr=v_sos.mtknr AND geschl='M' AND promotion.einrichtungid=[Fak.FakId] AND promotion.k_abstgv_id=[StgId] AND v_sos.status!='Y' AND v_sos.mtknr=v_lab.mtknr and v_lab.abschl='06' AND v_lab.psem=[labSemester]
+							</Transform.SubSQL>
+						</Transform.SubSQL>
+					</Transform.SubSQL>
+				</Transform.Parent>
+				<Transform.Parent ElementName="Ages">
+					<Transform.SubSQL ElementName="Age">
+						SELECT date_part('year',age(v_lab.pdatum,v_sos.gebdat)) AS Age, count(date_part('year',age(v_lab.pdatum,v_sos.gebdat))) AS ageCount
+						FROM promotion 
+							join v_sos on (promotion.mtknr=v_sos.mtknr) 
+							join v_lab on (v_sos.mtknr=v_lab.mtknr AND v_lab.abschl='06') 
+						WHERE v_lab.psem=[labSemester] AND einrichtungid=[session_AssignedFak]
+						GROUP BY Age
+						ORDER BY Age
+					</Transform.SubSQL>
+				</Transform.Parent>
+			</Transform.Parent>
+		</Transform.SQL>
+	</semStatForFaks>
+	<emailErrors database="promoProd" 
+		VMFile="publish/pmodul/vm/graduate/ingra/uebersichtEmails.vm" 
+		useCache="n" 
+		nologin="n"
+		PageFormat="n"
+		context="admin"
+		htmlheader="Fehlerhafte Emailadessen">
+		<Transform.SQL ElementName="Data">
+			SELECT v_anschri.email AS emailAddr,nachname,vorname,geschl,einrichtungid,title,ltxt AS einrichtungName,v_sos.mtknr AS mtknr
+			FROM promotion,v_sos,v_anschri,einrichtung 
+			WHERE promotion.mtknr=v_sos.mtknr AND v_sos.mtknr=v_anschri.mtknr AND promotion.einrichtungid=einrichtung.id
+				<!--AND v_anschri.email in ('kasten.helbig@wiwi.uni-halle.de','christian.apelt@gentik.uni-halle.de','maria.auerswald@botanik.uni-halle.de','nancy.krug@medizin.uni-halle.de','diana.ielschlaegel@medizin.uni-halle.de','bettina.heuchdert@botanik.uni-halle.de','nicole.sommer@pflanzenphys.uni-halle.de','wenke.graubner@mikrobiologie.uni-halle.de','philipp.janitza@ipb.halle.de','k.helbig@mikrobiologie.uni-halle.de','sst@aseendispharma.com','astrid.buetof@botanik.uni-halle.de','j.behrendt@mikrobiologie.uni-halle.de','j.scherer@mikrobiologie.uni-halle.de','nadine.randel@mikrobiologie.uni-halle.de','kristin.schulz@mikrobiologie.uni-halle.de','marlen.mrotzek@biochemtech.uni-halle.de','s.trautmann@mikrobiologie.uni-halle.de','gwendolin..wehner"@web.de','abaschus@kpmg.com','karina.wolfram@ipb-halle.de','kellner.f@ipk-gatersleben.de','cmrosk@ipk-gatersleben.de','kuehlerberberich@t-online.de','carsten.kilgur@web.de','wilhelm-menzel@agenturc.de','doelling@conomic.de','freidrich-thomas@arcor.de','danae_seeber@web.de','anka.thuemmler@gmx.de','ivosteen@uni-bremen.de','eike.lornsen@jki.bund.de','christin.sperling@ipb-halle.de','tino.unthan@ipb-halle.de','uta.kolano@medienwiss.uni-halle.de','niels.harzer@uni-mail.de','fabina.trempel@gmx.de','tobias.weirowski@uni-halle.de','susi-hoepfner@yahoo.de','brandt@enzyme-halle.mpg.de','anke.piechotta@probiodrug.de','jan-christoph.scherer@iwh-halle.de','N.Arnold@FH-Kaernten.at','jacob@enzyme-halle.mpg.de','franziska.preisler@arcor.de','merx@ipk-gatersleben.de','frank.bretschneider@ipb-halle.de','Catherina.Kittel@aol.de','belinde-k@gmx.de','noreen.wolf@web.de','martin.ellguth@gmx.de','christian.schulz@iwh-halle.de','oliver.backhaus@student-uni-siegen.de','c.dietmann@gmx.net','diana.beck@uni-halle.de','annezarend@googlemail.com','retdimhes@yahoo.de','juliane.adelmann@roche.com','jacqueline.gehrhardt@ufz.de','sebastian.rosenschon@iwh-halle.de','richtgersan@gmx.de','kuehling@enzyme-halle.mpg.de','simone.hahn1@freenet.de','thore.fettkoether@jki.bund.de','alrund.siebenkaes@ufz.de','m.hempelmann@o2online.de','csoellig@web.de')-->
+			ORDER BY einrichtungid,nachname,vorname
+			<Transform.Parent ElementName="SBs">
+				<Transform.SubSQL ElementName="SB">
+					SELECT pid, vorname, nachname FROM personal WHERE einrichtungid=[einrichtungid] AND perstatusid = (SELECT perstatusid FROM k_perstatus WHERE ktxt='SB') ORDER BY nachname, vorname
+					<Transform.SubSQL ElementName="sub2" singleTag="email" context="admin">
+						SELECT email FROM kontakt WHERE tabpk=[pid] AND tabelle='personal'
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+			</Transform.Parent>
+		</Transform.SQL>
+	</emailErrors>
+</ingra>

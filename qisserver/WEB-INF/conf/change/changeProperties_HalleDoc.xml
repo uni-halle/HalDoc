@@ -1,0 +1,517 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root version="1.0">
+  <global>
+	  <allowedRoles loeschen="y" />
+  </global>
+	<tables>
+		<ConstUpdate>
+			<bewerber>zeitstempel=[_timestamp]</bewerber>
+			<promotion>zeitstempel=[_timestamp]</promotion>
+			<promotion_med>zeitstempel=[_timestamp]</promotion_med>
+			<r_personal_akadgrad>zeitstempel=[_timestamp]</r_personal_akadgrad>
+			<r_promotion_status>zeitstempel=[_timestamp]</r_promotion_status>
+			<r_promotion_k_reason_for_cancel>zeitstempel=[_timestamp]</r_promotion_k_reason_for_cancel>
+			<sos>datlae=[_timestamp]</sos>
+		</ConstUpdate>
+		<ConstInsert>
+			<bewerber>zeitstempel=[_timestamp]</bewerber>
+			<promotion>zeitstempel=[_timestamp]</promotion>
+			<promotion_med>zeitstempel=[_timestamp]</promotion_med>
+			<r_personal_akadgrad>zeitstempel=[_timestamp]</r_personal_akadgrad>
+			<r_promotion_status>zeitstempel=[_timestamp]</r_promotion_status>
+			<r_promotion_k_reason_for_cancel>zeitstempel=[_timestamp]</r_promotion_k_reason_for_cancel>
+			<sos>datlae=[_timestamp]</sos>
+		</ConstInsert>
+		<join>
+			<promotion>
+				<r_promotion_status>promotion.promotionid=r_promotion_status.promotionid</r_promotion_status>
+				<v_sos>promotion.mtknr=v_sos.mtknr</v_sos>
+			</promotion>
+			<personal>
+				<promotion>promotion.personid=personal.pid</promotion>
+			</personal>
+			<sos>
+				<promotion>promotion.mtknr=sos.mtknr</promotion>
+			</sos>
+		</join>
+	</tables>
+	<labels>
+		<add_infos.type>
+			<de>Typ</de>
+		</add_infos.type>
+		<add_infos.txt>
+			<de>Informationstext</de>
+		</add_infos.txt>
+		<add_infos.sort>
+			<de>Sortierung</de>
+		</add_infos.sort>
+
+		<bewerber.gebdat>
+			<de comment="Geburtsdatum">Geburtsdatum</de>
+			<en comment="date of birth">date of birth</en>
+		</bewerber.gebdat>
+		<bewerber.mtknr>
+			<de comment="Matrikelnummer">Matrikelnummer</de>
+			<en comment="matriculation number">matriculation number</en>
+		</bewerber.mtknr>
+		<bewerber.gebort>
+			<de comment="Geburtsort">Geburtsort</de>
+			<en comment="place of birth">place of birth</en>
+		</bewerber.gebort>
+		<bewerber.gebland>
+			<de comment="Geburtsland">Geburtsland</de>
+			<en comment="country of birth">country of birth</en>
+		</bewerber.gebland>
+		<bewerber.gradid>
+			<de comment="Akademischer Grad">Akademischer Grad</de>
+			<en comment="academic degree">academic degree</en>
+		</bewerber.gradid>
+		<bewerber.gradid_nach>
+			<de comment="Akademischer Grad nachgestellt">Akademischer Grad nachgestellt</de>
+			<en comment="academic degree adjusted">academic degree adjusted</en>
+		</bewerber.gradid_nach>
+		<bewerber.applicantstatusid>
+			<de comment="Aktueller Status des Bewerbers">Aktueller Status</de>
+			<en comment="actual tatus of the applicant">actual status of the applicant</en>
+		</bewerber.applicantstatusid>
+		<bewerber.staat>
+			<de comment="Staatsangehörigkeit">Staatsangehörigkeit</de>
+			<en comment="nationality">nationality</en>
+		</bewerber.staat>
+
+		<personal.gebort>
+			<de comment="Geburtsort">Geburtsort</de>
+			<en comment="place of birth">place of birth</en>
+		</personal.gebort>
+		<personal.gebland>
+			<de comment="Geburtsland">Geburtsland</de>
+			<en comment="country of birth">country of birth</en>
+		</personal.gebland>
+		<personal.gradid>
+			<de comment="Akademischer Grad">Akademischer Grad</de>
+			<en comment="academic degree">academic degree</en>
+		</personal.gradid>
+		<personal.gradid_nach>
+			<de comment="Akademischer Grad nachgestellt">Akademischer Grad nachgestellt</de>
+			<en comment="academic degree adjusted">academic degree adjusted</en>
+		</personal.gradid_nach>
+		<personal.applicantstatusid>
+			<de comment="Aktueller Status des Bewerbers">Aktueller Status</de>
+			<en comment="actual tatus of the applicant">actual status of the applicant</en>
+		</personal.applicantstatusid>
+		<personal.staat>
+			<de comment="Staatsangehörigkeit">Staatsangehörigkeit</de>
+			<en comment="nationality">nationality</en>
+		</personal.staat>
+		<personal.einrichtungid>
+			<de comment="Zu welcher Einrichtung gehört diese Person?">Einrichtung</de>
+		</personal.einrichtungid>
+		<promotion.personid>
+			<de comment="Promovierender" hintText="&lt;img src='/HISinOne/images/icons/information.gif' alt='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' title='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' />">Promovierender</de>
+			<en comment="Doctoral student">Doctoral student</en>
+		</promotion.personid>
+		<promotion.mtknr>
+			<de comment="Promovierender" hintText="&lt;img src='/HISinOne/images/icons/information.gif' alt='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' title='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' />">Promovierender</de>
+			<en comment="Doctoral student">Doctoral student</en>
+		</promotion.mtknr>
+		<promotion.instituteid>
+			<de comment="Promotionsinstitut">Promotionsinstitut</de>
+			<en comment="promotion institute">promotion institute</en>
+		</promotion.instituteid>
+		<promotion.promoprogrammdetail>
+			<de comment="Institution und Bezeichnung des Programms">Institution und Bezeichnung des Programms</de>
+			<en comment="Institution and title of the program">Institution and title of the program</en>
+		</promotion.promoprogrammdetail>
+		<promotion.frameworkdetail>
+			<de comment="Insitution und Land">Insitution und Land</de>
+			<en comment="Insitution and country">Insitution and country</en>
+		</promotion.frameworkdetail>
+		<promotion.field>
+			<de comment="Fachgebiet der Promotion">Fachgebiet</de>
+			<en comment="Subject of the promotion">Subject</en>
+		</promotion.field>
+		<promotion.gradid>
+			<de comment="Angestrebter akademischer Grad">Angestrebter akademischer Grad</de>
+			<en comment="Targeted academic degree">Targeted academic degree</en>
+		</promotion.gradid>
+		<promotion.title>
+			<de comment="Arbeitstitel">Arbeitstitel</de>
+			<en comment="working title">working title</en>
+		</promotion.title>
+		<promotion.applicationofassumption>
+			<de comment="Wann wurde der Antrag auf Annahme an die fachspezifischen Kommissionen verschickt?">Antrag auf Annahme</de>
+		</promotion.applicationofassumption>
+		<promotion.assumptioncommitee>
+			<de comment="Wann erfolgt die Annahme durch den Promotionsausschuss?">Annahme durch Ausschuss</de>
+		</promotion.assumptioncommitee>
+		<promotion.startofdoctoralstudies>
+			<de>Beginn der Arbeit an der Dissertation</de>
+			<en>start of doctoral studies</en>
+		</promotion.startofdoctoralstudies>
+		<promotion.applicationofadmission>
+			<de comment="Wann wurde der Antrag auf Zulassung an die (fachspezifischen) Kommissionen verschickt?">Antrag auf Zulassung an Kommision/FSK</de>
+		</promotion.applicationofadmission>
+		<promotion.openingofprocedure>
+			<de comment="Wann erfolgte die Eröffnung des Verfahrens?">Eröffnung des Verfahrens</de>
+		</promotion.openingofprocedure>
+		<promotion.forwardingoffile>
+			<de comment="Wann wurde die Promotinosakte an FSK (nach Auslagefrist) weitergeleitet zur Festlegung der Promotionskommission?">Promotionsakte an Kommision/FSK</de>
+		</promotion.forwardingoffile>
+		<promotion.forwardingforcommitee>
+			<de comment="Wann wurde die Akte an den Vorsitz der Promotionskommission geschickt?">Akte an Vorsitz der Promo.-Kommision</de>
+		</promotion.forwardingforcommitee>
+		<promotion.dateofrigorosum>
+			<de comment="Datum des Rigorosums">Datum des Rigorosums</de>
+		</promotion.dateofrigorosum>
+		<promotion.dateofcolloquium>
+			<de comment="Datum der Verteidigung">Datum der Verteidigung</de>
+		</promotion.dateofcolloquium>
+		<promotion.dateofpublishing>
+			<de comment="Datum der Veröffentlichung bzw. Datum des Verlagsvertrages">Datum der Veröffentlichung</de>
+		</promotion.dateofpublishing>
+		<promotion.dateofcontractwithpublisher>
+			<de>Datum des Verlagsvertrages</de>
+		</promotion.dateofcontractwithpublisher>
+		<promotion.handovertolibrary>
+			<de comment="Wann wurde die Pflichtexemplare eingereicht?">Pflichtexemplare eingereicht</de>
+		</promotion.handovertolibrary>
+		<promotion.date_for_cancel>
+			<de comment="Wann wurde die Promotion abgebrochen?">Datum eines Abbruches</de>
+		</promotion.date_for_cancel>
+		<promotion.dateforcertificate>
+			<de comment="Wann wurde die Urkunde übergeben?">Übergabe der Urkunde</de>
+		</promotion.dateforcertificate>
+		<promotion.filetoarchive>
+			<de comment="Wann kam die Akte in das Archiv?">Akte ins Archiv</de>
+		</promotion.filetoarchive>
+		<promotion.archivenumber>
+			<de comment="Archivnummer">Archivnummer</de>
+		</promotion.archivenumber>
+		<promotion.mentor1id>
+			<de comment="erster Betreuer" hintText="&lt;img src='/HISinOne/images/icons/information.gif' alt='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' title='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' />">erster Betreuer</de>
+			<en comment="first supervisor">first supervisor</en>
+		</promotion.mentor1id>
+		<promotion.mentor2id>
+			<de comment="zweiter Betreuer" hintText="&lt;img src='/HISinOne/images/icons/information.gif' alt='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' title='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' />">zweiter Betreuer</de>
+			<en comment="second supervisor">second supervisor</en>
+		</promotion.mentor2id>
+		<promotion.mentor3id>
+			<de comment="dritter Betreuer" hintText="&lt;img src='/HISinOne/images/icons/information.gif' alt='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' title='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' />">dritter Betreuer</de>
+			<en comment="third supervisor">third supervisor</en>
+		</promotion.mentor3id>
+		<promotion.evaluator1id>
+			<de comment="erster Gutachter" hintText="&lt;img src='/HISinOne/images/icons/information.gif' alt='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' title='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' />">erster Gutachter</de>
+			<en comment="first evaluator">first evaluator</en>
+		</promotion.evaluator1id>
+		<promotion.evaluator2id>
+			<de comment="zweiter Gutachter" hintText="&lt;img src='/HISinOne/images/icons/information.gif' alt='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' title='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' />">zweiter Gutachter</de>
+			<en comment="second evaluator">second evaluator</en>
+		</promotion.evaluator2id>
+		<promotion.evaluator3id>
+			<de comment="dritter Gutachter" hintText="&lt;img src='/HISinOne/images/icons/information.gif' alt='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' title='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' />">dritter Gutachter</de>
+			<en comment="third evaluator">third evaluator</en>
+		</promotion.evaluator3id>
+		<promotion.evaluator4id>
+			<de comment="vierter Gutachter" hintText="&lt;img src='/HISinOne/images/icons/information.gif' alt='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' title='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' />">vierter Gutachter</de>
+			<en comment="fourth evaluator">fourth evaluator</en>
+		</promotion.evaluator4id>
+		
+		<promotion.evaluator1Reminder1>
+			<de comment="Datum der ersten Erinnerung	Gutachter 1">erste Erinnerung</de>
+			<en>first reminder</en>
+		</promotion.evaluator1Reminder1>
+		<promotion.evaluator1Reminder2>
+			<de comment="Datum der zweiten Erinnerung	Gutachter 1">zweite Erinnerung</de>
+			<en>second reminder</en>
+		</promotion.evaluator1Reminder2>
+		<promotion.evaluator2Reminder1>
+			<de comment="Datum der ersten Erinnerung	Gutachter 2">erste Erinnerung</de>
+			<en>first reminder</en>
+		</promotion.evaluator2Reminder1>
+		<promotion.evaluator2Reminder2>
+			<de comment="Datum der zweiten Erinnerung	Gutachter 2">zweite Erinnerung</de>
+			<en>second reminder</en>
+		</promotion.evaluator2Reminder2>
+		<promotion.evaluator3Reminder1>
+			<de comment="Datum der ersten Erinnerung	Gutachter 3">erste Erinnerung</de>
+			<en>first reminder</en>
+		</promotion.evaluator3Reminder1>
+		<promotion.evaluator3Reminder2>
+			<de comment="Datum der zweiten Erinnerung	Gutachter 3">zweite Erinnerung</de>
+			<en>second reminder</en>
+		</promotion.evaluator3Reminder2>
+		<promotion.evaluator4Reminder1>
+			<de comment="Datum der ersten Erinnerung	Gutachter 4">erste Erinnerung</de>
+			<en>first reminder</en>
+		</promotion.evaluator4Reminder1>
+		<promotion.evaluator4Reminder2>
+			<de comment="Datum der zweiten Erinnerung	Gutachter 4">zweite Erinnerung</de>
+			<en>second reminder</en>
+		</promotion.evaluator4Reminder2>
+		
+		<promotion.vorsitzid>
+			<de comment="Vorsitz des Promotionsausschusses" hintText="&lt;img src='/HISinOne/images/icons/information.gif' alt='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' title='Zum Ändern des Eintrages ein &quot;?&quot; eingeben!' />">Vorsitz des Promotionsausschusses</de>
+		</promotion.vorsitzid>
+		<promotion.mentor1name>
+			<de>akademischer Grad/Titel, Name, Vorname:</de>
+			<en>academic degrees, last name, first name</en>
+		</promotion.mentor1name>
+		<promotion.mentor1einrich>
+			<de>Wissenschaftliche Einrichtung, Institut:</de>
+			<en>scientific institute</en>
+		</promotion.mentor1einrich>
+		<promotion.mentor2name>
+			<de>akademischer Grad/Titel, Name, Vorname:</de>
+			<en>academic degrees, last name, first name</en>
+		</promotion.mentor2name>
+		<promotion.mentor2einrich>
+			<de>Wissenschaftliche Einrichtung, Institut:</de>
+			<en>scientific institute</en>
+		</promotion.mentor2einrich>
+		<promotion.mentor3name>
+			<de>akademischer Grad/Titel, Name, Vorname:</de>
+			<en>academic degrees, last name, first name</en>
+		</promotion.mentor3name>
+		<promotion.mentor3einrich>
+			<de>Wissenschaftliche Einrichtung, Institut:</de>
+			<en>scientific institute</en>
+		</promotion.mentor3einrich>
+		<promotion.journals>
+			<de comment="Liste der Journale (Zeitschriften) in welchen publiziert wurde">Liste der Journale</de>
+		</promotion.journals>
+		<promotion.copy_to_institute>
+			<de comment="Dissertationsvertrag als Kopie an Einrichtung">DV als Kopie an Einrichtung</de>
+		</promotion.copy_to_institute>
+		<promotion.colloquium_to_institute>
+			<de>Verteidigungsunterlagen an Einrichtung</de>
+		</promotion.colloquium_to_institute>
+		<promotion.incoming_digital_diss>
+			<de>Eingang digitale Dissertation in Fak.</de>
+		</promotion.incoming_digital_diss>
+		<promotion.incoming_analog_diss>
+			<de>Eingang Dissertation in Fak.</de>
+		</promotion.incoming_analog_diss>
+		<promotion.display_period>
+			<de>Auslagefrist</de>
+		</promotion.display_period>
+		<promotion.outgoing_invitation_coll>
+			<de>Postausgang der Einladungen zur Vert.</de>
+		</promotion.outgoing_invitation_coll>
+		<promotion.participation_handover>
+			<de>Teilnahme an Urkundenübergabe</de>
+		</promotion.participation_handover>
+		<promotion.outgoing_certificate>
+			<de comment="Postausgang der Urkunde bei Nichtteilnahme an Urkundenübergabe">Postausgang der Urkunde</de>
+		</promotion.outgoing_certificate>
+
+		<promotion_med.diss_lang_id>
+			<de>Sprache der Dissertation</de>
+		</promotion_med.diss_lang_id>
+		<promotion_med.vert_lang_id>
+			<de>Sprache der Verteidigung</de>
+		</promotion_med.vert_lang_id>
+		<promotion_med.prev_promo>
+			<de>bisherige Promotionsversuche</de>
+		</promotion_med.prev_promo>
+		<promotion_med.prev_promo_where>
+			<de>wo</de>
+		</promotion_med.prev_promo_where>
+		<promotion_med.center_of_research_id>
+			<de>Forschungsgebiet</de>
+		</promotion_med.center_of_research_id>
+		<promotion_med.eval_ethnical_com>
+			<de>Ethik-Kommission</de>
+		</promotion_med.eval_ethnical_com>
+		<promotion_med.eval_ethnical_com_date>
+			<de>Datum der Ethik-Kommission</de>
+		</promotion_med.eval_ethnical_com_date>
+		<promotion_med.research_training_group>
+			<de>Graduiertenkolleg</de>
+		</promotion_med.research_training_group>
+		<promotion_med.research_training_group_detail>
+			<de>Name des Kollegs</de>
+		</promotion_med.research_training_group_detail>
+		<promotion_med.statistical_consulting>
+			<de>Statistische Beratung</de>
+		</promotion_med.statistical_consulting>
+		<promotion_med.statistical_consulting_detail>
+			<de>Einrichtung</de>
+		</promotion_med.statistical_consulting_detail>
+		<promotion_med.type_of_dissertation_id>
+			<de>Form der Dissertation</de>
+		</promotion_med.type_of_dissertation_id>
+		<promotion_med.date_of_physikum>
+			<de>Datum des Pysikums</de>
+		</promotion_med.date_of_physikum>
+		<promotion_med.date_of_pj>
+			<de>Datum des PJ</de>
+		</promotion_med.date_of_pj>
+		<promotion_med.date_of_medicinelicense>
+			<de>Datum der Approbation</de>
+		</promotion_med.date_of_medicinelicense>
+		<promotion_med.date_of_degree>
+			<de>Datum des Hochschulabschlusses</de>
+		</promotion_med.date_of_degree>
+		<promotion_med.study_start_semester>
+			<de>Studienzeitraum Beginn</de>
+		</promotion_med.study_start_semester>
+		<promotion_med.study_end_semester>
+			<de>Studienzeitraum Ende</de>
+		</promotion_med.study_end_semester>
+
+		<sos.gebort>
+			<de comment="Geburtsort">Geburtsort</de>
+			<en comment="place of birth">place of birth</en>
+		</sos.gebort>
+		<sos.gebland>
+			<de comment="Geburtsland">Geburtsland</de>
+			<en comment="country of birth">country of birth</en>
+		</sos.gebland>
+		<sos.gebname>
+			<de comment="Geburtsname">Geburtsname</de>
+			<en comment="name at birth">name at birth</en>
+		</sos.gebname>
+		<sos.res12>
+			<de comment="Akademischer Grad">Akademischer Grad</de>
+			<en comment="academic degree">academic degree</en>
+		</sos.res12>
+		<sos.res13>
+			<de comment="Aktueller Status des Bewerbers">Aktueller Status</de>
+			<en comment="actual tatus of the applicant">actual status of the applicant</en>
+		</sos.res13>
+		<sos.staat>
+			<de comment="Staatsangehörigkeit">Staatsangehörigkeit</de>
+			<en comment="nationality">nationality</en>
+		</sos.staat>
+		<sos.zweitstaat>
+			<de comment="zweite Staatsangehörigkeit">zweite Staatsangehörigkeit</de>
+			<en comment="second nationality">second nationality</en>
+		</sos.zweitstaat>
+    <sos.mtknr ueberschreiben="y">
+       <de help="Die Matrikelnummer">Matrikelnummer</de>
+       <en help="The matriculation number">matriculation number</en>
+    </sos.mtknr>
+
+		<r_personal_akadgrad.gradid>
+			<de comment="Akademischer Grad">Akademischer Grad</de>
+			<en comment="academic degree">academic degree</en>
+		</r_personal_akadgrad.gradid>
+		<r_personal_akadgrad.date>
+			<de comment="wann erworben">wann erworben</de>
+			<en comment="when acquired">when acquired</en>
+		</r_personal_akadgrad.date>
+		<r_personal_akadgrad.place>
+			<de comment="von welcher Hochschule">von welcher Hochschule</de>
+			<en comment="from which university">from which university</en>
+		</r_personal_akadgrad.place>
+		<r_personal_akadgrad.isappliedsience>
+			<de comment="einer FH?">einer FH?</de>
+			<en comment="from a University of applied sience">from a UoAS</en>
+		</r_personal_akadgrad.isappliedsience>
+		<r_personal_akadgrad.sonst>
+			<de>Sonstiger</de>
+			<en>Other</en>
+		</r_personal_akadgrad.sonst>
+
+		<employment.aikz>
+			<de comment="Aktiv">Aktiv</de>
+			<en comment="Active">Active</en>
+		</employment.aikz>
+		<employment.name>
+			<de comment="Name der Institution">Name der Institution</de>
+			<en comment="Name of institution">Name of institution</en>
+		</employment.name>
+		<employment.job>
+			<de comment="Beschäftigt als">Beschäftigt als</de>
+			<en comment="emplyoed as">emplyoed as</en>
+		</employment.job>
+
+		<r_promotion_k_reason_for_cancel.k_reason_for_cancel_id>
+			<de comment="Gründe für ein Abbrechen der Promotion">Gründe für ein Abbrechen der Promotion</de>
+		</r_promotion_k_reason_for_cancel.k_reason_for_cancel_id>
+		<promotion.handovertype>
+			<de comment="Publikationstyp">Publikationstyp</de>
+		</promotion.handovertype>
+		<promotion.handovercount>
+			<de comment="Anzahl der Publikationen">Anzahl der Publikationen</de>
+		</promotion.handovercount>
+		<r_kommission.k_kommtype_id>
+			<de>Art der Mitgliedschaft</de>
+		</r_kommission.k_kommtype_id>
+		<r_kommission.name>
+			<de>Name des Mitglieds</de>
+		</r_kommission.name>
+	</labels>
+	<lookups>
+    <sexPromo>$lang.sexPromo</sexPromo>
+		<promo.k_akadgradAlle>SELECT DISTINCT gradid AS ID, ltxt AS bez, dtxt FROM k_akadgrad ORDER BY 2</promo.k_akadgradAlle>
+		<promo.k_akadgradAlle_prop>ID="_stripkey" dtxt="_show (%)"</promo.k_akadgradAlle_prop>
+		<promo.k_akadgradVor>SELECT DISTINCT gradid AS ID, ltxt AS bez, dtxt FROM k_akadgrad WHERE (position = 'V' OR position is null) AND (forpromotion = 'N' OR forpromotion is null) ORDER BY 2</promo.k_akadgradVor>
+		<promo.k_akadgradVor_prop>ID="_stripkey" dtxt="_show (%)"</promo.k_akadgradVor_prop>
+		<promo.k_akadgradPromoVor>SELECT DISTINCT gradid AS ID, ltxt AS bez, dtxt FROM k_akadgrad WHERE (position = 'V' OR position is null) ORDER BY 2</promo.k_akadgradPromoVor>
+		<promo.k_akadgradPromoVor_prop>ID="_stripkey" dtxt="_show (%)"</promo.k_akadgradPromoVor_prop>
+		<promo.k_akadgradNach>SELECT DISTINCT gradid AS ID, ltxt AS bez, dtxt FROM k_akadgrad WHERE position = 'N' OR position is null AND (forpromotion = 'N' OR forpromotion is null) ORDER BY 2</promo.k_akadgradNach>
+		<promo.k_akadgradNach_prop>ID="_stripkey" dtxt="_show (%)"</promo.k_akadgradNach_prop>
+		<promo.v_k_akfz>SELECT v_k_akfz.akfz As ID, v_k_akfz.dtxt, v_k_akfz.aikz AS _aikz FROM v_k_akfz WHERE v_k_akfz.aikz='A' AND sprache='[languageSOSPOS]' ORDER BY 2</promo.v_k_akfz>
+		<promo.v_k_akfz_prop>ID="_stripkey" _aikz="_noshow"</promo.v_k_akfz_prop>
+		<promo.v_k_bland>SELECT v_k_bland.bland As ID, v_k_bland.dtxt, v_k_bland.aikz AS _aikz FROM v_k_bland ORDER BY 2</promo.v_k_bland>
+		<promo.v_k_bland_prop>ID="_stripkey" _aikz="_noshow"</promo.v_k_bland_prop>
+		<promo.k_status>SELECT statusid As ID, dtxt, aikz AS _aikz FROM k_status WHERE aikz='A' ORDER BY 2</promo.k_status>
+		<promo.k_status_prop>ID="_stripkey" _aikz="_noshow"</promo.k_status_prop>
+		<promo.k_promotionstatus>SELECT statusid As ID, dtxt, aikz AS _aikz, prozessorder FROM k_promotionstatus WHERE aikz='A' ORDER BY 4</promo.k_promotionstatus>
+		<promo.k_promotionstatus_prop>ID="_stripkey" _aikz="_noshow" prozessorder="_noshow"</promo.k_promotionstatus_prop>
+		<promo.promovenden>SELECT mtknr As ID, nachname, vorname FROM sos WHERE res11::integer = (SELECT perstatusid FROM k_perstatus WHERE ktxt = 'Pro') ORDER BY 2,3</promo.promovenden>
+		<promo.promovenden_prop>ID="_stripkey _noshow _serial _key _link" personal.nachname="_show _index %, " personal.vorname="_show % "</promo.promovenden_prop>
+		<promo.betreuer>
+			SELECT pid As ID, nachname, vorname, einrichtung.dtxt AS Ein, kontakt.einrichtung AS ein2, kontakt.adrzusatz2 AS ein3 
+			FROM ((personal 
+				LEFT JOIN einrichtung ON (personal.einrichtungid=einrichtung.id))
+				LEFT JOIN kontakt ON (personal.pid=kontakt.tabpk AND kontakt.tabelle='personal'))
+			WHERE perstatusid IN (SELECT perstatusid FROM k_perstatus WHERE ktxt IN ('LH','SB')) AND personal.aikz='A'
+			ORDER BY 2,3
+		</promo.betreuer>
+		<promo.betreuer_prop>
+			ID="_stripkey _noshow _serial _key _link" nachname="_show _index %, " vorname="_show %; " ein = "_show % " ein2 = "_show % " ein3 = "_show %"
+		</promo.betreuer_prop>
+		<promo.k_akadgradPromo>SELECT DISTINCT gradid AS ID, ltxt AS bez, sort FROM k_akadgrad WHERE forpromotion = 'J' ORDER BY sort,bez</promo.k_akadgradPromo>
+		<promo.k_akadgradPromo_prop>ID="_stripkey" sort="_noshow"</promo.k_akadgradPromo_prop>
+		<promo.institute>SELECT DISTINCT id AS ID, inst_nr, dtxt FROM institut ORDER BY 2</promo.institute>
+		<promo.institute_prop>ID="_stripkey" inst_nr="_show (%) " dtxt="_show %"</promo.institute_prop>
+		<promo.k_applicantstatus>SELECT applicantstatusid As ID, dtxt, aikz AS _aikz FROM k_applicantstatus WHERE aikz='A' ORDER BY 2</promo.k_applicantstatus>
+		<promo.k_applicantstatus_prop>ID="_stripkey" _aikz="_noshow"</promo.k_applicantstatus_prop>
+		<promo.k_applicantstatusLang>SELECT applicantstatusid As ID, ltxt, aikz AS _aikz FROM k_applicantstatus WHERE aikz='A' ORDER BY 2</promo.k_applicantstatusLang>
+		<promo.k_applicantstatusLang_prop>ID="_stripkey" _aikz="_noshow"</promo.k_applicantstatusLang_prop>
+		<promo.einrichtung>SELECT DISTINCT id AS ID, ltxt FROM einrichtung WHERE aikz='A' [restriction] ORDER BY 2</promo.einrichtung>
+		<promo.einrichtung_prop>ID="_stripkey" dtxt="_show %"</promo.einrichtung_prop>
+		<promo.einrichtungFaks>SELECT DISTINCT id AS ID, ltxt FROM einrichtung WHERE aikz='A' AND inst_nr not in ('0012','0011') [restriction] ORDER BY 2</promo.einrichtungFaks>
+		<promo.einrichtungFaks_prop>ID="_stripkey" dtxt="_show %"</promo.einrichtungFaks_prop>
+		<promo.v_k_abstgv>SELECT DISTINCT v_k_abstgv.abstgvnr AS AbsID, v_k_abstgv.ltxt AS AbsDtx FROM v_k_abstgv WHERE v_k_abstgv.dtxt IS NOT NULL AND v_k_abstgv.aikz &lt;&gt; 'I' AND v_k_abstgv.dtxt &lt;&gt; '' AND abschl='06' ORDER BY AbsDtx</promo.v_k_abstgv>
+		<promo.v_k_abstgv_prop>AbsID="_stripkey _noshow _serial _key _link" AbsDtx="_show _index _label=Studiengang %"</promo.v_k_abstgv_prop>
+		<promo.bewertungsart>SELECT DISTINCT id AS ID, dtxt FROM bewertungsart ORDER BY 2</promo.bewertungsart>
+		<promo.bewertungsart_prop>ID="_stripkey" dtxt="_show %"</promo.bewertungsart_prop>
+		<promo.bewertung>SELECT DISTINCT id AS ID, dtxt FROM bewertung ORDER BY 2</promo.bewertung>
+		<promo.bewertung_prop>ID="_stripkey" dtxt="_show %"</promo.bewertung_prop>
+		<promo.k_reason_for_cancel>SELECT DISTINCT id AS ID, CASE WHEN type='P' THEN 'persönlich' ELSE 'fachlich' END AS Type, ltxt AS bez FROM k_reason_for_cancel ORDER BY Type,bez</promo.k_reason_for_cancel>
+		<promo.k_reason_for_cancel_prop>ID="_stripkey" Type="_show %: "</promo.k_reason_for_cancel_prop>
+		<promo.k_reason_for_cancelP>SELECT DISTINCT id AS ID, ltxt AS bez FROM k_reason_for_cancel WHERE type='P' ORDER BY 2</promo.k_reason_for_cancelP>
+		<promo.k_reason_for_cancelP_prop>ID="_stripkey"</promo.k_reason_for_cancelP_prop>
+		<promo.k_reason_for_cancelF>SELECT DISTINCT id AS ID, ltxt AS bez FROM k_reason_for_cancel WHERE type='F' ORDER BY 2</promo.k_reason_for_cancelF>
+		<promo.k_reason_for_cancelF_prop>ID="_stripkey"</promo.k_reason_for_cancelF_prop>
+		<promo.k_handovertype>SELECT id As ID, dtxt, aikz AS _aikz FROM k_handovertype WHERE aikz='A' ORDER BY 1</promo.k_handovertype>
+		<promo.k_handovertype_prop>ID="_stripkey" _aikz="_noshow"</promo.k_handovertype_prop>
+		
+		<promo.k_language>SELECT DISTINCT id As ID, dtxt FROM k_language WHERE aikz='A' ORDER BY dtxt</promo.k_language>
+		<promo.k_language_prop>ID="_stripkey"</promo.k_language_prop>
+		<promo.k_center_of_research>SELECT DISTINCT id As ID, dtxt FROM k_center_of_research WHERE aikz='A' ORDER BY dtxt</promo.k_center_of_research>
+		<promo.k_center_of_research_prop>ID="_stripkey"</promo.k_center_of_research_prop>
+		<promo.k_type_of_dissertation>SELECT DISTINCT id As ID, dtxt FROM k_type_of_dissertation WHERE aikz='A' ORDER BY dtxt</promo.k_type_of_dissertation>
+		<promo.k_type_of_dissertation_prop>ID="_stripkey"</promo.k_type_of_dissertation_prop>
+		<promo.k_semester>SELECT id AS ID, dtxt FROM v_k_semester ORDER BY id DESC</promo.k_semester>
+		<promo.k_semester_prop>ID="_stripkey"</promo.k_semester_prop>
+		<promo.k_kommissionstype>SELECT id AS ID, dtxt, sort FROM k_kommissionstype WHERE aikz='A' ORDER BY sort,dtxt</promo.k_kommissionstype>
+		<promo.k_kommissionstype_prop>ID="_stripkey" sort="_noshow"</promo.k_kommissionstype_prop>
+	</lookups>
+	<handlers>
+		<handler name="99" class="de.mlu.change.handler.HandleGratings" links="y" />
+	</handlers>
+</root>

@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mailService>
+	<!-- Mail an einer Veranstaltung -->
+	<global>
+		<template value="mail/mailService.vm" />
+	</global>
+	<inGraService>
+		<trigger database="promo">
+			<DBTimeOut>12</DBTimeOut>
+			<actions>
+				<onSend>
+					<mailText subject="[topic]">[text]
+					</mailText>
+				</onSend>
+			</actions>
+			<!-- Mailadressen für die Verarbeitung -->
+			<mailAddresses>
+				<!-- Absender -->
+				<sender database="promo" format="[personal.vorname] [personal.nachname]">
+					SELECT kontakt.email AS MailSender, personal.vorname AS PerVName, personal.nachname AS PerName
+					FROM personal, kontakt
+					WHERE personal.pid=[session_pid]
+					AND personal.pid=kontakt.tabpk
+					AND kontakt.tabelle='personal'
+				</sender>
+				<!-- Empfänger -->
+				<recipient database="promo" recipientType="to" format="&#34;[Vorname] [Nachname]&#34;">
+					SELECT v_anschri.email AS MailSender, v_sos.vorname AS Vorname, v_sos.nachname AS Nachname
+					FROM v_sos, v_anschri
+					WHERE v_sos.mtknr IN ([activationList])
+					AND v_sos.mtknr=v_anschri.mtknr
+					AND v_anschri.anschrkz = 'H'
+				</recipient>
+			</mailAddresses>
+			<!-- Objekt, zur Verifizierung der Empfängerliste -->
+			<verifyObject>
+				<publishConfFile value = "/printout/publishModul/tools/mailService.xml" />
+				<moduleCall value = "getMailForAkad" />
+				<parameter value = "activationList" />
+				<referenceTag value = "Recipient"/>
+			</verifyObject>
+			<!-- Protokollierung aktivieren -->
+			<protocol active="y" />
+			<confirm message="name" />
+		</trigger>
+	</inGraService>
+</mailService>

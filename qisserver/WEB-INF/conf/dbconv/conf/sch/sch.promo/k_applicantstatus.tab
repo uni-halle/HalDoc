@@ -1,0 +1,11 @@
+{### k_applicantstatus #############################################################}
+CREATE TABLE k_applicantstatus
+   (              
+   applicantstatusid     SERIAL NOT NULL,     { PrimaryKey                          }
+   aikz            VARCHAR(1),             { Aktiv/Inaktiv-Kennzeichen           }
+   ktxt            VARCHAR(10),            { Kurztext                            }
+   dtxt            VARCHAR(255,0),      { Drucktext                           }
+   ltxt            VARCHAR(255,0),      { Langtext                            }
+   zeitstempel     DATETIME year to fraction(5) {Aenderungsdatum/-zeit        }
+   );             
+

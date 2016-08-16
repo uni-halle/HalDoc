@@ -1,0 +1,9 @@
+{### r_perstatus #############################################################}
+CREATE TABLE r_perstatus
+   (              
+   perstatusid            SERIAL NOT NULL,     { PrimaryKey                          }
+   statusid             INTEGER,             { ->k_status.nid                        }
+   pid             INTEGER,             { ->personal.pid                      }
+   zeitstempel     DATETIME year to fraction(5) { Aenderungszeit              }
+   );
+

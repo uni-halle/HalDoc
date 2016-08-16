@@ -1,0 +1,24 @@
+{### r_mediafiles ##################################################################}
+{ Enthält Informationen zu Mediendateien wie Bildern bzw. Dokumenten, die 
+  im LSF System hinterlegt werden.
+}
+CREATE TABLE r_mediafiles (
+    mfid           	SERIAL NOT NULL,     	{ Primary Key                         }
+    aikz		   	CHAR(1),			 	{ Aktiv/Inaktiv - Kennzeichen		  }
+  	tabelle         VARCHAR(50),         	{ Name der Tabelle                    }
+   	tabpk           INTEGER,             	{ ->/Tabelle/                         }
+    pathinfo		VARCHAR(255),		 	{ relativer Pfad der Media-Datei	  }
+    mediatype		VARCHAR(10),			{ Typ des Medium (Dateiextension)	  }
+    apptype			VARCHAR(50), 			{ Typ der Application				  }
+    filename		VARCHAR(255), 			{ Dateiname				  			  }
+	filesize		VARCHAR(50), 			{ Dateigröße						  }
+	fileinfo		VARCHAR(255), 			{ Dateiinformation      			  }
+	description		VARCHAR(255),			{ Beschreibung zum Eintrag			  }
+	height			VARCHAR(10),            { Höhe einer Grafik                   }
+	width           VARCHAR(10),            { Breite einer Grafik                 }
+	language        VARCHAR(25),            { Sprache                             }
+	bemerkung		VARCHAR(255), 			{ Bemerkung zum Eintrag				  }
+	sortierung		INTEGER,				{ Sortierungsschlüssel				  }			
+    zeitstempel    	DATETIME year to fraction(5) { Aenderungszeit              	  }  
+);
+

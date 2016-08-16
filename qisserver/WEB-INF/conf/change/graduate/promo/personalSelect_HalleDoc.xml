@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dozentSelect version="1.0" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<session>moduleParameter</session>
+	<menu>ControlsEmpty.vm</menu>
+	<title>
+		<de>Lehrpersonen</de>
+		<en>Lecturers</en>
+	</title>
+	<caption>
+		<de>Bitte klicken Sie auf einen Namen ...</de>
+		<en>Please choose a Name ...</en>
+	</caption>
+	<rights>
+		<public>
+			<select />
+		</public>
+		<gast>
+			<select />
+		</gast>
+	</rights>
+	<Suche showInactiveFor="R_PERSONEDIT">
+		SELECT DISTINCT personal.pid AS ID, personal.nachname, ',&amp;nbsp;' as txt, personal.vorname, personal.aikz AS _aikz, personal.namenbestand FROM personal,promotion WHERE personal.pid=promotion.personid AND personal.nachname IS NOT NULL [where] [restriction] ORDER BY 2
+	</Suche>
+	<Suche_prop>
+		<column name="ID" key="y" noshow="y" />
+		<column name="_aikz" noshow="y" />
+	</Suche_prop>
+</dozentSelect>
+

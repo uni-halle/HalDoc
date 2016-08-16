@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dienstadresse active="y" protsuppl="Dienstadresse" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>40</size>
+	<session>moduleParameter</session>
+	<update protocol="y" />
+	<insert protocol="y" />
+	<delete protocol="y" />
+	<change>SELECT DISTINCT kontakt.kid AS ID,
+		kontakt.aikz As Aktiv,
+		kontakt.einrichtung As Einrichtung,
+		kontakt.adrzusatz2 As Institut,
+		kontakt.strasse As Strasse,
+		kontakt.adrzusatz As Zusatz,
+		kontakt.plz As PLZ,
+		kontakt.ort As Ort,
+		kontakt.land AS Land,
+		kontakt.telefon As Telefon,
+		kontakt.fax As Fax,
+		kontakt.email As eMail,
+		kontakt.hyperlink As Hyperlink,
+		kontakt.tabelle,
+		kontakt.tabpk
+		FROM kontakt, personal
+		WHERE personal.pid = kontakt.tabpk
+		AND kontakt.tabelle IN ('personal') AND kontakt.tabpk = [personal.pid]
+	</change>
+	<change_prop>
+		<column name="ID" noupdate="y" key="y" serial="y" noshow="y" />
+		<column name="Aktiv" default="A" stripkey="y" listonly="-&gt;iakz" size="10" listboxsize="22" noshow="promoverw" cssclass="selectInChange" />
+		<column name="PLZ" show="y" />
+		<column name="Ort" show="y" />
+		<column name="Einrichtung" noshow="y" condition="de.his.busobjs.ParamConditionEvaluator _form='sach'" />
+		<column name="Einrichtung" show="y" condition="de.his.busobjs.ParamConditionEvaluator _form='gut'" />
+		<column name="Institut" noshow="y" condition="de.his.busobjs.ParamConditionEvaluator _form='sach'" />
+		<column name="Institut" show="y" condition="de.his.busobjs.ParamConditionEvaluator _form='gut'" />
+		<column name="Strasse" show="y" />
+		<column name="Telefon" show="y" />
+		<column name="Fax" show="y" />
+		<column name="eMail" show="y" datatype="email" />
+		<column name="Hyperlink" show="y" datatype="url" />
+		<column name="kontakt.tabelle" noshow="y" default="personal" />
+		<column name="Zusatz" show="y" />
+		<column name="kontakt.tabpk" noshow="y" default="[personal.pid]" />
+		<column name="Land" listboxsize="22" listonly="-&gt;promo.v_k_akfz" cssclass="selectInChange" />
+	</change_prop>
+	<parentModuleParameter>person</parentModuleParameter>
+</dienstadresse>
+

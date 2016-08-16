@@ -1,0 +1,4 @@
+{### r_funktion ##############################################################}
+CREATE unique index i_r_pernutzer on r_pernutzer (pnid);    
+CREATE index i_r_pernu1 on r_pernutzer (nid);
+CREATE index i_r_pernu2 on r_pernutzer (pid);   

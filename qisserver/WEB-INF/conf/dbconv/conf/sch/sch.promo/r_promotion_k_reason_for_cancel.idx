@@ -1,0 +1,2 @@
+{### r_promotion_k_reason_for_cancel #################################################################}
+CREATE UNIQUE INDEX i_r_promotion_k_reason_for_cancel ON r_promotion_k_reason_for_cancel (id);

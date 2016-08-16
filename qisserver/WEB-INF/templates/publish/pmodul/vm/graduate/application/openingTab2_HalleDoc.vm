@@ -1,0 +1,11 @@
+<p style="font-size: 0.8em;">$lang.docAppOffInfo: </p>
+<p>
+	<div style="$divStyle"><label style="$labelStyle" for="buisnessInstitute" id="buisnessInstitute_label">$lang.docAppOffName</label>	<input id="buisnessInstitute" name="open_buisnessInstitute" type="text" style="$inputStyle" value="$!valueElement.getChildText("employment.name")" /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="buisnessAs" id="buisnessAs_label">$lang.docAppOffAs</label>					<input id="buisnessAs" name="open_buisnessAs" type="text" style="$inputStyle" value="$!valueElement.getChildText("employment.job")" /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="buisnessStreet" id="buisnessStreet_label">$lang.docAppOffStr</label>			<input id="buisnessStreet" name="open_buisnessStreet" type="text" style="$inputStyle" value="$!valueElement.getChildText("anschri.strasse.D")" /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="buisnessPostcode" id="buisnessPostcode_label">$lang.docAppOffPLZ</label>		<input id="buisnessPostcode" name="open_buisnessPostcode" type="text" style="$inputStyle" value="$!valueElement.getChildText("anschri.plz.D")" /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="buisnessCity" id="buisnessCity_label">$lang.docAppOffCity</label>			<input id="buisnessCity" name="open_buisnessCity" type="text" style="$inputStyle" value="$!valueElement.getChildText("anschri.ort.D")" /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="buisnessEmail" id="buisnessEmail_label">$lang.docAppOffMail</label>			<input id="buisnessEmail" name="open_buisnessEmail" type="text" style="$inputStyle" value="$!valueElement.getChildText("anschri.email.D")" /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="buisnessTelefon" id="buisnessTelefon_label">$lang.docAppOffTel</label>		<input id="buisnessTelefon" name="open_buisnessTelefon" type="text" style="$inputStyle" value="$!valueElement.getChildText("anschri.telefon.D")" /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="buisnessFax" id="buisnessFax_label">$lang.docAppOffFax</label>				<input id="buisnessFax" name="open_buisnessFax" type="text" style="$inputStyle" value="$!valueElement.getChildText("anschri.fax.D")" /></div>
+</p>

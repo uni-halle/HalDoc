@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<publishPlugin>
+   <registeredPlugins>
+			<plugin name="GraduateStatistics" class="de.mlu.printout.publishModul.plugins.GraduateStatistics" />
+			<plugin name="DoctoralApplication" class="de.mlu.printout.publishModul.plugins.DoctoralApplication" />
+			<plugin name="DoublePlugin" class="de.mlu.printout.publishModul.plugins.DoublePlugin" />
+			<plugin name="WrongEmails" class="de.mlu.printout.publishModul.plugins.WrongEmails" />
+			<plugin name="GenerateGrading" class="de.mlu.printout.publishModul.plugins.GenerateGrading" />
+			<plugin name="ProtocolPlugin" class="de.mlu.printout.publishModul.plugins.ProtocolPlugin" />
+	</registeredPlugins>
+</publishPlugin>

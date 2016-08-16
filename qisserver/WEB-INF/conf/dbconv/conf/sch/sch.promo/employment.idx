@@ -1,0 +1,2 @@
+{### employment #############################################################}
+CREATE unique index i_employment on employment (id);

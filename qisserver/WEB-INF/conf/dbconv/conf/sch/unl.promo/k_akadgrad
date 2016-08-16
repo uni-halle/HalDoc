@@ -1,0 +1,75 @@
+-1*A*Sonst     *Sonstiges                *Sonstiges*****
+1*A*DiplInf   *Dipl.-Inf.               *Diplom-Informatiker(-in)****V*
+2*A*DiplMath  *Dipl.-Math.              *Diplom-Mathematiker(-in)****V*
+3*A*DiplBWL   *Dipl.-Betriebsw.         *Diplom-Betriebswirt(-in)****V*
+4*A*B.Sc.     *B.Sc.                    *Bachelor of Sience****N*
+5*A*B.A.      *B.A.                     *Bachelor of Arts****N*
+6*A*M.Sc.     *M.Sc.                    *Master of Sience****N*
+7*A*M.A.      *M.A.                     *Master of Arts****N*
+8*A*Dr. theol.*Dr. theol.               *doctor theologiae***J*V*
+9*A*Dr. iur.  *Dr. iur.                 *doctor iuris***J*V*
+10*A*Dr.rer.pol*Dr. rer. pol.            *doctor rerum politicarum***J*V*
+11*A*Dr. med.  *Dr. med.                 *doctor medicinae***J*V*
+12*A*Dr.med.den*Dr. med. dent.           *doctor medicinae dentariae***J*V*
+13*A*Dr.rer.med*Dr. rer. medic.          *doctor rerum medicarum***J*V*
+14*A*Dr. phil. *Dr. phil.                *doctor philosophiae***J*V*
+15*A*Dr.rer.nat*Dr. rer. nat.            *doctor rerum naturalium***J*V*
+16*A*Dr. paed. *Dr. paed.                *doctor paedagogiae***J*V*
+17*A*Dr.-Ing.  *Dr.-Ing.                 *Doktorin oder Doktor der Ingenieurwissenschaften***J*V*
+18*A*Dr. agr.  *Dr. agr.                 *doctor agriculturarum***J*V*
+19*A*Dr. troph.*Dr. troph.               *doctor trophologiae***J*V*
+20*A*MBA       *MBA                      *Master of Business Administration****N*
+21*A*B.M.      *B.M.                     *Bachelor of Music****N*
+22*A*M.M.      *M.M.                     *Master of Music****N*
+23*A*LL.M.oec. *LL.M.oec.                *Master of Business Law and Economic Law****N*
+24*A*LLMoecint *LL.M.oec.int.            *Joint Master of International Economic Law****N*
+25*A*M.mel.    *M.mel.                   *Master of Medicine, Ethics and Law****N*
+26*A*DiplIng   *Dipl.-Ing.               *Diplom-Ingenieur(-in)****V*
+27*A*DiplWirInf*Dipl.-Wirtsch.-Inf.      *Diplom-Wirtschaftsinformatiker(-in)****V*
+28*A*DiplSozPäd*Dipl.-Soz.päd.           *Diplom-Sozialpädagog(-in)****V*
+29*A*DiplWirtIn*Dipl.-Wirtsch.-Ing.      *Diplom-Wirtschaftsingenieur(-in)****V*
+30*A*DiplLMChem*Dipl.-Lebensmittelchem.  *Diplom-Lebensmittelchemiker(-in)****V*
+31*A*DiplPhys  *Dipl.-Phys.              *Diplom-Physiker(-in)****V*
+33*A*DiplApo   *Dipl.-Apotheker          *Diplom-Apotheker(-in)****V*
+34*A*DiplNat   *Dipl.-Nat.               *Diplom in angewandten Naturwissenschaften****V*
+35*A*M.Eng.    *M.Eng.                   *Master of Engineering****N*
+36*A*DiplTheol *Dipl.-Theol.             *Diplom Theolog(-in)****V*
+38*A*1TheolEx  *1.Theol.Ex.              *Erstes Theologisches Examen****N*
+39*A*M.A.      *M.A.                     *Magister Artium (M.A.)****V*
+40*A*M.T.      *M.T.                     *Magister theologiae****V*
+41*A*DiplKuHist*Dipl.-KuHist.            *Diplom-Kunsthistoriker(-in)****V*
+42*A*DiplPhil  *Dipl.-phil.              *Diplomphilosoph(-in)****V*
+43*A*DiplPolit *Dipl.-Polit.             *Diplom-Politikwissenschafter(-in)****V*
+44*A*DiplPrähis*Dipl.-Prähist.           *Diplom-Prähistoriker(-in)****V*
+45*A*DiplPsych *Dipl.-Psych.             *Diplom-Psycholog(-in)****V*
+46*A*DiplSoz   *Dipl.-Soz.               *Diplom-Soziolog(-in)****V*
+47*A*M.A.      *M.A.                     *Magister****V*
+48*A*M.Ed.     *M.Ed.                    *Master of Education****N*
+49*A*M.Phil.   *M.Phil.                  *Master of Philosophy****N*
+50*A*M.        *M.                       *Maestro****V*
+51*A*DiplVolksw*Dipl.-Volksw.            *Diplom-Volkswirt(-in)****V*
+52*A*DiplTheol *Dipl.-Theol.             *Diplom-Theolog(-in)****V*
+53*A*DiplLehrer*Diplomlehrer             *Diplomlehrer(-in)****V*
+54*A*lic.      *lic.                     *Lizentiat****V*
+55*A*DiplHdl   *Dipl.-Hdl.               *Diplom-Handelslehrer(-in)****V*
+56*A*DiplKffr  *Dipl.-Kffr.              *Diplom-Kaufmann/-frau****V*
+57*A*DiplPäd   *Dipl.-Päd.               *Diplom-Pädagog(-in)****V*
+58*A*DiplSozArb*Dipl.-Sozialarb.         *Diplom-Sozialarbeiter(-in)****V*
+59*A*1StExFöSch*1.StEx.FöSch.            *Erste Staatsprüfung LA an Förderschulen****N*
+60*A*1StExGrSch*1.StEx.GrSch.            *Erste Staatsprüfung LA an Grundschulen****N*
+61*A*1StExGym  *1.StEx.Gym.              *Erste Staatsprüfung LA an Gymnasien****N*
+62*A*1StExSekSc*1.StEx.SekSch.           *Erste Staatsprüfung LA an Sekundarschulen****N*
+63*A*StExLebChe*StEx.Lebensmittelchem.   *Staatsexamen Lebensmittelchemie****N*
+64*A*DiplIngAgr*Dipl.-Ing. agr.          *Diplom-Agrarwissenschaftler(-in)\
+****V*
+65*A*DiplBioChe*Dipl.-BioChem.           *Diplom-Biochemiker(-in)****V*
+66*A*DiplBiol  *Dipl.-Biol.              *Diplom-Biolog(-in)****V*
+67*A*DiplPharm *Dipl.-Pharm.             *Diplom-Pharmazeut(-in)****V*
+68*A*DiplTropoh*Dipl.-Tropoh.            *Diplom-Tropholog(-in)****V*
+69*A*DiplChem  *Dipl.-Chem.              *Diplom-Chemiker(-in)****V*
+70*I***Diplom-Wissenschaftler(-in)****V*
+71*I***Diplom-Regionalwissenschaftler(-in)****V*
+72*I***Diplom-Naturwissenschaftler(-in)****V*
+73*A*DiplBioInf*Dipl.-Bio.-Inf.          *Diplom-Bioinformatiker(-in)****V*
+74*A*DiplGeol  *Dipl.-Geol.              *Diplom-Geolog(-in)****V*
+75*A*DiplGeo   *Dipl.-Geo.               *Diplom-Geograph(-in)****V*

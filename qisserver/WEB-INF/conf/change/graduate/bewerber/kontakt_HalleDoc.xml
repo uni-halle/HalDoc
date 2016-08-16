@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dienstadresse active="y" protsuppl="Dienstadresse" modules="PROMO">
+	<dbhandlername>sospos</dbhandlername>
+	<size>33</size>
+	<update protocol="y" />
+	<insert protocol="y" />
+	<delete protocol="y" />
+	<rights ignoreParentRights="y">
+		<admin>
+			<noinsert />
+			<update>
+				SELECT count(*) FROM v_bewerber 
+					JOIN sos ON (v_bewerber.mtknr=sos.mtknr) 
+				WHERE v_bewerber.bid=[bewerber.bid]
+					AND sos.status IN ('Y','X')
+			</update>
+			<delete negation="y">SELECT count(*) FROM lab WHERE mtknr=[sos.mtknr]</delete>
+			<select />
+		</admin>
+		<biblio>
+			<noinsert />
+			<noupdate />
+			<nodelete />
+			<select />
+		</biblio>
+		<promoverw>
+			<noinsert />
+			<update>
+				SELECT count(*) FROM v_bewerber 
+					JOIN sos ON (v_bewerber.mtknr=sos.mtknr) 
+				WHERE v_bewerber.bid=[bewerber.bid]
+					AND sos.status IN ('Y','X')
+			</update>
+			<nodelete />
+			<select />
+		</promoverw>
+	</rights>
+	<helptext condition="SELECT count(*) FROM v_bewerber 
+					JOIN sos ON (v_bewerber.mtknr=sos.mtknr) 
+				WHERE v_bewerber.bid=[bewerber.bid]
+					AND sos.status NOT IN ('Y','X')"><![CDATA[<b class="error">Sie dürfen die Adresse nicht ändern, da dieser Promovierende immatrikuliert ist und die Datenhoheit im Immatrikulationsamt liegt. Bitte schicken Sie den Promovierenden/die Promovierende in das Immatrikulationsamt, um die Adresse ändern zu lassen.</b>]]></helptext>
+	<change>SELECT DISTINCT anschri.anschrinr AS ID,
+		anschri.plz As PLZ,
+		anschri.ort As Ort,
+		anschri.kfz AS Land,
+		anschri.strasse As Strasse,
+		anschri.anschrkz As Kennzeichen,
+		anschri.tel As Telefon,
+		anschri.fax As Fax,
+		anschri.email As eMail,
+		anschri.mtknr As MtkNr
+		FROM anschri, v_bewerber
+		WHERE anschri.mtknr = v_bewerber.mtknr AND anschri.anschrkz = 'H' AND v_bewerber.bid=[bewerber.bid]
+	</change>
+	<change_prop>
+		<column name="ID" noupdate="y" key="y" serial="y" noshow="y" />
+		<column name="PLZ" update="y" show="y" />
+		<column name="Ort" update="y" show="y" />
+		<column name="Strasse" update="y" show="y" />
+		<column name="Telefon" update="y" show="y" />
+		<column name="Fax" update="y" show="y" />
+		<column name="eMail" update="y" show="y" datatype="email" />
+		<column name="Land" listboxsize="19" listonly="-&gt;promo.v_k_akfz" cssclass="selectInChange" />
+		<column name="MtkNr" default="[sos.mtknr]" noshow="y" />
+		<column name="Kennzeichen" default="H" noshow="y" />
+	</change_prop>
+	<parentModuleParameter>application</parentModuleParameter>
+</dienstadresse>
+

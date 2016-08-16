@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<promo active="y" object="promo" objectid="promotion.promotionid" protsuppl="Promotion" modules="PROMO">
+	<subitem>promo</subitem>
+	<dbhandlername>promo</dbhandlername>
+	<title>$lang.editpersonpromov</title>
+	<global>
+		<chooseSomethingForInputWhenMandatory>y</chooseSomethingForInputWhenMandatory>
+	</global>
+	<insert />
+	<update protocol="y" />
+	<delete protocol="y" />
+	<header />
+	<size>33</size>
+	<session>sos.mtknr, promotion.promotionid, moduleParameter</session>
+	<trigger name="setPromotionID">
+		de.mlu.change.trigger.MLUSetValueTrigger
+		<set if="[sos.mtknr]!=" name="promotion.promotionid" value="SELECT promotionid FROM promotion WHERE mtknr=[sos.mtknr]" database="promo" />
+	</trigger>
+	<trigger active="y" name="finalgrade" dbhSosPos="sospos" dbhPromo="promo">
+		de.mlu.change.trigger.FinalGradeTrigger
+	</trigger>
+	<script>calendar</script>
+	<rights ignoreParentRights="y">
+		<admin>
+			<insert />
+			<update />
+			<nodelete />
+			<select />
+		</admin>
+		<biblio>
+			<noinsert />
+			<update />
+			<nodelete />
+			<select />
+		</biblio>
+		<promoverw>
+			<insert />
+			<update>SELECT count(*) FROM promotion WHERE promotion.einrichtungid = [session_AssignedFak] AND promotion.promotionid=[promotion.promotionid]</update>
+			<nodelete />
+			<select />
+		</promoverw>
+	</rights>
+	<!-- Mailbenachrichtigung über Trigger -->
+	<trigger name="MailTrigger" active="y" context="biblio">
+		de.his.change.trigger.lsf.MailTrigger
+		<dataSelects>
+			<select database="promo">
+				SELECT promotion.title AS PromotionTitle, promotion.handoverToLibrary AS PromotionLibrary, v_sos.nachname AS Nachname, v_sos.vorname AS Vorname, promotion.handovercount AS Count, k_handovertype.ltxt AS Type  
+				FROM (promotion INNER JOIN v_sos ON (promotion.mtknr=v_sos.mtknr)) LEFT JOIN k_handovertype ON (promotion.handovertype=k_handovertype.id)
+				WHERE promotion.promotionid=[promotion.promotionid]
+			</select>
+		</dataSelects>
+		<actions>
+			<onChanged condition1="promo:SELECT count(*) FROM promotion WHERE promotion.promotionid=[promotion.promotionid] AND promotion.handoverToLibrary IS NOT NULL">
+				<mailText subject="Eingabe der Pflichtexemplare von [Vorname] [Nachname]">
+Die Pflichtexemplare der Dissertation "[PromotionTitle]" von [Vorname] [Nachname] wurden am [PromotionLibrary] eingereicht.
+Es wurden [Count] [Type] abgegeben!
+				</mailText>
+			</onChanged>
+		</actions>
+		<!-- Mailadressen für die Verarbeitung -->
+		<mailAddresses mailinglist="n">
+			<!-- Absender -->
+			<sender format="[systemName]">SELECT 'haldoc-support@uni-halle.de' AS MailSender, 'Hal-Doc System' AS systemName;</sender>
+			<!-- Empfänger -->
+			<recipient format1="[personal.vorname] [personal.nachname]" recipientType="to">
+				SELECT DISTINCT kontakt.email AS MailRecipient 
+				FROM kontakt,promotion 
+				WHERE kontakt.tabpk=promotion.einrichtungid AND kontakt.tabelle='einrichtung' AND promotion.promotionid=[promotion.promotionid]
+			</recipient>
+		</mailAddresses>
+	</trigger>
+	<change>
+		SELECT DISTINCT promotion.promotionid AS ID,
+		promotion.startofdoctoralstudies,
+		promotion.applicationOfAssumption,
+		promotion.assumptionCommitee,
+		promotion.applicationOfAdmission,
+		promotion.copy_to_institute, 
+		promotion.openingOfProcedure,
+		promotion.forwardingOfFile,
+		promotion.forwardingForCommitee,
+		promotion.dateOfRigorosum,
+		promotion.colloquium_to_institute, 
+		promotion.display_period,
+		promotion.dateOfColloquium,
+		promotion.outgoing_invitation_coll, 
+		promotion.dateOfContractWithPublisher,
+		promotion.dateOfPublishing,
+		promotion.journals, 
+		promotion.incoming_analog_diss,
+		promotion.incoming_digital_diss, 
+		promotion.handoverToLibrary,
+		promotion.handovertype,
+		promotion.handovercount,
+		promotion.dateForCertificate,
+		promotion.outgoing_certificate, 
+		promotion.date_for_cancel,
+		promotion.fileToArchive,
+		promotion.archiveNumber,
+		promotion.zeitstempel AS Zeitstempel
+		FROM promotion
+		WHERE promotion.promotionid=[promotion.promotionid]
+		
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<column name="Zeitstempel" noshow="y" />
+		<column name="promotion.startofdoctoralstudies" datatype="date" update="admin,promoverw" />
+		<column name="promotion.applicationOfAssumption" datatype="date" update="admin,promoverw" />
+		<column name="promotion.assumptionCommitee" datatype="date" update="admin,promoverw" />
+		<column name="promotion.applicationOfAdmission" datatype="date" update="admin,promoverw" />
+		<column name="promotion.openingOfProcedure" datatype="date" update="admin,promoverw" />
+		<column name="promotion.forwardingOfFile" datatype="date" update="admin,promoverw" />
+		<column name="promotion.forwardingForCommitee" datatype="date" update="admin,promoverw" />
+		<column name="promotion.dateOfRigorosum" datatype="date" update="admin,promoverw" noshow="n" condition="select count(*) from gratings,bewertungsart,bewertung where gratings.bewertungsart_id=bewertungsart.id and gratings.bewertung_id=bewertung.id and promotion_id=[promotion.promotionid] and bewertungsart.key='rig' and bewertung.key::integer IN (10,50)" />
+		<column name="promotion.dateOfRigorosum" datatype="date" update="admin,promoverw" noshow="y" condition="select count(*) from gratings,bewertungsart,bewertung where gratings.bewertungsart_id=bewertungsart.id and gratings.bewertung_id=bewertung.id and promotion_id=[promotion.promotionid] and bewertungsart.key='rig' and bewertung.key::integer NOT IN (10,50)" />
+		<column name="promotion.dateOfRigorosum" datatype="date" update="admin,promoverw" noshow="y" condition="SELECT * FROM promotion WHERE promotionid NOT IN (SELECT promotion_id FROM gratings) AND promotionid = [promotion.promotionid]" />
+		<column name="promotion.dateOfRigorosum" datatype="date" context="biblio" update="admin,promoverw" />
+		<column name="promotion.dateOfColloquium" datatype="date" update="admin,promoverw" />
+		<column name="promotion.dateOfContractWithPublisher" datatype="date" update="admin,promoverw" />
+		<column name="promotion.dateOfPublishing" datatype="date" update="admin,promoverw" />
+		<column name="promotion.handoverToLibrary" datatype="date" update="biblio" condition="SELECT count(*) FROM promotion WHERE bid IS NOT NULL AND promotionid = [promotion.promotionid]" />
+		<column name="promotion.handoverToLibrary" datatype="date" update="admin,promoverw,biblio" condition="SELECT count(*) FROM promotion WHERE bid IS NULL AND promotionid = [promotion.promotionid]" />
+		
+		<column name="promotion.handovertype" listonly="->promo.k_handovertype" listboxsize="19" cssclass="selectInChange" context="biblio" mandatory="y" />
+		<column name="promotion.handovertype" listonly="->promo.k_handovertype" listboxsize="19" cssclass="selectInChange" context="admin,promoverw" noupdate="y" />
+		<column name="promotion.handovercount" datatype="int" update="biblio" />
+		
+		<column name="promotion.dateForCertificate" datatype="date" update="admin,promoverw" />
+		<column name="promotion.date_for_cancel" datatype="date" update="admin,promoverw" />
+		<column name="promotion.fileToArchive" datatype="date" update="admin,promoverw" />
+		<column name="promotion.archiveNumber" datatype="int" update="admin,promoverw" />
+		<column name="promotion.journals" datatype="date" update="admin,promoverw" />
+		<column name="promotion.display_period" datatype="date" update="admin,promoverw" />
+		<column name="promotion.copy_to_institute" datatype="date" update="admin,promoverw" />
+		<column name="promotion.colloquium_to_institute" datatype="date" update="admin,promoverw" />
+		<column name="promotion.incoming_analog_diss" datatype="date" update="admin,promoverw" />
+		<column name="promotion.incoming_digital_diss" datatype="date" update="admin,promoverw" />
+		<column name="promotion.outgoing_invitation_coll" datatype="date" update="admin,promoverw" />
+		<column name="promotion.outgoing_certificate" datatype="date" update="admin,promoverw" />
+	</change_prop>
+	<etceteras>
+		<participation_handover label="Teilnahme an Urkundenübergabe" inputtype="checkbox" action="participation_handover" checked="select" parentElement="promotion.dateForCertificate" />
+	</etceteras>
+	<actions>
+		<participation_handover>
+			<select>
+				SELECT count(*) AS anzahl FROM promotion WHERE promotion.promotionid=[promotion.promotionid] AND participation_handover='J'
+			</select>
+			<checked>
+				UPDATE promotion SET participation_handover='J' WHERE promotion.promotionid=[promotion.promotionid]
+			</checked>
+			<unchecked>
+				UPDATE promotion SET participation_handover=NULL WHERE promotion.promotionid=[promotion.promotionid]
+			</unchecked>
+		</participation_handover>
+	</actions>
+	<additionalButtons>
+		<button condition="select promotionid FROM promotion WHERE promotion.promotionid=[promotion.promotionid] AND handoverToLibrary IS NOT NULL" action="state=verpublish&amp;publishContainer=biblioBesch&amp;promotionid=[promotion.promotionid]" label="Bescheinigung drucken" context="biblio" />
+	</additionalButtons>
+	<parentModuleParameter>personPromov</parentModuleParameter>
+</promo>

@@ -1,0 +1,11 @@
+{### r_texte  #################################################################}
+CREATE TABLE r_texte 
+   (
+   rtexteid        SERIAL NOT NULL,     { Primary Key                         }
+   tabelle         VARCHAR(50),         { Name der Tabelle                    }
+   tabpk           INTEGER,             { ->/Tabelle/                         }
+   spalte          VARCHAR(18),         { Name der Spalte in Tabelle          }
+   texteid         INTEGER,             { -> texte.texteid                    }
+   sprache         CHAR(2),             { Sprache (de, en, ...)               }
+   zeitstempel     DATETIME year to fraction(5) { Aenderungszeit              }
+);

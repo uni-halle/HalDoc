@@ -1,0 +1,11 @@
+{### employment #############################################################}
+CREATE TABLE employment (              
+   id             SERIAL NOT NULL,     { PrimaryKey:                        }
+   aikz            CHAR(1),            { Aktiv/Inaktiv-Kennzeichen          }
+   name            VARCHAR(255,0),     { Name der Institution               }
+   job             VARCHAR(255,0),     { Anstellung als                     }
+   pid             INTEGER,            { ID der Person                      }
+   bid             INTEGER,            { ID des Bewerbers                   }
+   mtknr           INTEGER,            { Mtknr der Person                   }
+   zeitstempel     DATETIME year to fraction(5)  { Aenderungsdatum/-zeit    }
+);

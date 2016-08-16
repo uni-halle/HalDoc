@@ -1,0 +1,192 @@
+#if (!$contentVM)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    	
+<html>
+	<head>
+		<title>LSF</title>
+		<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+			#parse ("header.vm")
+	</head>
+	<body class="background">
+		#parse("head.vm")
+		#parse("Controls.vm")
+		#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+			#parse("wlogin/LoginInfo.vm")
+		#end
+#end
+
+#set($punkte = $stringUtil.stringToProperties("0=B_GELBERPUNKT,1=B_GELBERPUNKT,2=B_GRUENERPUNKT,3=B_ROTERPUNKT", ","))
+
+#set ($webPath = "publish/pmodul/vm/graduate")
+##XMLOut($import)
+#if ($import.getChildren().size() != 0)
+	#set($start = 0)
+	#set($anzahl=25)
+	#if($servlet.P_start) #set($start = $stringUtil.parseInt($servlet.P_start)) #end
+	#if($servlet.P_anzahl) #set($anzahl = $stringUtil.parseInt($servlet.P_anzahl)) #end
+	#set($count = 0)
+
+	<h1>Gefundene Promotionen</h1>
+	<div>Es wurden $!import.getChildren("Promotion").size() Promotionen gefunden!</div>
+	#set($queryProp = $stringUtil.stringToProperties($servlet.QUERYSTRING,"&"))
+	#set($dummy = $queryProp.put("publishContainer","webInfoListPromosExport"))
+	#set($pageUrl = $stringUtil.propToRequestParams($queryProp, null, null).substring(1))
+	#set($pageUrl = $stringUtil.decodeURL($pageUrl))
+	#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+	<div style="padding-top: 10px;">
+		<b>Funktionen:</b> 
+		<a style="padding-right:10px;" title="Excel-Export" alt="Excel-Export" href="$link&amp;xslobject=Default"><IMG src="$servlet.IMAGEURL/$servlet.B_EXCEL_DOCUMENT" title="Excel-Export mit Adressen" alt="Excel-Export" /></a>
+		<a style="padding-right:10px;" title="Excel-Export" alt="Excel-Export" href="$link&amp;xslobject=Grading"><IMG src="$servlet.IMAGEURL/$servlet.B_EXCEL_DOCUMENT" title="Excel-Export nur mit Bewertungen und Betreuern" alt="Excel-Export" /></a>
+	</div>
+	<table summary="Grunddaten zur Promotion">
+		<tr>
+			<th class="mod" id="basic_1">Aktion</th>
+			<th class="mod" id="basic_1">
+				Titel
+				#set($queryProp = $stringUtil.stringToProperties($servlet.QUERYSTRING,"&"))
+				#set($dummy = $queryProp.put("orderby","title"))
+				#set($pageUrl = $stringUtil.propToRequestParams($queryProp, null, null).substring(1))
+				#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+				<a href="$link"><IMG src="$servlet.BILDERHALLE/$servlet.B_PFEILHOCH" alt="$lang.aufwaertssortieren" title="$lang.aufwaertssortieren" /></a>
+				#set($dummy = $queryProp.put("orderby","titleDESC"))
+				#set($pageUrl = $stringUtil.propToRequestParams($queryProp, null, null).substring(1))
+				#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+				<a href="$link"><IMG src="$servlet.BILDERHALLE/$servlet.B_PFEILRUNTER" alt="$lang.abwaertssortieren" title="$lang.abwaertssortieren" /></a>
+			</th>
+			<th class="mod" id="basic_1">
+				Promovend
+				#set($queryProp = $stringUtil.stringToProperties($servlet.QUERYSTRING,"&"))
+				#set($dummy = $queryProp.put("orderby","promov"))
+				#set($pageUrl = $stringUtil.propToRequestParams($queryProp, null, null).substring(1))
+				#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+				<a href="$link"><IMG src="$servlet.BILDERHALLE/$servlet.B_PFEILHOCH" alt="$lang.aufwaertssortieren" title="$lang.aufwaertssortieren" /></a>
+				#set($dummy = $queryProp.put("orderby","promovDESC"))
+				#set($pageUrl = $stringUtil.propToRequestParams($queryProp, null, null).substring(1))
+				#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+				<a href="$link"><IMG src="$servlet.BILDERHALLE/$servlet.B_PFEILRUNTER" alt="$lang.abwaertssortieren" title="$lang.abwaertssortieren" /></a>
+			</th>
+			<th class="mod" id="basic_1">
+				Antragsannahme
+				#set($queryProp = $stringUtil.stringToProperties($servlet.QUERYSTRING,"&"))
+				#set($dummy = $queryProp.put("orderby","beginn"))
+				#set($pageUrl = $stringUtil.propToRequestParams($queryProp, null, null).substring(1))
+				#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+				<a href="$link"><IMG src="$servlet.BILDERHALLE/$servlet.B_PFEILHOCH" alt="$lang.aufwaertssortieren" title="$lang.aufwaertssortieren" /></a>
+				#set($dummy = $queryProp.put("orderby","beginnDESC"))
+				#set($pageUrl = $stringUtil.propToRequestParams($queryProp, null, null).substring(1))
+				#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+				<a href="$link"><IMG src="$servlet.BILDERHALLE/$servlet.B_PFEILRUNTER" alt="$lang.abwaertssortieren" title="$lang.abwaertssortieren" /></a>
+			</th>
+			<th class="mod" id="basic_1">
+				Eröffnung des Verfahrens
+				#set($queryProp = $stringUtil.stringToProperties($servlet.QUERYSTRING,"&"))
+				#set($dummy = $queryProp.put("orderby","opening"))
+				#set($pageUrl = $stringUtil.propToRequestParams($queryProp, null, null).substring(1))
+				#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+				<a href="$link"><IMG src="$servlet.BILDERHALLE/$servlet.B_PFEILHOCH" alt="$lang.aufwaertssortieren" title="$lang.aufwaertssortieren" /></a>
+				#set($dummy = $queryProp.put("orderby","openingDESC"))
+				#set($pageUrl = $stringUtil.propToRequestParams($queryProp, null, null).substring(1))
+				#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+				<a href="$link"><IMG src="$servlet.BILDERHALLE/$servlet.B_PFEILRUNTER" alt="$lang.abwaertssortieren" title="$lang.abwaertssortieren" /></a>
+			</th>
+			<th class="mod" id="basic_1">
+				Promotionsakte an Kommision/FSK
+				#set($queryProp = $stringUtil.stringToProperties($servlet.QUERYSTRING,"&"))
+				#set($dummy = $queryProp.put("orderby","AkteFsk"))
+				#set($pageUrl = $stringUtil.propToRequestParams($queryProp, null, null).substring(1))
+				#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+				<a href="$link"><IMG src="$servlet.BILDERHALLE/$servlet.B_PFEILHOCH" alt="$lang.aufwaertssortieren" title="$lang.aufwaertssortieren" /></a>
+				#set($dummy = $queryProp.put("orderby","AkteFskDESC"))
+				#set($pageUrl = $stringUtil.propToRequestParams($queryProp, null, null).substring(1))
+				#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+				<a href="$link"><IMG src="$servlet.BILDERHALLE/$servlet.B_PFEILRUNTER" alt="$lang.abwaertssortieren" title="$lang.abwaertssortieren" /></a>
+			</th>
+			<th class="mod" id="basic_1">
+				Verteidigung
+				#set($queryProp = $stringUtil.stringToProperties($servlet.QUERYSTRING,"&"))
+				#set($dummy = $queryProp.put("orderby","colloquium"))
+				#set($pageUrl = $stringUtil.propToRequestParams($queryProp, null, null).substring(1))
+				#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+				<a href="$link"><IMG src="$servlet.BILDERHALLE/$servlet.B_PFEILHOCH" alt="$lang.aufwaertssortieren" title="$lang.aufwaertssortieren" /></a>
+				#set($dummy = $queryProp.put("orderby","colloquiumDESC"))
+				#set($pageUrl = $stringUtil.propToRequestParams($queryProp, null, null).substring(1))
+				#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+				<a href="$link"><IMG src="$servlet.BILDERHALLE/$servlet.B_PFEILRUNTER" alt="$lang.abwaertssortieren" title="$lang.abwaertssortieren" /></a>
+			</th>
+			<th class="mod" id="basic_1">
+				Abgabe in Bibliothek
+				#set($queryProp = $stringUtil.stringToProperties($servlet.QUERYSTRING,"&"))
+				#set($dummy = $queryProp.put("orderby","abgabe"))
+				#set($pageUrl = $stringUtil.propToRequestParams($queryProp, null, null).substring(1))
+				#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+				<a href="$link"><IMG src="$servlet.BILDERHALLE/$servlet.B_PFEILHOCH" alt="$lang.aufwaertssortieren" title="$lang.aufwaertssortieren" /></a>
+				#set($dummy = $queryProp.put("orderby","abgabeDESC"))
+				#set($pageUrl = $stringUtil.propToRequestParams($queryProp, null, null).substring(1))
+				#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+				<a href="$link"><IMG src="$servlet.BILDERHALLE/$servlet.B_PFEILRUNTER" alt="$lang.abwaertssortieren" title="$lang.abwaertssortieren" /></a>
+			</th>
+			##<th class="mod" id="basic_1">Akademischer Grad</th>
+			##<th class="mod" id="basic_1">Status</th>
+		</tr>
+		#set($block = 0)
+		#set($lineBackGr = "mod_n_odd")
+		#foreach ($Promotion in $import.getChildren("Promotion"))
+		##XMLOut($!Promotion)
+		#if((($count) % $anzahl) == 0 && $count > 0)
+			#set($block = $block + 1)
+		#end
+		#if($block > 0)
+			#set($style = "style='display:none;'")
+		#end
+		<tr id="$block" name="festlegungRow" $!style>
+			<td class="$lineBackGr" nowrap>
+				<a href="$response.encodeURL("$servlet.SERVLETURL?state=verpublish&amp;status=init&amp;vmfile=no&amp;moduleCall=webInfo&amp;publishConfFile=webInfoPromotion&amp;publishSubDir=graduate&amp;sos.mtknr=$Promotion.getChildText('pID')")" hreflang="de" charset="ISO-8859-1" class="ver">
+					<img src="$servlet.BILDERHALLE/$servlet.IMG_INFORMATION_SMALL_L" alt="Promotion anschauen" title="Promotion anschauen">##&amp;promotion.promotionid=$Promotion.getChildText('ID')
+				</a>
+				#if($Promotion.getChildText("EinrichtungID").equals($servlet.session_AssignedFak) || $BC.darf($User.bereich, "R_PROMOEDITALL"))
+				&nbsp;
+				<a href="$response.encodeURL("$servlet.SERVLETURL?state=change&amp;type=2&amp;moduleParameter=personPromov&amp;next=SingleInput.vm&amp;sos.mtknr=$Promotion.getChildText('pID')&amp;sqlmode=update&amp;subdir=graduate/promo")" hreflang="de" charset="ISO-8859-1" class="ver">
+					<img style="height: 15px;" src="$servlet.BILDERHALLE/$servlet.IMG_EDIT_FORM" alt="Promotion bearbeiten" title="Promotion bearbeiten">
+				</a>
+				##&amp;promotion.promotionid=$Promotion.getChildText('ID')
+				#end
+			</td>
+			#set($titel = $!Promotion.getChildText("Titel"))
+			#if($titel.length() > 80)
+				#set($titel = $titel.substring(0,80) + " ...")
+			#end
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$titel</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Promotion.getChildText("nachname"), $!Promotion.getChildText("vorname")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Promotion.getChildText("Annahme")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Promotion.getChildText("eroeffnung")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Promotion.getChildText("AkteFsk")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Promotion.getChildText("colloquium")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Promotion.getChildText("Abgabe")</td>
+			##<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Promotion.getChildText("AkadGrad")</td>
+			##set($punktID = $!Promotion.getChildText("StatusProzessID"))
+			##<td class="mod_n_basic" style="width: 0%" headers="basic_1" nowrap><img src="$servlet.BILDERHALLE/$servlet.get($punkte.get("$punktID"))" alt="Status der Promotion" title="Status der Promotion"> $!Promotion.getChildText("StatusTxt")</td>
+			#if($lineBackGr == "mod_n_even") #set($lineBackGr = "mod_n_odd") #else #set($lineBackGr = "mod_n_even") #end
+		</tr>
+		#set($count = ($count + 1))
+		#end
+		<tr>
+			<td colspan="8">
+				#set($countButtons = ($count/$anzahl) + 1)
+				#foreach ($number in [1..$countButtons])
+					#set($test = $stringUtil.parseInt("$number"))
+					#set($test = $test - 1)
+					#set($newStart = $test*$anzahl)
+					<button id="pagingButton" style="width: 40px;">$number</button>
+				#end
+			</td>
+		</tr>
+	</table>
+	<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}jquery/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src='${servlet.SERVER_URL}${servlet.PUBURLROOT}js/showElements_HalleMSRM.js'></script>
+#else
+	<h1>$lang.Erg3_keine_daten</h1>
+#end
+#if (!$contentVM)
+		#parse("foot.vm")
+	</body>
+</html>
+#end

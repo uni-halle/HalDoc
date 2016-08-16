@@ -1,0 +1,20 @@
+<einrichtungKontakte active="y" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>60</size>
+	<session>moduleParameter</session>
+	<rowMarker>y</rowMarker>
+	<insert />
+	<update />
+	<delete />
+	<change>
+		SELECT kid,aikz,email,tabelle,tabpk FROM kontakt WHERE tabelle='einrichtung' and tabpk=[personal.einrichtungid] order by aikz
+	</change>
+	<change_prop>
+		<column name="kid" key="y" serial="y" noshow="y" />
+		<column name="aikz" label="Aktiv/Inaktiv" listonly="-&gt;iakz" default="A" noshow="y" />
+		<column name="email" label="eMail" />
+		<column name="tabelle" default="einrichtung" noshow="y" />
+		<column name="tabpk" default="[personal.einrichtungid]" noshow="y" />
+	</change_prop>
+	<parentModuleParameter>person</parentModuleParameter>
+</einrichtungKontakte>

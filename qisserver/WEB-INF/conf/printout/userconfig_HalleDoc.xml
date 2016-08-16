@@ -1,0 +1,73 @@
+<fop version="1.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://svn.apache.org/viewvc/xmlgraphics/fop/trunk/src/foschema/fop-configuration.xsd?view=co">
+
+	<!-- 'Strict' Modus aktivieren -->
+	<strict-configuration>true</strict-configuration>
+	<strict-validation>true</strict-validation>
+
+	<!-- Pfad für Metricdateien -->
+	<!-- Ab FOP 0.95 nicht mehr genutzt! -->
+	<!-- <base>./</base> -->
+
+	<!-- Pfad für Fontdateien -->
+	<!-- Falls die Fonts nicht im QIS/HISinOne-Verzeichnis liegen, muss hier ein statischer Pfad angegeben werden! -->
+	<!-- <font-base>./</font-base> -->
+
+	<!-- DPI Auflösungen -->
+	<source-resolution>72</source-resolution>
+	<target-resolution>72</target-resolution>
+
+	<!-- DIN A4 Standardgröße -->
+	<default-page-settings height="29.7cm" width="21cm"/>
+  
+	<!-- Renderer -->
+	<renderers>
+
+		<!-- PDF Renderer - Einstellungen -->
+		<renderer mime="application/pdf">
+
+			<!-- Filter -->
+			<filterList>
+				<value>null</value>
+			</filterList>
+
+			<!-- Filter - Bildeinstellungen -->
+			<filterList type="image">
+				<value>flate</value>
+				<value>ascii-85</value>
+			</filterList>
+
+			<!-- Fonts -->
+			<fonts>
+			  <font metrics-url="WEB-INF/conf/printout/fonts/ZHUM601N.xml" kerning="yes" embed-url="WEB-INF/conf/printout/fonts/ZHUM601N.TTF">
+			    <font-triplet name="ZapfHumanist601BT-Roman" style="normal" weight="normal"/>
+			  </font>
+			  <font metrics-url="WEB-INF/conf/printout/fonts/ZHUM601B.xml" kerning="yes" embed-url="WEB-INF/conf/printout/fonts/ZHUM601B.TTF">
+			    <font-triplet name="ZapfHumanist601BT-Roman" style="normal" weight="bold"/>
+			  </font>
+			  <font metrics-url="WEB-INF/conf/printout/fonts/ZHUM601I.xml" kerning="yes" embed-url="WEB-INF/conf/printout/fonts/ZHUM601I.TTF">
+			    <font-triplet name="ZapfHumanist601BT-Roman" style="italic" weight="normal"/>
+			  </font>
+			  <!-- Arial Schriftart (Normal) -->
+			  <font metrics-url="WEB-INF/conf/printout/fonts/arial.xml" kerning="yes" embed-url="WEB-INF/conf/printout/fonts/arial.ttf">
+				  <font-triplet name="Arial" style="normal" weight="normal" />
+			  </font>
+			  <!-- Arial Schriftart (Fett) -->
+			  <font metrics-url="WEB-INF/conf/printout/fonts/arialbd.xml" kerning="yes" embed-url="WEB-INF/conf/printout/fonts/arialbd.ttf">
+				  <font-triplet name="Arial" style="normal" weight="bold" />
+			  </font>
+			  <!-- Arial Schriftart (Normal & Kursiv) -->
+			  <font metrics-url="WEB-INF/conf/printout/fonts/ariali.xml" kerning="yes" embed-url="WEB-INF/conf/printout/fonts/ariali.ttf">
+				  <font-triplet name="Arial" style="italic" weight="normal" />
+			  </font>
+			  <!-- Arial Schriftart (Fett & Kursiv) -->
+			  <font metrics-url="WEB-INF/conf/printout/fonts/arialbi.xml" kerning="yes" embed-url="WEB-INF/conf/printout/fonts/arialbi.ttf">
+				  <font-triplet name="Arial" style="italic" weight="bold" />
+			  </font>
+			  <!-- Arial Unicode Schriftart (Kursiv) -->
+				<font metrics-url="WEB-INF/conf/printout/fonts/arialuni.xml" kerning="yes" embed-url="WEB-INF/conf/printout/fonts/ARIALUNI.TTF">				
+					<font-triplet name="ArialUnicode" style="italic" weight="normal" />
+				</font>
+			</fonts>
+		</renderer>
+	</renderers>
+</fop>

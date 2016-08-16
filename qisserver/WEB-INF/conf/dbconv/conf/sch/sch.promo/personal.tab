@@ -1,0 +1,29 @@
+{### personal ################################################################}
+CREATE TABLE personal
+   (              
+   pid                SERIAL NOT NULL,     { Primary Key                               }
+   vorname            VARCHAR(50),	       { Vorname 	                                 }
+   nachname           VARCHAR(50),	       { Nachname      	                           }
+   mtknr              INTEGER,             { Matrikelnummer                            }
+   kuerzel            CHAR(10),            { Namenskuerzel                             }
+   initialien         CHAR(8),             { Initialen des Vornamens                   }
+   suchname           VARCHAR(50),         { Sortiername ohne deutsche Sonderzeichen   }
+   geschl             CHAR(01),            { Geschlecht  M=maennl., W=weibl.           }
+   perstatusid        INTEGER,             { ->k_perstatus.perstatusid                 }
+   applicantstatusid  INTEGER,             { ->k_applicantstatus.k_applicantstatusid   }
+   sichtbar           CHAR(1),             { -> k_freigabe (Datenschutz)               }
+   status             CHAR(1),	           { E, I (Extern, Intern) bzw.                  
+                                             hochschulfremd, hochschulangehoerig       }
+   aikz               CHAR(1),             { Aktiv/Inaktiv-Kennzeichen                 }
+   titelid            INTEGER,             { ->k_titel                                 }
+   gradid             INTEGER,             { ->k_akadgrad                              }
+   gradfh							CHAR(1),						 { Akademischer Grad an einer FH bekommen		 }
+   namenbestand       VARCHAR(28),         { Namenszusatz, wie von                     }
+   gebdat             DATE,                { Geburtsdatum                              }
+   gebort             VARCHAR(50),         { Geburtsort                                }
+   gebland            VARCHAR(5),          { Geburtsland                               }
+   staat              VARCHAR(5),          { Nationalität                              }
+   gradid_nach        INTEGER,		       	 { nachgestellter akademischer Grad (z.B. M.A.)}
+   einrichtungid      INTEGER,	  				 { ->einrichtung.id Einrichtung							}
+   zeitstempel        DATETIME year to fraction(5) { Aenderungsdatum-/zeit             }
+   );

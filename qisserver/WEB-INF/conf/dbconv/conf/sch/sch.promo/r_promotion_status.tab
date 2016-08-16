@@ -1,0 +1,8 @@
+{### r_promotion_status ######################################################}
+CREATE TABLE r_promotion_status (
+   id          	SERIAL NOT NULL,    { PrimaryKey                 	}
+   promotionid  INTEGER,            { ->promotion.promotionid       }
+   statusid     INTEGER,            { ->k_promotionstatus.statuspid }
+   editorid  	INTEGER,            { ->personal.pid             	}
+   zeitstempel 	DATETIME year to fraction(5) { Aenderungszeit   	}
+);

@@ -1,0 +1,126 @@
+<p style="font-size: 0.8em;">$lang.docAppDegInfo</p>
+<p>
+	<table id="acadGrades">
+		<tr>
+			<th class="mod_grid" nowrap>* $lang.docAppDegDeg</th>
+			<th class="mod_grid" nowrap>* $lang.docAppDegWhen<br/><span style="font-size:0.7em;">$lang.docAppDatForm</span></th>
+			<th class="mod_grid" nowrap>* $lang.docAppDegHS</th>
+			<th class="mod_grid" nowrap>$lang.docAppDegFH #if($servlet.language == "en")<br/><span style="font-size:0.6em;">UAS: University of Applied Sciences</span>#end</th>
+		</tr>
+		<tr id="row_1">
+			#set($errorClass = "")
+			#if($valueElement.getChild("degrees").getChild("app_degree_1").getChildText("degree") == "" || $errorElementForMandatory.getChild("app_degree_1"))
+				#set($errorClass = "ui-state-error")
+			#end
+			<td class="$errorClass">
+				<select id="degree_1" name="app_degree_1" style="$selectStyle $selectStyleGrid">
+					<option value="">$lang.docAppSelect</option>
+					#foreach($item in $import.getChild("application").getChild("AkadGrades").getChildren())
+						#if($valueElement.getChild("degrees").getChild("app_degree_1").getChildText("degree") == $item.getChildText("gradid"))
+							<option value="$item.getChildText("gradid")" selected>$item.getChildText("ltxt")</option>
+						#else
+							<option value="$item.getChildText("gradid")">$item.getChildText("ltxt")</option>
+						#end
+					#end
+					#if($valueElement.getChild("degrees").getChild("app_degree_1").getChildText("degree") == -1)
+						<option value="-1" selected>$lang.docAppSonst</option>
+					#else
+						<option value="-1">$lang.docAppSonst</option>
+					#end
+				</select><br/>
+				#set($type = "hidden")
+				#if($valueElement.getChild("degrees").getChild("app_degree_1").getChildText("degree") == -1)
+					#set($degree_add = $valueElement.getChild("degrees").getChild("app_degree_1").getChildText("degree_add"))
+					#set($type = "text")
+				#end
+				<input id="degree_add_1" name="app_degree_add_1" type="$type" style="$inputStyle width: 200px;" value="$!degree_add" />
+			</td>
+			#set($errorClass = "")
+			#if($valueElement.getChild("degrees").getChild("app_degree_1").getChildText("when") == "" || $errorElementForMandatory.getChild("app_when_1"))
+				#set($errorClass = "ui-state-error")
+			#end
+			#if($errorElementForCheck && $errorElementForCheck.getChild("ERROR").getChild("dateError").getChild("app_when_1"))
+				#set($errorClass = "ui-state-error")
+			#end
+			<td class="$errorClass"><input id="when_1" name="app_when_1" type="text" style="$inputStyle width: 200px;" value="$!valueElement.getChild("degrees").getChild("app_degree_1").getChildText("when")" /></td>
+			#set($errorClass = "")
+			#if($valueElement.getChild("degrees").getChild("app_degree_1").getChildText("where") == "" || $errorElementForMandatory.getChild("app_where_1"))
+				#set($errorClass = "ui-state-error")
+			#end
+			<td class="$errorClass"><input id="where_1" name="app_where_1" type="text" style="$inputStyle width: 200px;" value="$!valueElement.getChild("degrees").getChild("app_degree_1").getChildText("where")" /></td>
+			#set($checked = "")
+			#if($valueElement.getChild("degrees").getChild("app_degree_1").getChildText("fh") == "on")
+				#set($checked = "checked")
+			#end
+			<td><label for="fh_1" id="fh_1_label" style="$labelStyle width: 20px">$lang.docAppYes</label><input id="fh_1" name="app_fh_1" type="checkbox" $checked /></td>
+			<td>
+				##<button id="del" nr="1">löschen</button>
+			</td>
+		</tr>
+		#set($aktRowID = 1)
+		#foreach($item in $valueElement.getChild("degrees").getChildren())
+			#set($rowID = $stringUtil.stringToInt($item.getAttributeValue("id"), 0))
+			#if($rowID > $aktRowID)
+				#set($aktRowID = $rowID)
+			#end
+			#if($rowID != 1)
+				<tr id="row_$rowID">
+					#set($errorClass = "")
+					#if($valueElement.getChild("degrees").getChild("app_degree_$rowID").getChildText("degree") == "")
+						#set($errorClass = "ui-state-error")
+					#end
+					<td class="$errorClass">
+						<select id="degree_$rowID" name="app_degree_$rowID" style="$selectStyle $selectStyleGrid">
+							<option value="">$lang.docAppSelect</option>
+							#foreach($item in $import.getChild("application").getChild("AkadGrades").getChildren())
+								#if($valueElement.getChild("degrees").getChild("app_degree_$rowID").getChildText("degree") == $item.getChildText("gradid"))
+									<option value="$item.getChildText("gradid")" selected>$item.getChildText("ltxt")</option>
+								#else
+									<option value="$item.getChildText("gradid")">$item.getChildText("ltxt")</option>
+								#end
+							#end
+							#if($valueElement.getChild("degrees").getChild("app_degree_$rowID").getChildText("degree") == -1)
+								<option value="-1" selected>$lang.docAppSonst</option>
+							#else
+								<option value="-1">$lang.docAppSonst</option>
+							#end
+						</select><br/>
+						#set($type = "hidden")
+						#if($valueElement.getChild("degrees").getChild("app_degree_$rowID").getChildText("degree") == -1)
+							#set($degree_add = $valueElement.getChild("degrees").getChild("app_degree_$rowID").getChildText("degree_add"))
+							#set($type = "text")
+						#end
+						<input id="degree_add_$rowID" name="app_degree_add_$rowID" type="$type" style="$inputStyle width: 200px;" value="$!degree_add" />
+					</td>
+					#set($errorClass = "")
+					#if($valueElement.getChild("degrees").getChild("app_degree_$rowID").getChildText("when") == "" || $errorElementForMandatory.getChild("app_degree_$rowID"))
+						#set($errorClass = "ui-state-error")
+					#end
+					#if($errorElementForCheck && $errorElementForCheck.getChild("ERROR").getChild("dateError").getChild("app_when_$rowID"))
+						#set($errorClass = "ui-state-error")
+					#end
+					<td class="$errorClass"><input id="when_$rowID" name="app_when_$rowID" type="text" style="$inputStyle width: 200px;" value="$!valueElement.getChild("degrees").getChild("app_degree_$rowID").getChildText("when")" /></td>
+					#set($errorClass = "")
+					#if($valueElement.getChild("degrees").getChild("app_degree_$rowID").getChildText("where") == "")
+						#set($errorClass = "ui-state-error")
+					#end
+					<td class="$errorClass"><input id="where_$rowID" name="app_where_$rowID" type="text" style="$inputStyle width: 200px;" value="$!valueElement.getChild("degrees").getChild("app_degree_$rowID").getChildText("where")" /></td>
+					#set($checked = "")
+					#if($valueElement.getChild("degrees").getChild("app_degree_$rowID").getChildText("fh") == "on")
+						#set($checked = "checked")
+					#end
+					<td><label for="fh_$rowID" id="fh_$rowID_label" style="$labelStyle width: 20px">$lang.docAppYes</label><input id="fh_$rowID" name="app_fh_$rowID" type="checkbox" $checked /></td>
+					<td>
+						<button id="del" nr="$rowID" class="submit4">$lang.docAppDegDel</button>
+					</td>
+				</tr>
+			#end
+		#end
+		#set($aktRowID = $aktRowID + 1)
+		<tr id="addRow">
+			<td style="padding-top: 10px;">
+				<button id="add" nr="$aktRowID" class="submit4">$lang.docAppDegAdd</button>
+			</td>
+		</tr>
+	</table>
+</p>

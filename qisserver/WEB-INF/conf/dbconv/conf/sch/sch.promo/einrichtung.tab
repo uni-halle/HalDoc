@@ -1,0 +1,13 @@
+{### einrichtung #############################################################}
+CREATE TABLE einrichtung (              
+   id             SERIAL NOT NULL,     { PrimaryKey:                         }
+   aikz            VARCHAR(1),         { Aktiv/Inaktiv-Kennzeichen           }
+   inst_nr         VARCHAR(10),        { Institut (Ident, Schlüssel)         }
+   ktxt            VARCHAR(10),        { Kurztext                            }
+   dtxt            VARCHAR(255,0),     { Drucktext                           }
+   ltxt            VARCHAR(255,0),     { Langtext                            }
+   utxt            VARCHAR(255,0),     { Untertitel                          }
+   kostenst        VARCHAR(20),		     { Kostenstelle                        }
+   farbe	         VARCHAR(7),		     { Farbe des CD für die Druckausgaben  }
+   zeitstempel     DATETIME year to fraction(5)  { Aenderungsdatum/-zeit     }
+);

@@ -1,0 +1,17 @@
+{### k_typadr ################################################################}
+CREATE TABLE k_typadr
+   (              
+   typadrid        SERIAL NOT NULL,     { Primary Key                         }
+   aikz            CHAR(1),             { Aktiv/Inaktiv - Kennzeichen         }
+   ktxt            CHAR(10),            { Kurztext                            }
+   dtxt            VARCHAR(255,0),      { Drucktext                           }
+   ltxt            VARCHAR(255,0),      { Langtext                            }
+   anschrkz        CHAR(01),            {  Kz ueber die Art der Anschrift     }
+				        {     H = Heimat-Anschrift            }
+				        {     S = Semester-Anschrift          }
+				        {     W = weitere Anschrift           }
+   zeitstempel     DATETIME year to fraction(5) { Aenderungsdatum/-zeit       }
+   );
+             
+
+

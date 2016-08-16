@@ -1,0 +1,4 @@
+{### kontakt #################################################################}
+CREATE UNIQUE INDEX i_kontakt ON kontakt (kid);
+CREATE INDEX i_kontakt_tabelle ON kontakt (tabelle);
+CREATE INDEX i_kontakt_tabpk ON kontakt (tabpk);

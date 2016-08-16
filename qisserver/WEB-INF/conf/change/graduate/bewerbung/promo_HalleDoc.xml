@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<promo active="y" object="promo" objectid="promotion.promotionid" protsuppl="Promotion" modules="PROMO">
+	<subitem>promo</subitem>
+	<dbhandlername>promo</dbhandlername>
+	<title>$lang.editpromotion</title>
+	<insert />
+	<update protocol="y" />
+	<delete protocol="y" />
+	<header />
+	<size>63</size>
+	<session>bewerber.bid</session>
+	<script>calendar</script>
+	<change>
+		SELECT DISTINCT promotion.promotionid AS ID, promotion.title as Titel, promotion.einrichtungid AS Einrichtung, promotion.institute AS Institut, promotion.promoprogrammdetail AS programm, 
+			promotion.frameworkdetail AS framework, promotion.k_abstgv_id AS Studienfach, promotion.gradid AS AkadGrad, promotion.startofdoctoralstudies AS startOfDoctoralStudies, 
+			promotion.zeitstempel AS Zeitstempel, promotion.bid AS Bewerber, promotion.mentor1name AS mentor1Name, promotion.mentor1einrich AS mentor1Einrich, promotion.mentor2name AS mentor2Name, 
+			promotion.mentor2einrich AS mentor2Einrich, promotion.mentor3name AS mentor3Name, promotion.mentor3einrich AS mentor3Einrich
+		FROM promotion
+		WHERE promotion.bid=[bewerber.bid]
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<column name="Titel" language1="y" mandatory="y" subHeader="Daten zu Ihrer Promotion" />
+		<column name="Institut" mandatory="y" />
+		<column name="Status" listonly="-&gt;promo.k_promotionstatus" cssclass="selectInChange" />
+		<column name="Studienfach" mandatory="y" listboxsize="36" listonly="-&gt;promo.v_k_abstgv" cssclass="selectInChange" />
+		<column name="programm" />
+		<column name="framework" />
+		<column name="Bewerber" default="[bewerber.bid]" noshow="y"/>
+		<column name="Einrichtung" label="in welcher Einrichtung" listboxsize="36" listonly="-&gt;promo.einrichtungFaks" mandatory="y" cssclass="selectInChange" />
+		<column name="AkadGrad" listboxsize="36" listonly="-&gt;promo.k_akadgradPromo" mandatory="y" cssclass="selectInChange" />
+		<column name="mentor1Name" mandatory="y" subHeader="$lang.mentorNameSubheader (1)" />
+		<column name="mentor2Name" subHeader="$lang.mentorNameSubheader (2)" />
+		<column name="mentor3Name" subHeader="$lang.mentorNameSubheader (3)" />
+		<column name="mentor1Einrich" mandatory="y" />
+		<column name="mentor2Einrich" />
+		<column name="mentor3Einrich" />
+		<column name="startOfDoctoralStudies" datatype="date" mandatory="y" />
+		<column name="Zeitstempel" noshow="y" />
+	</change_prop>
+	<etceteras>
+		<promoprogramm label="strukturiertes Promotionsprogramm" comment="Dissertation erfolg im Rahmen eines strukturierten Promotionsprogrammes" parentElement="Institut" inputtype="checkbox" action="promoprogramm" checked="select" />
+		<framework label="bi-nationales Promotionsverfahren" comment="Dissertation erfolgt im Rahmen eines bi-nationalen Promotionsverfahrens" parentElement="programm" inputtype="checkbox" action="framework" checked="select" />
+	</etceteras>
+	<actions>
+		<promoprogramm>
+			<select>SELECT count(*) AS anzahl FROM promotion WHERE promotion.bid=[bewerber.bid] AND promoprogramm='J'</select>
+			<checked>UPDATE promotion SET promoprogramm = 'J' WHERE promotion.bid=[bewerber.bid]</checked>
+			<unchecked>UPDATE promotion SET promoprogramm = 'N' WHERE promotion.bid=[bewerber.bid]</unchecked>
+		</promoprogramm>
+		<framework>
+			<select>SELECT count(*) AS anzahl FROM promotion WHERE promotion.bid=[bewerber.bid] AND framework='J'</select>
+			<checked>UPDATE promotion SET framework = 'J' WHERE promotion.bid=[bewerber.bid]</checked>
+			<unchecked>UPDATE promotion SET framework = 'N' WHERE promotion.bid=[bewerber.bid]</unchecked>
+		</framework>
+	</actions>
+	<additionalButtons>
+		<button action="state=verpublish&amp;publishContainer=printApplication" label="drucken" />
+	</additionalButtons>
+	<parentModuleParameter>bewerber</parentModuleParameter>
+</promo>

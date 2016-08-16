@@ -1,0 +1,9 @@
+{### texte ####################################################################}
+CREATE TABLE texte
+   (              
+   texteid         SERIAL NOT NULL,   { Primary Key                         }
+   txt             VARCHAR(255),	  { Text                                } 
+   zeitstempel     DATETIME year to fraction(5) { Aenderungszeit            }  
+);
+
+

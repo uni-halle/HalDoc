@@ -1,0 +1,32 @@
+<rBewertungEinrichtung active="y" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>60</size>
+	<session>moduleParameter</session>
+	<rowMarker>y</rowMarker>
+	<insert />
+	<update />
+	<delete />
+	<rights>
+		<admin>
+			<insert />
+			<update />
+			<delete />
+			<select />
+		</admin>
+	</rights>
+	<change>
+		SELECT r_einrichtung_bewertung.id AS ID, einrichtung_eid, isrig, isdiss, isvert, isges
+		FROM r_einrichtung_bewertung
+		WHERE bewertung_id = [bewertung.id]
+		ORDER BY einrichtung_eid, isrig, isdiss, isvert, isges
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<column name="einrichtung_eid" label="Einrichtung" size="40" listmatch="->promo.einrichtung" />
+		<column name="isrig" label="Rigorosum" size="5" list="(1 Ja, 0 Nein)" stripkey="y" />
+		<column name="isdiss" label="Dissertation" size="5" list="(1 Ja, 0 Nein)" stripkey="y" />
+		<column name="isvert" label="Verteidigung" size="5" list="(1 Ja, 0 Nein)" stripkey="y" />
+		<column name="isges" label="Gesamtbew." size="5" list="(1 Ja, 0 Nein)" stripkey="y" />
+	</change_prop>
+	<parentModuleParameter>bewertung</parentModuleParameter>
+</rBewertungEinrichtung>

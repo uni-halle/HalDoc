@@ -1,0 +1,10 @@
+{### k_refsystem #######################################################}
+
+CREATE TABLE k_refsystem (
+   refsystemid			SERIAL NOT NULL,			{ Primary Key                      		}
+   aikz						CHAR(1),							{ Aktiv/-Inaktiv-Kennzeichen       }	
+   ktxt						CHAR(10),            			{ Kurztext				  					}
+   dtxt						CHAR(25),            			{ Drucktext			        				}
+   ltxt						VARCHAR(255,0),				{ Langtext				 					}
+   zeitstempel	DATETIME year to fraction(5)	{ Aenderungsdatum/-zeit  			}
+);

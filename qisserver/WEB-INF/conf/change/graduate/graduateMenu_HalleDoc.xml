@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu version="1.0" align="center" class="td" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<title>
+		<de>Promovierendenverwaltung</de>
+		<en>Graduating students management</en>
+	</title>
+	<helptext>
+		Für Fragen und Anregungen können Sie sich gern an Herrn Dr. Dr. Meinike unter ... wenden.
+	</helptext>
+	<rights>
+		<admin>
+			<select />
+		</admin>
+		<dekan>
+			<select />
+		</dekan>
+		<promov>
+			<select />
+		</promov>
+		<promoverw>
+			<select />
+		</promoverw>
+		<biblio>
+			<select />
+		</biblio>
+		<gradakad>
+			<select />
+		</gradakad>
+		<intoffice>
+			<select />
+		</intoffice>
+	</rights>
+	<header1 active="y" header="y" headerformat="mediumgreen mehr" context="admin">Bearbeitungen</header1>
+	<promoApplication active="y" databases="promo" context="admin" query="state=change&amp;type=5&amp;moduleParameter=applicationSearch&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/bewerber&amp;clean=y">$lang.promoApplication</promoApplication>
+	<newPromo active="y" databases="promo" context="admin" query="state=change&amp;type=5&amp;moduleParameter=personSearch&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/promo&amp;_form=newPromo&amp;clean=y">$lang.newpromotion</newPromo>
+	<personalPromov active="y" databases="promo" context="admin" query="state=change&amp;type=5&amp;moduleParameter=personSearch&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/promo&amp;_form=promov&amp;clean=y">$lang.editpersonpromov</personalPromov>
+	<personal active="y" databases="promo" context="admin" query="state=change&amp;type=5&amp;moduleParameter=personSearch&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/person&amp;_form=sach&amp;clean=y">$lang.editperson ($lang.promoSachbearb)</personal>
+	<personal2 active="y" databases="promo" context="admin" query="state=change&amp;type=5&amp;moduleParameter=personSearch&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/person&amp;_form=gut&amp;clean=y">$lang.editperson ($lang.promoEval)</personal2>
+
+	<promos active="y" databases="promo" context="admin" query="state=change&amp;type=5&amp;moduleParameter=promoSearch&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/promo&amp;_form=publish&amp;clean=y">$lang.searchPromotions</promos>
+	<header2 active="y" header="y" headerformat="mediumgreen mehr" context="admin">Ingra-Funktionen</header2>
+	<mailForInGra active="y" databases="promo" context="admin" query="state=change&amp;type=5&amp;moduleParameter=personSearchPromo&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/promo&amp;_form=mailForAkad">$lang.sendEmails Ingra</mailForInGra>
+	<mailForInGra active="y" databases="promo" context="admin" query="state=change&amp;type=5&amp;moduleParameter=personSearchPromo&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/promo&amp;_form=mailForIO">$lang.sendEmails IO</mailForInGra>
+	<statForInGra active="y" databases="promo" context="admin" query="state=verpublish&amp;publishContainer=statForInGra&amp;menu_open=n">$lang.statForInGra</statForInGra>
+	<semStat active="y" databases="promo" context="admin" query="state=verpublish&amp;publishContainer=semStat">$lang.semStat</semStat>
+	<uebForInGra active="y" databases="promo" context="admin" query="state=verpublish&amp;publishContainer=overviewIngra&amp;menu_open=n">$lang.uebForInGra</uebForInGra>
+	<emailErrors active="y" databases="promo" context="admin" query="state=verpublish&amp;publishContainer=emailErrors&amp;menu_open=n">Fehlerhafte Emailadressen</emailErrors>
+
+	<header3 active="y" header="y" headerformat="mediumgreen mehr" context="admin">Administration</header3>
+	<einrichtungszuordnung active="y" databases="promo" context="admin" query="state=change&amp;type=2&amp;moduleParameter=einrichtungzuord&amp;nextdir=change&amp;next=GridInput.vm&amp;subdir=graduate/keys">Einrichtungszuordnung</einrichtungszuordnung>
+	<bewertungsart active="y" databases="promo" context="admin" query="state=change&amp;type=2&amp;moduleParameter=bewertungsart&amp;nextdir=change&amp;next=GridInput.vm&amp;subdir=graduate/keys">Bewertungsarten</bewertungsart>
+	<bewertung active="y" databases="promo" context="admin" query="state=change&amp;type=2&amp;moduleParameter=bewertung&amp;nextdir=change&amp;next=GridInput.vm&amp;subdir=graduate/keys">Bewertungen</bewertung>
+
+	<prot active="y" databases="prot" context="admin" query="state=change&amp;type=5&amp;moduleParameter=protSearch&amp;nextdir=change&amp;next=search.vm&amp;subdir=prot&amp;clean=y">Protokollsätze ansehen</prot>
+	<wrong active="y" databases="sosposProd" context="admin" query="state=verpublish&amp;status=init&amp;vmfile=no&amp;moduleCall=wrong&amp;publishConfFile=import&amp;publishSubDir=graduate">Falscher Status</wrong>
+	<double active="y" databases="promoProd" context="admin" query="state=verpublish&amp;status=init&amp;vmfile=no&amp;moduleCall=double&amp;publishConfFile=import&amp;publishSubDir=graduate">Dubletten finden</double>
+	<double active="y" databases="promo" context="admin" query="state=verpublish&amp;status=init&amp;vmfile=no&amp;moduleCall=double&amp;publishConfFile=import&amp;publishSubDir=graduate">Dubletten finden</double>
+	<grading active="y" databases="promoProd" context="admin" query="state=verpublish&amp;status=init&amp;vmfile=no&amp;moduleCall=gradings&amp;publishConfFile=import&amp;publishSubDir=graduate">Endnoten generieren</grading>
+	<grading active="y" databases="promo" context="admin" query="state=verpublish&amp;status=init&amp;vmfile=no&amp;moduleCall=gradings&amp;publishConfFile=import&amp;publishSubDir=graduate">Endnoten generieren</grading>
+
+	<header4 active="y" header="y" headerformat="mediumgreen mehr" context="admin">Schlüsseltabellen</header4>
+	<akadgrad active="y" databases="promo" context="admin" query="state=change&amp;type=2&amp;moduleParameter=akadgrad&amp;nextdir=change&amp;next=GridInput.vm&amp;subdir=graduate/keys">Akademische Grade</akadgrad>
+	<language active="y" databases="promo" context="admin" query="state=change&amp;type=2&amp;moduleParameter=language&amp;nextdir=change&amp;next=GridInput.vm&amp;subdir=graduate/keys">Sprachen</language>
+	<center_of_research active="y" databases="promo" context="admin" query="state=change&amp;type=2&amp;moduleParameter=centerOfResearch&amp;nextdir=change&amp;next=GridInput.vm&amp;subdir=graduate/keys">Forschungsschwerpunkte</center_of_research>
+	<type_of_dissertation active="y" databases="promo" context="admin" query="state=change&amp;type=2&amp;moduleParameter=kindOfDissertation&amp;nextdir=change&amp;next=GridInput.vm&amp;subdir=graduate/keys">Formen von Dissertationen</type_of_dissertation>
+
+	<comments>
+		<personal>
+			<de>Bearbeitung von Personen</de>
+			<en>Processing of personal</en>
+		</personal>
+	</comments>
+</menu>

@@ -1,0 +1,95 @@
+#if (!$contentVM)
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    	
+	<html>
+		<head>
+			<title>LSF</title>
+			<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+				#parse ("header.vm")
+</head>
+<body class="background">
+	#parse("head.vm")
+	#parse("Controls.vm")
+	#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+		#parse("wlogin/LoginInfo.vm")
+	#end
+	<br>
+		<br>
+#end
+<form class="form" action="$servlet.SERVLETURL?state=wplan&amp;search=ver&amp;act=add" method="post">
+	#set ($webPath = "publish/pmodul/vm/graduate/person")
+	#if ($import.getChild("Person").getChildren())
+		#set($Person = $import.getChild("Person"))
+	#else
+		#set($Person = $import.getChild("Promotion").getChild("Promovend"))
+		#set($Promotion = $import.getChild("Promotion"))
+	#end
+	#if($Person)
+		<h1>
+			#set($elementID = "detailPage")
+			#set($qrCodeType = "URL")
+			#set($qrURL = "$servlet.SERVLETURL?$servlet.QUERYSTRING")
+			#set($logo = $servlet.PUBROOT+"img/mlu/ingra-logo-050.gif")
+			#parse("publish/pmodul/vm/globalAction/qrCode.vm")
+			#if ($Person.getChild("TitelID").getChildText("Titel") && !$Person.getChild("TitelID").getChildText("Titel").trim().equals(""))$Person.getChild("TitelID").getChildText("Titel")#end
+			#if ($Person.getChildText("AkadGradVor") && !$Person.getChild("AkadGradVor").getChildText("dtxt").trim().equals(""))$Person.getChild("AkadGradVor").getChildText("dtxt")#end
+			#if ($Person.getChildText("PerVor") && !$Person.getChildText("PerVor").trim().equals(""))$Person.getChildText("PerVor")#end
+			#if ($Person.getChildText("PerNam") && !$Person.getChildText("PerNam").trim().equals(""))$Person.getChildText("PerNam")#end
+			$Person.getChildText("PerNac")
+			#if ($Person.getChildText("AkadGradNach") && !$Person.getChild("AkadGradNach").getChildText("dtxt").trim().equals(""))$Person.getChild("AkadGradNach").getChildText("dtxt")#end
+		</h1>
+		## Funktionsleiste
+		#parse("$webPath/webControls.vm")
+		#if($Promotion)
+			## Druckerzeugnisse
+			#parse("$webPath/webPrints.vm")
+			## Fehlende Daten
+			#parse("$webPath/webErrors.vm")
+		#end
+		## Grunddaten
+		#parse("$webPath/webBasics.vm")
+		## Dienstadresse
+		#parse("$webPath/webDienstadresse.vm")
+		## Publikationen
+		#set($title = $!lang.belonging_promo)
+		#set($element = $Promotion)
+		#parse("$webPath/webMyPublikation.vm")
+		#set($title = $!lang.belonging_promo_asFirst)
+		#set($element = $Person.getChildren("PromosASFirst"))
+		#parse("$webPath/webPublikation.vm")
+		#set($title = $!lang.belonging_promo_asSecond)
+		#set($element = $Person.getChildren("PromosASSecond"))
+		#parse("$webPath/webPublikation.vm")
+		#set($title = $!lang.belonging_promo_asThird)
+		#set($element = $Person.getChildren("PromosASThird"))
+		#parse("$webPath/webPublikation.vm")
+
+		#set($title = $!lang.belonging_promo_asFirstGut)
+		#set($element = $Person.getChildren("PromosASFirstGut"))
+		#parse("$webPath/webPublikation.vm")
+		#set($title = $!lang.belonging_promo_asSecondGut)
+		#set($element = $Person.getChildren("PromosASSecondGut"))
+		#parse("$webPath/webPublikation.vm")
+		#set($title = $!lang.belonging_promo_asThirdGut)
+		#set($element = $Person.getChildren("PromosASThirdGut"))
+		#parse("$webPath/webPublikation.vm")
+		#set($title = $!lang.belonging_promo_asForthGut)
+		#set($element = $Person.getChildren("PromosASForthGut"))
+		#parse("$webPath/webPublikation.vm")
+		## Externe Dokumente
+		#parse("$webPath/webMediaFiles.vm")
+		## DruckProtokoll
+		#parse("$webPath/webPrintProtocol.vm")
+		##XMLOut($Person)
+	#else
+		<h1>$lang.Erg3_keine_daten</h1>
+	#end
+</form>
+
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}jquery/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src='${servlet.SERVER_URL}${servlet.PUBURLROOT}js/showElements_HalleDoc.js'></script>
+
+#if (!$contentVM)
+	#parse("foot.vm")
+</body>
+</html>
+#end

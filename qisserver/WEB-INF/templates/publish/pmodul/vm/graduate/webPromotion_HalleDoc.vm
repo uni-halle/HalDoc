@@ -1,0 +1,143 @@
+#if (!$contentVM)
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    	
+	<html>
+		<head>
+			<title>LSF</title>
+			<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+				#parse ("header.vm")
+</head>
+<body class="background">
+	#parse("head.vm")
+	#parse("Controls.vm")
+	#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+		#parse("wlogin/LoginInfo.vm")
+	#end
+	<br>
+		<br>
+#end
+#set ($webPath = "publish/pmodul/vm/graduate")
+#if ($import.getChildren().size() != 0)
+	#foreach ($Promotion in $import.getChildren("Promotion"))
+		<h1>Promotion: $!Promotion.getChildText("Titel")</h1>
+		<h3>Status: $!Promotion.getChildText("StatusTxt")</h3>
+		## Funktionsleiste
+		#parse("$webPath/webControls.vm")
+
+<table summary="Grunddaten zur Promotion">
+	<caption class="t_capt">$lang.Erg2alles_Basics</caption>
+	<tr>
+		<th class="mod" id="basic_1">Titel</th>
+		<td class="mod_n_basic" colspan="3" headers="basic_1">$!Promotion.getChildText("Titel")</td>
+	</tr>
+	<tr>
+		<th class="mod" id="basic_1">Status</th>
+		<td class="mod_n_basic" colspan="3" headers="basic_1">Die Promotion befindet sich um Status "$!Promotion.getChildText("StatusTxt")"!</td>
+	</tr>
+	<tr>
+		<th class="mod" id="basic_3">Beginn der Arbeit</th>
+		<td class="mod_n_basic" headers="basic_3">$!Promotion.getChildText("Beginn")</td>
+		
+		<th class="mod" id="basic_4">zu erreichender Akademischer Grad</th>
+		<td class="mod_n_basic" headers="basic_4">$!Promotion.getChildText("AkadGrad")</td>
+	</tr>
+	<tr>
+		<th class="mod" id="basic_3">Institution</th>
+		<td class="mod_n_basic" headers="basic_3">$!Promotion.getChild("Institut").getChildText("Name")</td>
+		
+		<th class="mod" id="basic_4">Fachgebiet</th>
+		<td class="mod_n_basic" headers="basic_4">$!Promotion.getChildText("field")</td>
+	</tr>
+	#set($promoprogramm = 'Nein')
+	#if($!Promotion.getChildText("promoprogramm").equals("J"))
+		#set($promoprogramm = 'Ja')
+	#end
+	<tr>
+		<th class="mod" colspan="2" id="basic_5">Im Rahmen eines strukturierten Promotionsprogramms?</th>
+		<td class="mod_n_basic" colspan="2" headers="basic_5">$promoprogramm</td>
+	</tr>
+	#if($!Promotion.getChildText("promoprogramm").equals("J"))
+	<tr>
+		<th class="mod" colspan="2" id="basic_5">&nbsp;&nbsp;Institution und Bezeichnung des Programmes:</th>
+		<td class="mod_n_basic" colspan="2" headers="basic_5">$!Promotion.getChildText("promoprogrammdetail")</td>
+	</tr>
+	#end
+	#set($framework = 'Nein')
+	#if($!Promotion.getChildText("framework").equals("J"))
+		#set($framework = 'Ja')
+	#end
+	<tr>
+		<th class="mod" colspan="2" id="basic_5">Im Rahmen eines bi-direktionalen Promotionsverfahren?</th>
+		<td class="mod_n_basic" colspan="2" headers="basic_5">$framework</td>
+	</tr>
+	#if($!Promotion.getChildText("framework").equals("J"))
+	<tr>
+		<th class="mod" colspan="2" id="basic_5">&nbsp;&nbsp;Institution und Land:</th>
+		<td class="mod_n_basic" colspan="2" headers="basic_5">$!Promotion.getChildText("frameworkdetail")</td>
+	</tr>
+	#end
+	#if ($!Promotion.getChild("Mentor1") || $!Promotion.getChild("Mentor2"))
+	<tr>
+		#if ($!Promotion.getChild("Mentor1"))
+		<th class="mod" id="basic_3">Betreuer(in) (1)</th>
+		<td class="mod_n_basic" headers="basic_3">
+			#set($pid=$Promotion.getChild("Mentor1").getChildText("ID"))
+			#set($url="state=verpublish&amp;status=init&amp;vmfile=no&moduleCall=webInfo&amp;publishConfFile=webInfoPerson&amp;publishSubDir=graduate&amp;personal.pid=$pid")
+			<a class="regular" href="$response.encodeURL("$servlet.SERVLETURL?$url")" title="Mehr Informationen">
+				$!Promotion.getChild("Mentor1").getChildText("Titel") $!Promotion.getChild("Mentor1").getChildText("AkadGradVor") $!Promotion.getChild("Mentor1").getChildText("vorname") $!Promotion.getChild("Mentor1").getChildText("namenbestand") $!Promotion.getChild("Mentor1").getChildText("nachname") $!Promotion.getChild("Mentor1").getChildText("AkadGradNach")
+			</a>
+		</td>
+		#end
+		#if ($!Promotion.getChild("Mentor2"))
+		<th class="mod" id="basic_3">Betreuer(in) (2)</th>
+		<td class="mod_n_basic" headers="basic_3">
+			#set($pid=$Promotion.getChild("Mentor2").getChildText("ID"))
+			#set($url="state=verpublish&amp;status=init&amp;vmfile=no&moduleCall=webInfo&amp;publishConfFile=webInfoPerson&amp;publishSubDir=graduate&amp;personal.pid=$pid")
+			<a class="regular" href="$response.encodeURL("$servlet.SERVLETURL?$url")" title="Mehr Informationen">
+				$!Promotion.getChild("Mentor2").getChildText("Titel") $!Promotion.getChild("Mentor2").getChildText("AkadGradVor") $!Promotion.getChild("Mentor2").getChildText("vorname") $!Promotion.getChild("Mentor2").getChildText("namenbestand") $!Promotion.getChild("Mentor2").getChildText("nachname") $!Promotion.getChild("Mentor2").getChildText("AkadGradNach")
+			</a>
+		</td>
+		#end
+	</tr>
+	#end
+	<tr>
+		<th class="mod" id="basic_3">Promovierende(r)</th>
+		<td class="mod_n_basic" headers="basic_3">
+			#set($pid=$Promotion.getChild("Person").getChildText("ID"))
+			#set($url="state=verpublish&amp;status=init&amp;vmfile=no&moduleCall=webInfo&amp;publishConfFile=webInfoPerson&amp;publishSubDir=graduate&amp;personal.pid=$pid")
+			<a class="regular" href="$response.encodeURL("$servlet.SERVLETURL?$url")" title="Mehr Informationen">
+				$!Promotion.getChild("Person").getChildText("Titel") $!Promotion.getChild("Person").getChildText("AkadGradVor") $!Promotion.getChild("Person").getChildText("PerVor") $!Promotion.getChild("Person").getChildText("PerNam") $!Promotion.getChild("Person").getChildText("PerNac") $!Promotion.getChild("Person").getChildText("AkadGradNach")
+			</a>
+		</td>
+	</tr>
+	#if ($!Promotion.getChild("AcagemicDegrees").getChildren().size() > 0)
+	<tr>
+		<th class="mod" id="basic_3">Bisherige Abschlüsse</th>
+		<td class="mod_n_basic" colspan="3" headers="basic_3">
+			<ul>
+		#foreach ($degree in $!Promotion.getChild("AcagemicDegrees").getChildren())
+			<li>$degree.getChildText("AkadGrad") #if($degree.getChildText("isappliedsience").equals("J"))(FH)#end erhalten am $degree.getChildText("Date") von der $degree.getChildText("Ort")</li>
+		#end
+			</ul>
+		</td>
+	</tr>
+	#end
+	#if ($Promotion.getChildText("Lebenslauf"))
+	<tr>
+		<th class="mod" id="basic_3">Lebenslauf</th>
+		<td class="mod_n_basic" colspan="3" headers="basic_3">$!Promotion.getChildText("Lebenslauf")</td>
+	</tr>
+	#end
+</table>
+
+
+		## Externe Dokumente
+		#parse("$webPath/webMediaFiles.vm")
+	#end
+#else
+	<h1>$lang.Erg3_keine_daten</h1>
+#end
+#if (!$contentVM)
+	#parse("foot.vm")
+</body>
+</html>
+#end

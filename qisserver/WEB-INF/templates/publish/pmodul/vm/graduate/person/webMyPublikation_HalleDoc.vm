@@ -1,0 +1,176 @@
+#if ($element)
+<br>
+	<a name="publikation"></a>
+	<h2>$title</h2>
+	#set($lineBackGr = "mod_n_even")
+	#set($pID = $Person.getChildText('PerID'))
+<table summary="$title">
+	<caption class="t_capt">$lang.Erg2alles_Basics</caption>
+	<tr>
+		<th class="mod" id="basic_1">Titel</th>
+		<td class="mod_n_basic" colspan="3" headers="basic_1">$!element.getChildText("Titel")</td>
+	</tr>
+	<tr>
+		<th class="mod" id="basic_4">zu erreichender Akademischer Grad</th>
+		<td class="mod_n_basic" colspan="3" headers="basic_4">$!element.getChildText("AkadGrad") ($!element.getChildText("AkadGradKurz"))</td>
+	</tr>
+	<tr>
+		<th class="mod" id="basic_3">Institution</th>
+		<td class="mod_n_basic" headers="basic_3">$!element.getChildText("Institut")</td>
+		
+		<th class="mod" id="basic_4">Promotionsfach</th>
+		<td class="mod_n_basic" headers="basic_4">$!element.getChildText("field")</td>
+	</tr>
+	#set($promoprogramm = 'Nein')
+	#if($!element.getChildText("promoprogramm").equals("J"))
+		#set($promoprogramm = 'Ja')
+	#end
+	<tr>
+		<th class="mod" colspan="2" id="basic_5">Im Rahmen eines strukturierten Promotionsprogramms?</th>
+		<td class="mod_n_basic" colspan="2" headers="basic_5">$promoprogramm</td>
+	</tr>
+	#if($!element.getChildText("promoprogramm").equals("J"))
+	<tr>
+		<th class="mod" colspan="2" id="basic_5">&nbsp;&nbsp;Institution und Bezeichnung des Programmes:</th>
+		<td class="mod_n_basic" colspan="2" headers="basic_5">$!element.getChildText("promoprogrammdetail")</td>
+	</tr>
+	#end
+	#set($framework = 'Nein')
+	#if($!element.getChildText("framework").equals("J"))
+		#set($framework = 'Ja')
+	#end
+	<tr>
+		<th class="mod" colspan="2" id="basic_5">Im Rahmen eines bi-direktionalen Promotionsverfahren?</th>
+		<td class="mod_n_basic" colspan="2" headers="basic_5">$framework</td>
+	</tr>
+	#if($!element.getChildText("framework").equals("J"))
+	<tr>
+		<th class="mod" colspan="2" id="basic_5">&nbsp;&nbsp;Institution und Land:</th>
+		<td class="mod_n_basic" colspan="2" headers="basic_5">$!element.getChildText("frameworkdetail")</td>
+	</tr>
+	#end
+	#if ($!element.getChild("Personen").getChild("Mentor1") || $!element.getChild("Personen").getChild("Mentor2"))
+	<tr>
+		#if ($!element.getChild("Personen").getChild("Mentor1"))
+		#set($Person = $!element.getChild("Personen").getChild("Mentor1"))
+		<th class="mod" id="basic_3">Betreuer(in) (1)</th>
+		<td class="mod_n_basic" headers="basic_3">
+			#set($pid=$Person.getChildText("ID"))
+			#set($url="state=verpublish&amp;status=init&amp;vmfile=no&moduleCall=webInfo&amp;publishConfFile=webInfoPerson&amp;publishSubDir=graduate&amp;personal.pid=$pid")
+			<a class="regular" href="$response.encodeURL("$servlet.SERVLETURL?$url")" title="Mehr Informationen">
+				$!Person.getChildText("Titel") $!Person.getChildText("AkadGradVor") $!Person.getChildText("vorname") $!Person.getChildText("namenbestand") $!Person.getChildText("nachname") $!Person.getChildText("AkadGradNach")
+			</a>
+		</td>
+		#end
+		#if ($!element.getChild("Personen").getChild("Mentor2"))
+		#set($Person = $!element.getChild("Personen").getChild("Mentor2"))
+		<th class="mod" id="basic_3">Betreuer(in) (2)</th>
+		<td class="mod_n_basic" headers="basic_3">
+			#set($pid=$Person.getChildText("ID"))
+			#set($url="state=verpublish&amp;status=init&amp;vmfile=no&moduleCall=webInfo&amp;publishConfFile=webInfoPerson&amp;publishSubDir=graduate&amp;personal.pid=$pid")
+			<a class="regular" href="$response.encodeURL("$servlet.SERVLETURL?$url")" title="Mehr Informationen">
+				$!Person.getChildText("Titel") $!Person.getChildText("AkadGradVor") $!Person.getChildText("vorname") $!Person.getChildText("namenbestand") $!Person.getChildText("nachname") $!Person.getChildText("AkadGradNach")
+			</a>
+		</td>
+		#end
+	</tr>
+	#end
+	#if ($!element.getChild("Personen").getChild("Mentor3"))
+	  <tr>
+		#set($Person = $!element.getChild("Personen").getChild("Mentor3"))
+		<th class="mod" id="basic_3">Betreuer(in) (3)</th>
+		<td class="mod_n_basic" headers="basic_3">
+			#set($pid=$Person.getChildText("ID"))
+			#set($url="state=verpublish&amp;status=init&amp;vmfile=no&moduleCall=webInfo&amp;publishConfFile=webInfoPerson&amp;publishSubDir=graduate&amp;personal.pid=$pid")
+			<a class="regular" href="$response.encodeURL("$servlet.SERVLETURL?$url")" title="Mehr Informationen">
+				$!Person.getChildText("Titel") $!Person.getChildText("AkadGradVor") $!Person.getChildText("vorname") $!Person.getChildText("namenbestand") $!Person.getChildText("nachname") $!Person.getChildText("AkadGradNach")
+			</a>
+		</td>
+	  </tr>
+	#end
+	##XMLOut($!element.getChild("Personen"))
+	#if ($!element.getChild("Personen").getChild("Evaluator1") || $!element.getChild("Personen").getChild("Evaluator2"))
+	<tr>
+		#if ($!element.getChild("Personen").getChild("Evaluator1"))
+		#set($Person = $!element.getChild("Personen").getChild("Evaluator1"))
+		<th class="mod" id="basic_3">Gutachter(in) (2)</th>
+		<td class="mod_n_basic" headers="basic_3">
+			#set($pid=$Person.getChildText("ID"))
+			#set($url="state=verpublish&amp;status=init&amp;vmfile=no&moduleCall=webInfo&amp;publishConfFile=webInfoPerson&amp;publishSubDir=graduate&amp;personal.pid=$pid")
+			<a class="regular" href="$response.encodeURL("$servlet.SERVLETURL?$url")" title="Mehr Informationen">
+				$!Person.getChildText("Titel") $!Person.getChildText("AkadGradVor") $!Person.getChildText("vorname") $!Person.getChildText("namenbestand") $!Person.getChildText("nachname") $!Person.getChildText("AkadGradNach")
+			</a>
+		</td>
+		#end
+		#if ($!element.getChild("Personen").getChild("Evaluator2"))
+		#set($Person = $!element.getChild("Personen").getChild("Evaluator2"))
+		<th class="mod" id="basic_3">Gutachter(in) (2)</th>
+		<td class="mod_n_basic" headers="basic_3">
+			#set($pid=$Person.getChildText("ID"))
+			#set($url="state=verpublish&amp;status=init&amp;vmfile=no&moduleCall=webInfo&amp;publishConfFile=webInfoPerson&amp;publishSubDir=graduate&amp;personal.pid=$pid")
+			<a class="regular" href="$response.encodeURL("$servlet.SERVLETURL?$url")" title="Mehr Informationen">
+				$!Person.getChildText("Titel") $!Person.getChildText("AkadGradVor") $!Person.getChildText("vorname") $!Person.getChildText("namenbestand") $!Person.getChildText("nachname") $!Person.getChildText("AkadGradNach")
+			</a>
+		</td>
+		#end
+	</tr>
+	#end
+	#if ($!element.getChild("Personen").getChild("Evaluator3"))
+	  <tr>
+		#set($Person = $!element.getChild("Personen").getChild("Evaluator3"))
+		<th class="mod" id="basic_3">Gutachter(in) (3)</th>
+		<td class="mod_n_basic" headers="basic_3">
+			#set($pid=$Person.getChildText("ID"))
+			#set($url="state=verpublish&amp;status=init&amp;vmfile=no&moduleCall=webInfo&amp;publishConfFile=webInfoPerson&amp;publishSubDir=graduate&amp;personal.pid=$pid")
+			<a class="regular" href="$response.encodeURL("$servlet.SERVLETURL?$url")" title="Mehr Informationen">
+				$!Person.getChildText("Titel") $!Person.getChildText("AkadGradVor") $!Person.getChildText("vorname") $!Person.getChildText("namenbestand") $!Person.getChildText("nachname") $!Person.getChildText("AkadGradNach")
+			</a>
+		</td>
+	  </tr>
+	#end
+	#if($!element.getChild("Degrees").getChild("Degree"))
+		#set($degrees = $!element.getChild("Degrees"))
+		<tr><td colspan="4"><h3>bisherige Abschlüsse</h3></td></tr>
+		<tr>
+			<th class="mod" id="basic_3">Abschluss</th>
+			<th class="mod" id="basic_3">Datum</th>
+			<th class="mod" id="basic_3">Hochschule</th>
+			<th class="mod" id="basic_3">ist FH?</th>
+		</tr>
+		#foreach($degree in $degrees.getChildren())
+			<tr>
+				<td class="mod_n_basic" headers="basic_3">
+					#if(!$degree.getChildText("r_personal_akadgrad.sonst").trim().isEmpty())
+						#set($deg = $degree.getChildText("r_personal_akadgrad.sonst"))
+					#else
+						#set($deg = $degree.getChildText("bez") + " (" + $degree.getChildText("kurz") + ")")
+					#end
+					$!deg
+				</td>
+				<td class="mod_n_basic" headers="basic_3">$degree.getChildText("r_personal_akadgrad.date")</td>
+				<td class="mod_n_basic" headers="basic_3">$degree.getChildText("r_personal_akadgrad.place")</td>
+				<td class="mod_n_basic" headers="basic_3">$degree.getChildText("r_personal_akadgrad.isappliedsience")</td>
+			</tr>
+		#end
+	#end
+	
+	#if($!element.getChild("Kommission").getChild("Member"))
+		#set($komm = $!element.getChild("Kommission"))
+		<tr><td colspan="4"><h3>Verteidigungskommission</h3></td></tr>
+		#foreach($member in $komm.getChildren())
+			<tr>
+				<th class="mod" id="basic_3">$member.getChildText("kommType")</th>
+				<td class="mod_n_basic" colspan="3" headers="basic_3">$member.getChildText("name")</td>
+			</tr>
+		#end
+	#end
+	
+	<tr><td colspan="4"><h3>$lang.Erg2alles_Process</h3></td></tr>
+	#foreach($step in $!element.getChild("Process").getChildren())
+	<tr>
+		<th class="mod" id="basic_3">$lang.get($step.getName())</th>
+		<td class="mod_n_basic" colspan="3" headers="basic_3">$step.getText()</td>
+	</tr>
+	#end
+</table>
+#end

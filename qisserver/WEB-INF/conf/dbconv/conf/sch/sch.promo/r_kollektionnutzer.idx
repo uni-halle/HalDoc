@@ -1,0 +1,4 @@
+{### r_funktion ##############################################################}
+CREATE unique index i_r_kollnutzer on r_kollektionnutzer (knid);  
+CREATE index i_r_koll1 on r_kollektionnutzer (nid);
+CREATE index i_r_koll2 on r_kollektionnutzer (kollid);

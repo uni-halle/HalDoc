@@ -1,0 +1,2 @@
+CREATE VIEW v_mtknr (mtknr,upd) AS 
+	SELECT mtknr,upd FROM public.mtknr;

@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='utf-8'?>
+<job-scheduling-data xmlns="http://www.quartz-scheduler.org/xml/JobSchedulingData" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.quartz-scheduler.org/xml/JobSchedulingData http://www.quartz-scheduler.org/xml/job_scheduling_data_2_0.xsd" version="2.0">
+	<schedule>
+		<job>
+			<name>GradMailJob</name>
+			<group>dailyJobs</group>
+			<description>Prüft, ob eine Promotionsanmeldung abläuft</description>
+			<job-class>de.mlu.jobs.GradMailJob</job-class>
+			<durability>false</durability>
+			<recover>false</recover>
+		</job>
+		<trigger>
+			<cron>
+				<name>GradMailTrigger</name>
+				<group>dailyJobs</group>
+				<description>Trigger der den Job anstößt</description>
+				<job-name>GradMailJob</job-name>
+				<job-group>dailyJobs</job-group>
+				<!--cron-expression>0 0/1 13 * * ?</cron-expression-->
+				<cron-expression>0 0 8 * * ?</cron-expression>
+			</cron>
+		</trigger>
+	</schedule>
+</job-scheduling-data>
+<!-- 
+1. Stelle sind Sekunden, 2. Stelle Minuten u. 3. Stunden 
+siehe auch http://www.quartz-scheduler.org/documentation/quartz-2.2.x/tutorials/tutorial-lesson-06
+cron-expression>0 0 8 * * ?</cron-expression -->

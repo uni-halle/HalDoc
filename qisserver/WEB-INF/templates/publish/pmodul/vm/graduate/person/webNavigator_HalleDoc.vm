@@ -1,0 +1,140 @@
+<a name="navigation"></a>
+<div class="mikronavi">
+   <ul>
+   		<li class="randlos">$lang.Erg2alles_PageCont: </li>
+
+        <li class="randlos"><a class="regular" href="#basicdata" title="$lang.Erg2alles_JumpTo $lang.Erg2alles_Basics">$lang.Erg2alles_Basics</a></li>	
+		
+		#if ($Person.getChild("FunktionUndEinrichtung"))
+			#if ($Person.getChildren('FunktionUndEinrichtung').size()>1)
+				#set($lText = $!lang.missing_functions)
+			#else
+				#set($lText = $!lang.missing_function)
+			#end	
+			<li><a class="regular" href="#funktion" title="$lang.Erg2alles_JumpTo $lText">$lText</a></li>			
+		#end
+		
+		#if ($Person.getChild("ZuordnungFunktionExternePerson"))
+			#if ($Person.getChildren('ZuordnungFunktionExternePerson').size()>1)
+				#set($lText = "externe $!lang.missing_functions")
+			#else
+				#set($lText = "externe $!lang.missing_function")
+			#end	
+			<li><a class="regular" href="#funktion" title="$lang.Erg2alles_JumpTo $lText">$lText</a></li>			
+		#end
+		
+		#if ($Person.getChild("Secretary"))
+			<li><a class="regular" href="#secretary" title="$lang.Erg2alles_JumpTo" $lang.secretary>$lang.secretary</a></li>
+		#end
+		
+		
+		#if ($Person.getChild("Dienstadresse"))		
+			<li><a class="regular" href="#dienstadresse" title="$lang.Erg2alles_JumpTo $lang.Erg4alles_dienstadresse">$lang.Erg4alles_dienstadresse</a></li>			
+		#end
+		
+		#if ($BC.darf($User.bereich, "R_PRIVATADRESSESEHEN"))
+			#if ($Person.getChild("Privatadresse"))			
+				<li><a class="regular" href="#privatadresse" title="$lang.Erg2alles_JumpTo $lang.Erg4alles_privatadresse">$lang.Erg4alles_privatadresse</a></li>	
+			#end
+		#end
+		
+		#if ($Person.getChild("Dienstadresse2"))		
+			<li><a class="regular" href="#dienstadresse2" title="$lang.Erg2alles_JumpTo 2.$lang.Erg4alles_dienstadresse">2.$lang.Erg4alles_dienstadresse</a></li>			
+		#end	
+		
+		#if ($Person.getChild("WeitereAdressen"))	
+			<li><a class="regular" href="#weitereAdressen" title="$lang.Erg2alles_JumpTo $lang.further_address">$lang.further_address</a></li>			
+		#end
+		
+		#if ($Person.getChild("WeitereTelefonnummern"))	
+			<li><a class="regular" href="#weitereTelefonnummern" title="$lang.Erg2alles_JumpTo $lang.further_telephone">$lang.further_telephone</a></li>			
+		#end
+		
+		#if ($Person.getChild("WeitereEMails"))	
+			<li><a class="regular" href="#weitereEMails" title="$lang.Erg2alles_JumpTo $lang.further_emails">$lang.further_emails</a></li>			
+		#end
+		
+		#if ($Person.getChild("Korrespondenzadresszuordnung"))	
+			<li><a class="regular" href="#korrespondenzadresszuordnung" title="$lang.Erg2alles_JumpTo $lang.further_emails">$lang.korrespondenzadresse</a></li>			
+		#end
+		
+		#if ($Person.getChild("Vertreter"))	
+			<li><a class="regular" href="#vertreter" title="$lang.Erg2alles_JumpTo $lang.further_emails">$lang.vertreter</a></li>			
+		#end
+		
+		#if ($Person.getChild("GehoertZu"))	
+			<li><a class="regular" href="#belongsto" title="$lang.Erg2alles_JumpTo $lang.belongto">$lang.belongto</a></li>			
+		#end
+		
+		#if ($Person.getChild("StgZuordnung"))
+			#if ($Person.getChildren('StgZuordnung').size()>1)
+				#set($lText = $!lang.subjects)
+			#else
+				#set($lText = $!lang.missing_curricula)
+			#end
+			<li><a class="regular" href="#stg" title="$lang.Erg2alles_JumpTo $lText">$lText</a></li>			
+		#end
+		
+		#if ($Person.getChild("Veranstaltung"))
+			#if ($Person.getChildren('Veranstaltung').size()>1)
+				#set($lText = $!lang.lectures)
+			#else
+				#set($lText = $!lang.lecture)
+			#end
+			<li><a class="regular" href="#lecture" title="$lang.Erg2alles_JumpTo $lText">$lText</a></li>			
+		#end
+		
+		#if ($Person.getChild("Forschung"))
+			#if ($Person.getChildren('Forschung').size()>1)
+				#set($lText = $!lang.missing_assign_project)
+			#else
+				#set($lText = $!lang.missing_assign_project)
+			#end
+			<li><a class="regular" href="#forschung" title="$lang.Erg2alles_JumpTo $lText">$lText</a></li>
+		#end
+		
+		#if ($Person.getChild("ZuordPubl"))
+			<li><a class="regular" href="#publikation" title="$lang.Erg2alles_JumpTo $!lang.Erg4alles_publikationen">$!lang.Erg4alles_publikationen</a></li>			
+		#end
+		
+		#if ($Person.getChild("ZuordErfindungen"))
+			<li><a class="regular" href="#erfindungen" title="$lang.Erg2alles_JumpTo $!lang.erfindungen">$!lang.erfindungen</a></li>			
+		#end
+		
+		#if ($Person.getChild("ZuordPatente"))
+			<li><a class="regular" href="#patente" title="$lang.Erg2alles_JumpTo $!lang.patent">$!lang.patent</a></li>			
+		#end
+		
+		#if ($Person.getChild("ZuordTagungenWorkshops"))
+			<li><a class="regular" href="#tagung" title="$lang.Erg2alles_JumpTo $!lang.TagWork">$!lang.TagWork</a></li>			
+		#end
+		
+		#if ($Person.getChild("ZuordPromotionenHabilitationen"))
+			<li><a class="regular" href="#promotion" title="$lang.Erg2alles_JumpTo $!lang.PromHab">$!lang.PromHab</a></li>			
+		#end
+		
+		#if ($Person.getChild("Lehr"))
+			<li><a class="regular" href="#lehrkoerperliste" title="$lang.Erg2alles_JumpTo $!lang.faculty_list">$!lang.faculty_list</a></li>			
+		#end
+		
+		#if ($Person.getChild("KRL"))
+			<li><a class="regular" href="#zugehoerigkeit" title="$lang.Erg2alles_JumpTo $!lang.zugehoerigkeit">$!lang.zugehoerigkeit</a></li>			
+		#end
+		
+		#if ($Person.getChild("ZuordnungArtDerTaetigkeitZurPerson"))
+			<li><a class="regular" href="#taetigkeit" title="$lang.Erg2alles_JumpTo $!lang.zugehoerigkeit">$!lang.db_zul_zvorb_kat_b_art</a></li>			
+		#end
+		
+		#if ($Person.getChild("Links"))		
+			<li><a class="regular" href="#link" title="$lang.Erg2alles_JumpTo #if ($Person.getChildren('Links').size()>1)Links #else Link #end">#if ($Person.getChildren('Links').size()>1)Links #else Link #end</a></li>			
+		#end
+		
+		#if ($Person.getChild("MediaFiles"))
+			<li><a class="regular" href="#mediafiles" title="$lang.Erg2alles_JumpTo $lang.academic_achievements">$lang.academic_achievements</a></li>
+		#end
+		
+		###<li><a class="regular" href="#treeview" title="$lang.Erg2alles_JumpTo $lang.Erg2alles_StructureTree">$lang.Erg2alles_StructureTree</a></li>
+    </ul>			
+</div>		
+
+

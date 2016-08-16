@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<personSearch version="1.0" modules="PROMO">
+	<dbhandlername>sospos</dbhandlername>
+	<session>moduleParameter</session>
+	<title>$lang.searchpersonpromov</title>
+	<size>50</size>
+	<rights>
+		<admin>
+			<select />
+		</admin>
+		<promoverw>
+			<select />
+		</promoverw>
+	</rights>
+	<SearchOptions>
+		<option default="y">10</option>
+		<option>20</option>
+		<option>30</option>
+		<option>50</option>
+		<option value="999" context="admin">$lang.all</option>
+	</SearchOptions>
+	<Suchfelder>
+		<Mtknr type="input" db="sos.mtknr" size="50" checktype="wildcard" context="admin,promoverw" condition="de.his.busobjs.ParamConditionEvaluator _form!=newPromo" />
+		<Mtknr type="input" db="sos.mtknr" size="50" checktype="wildcard" context="admin,promoverw" mandatory="y" condition="de.his.busobjs.ParamConditionEvaluator _form=newPromo" />
+		<Nachname type="input" db="sos.nachname" ignorecase="y" size="50" context="admin,promoverw" checktype="wildcard" condition="de.his.busobjs.ParamConditionEvaluator _form!=newPromo" />
+		<Vorname type="input" db="sos.vorname" ignorecase="y" size="50" context="admin,promoverw" checktype="wildcard" condition="de.his.busobjs.ParamConditionEvaluator _form!=newPromo" />
+		<Geschlecht type="listbox" db="sos.geschl" listboxsize="27.5" prop="_stripkey" lookup="-&gt;sexPromo" emptyallowed="y" condition="de.his.busobjs.ParamConditionEvaluator _form!=newPromo" cssclass="selectInChange" />
+		<Fakultät type="listbox" db="v_promotion.einrichtungid" listboxsize="27.5" emptyallowed="admin,gradakad,intoffice" lookup="promo.einrichtungFaks" condition="de.his.busobjs.ParamConditionEvaluator _form!=newPromo" cssclass="selectInChange">
+			<restrictions>
+				<promoverw>AND einrichtung.id = [session_AssignedFak]</promoverw>
+			</restrictions>
+		</Fakultät>
+		<Institut type="input" db="v_promotion.institute" ignorecase="y" size="50" context="admin,promoverw" checktype="wildcard" condition="de.his.busobjs.ParamConditionEvaluator _form!=newPromo" />
+		<Nationalität type="listbox" db="sos.staat" listboxsize="27.5" lookup="-&gt;promo.v_k_akfz" emptyallowed="y" condition="de.his.busobjs.ParamConditionEvaluator _form!=newPromo" cssclass="selectInChange" />
+		<Bet1 type="listbox" label="1. Betreuer" db="v_promotion.evaluator1id" listboxsize="27.5" lookup="-&gt;promo.betreuer" emptyallowed="y" condition="de.his.busobjs.ParamConditionEvaluator _form!=newPromo" cssclass="selectInChange" />
+		<Bet2 type="listbox" label="2. Betreuer" db="v_promotion.evaluator2id" listboxsize="27.5" lookup="-&gt;promo.betreuer" emptyallowed="y" condition="de.his.busobjs.ParamConditionEvaluator _form!=newPromo" cssclass="selectInChange" />
+		<Bet3 type="listbox" label="3. Betreuer" db="v_promotion.evaluator3id" listboxsize="27.5" lookup="-&gt;promo.betreuer" emptyallowed="y" condition="de.his.busobjs.ParamConditionEvaluator _form!=newPromo" cssclass="selectInChange" />
+		<Bet4 type="listbox" label="4. Betreuer" db="v_promotion.evaluator4id" listboxsize="27.5" lookup="-&gt;promo.betreuer" emptyallowed="y" condition="de.his.busobjs.ParamConditionEvaluator _form!=newPromo" cssclass="selectInChange" />
+	</Suchfelder>
+	<auswahl newPromo="state=change&amp;type=2&amp;moduleParameter=newPromo&amp;nextdir=change&amp;next=SingleInput.vm&amp;subdir=graduate/promo">
+		state=change&amp;type=3&amp;moduleParameter=personPromov&amp;nextdir=change&amp;next=TableSelect.vm&amp;subdir=graduate/promo
+	</auswahl>
+	<new moduleParameter="newPromo" user="admin,promoverw" condition="de.his.busobjs.ParamConditionEvaluator _form=newPromo">
+		<de>Neuen Promovenden</de>
+		<en>New graduate</en>
+	</new>
+</personSearch>
+

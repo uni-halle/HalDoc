@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<promos active="y" modules="PROMO">
+	<global>
+		<chooseSomethingForInputWhenMandatory active="y" ueberschreiben="y">y</chooseSomethingForInputWhenMandatory>
+	</global>
+	<dbhandlername>promo</dbhandlername>
+	<size>60</size>
+	<session>sos.mtknr, promotion.promotionid, moduleParameter</session>
+	<title>$lang.editpersonpromov</title>
+	<rowMarker>y</rowMarker>
+	<insert />
+	<update />
+	<nodelete />
+	<rights ignoreParentRights="y">
+		<admin>
+			<insert />
+			<update />
+			<delete />
+			<select />
+		</admin>
+		<biblio>
+			<noinsert />
+			<noupdate />
+			<nodelete />
+			<select />
+		</biblio>
+		<promoverw>
+			<insert />
+			<update>SELECT count(*) FROM promotion WHERE promotion.einrichtungid = [session_AssignedFak] AND promotion.promotionid=[promotion.promotionid]</update>
+			<delete />
+			<select />
+		</promoverw>
+	</rights>
+	<change>
+		SELECT id, tab, tabpk, add_infos.type AS type, add_infos.txt AS txt, add_infos.sort AS sort
+		FROM add_infos, promotion
+		WHERE tab='promotion' AND tabpk=promotion.promotionid AND promotion.promotionid=[promotion.promotionid]
+		ORDER BY type, sort
+	</change>
+	<change_prop>
+		<column name="id" key="y" serial="y" noshow="y" />
+		<column name="tab" default="promotion" noshow="y" />
+		<column name="tabpk" default="[promotion.promotionid]" noshow="y" />
+		<column name="txt" mandatory="y" />
+		<column name="sort" datatype="int" size="2" />
+		<column name="type" listonly="(Z Zusätzliche Auflagen für die Annahme, N Nachreichung zur Eröffnung)" listboxsize="10" stripkey="y" mandatory="y" />
+	</change_prop>
+	<parentModuleParameter>personPromov</parentModuleParameter>
+</promos>
+

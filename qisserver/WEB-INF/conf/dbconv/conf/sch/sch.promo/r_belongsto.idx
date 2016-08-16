@@ -1,0 +1,9 @@
+{### r_belongsto #################################################################}
+CREATE UNIQUE INDEX i_r_belongsto ON r_belongsto (beltoid);
+CREATE INDEX i_r_bt_objekt ON r_belongsto (tabpk, tabelle);
+CREATE INDEX i_r_bt_owner ON r_belongsto (ownerid, ownertab);
+CREATE INDEX i_r_bt_tabelle ON r_belongsto (tabelle);
+CREATE INDEX i_r_bt_ownertab ON r_belongsto (ownertab);
+CREATE INDEX i_r_bt_semester ON r_belongsto (semester);
+CREATE INDEX i_r_bt_beltotype ON r_belongsto (belongstotype);
+CREATE INDEX i_r_bt_beltovalue ON r_belongsto (belongstovalue);

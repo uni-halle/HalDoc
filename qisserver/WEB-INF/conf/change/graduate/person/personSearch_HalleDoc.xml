@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<personSearch version="1.0" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<session>moduleParameter, _form, status</session>
+	<title condition="de.his.busobjs.ParamConditionEvaluator _form='sach'">$lang.searchMembers (Sachbearbeiter)</title>
+	<title condition="de.his.busobjs.ParamConditionEvaluator _form='gut'">$lang.searchMembers (Gutachter / Betreuer)</title>
+	<title condition="de.his.busobjs.ParamConditionEvaluator !_form">$lang.searchMembers</title>
+	<size>50</size>
+	<rights>
+		<admin>
+			<select />
+		</admin>
+		<promoverw>
+			<select />
+		</promoverw>
+		<gradakad>
+			<select />
+		</gradakad>
+	</rights>
+	<SearchOptions>
+		<option default="y">10</option>
+		<option>20</option>
+		<option>30</option>
+		<option>50</option>
+		<option value="999" context="admin">$lang.all</option>
+	</SearchOptions>
+	<Suchfelder>
+		<Nachname type="input" db="personal.nachname" ignorecase="y" size="50" checktype="wildcard" />
+		<Vorname type="input" db="personal.vorname" ignorecase="y" size="50" checktype="wildcard" />
+		<Geschlecht type="listbox" db="personal.geschl" prop="_stripkey" lookup="-&gt;sex" emptyallowed="y" cssclass="selectInChange" />
+	</Suchfelder>
+	<auswahl 
+		gut="state=change&amp;type=3&amp;moduleParameter=person&amp;nextdir=change&amp;next=TableSelect.vm&amp;subdir=graduate/person&amp;status=gut&amp;_form=gut"
+		sach="state=change&amp;type=3&amp;moduleParameter=person&amp;nextdir=change&amp;next=TableSelect.vm&amp;subdir=graduate/person&amp;status=sach&amp;_form=sach">
+		state=change&amp;type=3&amp;moduleParameter=person&amp;nextdir=change&amp;next=TableSelect.vm&amp;subdir=graduate/person
+	</auswahl>
+	<new moduleParameter="person" user="admin,promoverw">
+		<de>Neue Person</de>
+		<en>New Person</en>
+		<pl>Nowa osoba</pl>
+	</new>
+</personSearch>

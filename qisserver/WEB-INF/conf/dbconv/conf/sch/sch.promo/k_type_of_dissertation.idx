@@ -1,0 +1,2 @@
+{### k_type_of_dissertation #############################################################}
+CREATE UNIQUE INDEX i_k_type_of_dissertation ON k_type_of_dissertation (id);

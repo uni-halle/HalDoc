@@ -1,0 +1,2 @@
+CREATE VIEW v_anschri (identnr,mtknr,bewnr,anschrkz,strasse,zusatz,kfz,plz,ort,tel,fax,email,anzuord,tel2,anwt,zusastrasse,zusaort,erstws,anschrinr) AS 
+	SELECT identnr,mtknr,bewnr,anschrkz,strasse,zusatz,kfz,plz,ort,tel,fax,email,anzuord,tel2,anwt,zusastrasse,zusaort,erstws,anschrinr FROM public.anschri;

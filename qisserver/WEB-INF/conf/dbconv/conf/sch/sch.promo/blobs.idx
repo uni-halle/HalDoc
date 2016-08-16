@@ -1,0 +1,3 @@
+{### blob ####################################################################}
+CREATE unique index i_blob_id on blobs (blobid);    
+CREATE index i_blob_imark on blobs (insertmark);

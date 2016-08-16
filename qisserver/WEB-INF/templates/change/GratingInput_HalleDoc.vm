@@ -1,0 +1,2 @@
+#set ($specialtemplate = "GratingInput")
+#parse("change/InputFrame.vm")

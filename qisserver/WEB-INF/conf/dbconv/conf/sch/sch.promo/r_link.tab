@@ -1,0 +1,13 @@
+{### r_link ##################################################################}
+CREATE TABLE r_link (
+   linkid          SERIAL NOT NULL,     { Primary Key                         }
+   lid             INTEGER,             { ->link                              }
+   tabelle         CHAR(18),            { Name der Quell-Tabelle              }
+   tabpk           INTEGER,             { ->/Tabelle/                         }
+   txt             VARCHAR(50),         { Text                                }
+   linktyp         INTEGER,             { ->k_link, Typ des Verweises         }
+   name            VARCHAR(255),        { Name                                }
+   link            VARCHAR(255),        { Link                                }
+   sql             VARCHAR(255,0),      { SELECT-Anweisung                    }
+   zeitstempel     DATETIME year to fraction(5)  
+);

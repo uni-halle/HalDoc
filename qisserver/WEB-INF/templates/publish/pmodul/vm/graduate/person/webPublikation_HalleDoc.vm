@@ -1,0 +1,36 @@
+#if ($element.size() > 0)
+<br>
+	<a name="publikation"></a>
+	<h2>$title</h2>
+	#set($lineBackGr = "mod_n_even")
+	#set($pID = $Person.getChildText('ID'))
+	<table summary="Zuordnung zu Publikationen">
+		<tr >
+			<th class="mod" id="basic_1">Titel</td>
+			<th class="mod" id="basic_1">Beginn der Bearbeitung</td>
+			<th class="mod" id="basic_1">Name des/der Promovierenden</td>
+		</tr>
+		#foreach ($publ in $element)
+			#set($lineBackGr = "mod_n_even")
+			#set($publID = $publ.getChildText('PromoID'))
+			#if($lineBackGr == "mod_n_odd")
+				#set($lineBackGr = "mod_n_even") 
+			#else 
+				#set($lineBackGr = "mod_n_odd")
+			#end
+			<tr >
+				<td class="$lineBackGr" headers="basic_1">
+					##<a class="regular" href="$response.encodeURL("$servlet.SERVLETURL?state=verpublish&amp;status=init&amp;vmfile=no&amp;moduleCall=webInfo&amp;publishConfFile=webInfoPromotion&amp;publishSubDir=graduate&amp;promotion.promotionid=$publID")" title="Mehr Informationen">
+						$!publ.getChildText("Titel")
+					##</a>
+				</td>
+				<td class="$lineBackGr" headers="basic_1">$!publ.getChildText("Beginn")</td>
+				#set($name = $!publ.getChildText("Nachname"))
+				#if($publ.getChildText("Nachname"))
+					#set($name = $name + ", " + $!publ.getChildText("Vorname"))
+				#end
+				<td class="$lineBackGr" headers="basic_1">$name</td>
+			</tr>
+		#end
+	</table>
+#end

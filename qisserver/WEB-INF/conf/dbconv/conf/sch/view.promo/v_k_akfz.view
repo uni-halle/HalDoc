@@ -1,0 +1,2 @@
+CREATE VIEW v_k_akfz (akfz,aikz,ktxt,dtxt,ltxt,astat,erdteil,egmitgl,iso_code,sprache,refakfz,oecd,staatsangehoerigkeit) AS 
+	SELECT akfz,aikz,ktxt,dtxt,ltxt,astat,erdteil,egmitgl,iso_code,sprache,refakfz,oecd,staatsangehoerigkeit FROM public.k_akfz;

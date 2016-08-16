@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<nutzer active="y" protsuppl="Login" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>20</size>
+	<session>qis_nutzer.nid, qis_nutzer.login, personal.pid</session>
+	<update protocol="y" />
+	<insert protocol="y" />
+	<delete protocol="y" />
+	<rowMarker>y</rowMarker>
+	<helptext>
+		<de>$lang.ChangePasswordWithPasswordFunction</de>
+		<en>$lang.ChangePasswordWithPasswordFunction</en>
+	</helptext>
+	<change>
+		SELECT DISTINCT qis_nutzer.nid AS ID,
+		qis_nutzer.login As NLog,
+		qis_nutzer.password As NPas,
+		char'' AS NPasRep,
+		pwdbeginn AS Von,
+		pwdende AS Bis
+		FROM qis_nutzer, r_pernutzer
+		WHERE qis_nutzer.nid = r_pernutzer.nid
+		AND r_pernutzer.pid = [personal.pid]
+		ORDER BY 1, 2
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<column name="NLog" label="Login" />
+		<column name="NPas" datatype="password" />
+		<column name="NPasRep" label="$lang.repeatpassword" datatype="password" virtual="y" />
+		<column name="Von" datatype="timestamp" size="10" />
+		<column name="Bis" datatype="timestamp" size="10" />
+	</change_prop>
+	<specialRestriction>
+		<angemeldetePruefung context="admin,fachbereich,lehrender,posbearb,stgadmin" database="schulung"
+			preSelect="schulung:SELECT personal.pid                 FROM personal                 WHERE personal.pid = [personal.pid]" analyze="NOTNULL">SELECT count(*) AS Anzahl
+			FROM r_pernutzer, r_kollektionnutzer
+			WHERE r_pernutzer.nid = r_kollektionnutzer.nid
+			AND kollid = 1
+			AND pid IN ([preSelectRestriction])
+		</angemeldetePruefung>
+	</specialRestriction>
+	<additionalDBActions>
+		<insert>
+			<action type="insert" table="r_pernutzer">
+				<nid>[qis_nutzer.nid]</nid>
+				<pid>[personal.pid]</pid>
+				<zeitstempel>[_timestamp]</zeitstempel>
+			</action>
+		</insert>
+		<update>
+			<action type="update" table="qis_nutzer" where="nid=[qis_nutzer.nid]">
+				<ustatus>I</ustatus>
+			</action>
+		</update>
+		<delete>
+			<action type="delete" table="r_pernutzer" where="nid=[qis_nutzer.nid]" />
+			<action type="delete" table="r_kollektionnutzer" where="nid=[qis_nutzer.nid]" />
+		</delete>
+	</additionalDBActions>
+	<hidden>ustatus=I</hidden>
+	<additionallinks color="#000080">
+		<link moduleParameter="bereich" key="qis_nutzer.nid" lookup="qis_nutzer.nid" template="GridInput.vm" type="2">
+			<de>Bereich für LSF-Rechte</de>
+			<en>Domain for LSF-Rights</en>
+		</link>
+	</additionallinks>
+	<specialPlausis>
+		<zwillingPlausi>
+			<class>de.his.busobjs.ConflictChecker</class>
+			<params>
+				<select>SELECT DISTINCT login FROM qis_nutzer WHERE qis_nutzer.login = '[qis_nutzer.login]'</select>
+				<error>$lang.error_message7</error>
+			</params>
+		</zwillingPlausi>
+		<passwordPlausi>
+			<class>de.his.busobjs.PasswordChecker</class>
+			<params>
+				<error>$lang.error_message8</error>
+				<errorlevel>error</errorlevel>
+				<minLength>3</minLength>
+			</params>
+		</passwordPlausi>
+	</specialPlausis>
+	<parentModuleParameter>person</parentModuleParameter>
+</nutzer>
+

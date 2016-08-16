@@ -1,0 +1,11 @@
+{### r_einrichtung_bewertung ###############################################################}
+CREATE TABLE r_einrichtung_bewertung (              
+   id         			SERIAL NOT NULL,	{ Primary Key		}
+   bewertung_id			INTEGER,					{ ->bewertung		}
+   einrichtung_eid	INTEGER,					{ ->einrichtung	}
+   isrig       			INTEGER,	  			{ Objekt-ID			}
+   isdiss      			INTEGER,	  			{ Info-Type			}
+   isvert       		INTEGER,	  			{ Sortierung		}
+   isges       			INTEGER,	  			{ Sortierung		}
+   zeitstempel			DATETIME year to fraction(5)
+);

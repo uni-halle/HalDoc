@@ -1,0 +1,2 @@
+{### bewertung ################################################################}
+CREATE UNIQUE INDEX i_bewertung_id  ON bewertung (id);

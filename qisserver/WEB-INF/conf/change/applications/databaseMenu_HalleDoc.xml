@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menu>
+   <dbStructure />
+   <dbStructure />
+   <dbStructure />
+   <dbStructure />
+   <dbStructure />
+   <dbStructure />
+   <dbStructure />
+   <dbStructure />
+   <dbStructure active="y" query="state=dbschemabrowser&amp;database=promo" context="admin" modules="PROMO">${lang.dbStructure} - Promo</dbStructure>
+   <dbCompare active="y" modules="BEL,LSF,ECAT,QISBES,QISFSV3T,QISIVS,QISLUS,QISMBS,QISPOS,QISSOS,QISZUL,RKA,RVS,SVA,PROMO" />
+   <dbUnload active="y" modules="BEL,LSF,ECAT,QISBES,QISFSV3T,QISIVS,QISLUS,QISMBS,QISPOS,QISSOS,QISZUL,RKA,RVS,SVA,PROMO" />
+</menu>

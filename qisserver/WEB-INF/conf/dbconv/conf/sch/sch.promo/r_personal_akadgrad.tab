@@ -1,0 +1,13 @@
+{### r_personal_akadgrad ######################################################}
+CREATE TABLE r_personal_akadgrad (
+   id          		SERIAL NOT NULL,    { PrimaryKey                 }
+   gradid      		INTEGER,            { ->k_akadgrad.gradid        }
+   sonst  	   		VARCHAR(100),	   		{ sonstiger Grad als Text    }
+   pid         		INTEGER,            { ->personal.pid             }
+   bid         		INTEGER,            { ->bewerber.bid             }
+   mtknr          INTEGER,            { Mtknr der Person           }
+   date  	   			DATE,		    				{ Datum des Abschlusses      }
+   place  	   		VARCHAR(100),	   		{ Ort des Abschlusses        }
+   isappliedsience	VARCHAR(1),	   		{ Ist ein FH-Abschluss?      }
+   zeitstempel 		DATETIME year to fraction(5) { Aenderungszeit    }
+);

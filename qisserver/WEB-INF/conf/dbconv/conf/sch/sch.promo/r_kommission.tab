@@ -1,0 +1,10 @@
+{### r_kommission #############################################################}
+CREATE TABLE r_kommission
+   (              
+   kid						SERIAL NOT NULL,						{ PrimaryKey                          }
+   k_kommtype_id	INTEGER,										{ ->k_kommissionstype.id              }
+   name						VARCHAR(255),								{ Name des Kommissionsmitgliedes      }
+   promotion_id		INTEGER,										{ ->promotion }
+   zeitstempel  DATETIME year to fraction(5)	{ Aenderungszeit              				}
+   );
+

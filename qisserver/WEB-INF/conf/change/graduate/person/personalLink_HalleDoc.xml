@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<personalLink active="y" protsuppl="Links" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>75</size>
+	<session>moduleParameter</session>
+	<update protocol="y" />
+	<insert protocol="y" />
+	<delete protocol="y" />
+	<protProcessor>
+		<link.lid>
+			<ignore>y</ignore>
+		</link.lid>
+		<link.sort>
+			<label>Sortierung</label>
+		</link.sort>
+		<link.aikz>
+			<label>Aktiv</label>
+		</link.aikz>
+		<link.name>
+			<label>Name</label>
+		</link.name>
+		<link.link>
+			<label>Link</label>
+		</link.link>
+	</protProcessor>
+	<deletewarning>Soll dieser Link gelöscht werden?</deletewarning>
+	<change>SELECT link.lid AS ID, link.sort AS Sortierung, link.aikz AS Aktiv, link.name AS Name, link.link AS Link, r_link.linkid As LinkID FROM link, r_link, personal WHERE personal.pid = r_link.tabpk
+		AND link.lid = r_link.lid AND r_link.tabelle='personal' AND personal.pid = [personal.pid] ORDER BY link.sort, link.name
+	</change>
+	<change_prop>
+		<column name="Aktiv" update="y" show="y" stripkey="y" listmatch="-&gt;iakz" size="4" />
+		<column name="ID" where="y" key="y" serial="y" noshow="y" />
+		<column name="Link" mandatory="y" datatype="url" size="50" />
+		<column name="LinkID" noshow="y" />
+		<column name="Name" size="50" />
+		<column name="Sortierung" label="$lang.missing_reihenfolge" datatype="int" size="8" />
+	</change_prop>
+	<additionalDBActions>
+		<insert>
+			<action type="insert" table="r_link">
+				<tabelle>personal</tabelle>
+				<tabpk>[personal.pid]</tabpk>
+				<lid>[link.lid]</lid>
+			</action>
+		</insert>
+		<delete>
+			<action type="delete" table="r_link" where="lid=[link.lid]" />
+		</delete>
+	</additionalDBActions>
+	<parentModuleParameter>person</parentModuleParameter>
+</personalLink>
+

@@ -1,0 +1,49 @@
+## Bearbeitung der Personendaten
+		##XMLOut($Person)
+<div class="functionnavi">
+	<fieldset>
+		<legend>$lang.missing_functions:</legend>
+		## ICard Export
+		#*
+		&nbsp;
+		#if ($BC.darf($User.bereich, "R_VCARD"))
+    		<li>
+    			<a href="$response.encodeURL("$servlet.SERVLETURL?state=verpublish&amp;status=transform&amp;vmfile=no&amp;publishid=$Person.getChildText('PerID')&amp;moduleCall=vCardPerson&amp;publishConfFile=reports&amp;publishSubDir=personal")" hreflang="de" charset="ISO-8859-1" class="tree">
+    				<img class="regular" src="$servlet.IMAGEURL/$servlet.B_VCARD" alt="$lang.vCardExport" title="$lang.vCardExport" height="20" />
+    			</a>
+    		</li>
+		#end
+		*#
+		#if (( $BC.darf($User.bereich, "R_PERSONEDIT") && $Promotion.getChildText("EinrichtungID").equals($servlet.session_AssignedFak)) || $BC.darf($User.bereich, "R_PERSONEDITALWAYS") || !$Promotion)
+			#set($file = "person")
+			#set($parameter = "personal.pid=$Person.getChildText('ID')")
+			#set($subdir = "person")
+			#if($Promotion)
+				#set($file = "personPromov")
+				## promotion.promotionid=$Promotion.getChildText('ID')&amp;
+				#set($parameter = "sos.mtknr=$Person.getChildText('PerID')")
+				#set($subdir = "promo")
+			#end
+			&nbsp;&nbsp;
+			<a href="$response.encodeURL("$servlet.SERVLETURL?state=change&amp;type=2&amp;moduleParameter=$file&amp;next=SingleInput.vm&amp;$parameter&amp;sqlmode=update&amp;subdir=graduate/$subdir&amp;comingfromselection=y&amp;menuid=editpersonal&amp;purge=y")" hreflang="de" charset="ISO-8859-1" class="ver">
+				<img src="$servlet.IMAGEURL_HISINONE/$servlet.IMG_EDIT_FORM" alt="Promovend und Promotion bearbeiten" title="Promovend und Promotion bearbeiten">
+			</a>
+			#if($Promotion)
+			&nbsp;
+			## &amp;promotion.promotionid=$Promotion.getChildText('ID')
+			<a href="$response.encodeURL("$servlet.SERVLETURL?state=change&amp;type=2&amp;moduleParameter=process&amp;parentModuleParameter=personPromov&amp;nextdir=change&amp;next=SingleInput.vm&amp;subdir=graduate/promo&amp;sos.mtknr=$Person.getChildText('PerID')&amp;sqlmode=unknown&amp;panelsection=1&amp;init=y")" hreflang="de" charset="ISO-8859-1" class="ver">
+				<img src="$servlet.IMAGEURL_HISINONE/$servlet.IMG_VERSION_CONTROL" alt="Prozessablauf bearbeiten" title="Prozessablauf bearbeiten">
+			</a>
+			#end
+    	## Protokollierung
+			&nbsp;
+	    	#if ($servlet.PROT)
+	    		#if ($BC.darf($User.bereich, "R_PROTOKOLL"))
+        			<a href="$response.encodeURL("$servlet.SERVLETURL?state=change&amp;type=3&amp;moduleParameter=prot&amp;nextdir=change&amp;next=TableSelect.vm&amp;subdir=prot&amp;protobjs.tabelle=person&amp;protobjs.tabpk=$Person.getChildText('PerID')&amp;newsearchparams=y&amp;tableselectheader=$stringUtil.escapeML($!tableselectheader)&amp;P_start=0&amp;P_anzahl=9999")" class="ver">
+        				<img class="protocol" src="$servlet.IMAGEURL/$servlet.B_PROTOCOL" alt="${lang.viewprot}" title="${lang.viewprot}">
+    				</a>
+				#end
+			#end
+		#end
+	</fieldset>
+</div>

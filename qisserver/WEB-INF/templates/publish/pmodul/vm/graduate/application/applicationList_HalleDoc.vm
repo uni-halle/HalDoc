@@ -1,0 +1,242 @@
+#if (!$contentVM)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    	
+<html>
+	<head>
+		<title>LSF</title>
+		<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+			#parse ("header.vm")
+	</head>
+	<body class="background">
+		#parse("head.vm")
+		#parse("Controls.vm")
+		#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+			#parse("wlogin/LoginInfo.vm")
+		#end
+#end
+
+#set ($webPath = "publish/pmodul/vm/graduate/application")
+##XMLOut($import)
+#if ($import.getChild("Application").getChild("saved"))
+	#set($app = $import.getChild("Application"))
+	#set($mtknr = $import.getChild("Application").getChild("saved").getAttributeValue("mtknr"))
+	<h2>Folgender Bewerber wurde als Doktorand übernommen:</h2>
+	<table>
+		<tr>
+			<th class="mod" >Bewerbernummer:</th><td class="mod_n_basic">$app.getChildText("ID")</td>
+			<th class="mod" >Name:</th><td class="mod_n_basic">$app.getChildText("Vorname") $app.getChildText("Nachname")</td>
+			<th class="mod" >Matrikelnummer:</th><td class="mod_n_basic">$mtknr</td>
+		</tr>
+		<tr>
+			<th class="mod" >Geburtstag:</th><td class="mod_n_basic">$app.getChildText("GebDat")</td>
+			<th class="mod" >Geburtsort:</th><td class="mod_n_basic">$app.getChildText("GebOrt")</td>
+			<th class="mod" >Geburtsland:</th><td class="mod_n_basic">$app.getChildText("GebLand")</td>
+		</tr>
+		<tr>
+			<th class="mod" >Geschlecht:</th><td class="mod_n_basic">$app.getChildText("Geschl")</td>
+			<th class="mod" >Nationalität:</th><td class="mod_n_basic">$app.getChildText("Nationalitaet")</td>
+			<th class="mod" >Status:</th><td class="mod_n_basic">$app.getChildText("Status")</td>
+		</tr>
+		<tr>
+			<th class="mod" >Titel der Arbeit:</th><td class="mod_n_basic">$app.getChildText("Titel")</td>
+			<th class="mod" >Angestrebter akad. Grad:</th><td class="mod_n_basic">$app.getChildText("AkadGrad")</td>
+			<th class="mod" >Arbeitsbeginn:</th><td class="mod_n_basic">$app.getChildText("Start")</td>
+		</tr>
+		<tr>
+			<th class="mod" >Einrichtung:</th><td class="mod_n_basic">$app.getChildText("Einrichtung")</td>
+			<th class="mod" >im Rahmen eines strukturierten Promotionsprogrammes:</th><td class="mod_n_basic">$app.getChildText("Programm")</td>
+			<th class="mod" >ggf. Institution und Bezeichnung des Programmes:</th><td class="mod_n_basic">$app.getChildText("ProgrammDetail")</td>
+		</tr>
+		<tr>
+			<th class="mod" >Institut:</th><td class="mod_n_basic">$app.getChildText("Institut")</td>
+			<th class="mod" >im Rahmen eines bi-nationalen Promotionsverfahrens:</th><td class="mod_n_basic">$app.getChildText("Framework")</td>
+			<th class="mod" >ggf. Institution und Land:</th><td class="mod_n_basic">$app.getChildText("FrameworkDetail")</td>
+		</tr>
+		<tr>
+			<th class="mod" >Aktionen:</th>
+			<td class="mod_n_basic">
+				<a href="$response.encodeURL("$servlet.SERVLETURL?state=change&amp;type=2&amp;moduleParameter=personPromov&amp;next=SingleInput.vm&amp;sos.mtknr=$mtknr&amp;sqlmode=update&amp;subdir=graduate/promo")" hreflang="de" charset="ISO-8859-1" class="ver">
+					<img style="height: 15px;" src="$servlet.BILDERHALLE/$servlet.IMG_EDIT_FORM" alt="bearbeiten" title="bearbeiten">
+				</a>
+			</td>
+		</tr>
+	</table>
+#elseif ($import.getChildren().size() != 0)
+	<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}jquery/jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src='${servlet.SERVER_URL}${servlet.PUBURLROOT}js/jquery-ui-1.11.2/jquery-ui.js'></script>
+	<h1>Gefundene Bewerbungen</h1>
+	<table summary="Grunddaten zur Promotion">
+		<tr>
+			<th class="mod" id="basic_1">Aktion</th>
+			<th class="mod" id="basic_1">Antrags-Nr.</th>
+			<th class="mod" id="basic_1">Titel</th>
+			<th class="mod" id="basic_1">Name</th>
+			<th class="mod" id="basic_1">bisherige akademische Grade</th>
+			<th class="mod" id="basic_1">Programm</th>
+			<th class="mod" id="basic_1">Verfahren</th>
+			<th class="mod" id="basic_1">Institut</th>
+			<th class="mod" id="basic_1">Akademischer Grad</th>
+			<th class="mod" id="basic_1">Status</th>
+		</tr>
+		#foreach ($item in $import.getChildren("Application"))
+		#set($applicationCount = $velocityCount)
+		#if($lineBackGr == "mod_n_odd")#set($lineBackGr = "mod_n_even") #else #set($lineBackGr = "mod_n_odd") #end
+		<tr>
+			<form method="get" id="form_$applicationCount" action="$servlet.SERVLETURL" target="_blank">
+				<input type="hidden" name="state" value="verpublish" />
+				<input type="hidden" name="publishContainer" value="applicationSearchList" />
+				<input type="hidden" name="fromsearch" value="y" />
+				<input type="hidden" name="menu_open" value="n" />
+				<input type="hidden" name="app_save" value="y" />
+				<input type="hidden" name="bewerber.bid" value="$item.getChildText('ID')" />
+				<input type="hidden" name="applicationCount" value="$applicationCount" />
+				<td nowrap class="$lineBackGr">
+					#*
+					<button type="button" id="$applicationCount" name="submitForm" style="border-style: none; background: transparent;">
+						<img style="height: 15px; margin-left:3px;" src="$servlet.BILDERHALLE/$servlet.IMG_DATABASE_SAVE" alt="Antrag übernehmen" title="Antrag übernehmen">
+					</button>
+					*#
+					<button type="button" id="button_dialog_$applicationCount" for="dialog_$applicationCount" name="showDialog" style="border-style: none; background: transparent;">
+						<img style="height: 15px; margin-left:3px;" src="$servlet.IMAGEURL_HISINONE/$servlet.IMG_INFORMATION" alt="Weitere Daten ansehen" title="Weitere Daten ansehen">
+					</button>
+					<div id="dialog_$applicationCount" title="Details für Antrag Nr. $!item.getChildText("ID")" style="text-align:left;">
+						<p>
+							<h3>Antragsteller:</h3>
+							<div>Nachname: $item.getChildText("Nachname")</div>
+							<div>Vorname: $item.getChildText("Vorname")</div>
+							<div>Geburtsdatum: $item.getChildText("GebDat")</div>
+							<h3>Promotion:</h3>
+							<div>Arbeitstitel: $item.getChildText("Titel")</div>
+							<div>im Institut: $item.getChildText("Institut")</div>
+							<div>Beginn der Arbeit: $item.getChildText("Start")</div>
+							<div>zu erreichender Grad: $item.getChildText("AkadGrad")</div>
+							<div>aktueller Status: $item.getChildText("Status")</div>
+							<h3>angegebene Betreuer:</h3>
+							<div>
+								<ul>
+									<li>$item.getChildText("mentor1name") ($item.getChildText("mentor1einrich"))</li>
+									#if($item.getChildText("mentor2name") && $item.getChildText("mentor2name").trim() != "")
+										<li>$item.getChildText("mentor2name") ($item.getChildText("mentor2einrich"))</li>
+									#end
+									#if($item.getChildText("mentor3name") && $item.getChildText("mentor3name").trim() != "")
+										<li>$item.getChildText("mentor3name") ($item.getChildText("mentor3einrich"))</li>
+									#end
+								</ul>
+							</div>
+							<h3>bisherige Abschlüsse:</h3>
+							<table>
+								<tr><th class="mod">Grad</th><th class="mod">erreicht am</th><th class="mod">erhalten von</th><th class="mod">FH Abschluss</th></tr>
+								#foreach($grad in $item.getChild("AkadsBefore").getChildren())
+								<tr>
+									#set($text = $grad.getChildText('AkadGrad'))
+									#if($grad.getChildText('gradid') == "-1")
+										#set($text = $grad.getChildText('sonst'))
+									#end
+									<td>
+										#set($checked = "")
+										#if($item.getChild("AkadsBefore").getChildren().size() == 1)
+											#set($checked = "checked")
+										#end
+										#set($add = "")
+										#set($isfh = "n")
+										#if($grad.getChildText('isappliedsience') == "X")
+											#set($add = "$add (FH)")
+											#set($isfh = "y")
+										#end
+										#set($inputName = "grad_${applicationCount}")
+										#set($inputId = "prog_${applicationCount}_$velocityCount")
+										<input name="$inputName" id="$inputId" type="radio" value="$grad.getChildText('gradid')" isfh="$isfh" text="$text" $!checked>
+										<label for="$inputId" style="$labelStyle; width: 150px">$text $add</label>
+									</td>
+									<td>$grad.getChildText('date')</td>
+									<td>$grad.getChildText('place')</td>
+									<td>
+										#if($grad.getChildText('isappliedsience') == "X")
+											Ja
+										#else
+											Nein
+										#end
+									</td>
+								</tr>
+								#end
+							</table>
+							<br />
+							<div>
+								#set($url = "state=verpublish&amp;publishContainer=Ablehnung&amp;promotion.promotionid=$item.getChildText('ID')")
+								<button type="button" id="${applicationCount}" name="submitForm" style="border-style: none; background: transparent; text-decoration: underline;">
+									Antrag übernehmen
+									##<img style="height: 15px; margin-left:3px;" src="$servlet.BILDERHALLE/$servlet.IMG_DATABASE_SAVE" alt="Antrag übernehmen" title="Antrag übernehmen">
+								</button>
+								<a href="$response.encodeURL("$servlet.SERVLETURL?$url")" hreflang="de" traget="_blank">Ablehungsbescheid drucken</a>
+								##<a href="#" traget="_blank">Ablehnung drucken</a>
+								#set($url = $servlet.QUERYSTRING + "&amp;app_bid=$item.getChildText('ID')&amp;app_del=y")
+								<a href="$response.encodeURL("$servlet.SERVLETURL?$url")" hreflang="de" class="qisconfirmbox" data-message="Haben Sie bereits einen Ablehungsbescheid gedruckt?">Antrag löschen</a>
+								#*
+								<button type="button" id="${applicationCount}" name="submitDelete" style="border-style: none; background: transparent; text-decoration: underline;">
+									Antrag löschen
+									##<img style="height: 15px; margin-left:3px;" src="$servlet.BILDERHALLE/$servlet.IMG_DATABASE_SAVE" alt="Antrag übernehmen" title="Antrag übernehmen">
+								</button>
+								*#
+								#set($url = "state=verpublish&amp;publishContainer=applicationPrint&amp;bewerber.bid=$item.getChildText('ID')")
+								<a href="$response.encodeURL("$servlet.SERVLETURL?$url")" hreflang="de" traget="_blank">Antrag erneut drucken</a>
+							</div>
+						</p>
+					</div>
+					##<a target="_blank" href="$response.encodeURL("$servlet.SERVLETURL?state=verpublish&amp;publishContainer=applicationSearchList&amp;fromsearch=y&amp;menu_open=n&amp;app_save=y&amp;bewerber.bid=$item.getChildText('ID')")" hreflang="de" charset="ISO-8859-1" class="ver">
+					##	<img style="height: 15px; margin-left:3px;" src="$servlet.BILDERHALLE/$servlet.IMG_DATABASE_SAVE" alt="Antrag übernehmen" title="Antrag übernehmen">
+					##</a>
+					#if($item.getChildText("eID").equals($servlet.session_AssignedFak) || $BC.darf($User.bereich, "R_PROMOEDITALL"))
+					<a target="_blank" href="$response.encodeURL("$servlet.SERVLETURL?state=change&amp;type=2&amp;moduleParameter=application&amp;next=SingleInput.vm&amp;bewerber.bid=$item.getChildText('ID')&amp;sqlmode=update&amp;subdir=graduate/bewerber")" hreflang="de" charset="ISO-8859-1" class="ver">
+						<img style="height: 15px;" src="$servlet.BILDERHALLE/$servlet.IMG_EDIT_FORM" alt="Bewerbung bearbeiten" title="Bewerbung bearbeiten">
+					</a>
+					#end
+					##XMLOut($!item.getChild("AkadsBefore"))
+				</td>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!item.getChildText("ID")</td>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!item.getChildText("Titel")</td>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!item.getChildText("Nachname"), $!item.getChildText("Vorname")</td>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1">
+					#set($labelStyle = "width: 80px; display: inline-block; text-align: left; padding-left: 5px;")
+					#set($divStyle = "padding: 0px 0px 5px 0px;")
+					#foreach($grad in $item.getChild("AkadsBefore").getChildren())
+						#set($text = $grad.getChildText('AkadGrad'))
+						#if($grad.getChildText('gradid') == "-1")
+							#set($text = $grad.getChildText('sonst'))
+						#end
+						#set($add = "")
+						#set($isfh = "n")
+						#if($grad.getChildText('isappliedsience') == "X")
+							#set($add = "$add (FH)")
+							#set($isfh = "y")
+						#end
+						#set($add = "$add $grad.getChildText('date')")
+						#set($checked = "")
+						#if($item.getChild("AkadsBefore").getChildren().size() == 1)
+							#set($checked = "checked")
+						#end
+						<div style="$divStyle">
+							##<input name="grad_${applicationCount}" id="prog_${applicationCount}_$velocityCount" type="radio" value="$grad.getChildText('gradid')" isfh="$isfh" text="$text" $!checked>
+							##<label for="prog_${applicationCount}_$velocityCount" style="$labelStyle">
+								$text $add
+							##</label>
+						</div>
+					#end
+				</td>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!item.getChildText("Programm")</td>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!item.getChildText("Framework")</td>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!item.getChildText("Institut")</td>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!item.getChildText("AkadGrad")</td>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!item.getChildText("Status")</td>
+			</form>
+		</tr>
+		#end
+	</table>
+	<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/application_HalleDoc.js"></script>
+#else
+	<h1>$lang.Erg3_keine_daten</h1>
+#end
+
+#if (!$contentVM)
+		#parse("foot.vm")
+	</body>
+</html>
+#end

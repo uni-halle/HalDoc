@@ -1,0 +1,42 @@
+<einrichtungzuord active="y" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>60</size>
+	<session>moduleParameter</session>
+	<title>Einrichtungen</title>
+	<noheader />
+	<rowMarker>y</rowMarker>
+	<insert />
+	<update />
+	<delete />
+	<rights>
+		<admin>
+			<insert />
+			<update />
+			<delete />
+			<select />
+		</admin>
+	</rights>
+	<change>
+		SELECT einrichtung.id AS ID, einrichtung.dtxt AS Name, einrichtung.ltxt AS NameLang, einrichtung.farbe AS Farbe
+		FROM einrichtung
+		WHERE kostenst IS NOT NULL
+		ORDER BY kostenst
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<column name="Name" label="Name" size="15" />
+		<column name="NameLang" label="Name (lang)" size="40" />
+		<column name="Farbe" label="Farbe" size="7" />
+	</change_prop>
+	<additionallinks>
+		<link moduleParameter="rEinrichtungBewertungsart" key="einrichtung.id" lookup="einrichtung.id" template="GridInput.vm" type="2">
+			<de>Bewertungsarten</de>
+		</link>
+		<link moduleParameter="rEinrichtungBewertung" key="einrichtung.id" lookup="einrichtung.id" template="GridInput.vm" type="2">
+			<de>Bewertungen</de>
+		</link>
+		<link moduleParameter="rEinrichtungtexte" key="einrichtung.id" lookup="einrichtung.id" template="blob.vm" type="2">
+			<de>Gutachtermahnung</de>
+		</link>
+	</additionallinks>
+</einrichtungzuord>

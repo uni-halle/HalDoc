@@ -1,0 +1,2 @@
+{### k_refsystem ###########################################################}
+CREATE unique index i_k_refsystem on k_refsystem (refsystemid);

@@ -1,0 +1,7 @@
+{### r_einrichtung_bewertungsart ###############################################################}
+CREATE TABLE r_einrichtung_bewertungsart (              
+   id         			SERIAL NOT NULL,	{ Primary Key			}
+   bewertungsart_id	INTEGER,					{ ->bewertungsart	}
+   einrichtung_eid	INTEGER,					{ ->einrichtung		}
+   zeitstempel			DATETIME year to fraction(5)
+);

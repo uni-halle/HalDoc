@@ -1,0 +1,43 @@
+<rEinrichtungBewertung active="y" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>60</size>
+	<session>moduleParameter</session>
+	<rowMarker>y</rowMarker>
+	<insert />
+	<update />
+	<delete />
+	<change>
+		SELECT blobs.blobid AS ID, insertmark, blobs.txt AS Text, r_blob.rblobid As Bid
+		FROM blobs, r_blob
+		WHERE blobs.blobid = r_blob.blobid AND r_blob.tabelle = 'drucktexte' AND r_blob.tabpk = [personal.einrichtungid] AND r_blob.spalte='mahnung'
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<column name="Bid" noshow="y" />
+		<column name="insertmark" where="y" noshow="y" insertmark="y" />
+		<column name="Text" inputtype="textarea" />
+	</change_prop>
+	<additionalDBActions>
+		<insert>
+			<action type="insert" table="r_blob">
+				<aikz>A</aikz>
+				<tabelle>drucktexte</tabelle>
+				<tabpk>[personal.einrichtungid]</tabpk>
+				<spalte>mahnung</spalte>
+				<blobid>[blobs.blobid]</blobid>
+				<sprache>de</sprache>
+				<zeitstempel>[_timestamp]</zeitstempel>
+			</action>
+		</insert>
+		<delete>
+			<action type="delete" table="r_blob" where="rblobid=[r_blob.rblobid]" />
+		</delete>
+		<update>
+			<action type="update" table="r_blob" where="rblobid=[r_blob.rblobid]">
+				<sprache>de</sprache>
+				<zeitstempel>[_timestamp]</zeitstempel>
+			</action>
+		</update>
+	</additionalDBActions>
+	<parentModuleParameter>person</parentModuleParameter>
+</rEinrichtungBewertung>

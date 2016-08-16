@@ -1,0 +1,31 @@
+<language active="y" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>60</size>
+	<session>moduleParameter</session>
+	<title>Forschungsschwerpunkte</title>
+	<noheader />
+	<rowMarker>y</rowMarker>
+	<insert />
+	<update />
+	<delete />
+	<rights>
+		<admin>
+			<insert />
+			<update />
+			<delete />
+			<select />
+		</admin>
+	</rights>
+	<change>
+		SELECT id AS ID, aikz AS Aktiv, ktxt AS Kurz, dtxt AS Druck, ltxt AS Name
+		FROM k_type_of_dissertation
+		ORDER BY dtxt
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<column name="Aktiv" list="$lang.iakz" prop="_stripkey" mandatory="y" />
+		<column name="Kurz" size="10" mandatory="y" />
+		<column name="Druck" size="10" mandatory="y" language="y" />
+		<column name="Name" size="40" mandatory="y" language="y" />
+	</change_prop>
+</language>

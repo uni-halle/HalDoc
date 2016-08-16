@@ -1,0 +1,84 @@
+#if ($Person.getChild("Dienstadresse"))
+<br>
+	#set($addressProp = $stringUtil.stringToProperties("State=WORK"))
+	#set($temp = $addressProp.put("Surename",$!Person.getChildText("PerNac")))
+	#set($temp = $addressProp.put("Firstname",$!Person.getChildText("PerVor")))
+	#if($Person.getChild("AkadGradVorID").getChildText("dtxt"))
+		#set($temp = $addressProp.put("Degree",$Person.getChild("AkadGradVorID").getChildText("dtxt")))
+	#end
+	#set($temp = $addressProp.put("Postcode",$!Person.getChild("Dienstadresse").getChildText("PLZ")))
+	#set($temp = $addressProp.put("City",$!Person.getChild("Dienstadresse").getChildText("Ort")))
+	#set($temp = $addressProp.put("Street",$!Person.getChild("Dienstadresse").getChildText("Strasse")))
+	#set($temp = $addressProp.put("Phone",$!Person.getChild("Dienstadresse").getChildText("Telefon")))
+	#set($temp = $addressProp.put("Fax",$!Person.getChild("Dienstadresse").getChildText("Fax")))
+	#set($temp = $addressProp.put("eMail",$!Person.getChild("Dienstadresse").getChildText("eMail")))
+	<a name="dienstadresse"></a><h2>
+		$lang.Erg4alles_dienstadresse
+		#set($elementID = "workaddress")
+		#set($qrCodeType = "vCard")
+		#set($logo = $servlet.PUBROOT+"img/mlu/ingra-logo-050.gif")
+		#parse("publish/pmodul/vm/globalAction/qrCode.vm")
+	</h2>
+	<table summary="Angaben zur Dienstadresse">
+		<tr >
+			<th class="mod" id="pAdress_1">
+				$lang.postal_code
+			</th>
+			<td class="mod_n_basic" headers="pAdress_1">
+				$!Person.getChild("Dienstadresse").getChildText("PLZ")
+			</td>
+
+			<th class="mod" id="pAdress_2">
+				$lang.Erg6_telefon
+			</th>
+			<td class="mod_n_basic" headers="pAdress_2">
+				$!Person.getChild("Dienstadresse").getChildText("Telefon")
+			</td>
+		</tr>
+		
+		<tr>
+			<th class="mod" id="pAdress_3">
+				$lang.location
+			</th>
+			<td class="mod_n_basic" headers="pAdress_3">
+				$!Person.getChild("Dienstadresse").getChildText("Ort")
+			</td>
+			<th class="mod" id="pAdress_4">
+				Fax
+			</th>
+			<td class="mod_n_basic" headers="pAdress_4">
+				$!Person.getChild("Dienstadresse").getChildText("Fax")
+			</td>
+		</tr>
+		
+		<tr>
+			<th class="mod" id="pAdress_5">
+				$lang.street
+			</th>
+			<td class="mod_n_basic" headers="pAdress_5">
+				$!Person.getChild("Dienstadresse").getChildText("Strasse")
+			</td>
+			<th class="mod" id="pAdress_6">
+				$lang.email_addresse
+			</th>
+			<td class="mod_n_basic" headers="pAdress_6" nowrap>
+				<a href="mailto:$!Person.getChild("Dienstadresse").getChildText("eMail")">$!Person.getChild("Dienstadresse").getChildText("eMail")</a>
+			</td>
+		</tr>
+		
+		<tr>##Zusatz
+			<th class="mod" id="pAdress_8">
+				Adresszusatz 
+			</th>
+			<td class="mod_n_basic" headers="pAdress_8">
+				$!Person.getChild("Dienstadresse").getChildText("Zusatz")
+			</td>
+			<th class="mod" id="pAdress_9">
+				Hyperlink 
+			</th>
+			<td class="mod_n_basic" headers="pAdress_9">
+				<a class="external" title="$lang.external_link $!Person.getChild("Dienstadresse").getChildText("Hyperlink")" href="$response.encodeExternalURL($!Person.getChild("Dienstadresse").getChildText("Hyperlink"))">$!Person.getChild("Dienstadresse").getChildText("Hyperlink")</a>
+			</td>
+		</tr>
+		</table>
+	#end

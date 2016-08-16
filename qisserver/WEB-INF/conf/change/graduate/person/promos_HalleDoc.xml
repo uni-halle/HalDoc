@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<promos active="y" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>100</size>
+	<session>moduleParameter</session>
+	<insert />
+	<update />
+	<nodelete />
+	<rights>
+		<admin>
+			<insert />
+			<update />
+			<nodelete />
+			<select />
+		</admin>
+		<promoverw>
+			<insert />
+			<update />
+			<nodelete />
+			<select />
+		</promoverw>
+	</rights>
+	<change>
+		SELECT DISTINCT promotion.promotionid AS ID, promotion.title AS titel
+		FROM promotion
+		WHERE (promotion.mentor1id = [personal.pid] OR promotion.mentor2id = [personal.pid] OR promotion.mentor3id = [personal.pid])
+		ORDER BY 2
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" edit="change&amp;type=2&amp;moduleParameter=promo&amp;nextdir=change&amp;next=SingleInput.vm&amp;subdir=graduate/promo&amp;promotion.promotionid=" />
+		<column name="promov" default="[personal.pid]" noshow="y" />
+	</change_prop>
+	<additionalDBActions>
+		<insert>
+			<action type="insert" table="r_promotion_status">
+				<promotionid>[promotion.promotionid]</promotionid>
+				<editorid>[session_pid]</editorid>
+				<statusid>(SELECT statusid FROM k_promotionstatus WHERE ktxt='beantragt')</statusid>
+			</action>
+		</insert>
+	</additionalDBActions>
+	<parentModuleParameter>person</parentModuleParameter>
+</promos>
+

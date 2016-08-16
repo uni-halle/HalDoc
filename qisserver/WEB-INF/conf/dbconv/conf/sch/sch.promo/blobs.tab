@@ -1,0 +1,11 @@
+{### blob ####################################################################}
+CREATE TABLE blobs
+   (              
+   blobid          SERIAL NOT NULL,	{ Primary Key                         }
+   insertmark      INTEGER,	        { Hilfsfeld zum Insert                }
+   mimeextension   CHAR(4),	        { Typ, z.B. txt, pdf, doc, html       }
+   txt             TEXT,		{ Drucktext                           } 
+   zeitstempel     DATETIME year to fraction(5) { Aenderungszeit              }  
+);
+
+

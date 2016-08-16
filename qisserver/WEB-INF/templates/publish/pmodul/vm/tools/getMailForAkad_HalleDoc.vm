@@ -1,0 +1,95 @@
+#if (!$contentVM)
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+	<html>
+		<head>
+			<title>Raumliste</title>
+			<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+			#parse ("header.vm")
+		</head>
+		<body class="background">
+			#parse("head.vm")
+			#parse("Controls.vm")
+			#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+				#parse("wlogin/LoginInfo.vm")
+			#end
+#end
+##Raumliste
+	
+	<h1>E-Mail an ausgewählte Promovierende</h1>
+	#parse ("publish/pmodul/vm/globalFunctions/helpText.vm")
+	<fieldset>
+		#if ($import.getChild("statistics").getChildText("rows") == "0")
+			#set($headline = "Keine Promovierende gefunden!")
+			#set($showForm = "n")
+		#else
+			#set($statistics = $import.getChild("statistics").getChildText("rows"))
+			#set($headline = "$lang.entrys: $statistics")
+			#set($showForm = "y")
+		#end
+		#if ($servlet.markall)
+			#set ($markall=$servlet.markall)
+		#else
+			#set ($markall = "n")
+		#end
+		#set ($requestState = "state=verpublish&amp;publishContainer=getMailForAkad&amp;fromsearch=y")
+		<a href="$response.encodeURL("$servlet.SERVLETURL?state=change&type=5&moduleParameter=personSearch&nextdir=change&next=search.vm&subdir=graduate/person&_form=mailForAkad")"><button>$lang.back</button></a><br/><br/>
+		#if($showForm == "y")
+			## Request wo es hingehen soll
+			<form action="$response.encodeURL("$servlet.SERVLETURL?state=mailService&amp;referenceObject=inGraService")" method="post">
+		        <label for="topic">Betreff: </label><input type="text" name="topic" id="topic" size="97" class="input" value="" /><br />
+		        <textarea name="text" cols="80" rows="10" class="input" >
+Mail an: [Vorname] [Nachname], 
+... bitte hier Ihren Text eintragen ... 
+</textarea><br/>
+				<input type="submit" name="print" value="$lang.post_message_pageTitleText" />
+				<br/>
+				<h3>$headline</h3>
+				<table summary="List of Request" width="100%">
+					<thead>
+						<tr>
+							##<th class="mod" width="40px">$lang.activity</th>
+							<th class="mod" width="40px">Lfd.Nr.</th>
+							<th class="mod">
+								##set ($orderState="study")
+								##parse ("/publish/pmodul/vm/globalFunctions/orderBY.vm")
+								Nachname
+							</th>
+							<th class="mod">Vorname</th>
+						</tr>
+					</thead>
+					<tbody>
+						#set ($mtknrList = "")
+			            #foreach ($InfoAll in $import.getChildren("recipients"))
+							#if ($mtknrList != '')
+								#set ($mtknrList = $mtknrList + "," + $InfoAll.getChildText('Recipient'))
+							#else
+								#set ($mtknrList = $InfoAll.getChildText('Recipient'))
+							#end
+			    			#if($velocityCount%2 != 0)
+			    				#set($mod = "mod_n_odd")
+			    			#else
+			    				#set($mod = "mod_n_even")
+			    			#end
+			    			<tr>
+								##<td class="$mod"><input type="checkbox" id="recipientID_$InfoAll.getChildText('BelID')" name="recipientID_$InfoAll.getChildText('BelID')" value="$InfoAll.getChildText('BelID')" #if ($markall.equals("y")) checked="checked" #end /></td>
+								<td class="$mod" align="left">$velocityCount</td>
+								<td class="$mod" align="left">$InfoAll.getChildText('Name')</td>
+								<td class="$mod" align="left">$InfoAll.getChildText('Firstname')</td>
+			    			</tr>
+			            		
+			            #end
+					</tbody>
+				</table>
+				<input name="activationList" type="hidden" value="$mtknrList">
+			</form>
+			<br />
+			##parse ("publish/pmodul/vm/globalFunctions/markDataSet.vm")
+			<a href="$response.encodeURL("$servlet.SERVLETURL?state=change&type=5&moduleParameter=personSearch&nextdir=change&next=search.vm&subdir=graduate/person&_form=mailForAkad")"><button>$lang.back</button></a>
+			##<a href="$response.encodeURL("$servlet.SERVLETURL?$requestState&amp;markall=$!markall$!orderByParam")"><button>$marktxt</button></a>
+		#end
+	</fieldset>
+#if (!$contentVM)
+		#parse("foot.vm")
+	</body>
+</html>
+#end

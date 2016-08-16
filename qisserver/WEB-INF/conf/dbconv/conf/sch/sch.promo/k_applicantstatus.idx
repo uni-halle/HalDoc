@@ -1,0 +1,2 @@
+{### k_applicantstatus #############################################################}
+CREATE UNIQUE INDEX i_k_applicantstatus ON k_applicantstatus (applicantstatusid);

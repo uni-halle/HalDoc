@@ -1,0 +1,68 @@
+{### promotion ################################################################}
+CREATE TABLE promotion (
+   promotionid        			SERIAL NOT NULL,	{ Primary Key                            		}
+   institute            		VARCHAR(500),	  		{ Im Institut ...                        	}
+   einrichtungid       			INTEGER,	  			{ ->einrichtung.id Einrichtung							}
+   promoprogramm        		VARCHAR(1),	  		{ Ist Promotionsprogramm                 		}
+   promoprogrammdetail  		VARCHAR(500), 		{ Institut/Bezeichnung                   		}
+   framework            		VARCHAR(1),   		{ Ist Promotionsverfahren                		}
+   frameworkdetail      		VARCHAR(500), 		{ Institut/Land			                 				}
+   field           					VARCHAR(500), 		{ Fachgebiet 							 									}
+   gradid             			INTEGER,      		{ ->k_akadgrad.gradid Angestrebter Abschluss}
+   title        						VARCHAR(500),   	{ Arbeitstitel						            			}
+   personid            			INTEGER,	  			{ ->personal.pid Promovend									}
+   mtknr            				INTEGER,	  			{ ->sos.mtknr Promovend											}
+   bid            					INTEGER,	  			{ ->bewerber.bid Promotionsbewerber					}
+   mentor1id            		INTEGER,	  			{ ->personal.pid erster Betreuer						}
+   mentor2id            		INTEGER,      		{ ->personal.pid zweiter Betreuer						}
+   mentor3id            		INTEGER,      		{ ->personal.pid dritter Betreuer						}
+   evaluator1id            	INTEGER,	  			{ ->personal.pid erster Gutachter						}
+   evaluator1Reminder1			DATE,							{ Datum der ersten Erinnerung	Gutachter 1		}
+   evaluator1Reminder2			DATE,							{ Datum der zweiten Erinnerung Gutachter 1	}
+   evaluator2id            	INTEGER,      		{ ->personal.pid zweiter Gutachter					}
+   evaluator2Reminder1			DATE,							{ Datum der ersten Erinnerung	Gutachter 2		}
+   evaluator2Reminder2			DATE,							{ Datum der zweiten Erinnerung Gutachter 2	}
+   evaluator3id            	INTEGER,      		{ ->personal.pid dritter Gutachter					}
+   evaluator3Reminder1			DATE,							{ Datum der ersten Erinnerung	Gutachter 3		}
+   evaluator3Reminder2			DATE,							{ Datum der zweiten Erinnerung Gutachter 3	}
+   evaluator4id            	INTEGER,      		{ ->personal.pid vierter Gutachter					}
+   evaluator4Reminder1			DATE,							{ Datum der ersten Erinnerung	Gutachter 4		}
+   evaluator4Reminder2			DATE,							{ Datum der zweiten Erinnerung Gutachter 4	}
+   vorsitzid            		INTEGER,      		{ ->personal.pid Vorsitz der Kommission			}
+   applicationofassumption	DATE,         		{ Antrag auf Annahme			            			}
+   assumptioncommitee				DATE,         		{ Annahme durch Ausschuss			            	}
+   startofdoctoralstudies		DATE,         		{ Beginn der Arbeit an der Dissertation  		}
+   applicationofadmission		DATE,         		{ Antrag auf Zulassung			            		}
+   openingofprocedure				DATE,         		{ Eröffnung des Verfahrens			            }
+   forwardingoffile					DATE,         		{ Weiterleitung der Promotionsakte			    }
+   forwardingforcommitee		DATE,         		{ Akte an Vorsitz der Kommission			      }
+   dateofcolloquium					DATE,         		{ Verteidigungsdatum			            			}
+   dateofrigorosum					DATE,         		{ Datum des Rigorosums		            			}
+   dateofpublishing					DATE,         		{ Veröffentlichungsdatum		            		}
+   dateofcontractwithpublisher	DATE,       	{ Verlagsvertrag Datum			            		}
+   handovertolibrary				DATE,         		{ Datum der Abgabe in der Bibliothek        }
+   handovertype							INTEGER,					{ ->k_handovertype.id Typ der Aushändigung	}
+   handovercount						INTEGER,					{ Anzahl der Aushändigungen									}
+   dateforcertificate				DATE,         		{ Übergabe Urkunde			            				}
+   finalgrade								INTEGER,      		{ Abschlussprädikat													}
+   date_for_cancel					DATE,							{ Datum des Abbruchs												}
+   journals									VARCHAR(500),  		{ Liste der Journale (Zeitschriften) in welchen publiziert wurde }
+   copy_to_institute				DATE,         		{ DissVertrag als Kopie an Einrichtung			}
+   colloquium_to_institute	DATE,         		{ Verteidigungsunterlagen an Einrichtung		}
+   incoming_digital_diss		DATE,         		{ Eingang digitale Dissertation in Fak.			}
+   incoming_analog_diss			DATE,         		{ Eingang analoge Dissertation in Fak.			}
+   outgoing_invitation_coll	DATE,         		{ Postausgang der Einladungen zur Vert.			}
+   display_period						DATE,         		{ Auslagefrist															}
+   participation_handover		VARCHAR(1),    		{ Teilnahme an Urkundenübergabe		          }
+   outgoing_certificate			DATE,         		{ Postausgang der Urkunde bei Nichtteilnahme}
+   filetoarchive						DATE,         		{ Akte ins Archiv			            					}
+   archivenumber						INTEGER,      		{ Archivnummer															}
+   k_abstgv_id							INTEGER,      		{ Studienfach																}
+	 mentor1name				 			VARCHAR(255),     { Name des ersten Betreuers									}
+ 	 mentor1einrich		 				VARCHAR(255),     { Einrichtung des ersten Betreuers					}
+	 mentor2name				 			VARCHAR(255),     { Name des zweiten Betreuers								}
+	 mentor2einrich		 				VARCHAR(255),     { Einrichtung des zweiten Betreuers					}
+	 mentor3name				 			VARCHAR(255),     { Name des dritten Betreuers								}
+	 mentor3einrich		 				VARCHAR(255),     { Einrichtung des dritten Betreuers					}
+   zeitstempel        			DATETIME year to fraction(5) { Aenderungsdatum-/zeit          }
+);

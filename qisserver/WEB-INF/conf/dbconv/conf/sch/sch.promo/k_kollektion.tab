@@ -1,0 +1,17 @@
+{### k_kollektion ############################################################}
+CREATE TABLE k_kollektion
+   (              
+   kollid          SERIAL NOT NULL,     { PrimaryKey                          }
+   ktxt            CHAR(10),            { Kurztext                            }
+   dtxt            VARCHAR(255,0),      { Drucktext                           }
+   ltxt            VARCHAR(255,0),      { Langtext                            }
+   benutzergruppe  VARCHAR(255,0),      { Name der Gruppe (z.B. Dozenten)     }
+   thema           VARCHAR(255,0),      { Name des Themas (z.B. Projekt XY)   }
+   beginn          CHAR(8),             { Startdatum der Gueltigkeit          }
+   ende            CHAR(8),             { Verfalldatum                        }
+   controlid	   INTEGER,             { Steuerungskennzeichen z. B. fuer 
+                                          Karteikarten in Bearbeitungsdialogen}
+   session		   VARCHAR(50,0),       { Wert für die Session (Rolle)        }
+   zeitstempel     DATETIME year to fraction(5) { Aenderungszeit              }
+   );
+

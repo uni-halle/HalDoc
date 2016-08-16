@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root version="1.0">
+	<topics>
+		<row>
+			<locallinks modules="LSF,QISZUL,QISSOS,HISINONE,PROMO">
+				<studentenwerk active="n" />
+				<ort active="n" />
+				<!--promoAntragBewerbung active="y" databases="promo" query="state=change&amp;type=2&amp;moduleParameter=bewerber&amp;nextdir=change&amp;next=SingleInput.vm&amp;subdir=graduate/bewerbung&amp;sqlmode=new&amp;getglobal=n&amp;isparent=y">$lang.promoAntragBewerbung</promoAntragBewerbung-->
+			</locallinks>
+		</row>
+	</topics>
+	<loggedin>
+		<menuPromoEdit active="y" query="state=change&amp;type=1&amp;subdir=graduate&amp;moduleParameter=graduateMenu&amp;next=menu.vm&amp;xml=menu" 
+			modules="PROMO" context="admin"><!-- ,promov,promoverw,dekan,biblio,gradakad,intoffice -->
+			$lang.menuPromoEdit
+		</menuPromoEdit>
+
+		<promoApplication active="y" databases="promo" context="promoverw" query="state=change&amp;type=5&amp;moduleParameter=applicationSearch&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/bewerber&amp;clean=y">$lang.promoApplication</promoApplication>
+		<newPromo active="y" databases="promo" context="promoverw" query="state=change&amp;type=5&amp;moduleParameter=personSearch&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/promo&amp;_form=newPromo&amp;clean=y">$lang.newpromotion</newPromo>
+		<personalPromov active="y" databases="promo" context="promoverw" query="state=change&amp;type=5&amp;moduleParameter=personSearch&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/promo&amp;_form=promov&amp;clean=y">$lang.editpersonpromov</personalPromov>
+		<personal active="y" databases="promo" context="promoverw" query="state=change&amp;type=5&amp;moduleParameter=personSearch&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/person&amp;_form=sach&amp;clean=y">$lang.editperson ($lang.promoSachbearb)</personal>
+		<personal2 active="y" databases="promo" context="promoverw" query="state=change&amp;type=5&amp;moduleParameter=personSearch&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/person&amp;_form=gut&amp;clean=y">$lang.editperson ($lang.promoEval)</personal2>
+
+		<promos active="y" databases="promo" context="promoverw,biblio" query="state=change&amp;type=5&amp;moduleParameter=promoSearch&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/promo&amp;_form=publish&amp;clean=y">$lang.searchPromotions</promos>
+		<mailForInGra active="y" databases="promo" context="gradakad" query="state=change&amp;type=5&amp;moduleParameter=personSearchPromo&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/promo&amp;_form=mailForAkad">$lang.sendEmails</mailForInGra>
+		<mailForIO active="y" databases="promo" context="intoffice" query="state=change&amp;type=5&amp;moduleParameter=personSearchPromo&amp;nextdir=change&amp;next=search.vm&amp;subdir=graduate/promo&amp;_form=mailForIO">$lang.sendEmails</mailForIO>
+		<emailErrors active="y" databases="promo" context="gradakad" query="state=verpublish&amp;publishContainer=emailErrors&amp;menu_open=n">$lang.faultyAdresses</emailErrors>
+		<statForInGra active="y" databases="promo" context="gradakad,intoffice" query="state=verpublish&amp;publishContainer=statForInGra">$lang.statForInGra</statForInGra>
+		<semStat active="y" databases="promo" context="gradakad,intoffice" query="state=verpublish&amp;publishContainer=semStat">$lang.semStat</semStat>
+		<statForFaks active="y" databases="promo" context="promoverw" query="state=verpublish&amp;publishContainer=statForFaks">$lang.statForInGra</statForFaks>
+		<semStatForFaks active="y" databases="promo" context="promoverw" query="state=verpublish&amp;publishContainer=semStatForFaks">$lang.semStat</semStatForFaks>
+		<uebForInGra active="y" databases="promo" context="gradakad" query="state=verpublish&amp;publishContainer=overviewIngra">$lang.uebForInGra</uebForInGra>
+	</loggedin>
+	<roles>
+		<promoverw databases="promo" context="promoverw">
+			<classParams name="fak">
+				<class>de.his.busobjs.RestrictionGetter.class</class>
+				<List_Database>promo</List_Database>
+				<de.his.busobjs.RestrictionGetter>
+					_AssignedFak
+        </de.his.busobjs.RestrictionGetter>
+				<SELECT_AssignedFak>
+					SELECT personal.einrichtungid FROM personal WHERE
+					personal.pid=[session_ident_M];
+      	</SELECT_AssignedFak>
+			</classParams>
+		</promoverw>
+	</roles>
+</root>

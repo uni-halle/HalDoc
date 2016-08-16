@@ -1,0 +1,10 @@
+{### add_infos ################################################################}
+CREATE TABLE add_infos (
+   id        		SERIAL NOT NULL,							{ Primary Key       		}
+   tab        VARCHAR(50),	  								{ Objekt-Tabelle				}
+   tabpk       	INTEGER,	  									{ Objekt-ID							}
+   type        	VARCHAR(50),	  							{ Info-Type							}
+   txt  				VARCHAR(500), 								{ Information						}
+   sort       	INTEGER,	  									{ Sortierung						}
+   zeitstempel  DATETIME year to fraction(5)	{ Aenderungsdatum-/zeit	}
+);

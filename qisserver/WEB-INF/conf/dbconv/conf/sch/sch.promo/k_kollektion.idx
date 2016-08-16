@@ -1,0 +1,2 @@
+{### k_kollektion ############################################################}
+CREATE UNIQUE INDEX i_k_kollektion ON k_kollektion (kollid);

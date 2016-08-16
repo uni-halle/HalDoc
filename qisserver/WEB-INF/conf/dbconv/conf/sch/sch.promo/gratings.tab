@@ -1,0 +1,9 @@
+{### gratings ################################################################}
+CREATE TABLE gratings (
+   id        				SERIAL NOT NULL,							{ Primary Key       		}
+   promotion_id			INTEGER,	  									{ ->promotion						}
+   bewertung_id			INTEGER,											{ ->bewertung						}
+   bewertungsart_id	INTEGER,											{ ->bewertungsart				}
+   sort       			INTEGER,	  									{ Sortierung						}
+   zeitstempel  		DATETIME year to fraction(5)	{ Aenderungsdatum-/zeit	}
+);

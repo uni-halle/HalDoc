@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<person active="y" object="personal" objectid="personal.pid" protsuppl="Personal" modules="PROMO">
+	<subitem>editperson</subitem>
+	<dbhandlername>sospos</dbhandlername>
+	<title>
+		<new>$lang.newpersonpromov</new>
+		<edit>$lang.editpersonpromov</edit>
+	</title>
+	<session>sos.mtknr, promotion.promotionid</session>
+	<noinsert />
+	<update protocol="y" />
+	<delete protocol="y" />
+	<trigger name="setPromotionID">
+		de.mlu.change.trigger.MLUSetValueTrigger
+		<set if="[sos.mtknr]!=" name="promotion.promotionid" value="SELECT promotionid FROM promotion WHERE mtknr=[sos.mtknr]" database="promo" />
+	</trigger>
+	<header>
+		SELECT DISTINCT sos.mtknr as ID, 'Name:' AS txt1, sos.vorname as Vorname, sos.nachname as Nachname, 'Titel:' AS txt2, substr(v_promotion.title, 1, 40) AS Titel, '...' AS txt3
+		FROM sos,v_promotion
+		WHERE v_promotion.mtknr=sos.mtknr AND sos.mtknr=[sos.mtknr]
+	</header>
+	<success-redirect>next</success-redirect>
+	<buttons>
+		<store>Speichern &amp; weiter</store>
+	</buttons>
+	<size>33</size>
+	<script>calendar</script>
+	<rights>
+		<admin>
+			<noinsert />
+			<update />
+			<delete negation="y">SELECT count(*) FROM lab WHERE mtknr=[sos.mtknr]</delete>
+			<select />
+		</admin>
+		<biblio>
+			<noinsert />
+			<update />
+			<nodelete />
+			<select />
+		</biblio>
+		<promoverw>
+			<noinsert />
+			<!--update>SELECT count(*) FROM v_promotion WHERE v_promotion.einrichtungid = [session_AssignedFak] AND v_promotion.promotionid=[promotion.promotionid]</update-->
+			<update>SELECT count(*) FROM v_promotion WHERE v_promotion.einrichtungid = [session_AssignedFak] AND v_promotion.mtknr=[sos.mtknr]</update>
+			<nodelete />
+			<!--delete negation="y">SELECT count(*) FROM sos LEFT JOIN lab ON (lab.mtknr=sos.mtknr) WHERE (status NOT IN ('Y') OR abschl = '06') AND sos.mtknr=[sos.mtknr]</delete-->
+			<select />
+		</promoverw>
+	</rights>
+	<search>
+		SELECT DISTINCT sos.mtknr as ID, sos.nachname as Nachname, sos.vorname as Vorname, v_promotion.institute AS Institut, substr(v_promotion.title, 1, 40) || '...' AS Titel, sos.mtknr AS Mtknr
+		FROM sos,v_promotion [from]
+		WHERE v_promotion.dateforcertificate IS NULL AND v_promotion.date_for_cancel IS NULL AND v_promotion.mtknr=sos.mtknr [where] [restriction]
+		<!-- res11::integer=(SELECT perstatusid FROM k_perstatus WHERE ktxt='Pro') AND  -->
+	</search>
+	<searchOrder template="y" default="ORDER BY 2, 3">ORDER BY [orderby] [orderdesc]</searchOrder>
+	<searchParameter>state=verpublish&amp;status=init&amp;vmfile=no&amp;moduleCall=webInfo&amp;publishConfFile=webInfoPromotion&amp;publishSubDir=graduate</searchParameter>
+	<change>SELECT DISTINCT sos.mtknr AS ID,
+		sos.mtknr as Mtknr,
+		sos.status AS Status,
+		sos.nachname as Nachname,
+		sos.vorname as Vorname, 
+		sos.gebname as GebName,
+		sos.geschl AS Geschlecht,
+		sos.res11 As PersonalStatus,
+		sos.gebdat AS GebDat,
+		sos.gebort AS GebOrt,
+		sos.gebland AS GebLand,
+		sos.staat AS Nationality, sos.zweitstaat AS Nationality2,
+		sos.res12 AS AkadGradID,
+		r_belongsto.belongstovalue AS AkadGradSonst,
+		sos.res13 AS BewerberStatus,
+		sos.datlae As Zeitstempel
+		FROM ((sos LEFT JOIN r_belongsto ON (sos.mtknr=r_belongsto.ownerid AND r_belongsto.ownertab='sos' AND r_belongsto.tabelle='k_akadgrad' AND r_belongsto.belongstotype='sonstiges') JOIN v_promotion ON (sos.mtknr=v_promotion.mtknr)))
+		WHERE sos.mtknr = [sos.mtknr]
+		ORDER BY 2, 3, 1
+	</change>
+	<change_prop>
+		<column name="GebDat" mandatory="y" datatype="date" subHeader="$lang.Erg2alles_Birth" update="admin,promoverw" />
+		<column name="Geschlecht" mandatory="y" stripkey="y" listboxsize="19" listonly="-&gt;sexPromo" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="ID" key="y" noshow="y" />
+		<column name="Mtknr" noupdate="y" session="y" subHeader="$lang.Erg2alles_Basics" />
+		<column name="Status" default="Y" noupdate="y" stripkey="y" listonly="$lang.studentStatus" />
+		<column name="Nachname" mandatory="y" link="sos.mtknr" update="admin,promoverw" />
+		<column name="GebName" mandatory="n" update="admin,promoverw" />
+		<column name="PersonalStatus" listboxsize="20" default="SELECT perstatusid FROM k_perstatus WHERE ktxt='Pro'" noshow="y" />
+		<column name="Vorname" mandatory="y" update="admin,promoverw" />
+		<column name="Zeitstempel" noupdate="y" noshow="y" />
+		<column name="AkadGradID" mandatory="y" subHeader="$lang.Erg2alles_Academic" listboxsize="19" listonly="-&gt;promo.k_akadgradAlle" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="AkadGradSonst" label="sonstiger akadem. Grad" update="admin,promoverw" />
+		<column name="GebOrt" mandatory="y" update="admin,promoverw" />
+		<column name="GebLand" mandatory="y" listboxsize="19" listonly="-&gt;promo.v_k_akfz" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="BewerberStatus" mandatory="y" listboxsize="19" listonly="-&gt;promo.k_applicantstatus" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="Nationality" mandatory="y" listboxsize="19" listonly="-&gt;promo.v_k_akfz" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="Nationality2" mandatory="n" listboxsize="19" listonly="-&gt;promo.v_k_akfz" update="admin,promoverw" cssclass="selectInChange" />
+	</change_prop>
+	<etceteras context="admin,promoverw">
+		<gradfh label="von einer FH" comment="Akademischer Grad an einer FH erlangt" parentElement="AkadGradSonst" inputtype="checkbox" action="gradfh" checked="select" />
+	</etceteras>
+	<actions>
+		<gradfh>
+			<select>SELECT count(*) AS anzahl FROM sos WHERE sos.mtknr=[sos.mtknr] AND res5='Y'</select>
+			<checked>UPDATE sos SET res5 = 'Y' WHERE sos.mtknr=[sos.mtknr]</checked>
+			<unchecked>UPDATE sos SET res5 = 'N' WHERE sos.mtknr=[sos.mtknr]</unchecked>
+		</gradfh>
+	</actions>
+	<trigger refresh="y">
+		de.mlu.change.trigger.MLUSOSPOSProChangeTrigger
+		<taet>HalDoc Personendaten:</taet>
+		<fktkz>AEN</fktkz>
+		<bearb>[session_login]</bearb>
+		<mtknr>[sos.mtknr]</mtknr>
+		<logColumns>sos.mtknr, sos.nachname, sos.vorname,  sos.gebname, sos.geschl, sos.res11, sos.status, sos.gebdat, sos.gebort, sos.gebland, sos.staat, sos.zweitstaat, sos.res12, sos.res13</logColumns>
+	</trigger>
+	<additionalDBActions>
+		<update>
+			<action ignoreNullValues="y" type="update" table="r_belongsto" where="r_belongsto.ownerid=[sos.mtknr] AND r_belongsto.ownertab='sos' AND r_belongsto.tabelle='k_akadgrad' AND r_belongsto.belongstotype='sonstiges'" condition="SELECT count(*) FROM r_belongsto WHERE r_belongsto.ownerid=[sos.mtknr] AND r_belongsto.ownertab='sos' AND r_belongsto.tabelle='k_akadgrad' AND r_belongsto.belongstotype='sonstiges'">
+				<belongstovalue>[r_belongsto.belongstovalue]</belongstovalue>
+			</action>
+			<action ignoreNullValues="y" type="insert" table="r_belongsto" condition="!SELECT count(*) FROM r_belongsto WHERE r_belongsto.ownerid=[sos.mtknr] AND r_belongsto.ownertab='sos' AND r_belongsto.tabelle='k_akadgrad' AND r_belongsto.belongstotype='sonstiges'">
+				<belongstovalue>[r_belongsto.belongstovalue]</belongstovalue>
+				<ownerid>[sos.mtknr]</ownerid>
+				<ownertab>sos</ownertab>
+				<tabelle>k_akadgrad</tabelle>
+				<aikz>A</aikz>
+				<belongstotype>sonstiges</belongstotype>
+			</action>
+		</update>
+	<!--
+		<delete>
+			<action type="delete" table="r_belongsto" where="tabpk=[personal.pid] AND tabelle='personal'" />
+			<action type="delete" table="r_belongsto" where="ownerid=[personal.pid] AND tabelle='k_abstgv' AND ownertab = 'personal'" />
+			<action type="delete" table="r_belongsto" where="ownerid=[personal.pid] AND ownertab='personal' AND tabelle='einrichtung' AND belongstotype='rolle' AND belongstovalue='fachbereich'" />
+			<action type="delete" table="r_verpers" where="pid=[personal.pid]" />
+			<action type="delete" table="r_veranstpers" where="pid=[personal.pid]" />
+			<action type="delete" table="r_kollektionnutzer" where="nid IN (SELECT nid FROM r_pernutzer WHERE pid=[personal.pid])" />
+			<action type="delete" table="nutzer" where="nid IN (SELECT nid FROM r_pernutzer WHERE pid=[personal.pid])" />
+			<action type="delete" table="r_pernutzer" where="pid=[personal.pid]" />
+		</delete>
+	-->
+	</additionalDBActions>
+	<links align1="left">
+		<header>Grunddaten</header>
+		<link moduleParameter="personPromov" key="sos.mtknr" lookup="sos.mtknr" template="SingleInput.vm" type="2">
+			<de>Person</de>
+			<en>Person</en>
+		</link>
+		<link moduleParameter="kontakt" key="sos.mtknr" lookup="sos.mtknr" template="SingleInput.vm" type="2" context="admin,promoverw">
+			<de>Kontaktdaten</de>
+			<en>contact datas</en>
+		</link>
+		<link moduleParameter="employment" active="n" key="sos.mtknr" lookup="sos.mtknr" template="SingleInput.vm" type="2" condition="SELECT count(*) FROM sos WHERE mtknr=[sos.mtknr] AND res13::integer=(SELECT applicantstatusid FROM k_applicantstatus WHERE ktxt='EXT')" context="admin,promoverw">
+			<de>Beschäftigung</de>
+			<en>employment</en>
+		</link>
+		<link moduleParameter="personMediaFiles" active="n" key="sos.mtknr" lookup="sos.mtknr" template="GridInput.vm" type="2" context="admin,promoverw">
+			<de>Externe Dokumente</de>
+			<en>External Documents</en>
+		</link>
+		<link moduleParameter="promos" active="n" key="sos.mtknr" lookup="sos.mtknr" template="GridInput.vm" type="2" context="admin,promoverw">
+			<de>Promotionen</de>
+			<en>Promotions</en>
+		</link>
+		<link moduleParameter="promo" key="sos.mtknr" lookup="sos.mtknr" template="SingleInput.vm" type="2">
+			<de>Promotion</de>
+			<en>Promotion</en>
+		</link>
+		<link moduleParameter="medicine" active="y" key="sos.mtknr" lookup="sos.mtknr" template="SingleInput.vm" type="2" context="admin,promoverw" condition="SELECT count(*) FROM v_promotion,v_promotion_med WHERE v_promotion.promotionid=v_promotion_med.promotion_id AND mtknr=[sos.mtknr]">
+			<de>Angaben zur Med.-Fak.</de>
+			<en>Inform. for Fac. of Medicine</en>
+		</link>
+		<link moduleParameter="gradings" key="sos.mtknr" lookup="sos.mtknr" template="GratingInput.vm" type="99" context="admin,promoverw" condition="SELECT count(*) FROM v_promotion WHERE mtknr=[sos.mtknr]">
+			<de>Bewertungen</de>
+			<en>gradings</en>
+		</link>
+		<link moduleParameter="process" key="sos.mtknr" lookup="sos.mtknr" template="SingleInput.vm" type="2" condition="SELECT count(*) FROM v_promotion WHERE mtknr=[sos.mtknr]">
+			<de>Ablauf</de>
+			<en>process</en>
+		</link>
+		<link moduleParameter="degrees" key="sos.mtknr" lookup="sos.mtknr" template="GridInput.vm" type="2" condition="SELECT count(*) FROM v_promotion WHERE mtknr=[sos.mtknr] AND bid IS NOT NULL" context="admin,promoverw">
+			<de>Abschlüsse</de>
+			<en>degrees</en>
+		</link>
+		<header>weitere Angaben</header>
+		<link moduleParameter="infos" active="y" key="sos.mtknr" lookup="sos.mtknr" template="GridInput.vm" type="2" context="admin,promoverw">
+			<de>zusätzliche Informationen</de>
+			<en>additional Information</en>
+		</link>
+		<link moduleParameter="kommission" key="sos.mtknr" lookup="sos.mtknr" template="GridInput.vm" type="2" context="admin,promoverw">
+			<de>Verteidigungskommision</de>
+			<en>Verteidigungskommision</en>
+		</link>
+		<link moduleParameter="cancel" active="y" key="sos.mtknr" lookup="sos.mtknr" template="GridInput.vm" type="2" context="admin,promoverw" condition="SELECT count(*) FROM v_promotion WHERE date_for_cancel IS NOT NULL AND mtknr=[sos.mtknr]">
+			<de>Abbruchinformationen</de>
+			<en>Information for cancelation</en>
+		</link>
+	</links>
+</person>
+

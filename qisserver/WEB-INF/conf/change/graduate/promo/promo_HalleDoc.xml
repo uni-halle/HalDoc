@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<promo active="y" object="promo" objectid="promotion.promotionid" protsuppl="Promotion" modules="PROMO">
+	<subitem>promo</subitem>
+	<dbhandlername>promo</dbhandlername>
+	<title>$lang.editpersonpromov</title>
+	<global>
+		<chooseSomethingForInputWhenMandatory active="y" ueberschreiben="y">y</chooseSomethingForInputWhenMandatory>
+	</global>
+	<insert />
+	<update protocol="y" />
+	<delete protocol="y" />
+	<header />
+	<size>63</size>
+	<session>promotion.promotionid, personal.pid</session>
+	<success-redirect>next</success-redirect>
+	<buttons>
+		<store>Speichern &amp; weiter</store>
+	</buttons>
+	<script>calendar</script>
+	<change>
+		SELECT DISTINCT promotion.promotionid AS ID, promotion.title as Titel,
+		promotion.field AS field, promotion.gradid AS AkadGrad, promotion.k_abstgv_id AS Promotionsfach, '' AS header1, mentor1name, mentor1einrich, mentor2name, mentor2einrich, mentor3name, mentor3einrich, 
+		promotion.mentor1id AS Mentor1, promotion.mentor2id AS Mentor2, promotion.mentor3id AS Mentor3, 
+		promotion.evaluator1id AS Eval1, promotion.evaluator1Reminder1 AS Eval1Rem1, promotion.evaluator1Reminder2 AS Eval1Rem2, 
+		promotion.evaluator2id AS Eval2, promotion.evaluator2Reminder1 AS Eval2Rem1, promotion.evaluator2Reminder2 AS Eval2Rem2, 
+		promotion.evaluator3id AS Eval3, promotion.evaluator3Reminder1 AS Eval3Rem1, promotion.evaluator3Reminder2 AS Eval3Rem2, 
+		promotion.evaluator4id AS Eval4, promotion.evaluator4Reminder1 AS Eval4Rem1, promotion.evaluator4Reminder2 AS Eval4Rem2, 
+		promotion.vorsitzid AS vorsitz, promotion.institute AS Institut, promotion.promoprogrammdetail AS programm, promotion.frameworkdetail AS framework,
+		promotion.zeitstempel AS Zeitstempel, promotion.mtknr AS Person, promotion.einrichtungid AS Einrichtung
+		FROM promotion
+		WHERE promotion.promotionid=[promotion.promotionid]
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<!--column name="Titel" mandatory="y" inputtype="textarea" textrows="5" link="promotion.promotionid" specRes="abgabe" specEffect="noupdate" update="promoverw,admin" /-->
+		
+		<column name="Titel" mandatory="y" inputtype="textarea" textrows="5" link="promotion.promotionid" update="promoverw,admin" condition="SELECT count(*) AS Anzahl FROM promotion WHERE promotion.promotionid=[promotion.promotionid] AND promotion.handoverToLibrary is null" />
+		<column name="Titel" inputtype="textarea" textrows="5" link="promotion.promotionid" noupdate="promoverw,admin" condition="SELECT count(*) AS Anzahl FROM promotion WHERE promotion.promotionid=[promotion.promotionid] AND promotion.handoverToLibrary is not null" />
+		
+		<column name="Status" listonly="-&gt;promo.k_promotionstatus" update="promoverw,admin" cssclass="selectInChange" />
+		<column name="field" update="promoverw,admin" noshow="y" />
+		<column name="AkadGrad" listboxsize="34" listonly="-&gt;promo.k_akadgradPromo" specRes="abgabe" specEffect="noupdate" update="promoverw,admin" cssclass="selectInChange" />
+		<column name="Promotionsfach" mandatory="y" listboxsize="34" listonly="-&gt;promo.v_k_abstgv" update="promoverw,admin" cssclass="selectInChange" />
+
+		<column name="header1" virtual="y" subHeader="vom Antragsteller genannte Personen" noshow="y" condition="SELECT promotionid FROM promotion WHERE promotionid=[promotion.promotionid] AND ((mentor1name IS NOT NULL AND mentor1id IS NULL) OR (mentor2name IS NOT NULL AND mentor2id IS NULL) OR (mentor3name IS NOT NULL AND mentor3id IS NULL))" />
+		<column name="mentor1name" label="Mentor 1" noupdate="y" condition="SELECT promotionid FROM promotion WHERE promotionid=[promotion.promotionid] AND mentor1name IS NOT NULL AND mentor1id IS NULL" />
+		<column name="mentor1einrich" label="Einrichtung" noupdate="y" condition="SELECT promotionid FROM promotion WHERE promotionid=[promotion.promotionid] AND mentor1name IS NOT NULL AND mentor1id IS NULL" />
+		<column name="mentor1name" noshow="y" condition="SELECT promotionid FROM promotion WHERE promotionid=[promotion.promotionid] AND (mentor1id IS NOT NULL OR mentor1name IS NULL)" />
+		<column name="mentor1einrich" noshow="y" condition="SELECT promotionid FROM promotion WHERE promotionid=[promotion.promotionid] AND (mentor1id IS NOT NULL OR mentor1name IS NULL)" />
+		<column name="mentor2name" label="Mentor 2" noupdate="y" />
+		<column name="mentor2einrich" label="Einrichtung" noupdate="y" />
+		<column name="mentor2name" noshow="y" condition="SELECT promotionid FROM promotion WHERE promotionid=[promotion.promotionid] AND (mentor2id IS NOT NULL OR mentor2name IS NULL)" />
+		<column name="mentor2einrich" noshow="y" condition="SELECT promotionid FROM promotion WHERE promotionid=[promotion.promotionid] AND (mentor2id IS NOT NULL OR mentor2name IS NULL)" />
+		<column name="mentor3name" label="Mentor 3" noupdate="y" />
+		<column name="mentor3einrich" label="Einrichtung" noupdate="y" />
+		<column name="mentor3name" noshow="y" condition="SELECT promotionid FROM promotion WHERE promotionid=[promotion.promotionid] AND (mentor3id IS NOT NULL OR mentor3name IS NULL)" />
+		<column name="mentor3einrich" noshow="y" condition="SELECT promotionid FROM promotion WHERE promotionid=[promotion.promotionid] AND (mentor3id IS NOT NULL OR mentor3name IS NULL)" />
+
+		<column name="Mentor1" subHeader="zuzuordnende Personen" listboxsize="34" listmatch="-&gt;promo.betreuer" update="promoverw,admin" cssclass="selectInChange" mandatory="y" />
+		<column name="Mentor2" listboxsize="34" listmatch="-&gt;promo.betreuer" update="promoverw,admin" cssclass="selectInChange" />
+		<column name="Mentor3" listboxsize="34" listmatch="-&gt;promo.betreuer" update="promoverw,admin" cssclass="selectInChange" />
+		
+		<column name="Eval1" listboxsize="34" listmatch="-&gt;promo.betreuer" update="promoverw,admin" cssclass="selectInChange" mandatory1="y" />
+		<column name="Eval1Rem1" label="erste Erinnerung" datatype="date" show="y" condition="SELECT count(*) FROM promotion WHERE evaluator1id IS NOT NULL AND promotionid=[promotion.promotionid]" />
+		<column name="Eval1Rem1" datatype="date" noshow="y" condition="SELECT count(*) FROM promotion WHERE evaluator1id IS NULL AND promotionid=[promotion.promotionid]" />
+		<column name="Eval1Rem2" label="zweite Erinnerung" datatype="date" show="y" condition="SELECT count(*) FROM promotion WHERE evaluator1Reminder1 IS NOT NULL AND promotionid=[promotion.promotionid]" />
+		<column name="Eval1Rem2" datatype="date" noshow="y" condition="SELECT count(*) FROM promotion WHERE evaluator1Reminder1 IS NULL AND promotionid=[promotion.promotionid]" />
+		<column name="Eval2" listboxsize="34" listmatch="-&gt;promo.betreuer" update="promoverw,admin" cssclass="selectInChange" mandatory1="y" />
+		<column name="Eval2Rem1" label="erste Erinnerung" datatype="date" show="y" condition="SELECT count(*) FROM promotion WHERE evaluator2id IS NOT NULL AND promotionid=[promotion.promotionid]" />
+		<column name="Eval2Rem1" datatype="date" noshow="y" condition="SELECT count(*) FROM promotion WHERE evaluator2id IS NULL AND promotionid=[promotion.promotionid]" />
+		<column name="Eval2Rem2" label="zweite Erinnerung" datatype="date" show="y" condition="SELECT count(*) FROM promotion WHERE evaluator2Reminder1 IS NOT NULL AND promotionid=[promotion.promotionid]" />
+		<column name="Eval2Rem2" datatype="date" noshow="y" condition="SELECT count(*) FROM promotion WHERE evaluator2Reminder1 IS NULL AND promotionid=[promotion.promotionid]" />
+		<column name="Eval3" listboxsize="34" listmatch="-&gt;promo.betreuer" update="promoverw,admin" cssclass="selectInChange" />
+		<column name="Eval3Rem1" label="erste Erinnerung" datatype="date" show="y" condition="SELECT count(*) FROM promotion WHERE evaluator3id IS NOT NULL AND promotionid=[promotion.promotionid]" />
+		<column name="Eval3Rem1" datatype="date" noshow="y" condition="SELECT count(*) FROM promotion WHERE evaluator3id IS NULL AND promotionid=[promotion.promotionid]" />
+		<column name="Eval3Rem2" label="zweite Erinnerung" datatype="date" show="y" condition="SELECT count(*) FROM promotion WHERE evaluator3Reminder1 IS NOT NULL AND promotionid=[promotion.promotionid]" />
+		<column name="Eval3Rem2" datatype="date" noshow="y" condition="SELECT count(*) FROM promotion WHERE evaluator3Reminder1 IS NULL AND promotionid=[promotion.promotionid]" />
+		<column name="Eval4" listboxsize="34" listmatch="-&gt;promo.betreuer" update="promoverw,admin" cssclass="selectInChange" />
+		<column name="Eval4Rem1" label="erste Erinnerung" datatype="date" show="y" condition="SELECT count(*) FROM promotion WHERE evaluator4id IS NOT NULL AND promotionid=[promotion.promotionid]" />
+		<column name="Eval4Rem1" datatype="date" noshow="y" condition="SELECT count(*) FROM promotion WHERE evaluator4id IS NULL AND promotionid=[promotion.promotionid]" />
+		<column name="Eval4Rem2" label="zweite Erinnerung" datatype="date" show="y" condition="SELECT count(*) FROM promotion WHERE evaluator4Reminder1 IS NOT NULL AND promotionid=[promotion.promotionid]" />
+		<column name="Eval4Rem2" datatype="date" noshow="y" condition="SELECT count(*) FROM promotion WHERE evaluator4Reminder1 IS NULL AND promotionid=[promotion.promotionid]" />
+		
+		<column name="vorsitz" listboxsize="34" listmatch="-&gt;promo.betreuer" update="promoverw,admin" cssclass="selectInChange" mandatory1="y" />
+		<column name="Institut" update="promoverw,admin" subHeader="Weitere Angaben" />
+		<column name="programm" update="promoverw,admin" />
+		<column name="framework" update="promoverw,admin" />
+		<column name="Zeitstempel" noshow="y" />
+		<column name="Person" default="[sos.mtknr]" noshow="y"/>
+		<column name="Einrichtung" default="SELECT einrichtungid FROM personal WHERE pid=[session_ident_M]" listonly="->promo.einrichtungFaks" noshow="biblio,promoverw" />
+	</change_prop>
+	<specialRestriction>
+		<abgabe database="promo"
+            preSelect="promo:SELECT promotionid FROM promotion WHERE promotionid=[promotion.promotionid]" analyze="NOTNULL">
+			SELECT count(*) AS Anzahl FROM promotion 
+			WHERE promotion.promotionid=[promotion.promotionid] AND promotion.handoverToLibrary is not null
+		</abgabe>
+	</specialRestriction>
+	<etceteras context="admin,promoverw">
+		<promoprogramm label="Promotionsprogramm" comment="Dissertation im Rahmen eines strukturierten Promotionsprogrammes" parentElement="Institut" inputtype="checkbox" action="promoprogramm" checked="select" />
+		<framework label="Promotionsverfahren" comment="Dissertation im Rahmen eines bi-nationalen Promotionsverfahrens" parentElement="programm" inputtype="checkbox" action="framework" checked="select" />
+	</etceteras>
+	<actions>
+		<promoprogramm>
+			<select>SELECT count(*) AS anzahl FROM promotion WHERE promotion.promotionid=[promotion.promotionid] AND promoprogramm='J'</select>
+			<checked>UPDATE promotion SET promoprogramm = 'J' WHERE promotion.promotionid=[promotion.promotionid]</checked>
+			<unchecked>UPDATE promotion SET promoprogramm = 'N' WHERE promotion.promotionid=[promotion.promotionid]</unchecked>
+		</promoprogramm>
+		<framework>
+			<select>SELECT count(*) AS anzahl FROM promotion WHERE promotion.promotionid=[promotion.promotionid] AND framework='J'</select>
+			<checked>UPDATE promotion SET framework = 'J' WHERE promotion.promotionid=[promotion.promotionid]</checked>
+			<unchecked>UPDATE promotion SET framework = 'N' WHERE promotion.promotionid=[promotion.promotionid]</unchecked>
+		</framework>
+	</actions>
+	<!--additionalDBActions>
+		<insert>
+			<action type="insert" table="stg" database="sospos">
+				<mtknr>[sos.mtknr]</mtknr>
+				<semester>(SELECT aktsem FROM sossys WHERE aikz='A')</semester>
+				<stgnr>11</stgnr>
+				<abschl>06</abschl>
+				<stg>(SELECT stg FROM v_k_abstgv WHERE abstgvnr=[promotion.k_abstgv_id])</stg>
+				<kzfa>H</kzfa>
+				<lepsem>0</lepsem>
+				<stgsem>1</stgsem>
+				<frisem>0</frisem>
+				<angsemg>0</angsemg>
+				<angsems>0</angsems>
+				<angsemb>0</angsemb>
+				<angsema>0</angsema>
+				<fb>(SELECT fb FROM v_k_abstgv WHERE abstgvnr=[promotion.k_abstgv_id])</fb>
+				<pversion>(SELECT pversion FROM v_k_abstgv WHERE abstgvnr=[promotion.k_abstgv_id])</pversion>
+				<status>Y</status>
+				<hrst>H</hrst>
+				<stuart>(SELECT stuart FROM v_k_abstgv WHERE abstgvnr=[promotion.k_abstgv_id])</stuart>
+				<stutyp>(SELECT stutyp FROM v_k_abstgv WHERE abstgvnr=[promotion.k_abstgv_id])</stutyp>
+				<stufrm>5</stufrm>
+				<stort>(SELECT stort FROM v_k_abstgv WHERE abstgvnr=[promotion.k_abstgv_id])</stort>
+				<anfdat>(SELECT sembg FROM sossys WHERE aikz='A')</anfdat>
+				<hpfri>(SELECT aktsem+40 FROM sossys WHERE aikz='A')</hpfri>
+				<vdwh>0</vdwh>
+				<hdwh>0</hdwh>
+				<semgewicht>0</semgewicht>
+				<urlsem>0</urlsem>
+				<hssem>1</hssem>
+				<klinsem>0</klinsem>
+				<stjg>0</stjg>
+				<stgsemgewicht>1</stgsemgewicht>
+				<statusex>Y</statusex>
+				<lfdnr>0</lfdnr>
+				<kohsem>1</kohsem>
+				<urlsemgewicht>0</urlsemgewicht>
+				<hssemgewicht>1</hssemgewicht>
+				<immdat>(SELECT sembg FROM sossys WHERE aikz='A')</immdat>
+				<rszerh>0</rszerh>
+			</action>
+		</insert>
+		<delete>
+			<action type="delete" table="r_promotion_status" where="promotionid=[promotion.promotionid]" />
+			<action type="delete" table="stg" where="mtknr=[sos.mtknr] AND abschl='06' AND stgnr='11'" database="sospos" />
+		</delete>
+		<update>
+			<action type="insert" table="stg" database="sospos" condition="!select count(*) from v_stg2 where abschl ='06' AND mtknr=[sos.mtknr]">
+				<mtknr>[sos.mtknr]</mtknr>
+				<semester>(SELECT aktsem FROM sossys WHERE aikz='A')</semester>
+				<stgnr>11</stgnr>
+				<abschl>06</abschl>
+				<stg>(SELECT stg FROM k_abstgv WHERE abstgvnr=[promotion.k_abstgv_id])</stg>
+				<kzfa>H</kzfa>
+				<lepsem>0</lepsem>
+				<stgsem>1</stgsem>
+				<frisem>0</frisem>
+				<angsemg>0</angsemg>
+				<angsems>0</angsems>
+				<angsemb>0</angsemb>
+				<angsema>0</angsema>
+				<fb>(SELECT fb FROM k_abstgv WHERE abstgvnr=[promotion.k_abstgv_id])</fb>
+				<pversion>(SELECT pversion FROM k_abstgv WHERE abstgvnr=[promotion.k_abstgv_id])</pversion>
+				<status>Y</status>
+				<hrst>H</hrst>
+				<stuart>(SELECT stuart FROM k_abstgv WHERE abstgvnr=[promotion.k_abstgv_id])</stuart>
+				<stutyp>(SELECT stutyp FROM k_abstgv WHERE abstgvnr=[promotion.k_abstgv_id])</stutyp>
+				<stufrm>5</stufrm>
+				<stort>(SELECT stort FROM k_abstgv WHERE abstgvnr=[promotion.k_abstgv_id])</stort>
+				<anfdat>(SELECT sembg FROM sossys WHERE aikz='A')</anfdat>
+				<hpfri>(SELECT aktsem+40 FROM sossys WHERE aikz='A')</hpfri>
+				<vdwh>0</vdwh>
+				<hdwh>0</hdwh>
+				<semgewicht>0</semgewicht>
+				<urlsem>0</urlsem>
+				<hssem>1</hssem>
+				<klinsem>0</klinsem>
+				<stjg>0</stjg>
+				<stgsemgewicht>1</stgsemgewicht>
+				<statusex>Y</statusex>
+				<lfdnr>0</lfdnr>
+				<kohsem>1</kohsem>
+				<urlsemgewicht>0</urlsemgewicht>
+				<hssemgewicht>1</hssemgewicht>
+				<immdat>(SELECT sembg FROM sossys WHERE aikz='A')</immdat>
+				<rszerh>0</rszerh>
+			</action>
+			<action type="update" table="r_promotion_status" where="promotionid=[promotion.promotionid]">
+				<zeitstempel>[_timestamp]</zeitstempel>
+			</action>
+		</update>
+	</additionalDBActions-->
+	<parentModuleParameter>personPromov</parentModuleParameter>
+</promo>

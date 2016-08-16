@@ -1,0 +1,138 @@
+#if (!$contentVM)
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    	
+	<html>
+		<head>
+			<title>LSF</title>
+			<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+				#parse ("header.vm")
+</head>
+<body class="background">
+	#parse("head.vm")
+	#parse("Controls.vm")
+	#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+		#parse("wlogin/LoginInfo.vm")
+	#end
+	<br>
+		<br>
+#end
+<h1>Übersichten</h1>
+#set($statistik = $import.getChild("Statistiken"))
+##XMLOut($import)
+<fieldset style="margin-bottom: 10px; padding: 10px;">
+	<legend>Übersicht über die Sachbearbeiter</legend>
+	<table>
+		<tr>
+			<th scope="col" class="mod" id="basic_1">Nachname</th>
+			<th scope="col" class="mod" id="basic_1">Vorname</th>
+			<th scope="col" class="mod" id="basic_1">Geschlecht</th>
+			<th scope="col" class="mod" id="basic_1">Einrichtung</th>
+			#if($import.getChild("Uebersicht").getChild("SBs").getChild("SB").getChild("email"))
+				<th scope="col" class="mod" id="basic_1">Email</th>
+			#end
+			#if($import.getChild("Uebersicht").getChild("SBs").getChild("SB").getChild("telefon"))
+				<th scope="col" class="mod" id="basic_1">Telefon</th>
+			#end
+		</tr>
+		#set($lineBackGr = "mod_n_even")
+		#foreach($sb in $import.getChild("Uebersicht").getChild("SBs").getChildren())
+			<tr>
+				<td class="$lineBackGr">$sb.getChildText("nachname")</td>
+				<td class="$lineBackGr">$sb.getChildText("vorname")</td>
+				<td class="$lineBackGr">$sb.getChildText("geschl")</td>
+				<td class="$lineBackGr">$sb.getChildText("einrichtungname")</td>
+				#if($sb.getChild("email"))
+					<td class="$lineBackGr"><a href="mailto:$!sb.getChildText("email")">$!sb.getChildText("email")</a></td>
+				#end
+				#if($sb.getChild("telefon"))
+					<td class="$lineBackGr">$!sb.getChildText("telefon")</td>
+				#end
+			</tr>
+			#if($lineBackGr == "mod_n_even")#set($lineBackGr = "mod_n_odd")#else#set($lineBackGr = "mod_n_even")#end
+		#end
+		#if($import.getChild("Uebersicht").getChild("SBs").getChild("SB").getChild("email"))
+			#set($mailAdressen = "")
+			#foreach($sb in $import.getChild("Uebersicht").getChild("SBs").getChildren())
+				#if($velocityCount == 1)
+					#if($!sb.getChildText("email"))#set($mailAdressen = $sb.getChildText("email"))#end
+				#else
+					#if($!sb.getChildText("email"))#set($mailAdressen = $mailAdressen + ",%20" + $sb.getChildText("email"))#end
+				#end
+			#end
+			<tr><td>&nbsp;</td></tr>
+			<tr>
+				<td colspan="4">
+					<a href="mailto:$mailAdressen">Email an alle</a>
+				</td>
+			</tr>
+		#end
+	</table>
+</fieldset>
+<fieldset style="margin-bottom: 10px; padding: 10px;">
+	<legend>Übersicht über die System-Emailadressen</legend>
+	<table>
+		<tr>
+			<th scope="col" class="mod" id="basic_1">Einrichtung</th>
+			<th scope="col" class="mod" id="basic_1">Email</th>
+		</tr>
+		#set($lineBackGr = "mod_n_even")
+		#foreach($sb in $import.getChild("Uebersicht").getChild("emails").getChildren())
+			<tr>
+				<td class="$lineBackGr">$sb.getChildText("einrichtungname")</td>
+				<td class="$lineBackGr"><a href="mailto:$!sb.getChildText("email")">$!sb.getChildText("email")</a></td>
+			</tr>
+			#if($lineBackGr == "mod_n_even")#set($lineBackGr = "mod_n_odd")#else#set($lineBackGr = "mod_n_even")#end
+		#end
+	</table>
+</fieldset>
+#if($import.getChild("Uebersicht").getChild("Guts").getChildren())
+<fieldset style="margin-bottom: 10px; padding: 10px;">
+	<legend>Übersicht über die Gutachter / Betreuer</legend>
+	#set($einrichtungsName = $import.getChild("Uebersicht").getChild("Guts").getChild("Gut").getChildText("einrichtungname"))
+	<table>
+		<tr><th scope="col" class="mod" id="basic_1" colspan="4">Einrichtung: $einrichtungsName</th></tr>
+		<tr>
+			<th scope="col" class="mod" id="basic_1">Nachname</th>
+			<th scope="col" class="mod" id="basic_1">Vorname</th>
+			<th scope="col" class="mod" id="basic_1">Geschlecht</th>
+			#if($import.getChild("Uebersicht").getChild("Guts").getChild("Gut").getChild("email"))
+				<th scope="col" class="mod" id="basic_1">Email</th>
+			#end
+		</tr>
+		#set($lineBackGr = "mod_n_even")
+		#foreach($sb in $import.getChild("Uebersicht").getChild("Guts").getChildren())
+			#set($einrTemp = $!sb.getChildText("einrichtungname"))
+			#if(!$sb.getChildText("einrichtungname")) #set($einrTemp = "extern") #end
+			#if(!$einrTemp.equals($einrichtungsName))
+				#set($einrichtungsName = $einrTemp)
+		<tr><th scope="col" class="mod" id="basic_1" colspan="4">Einrichtung: $einrichtungsName</th></tr>
+		<tr>
+			<th scope="col" class="mod" id="basic_1">Nachname</th>
+			<th scope="col" class="mod" id="basic_1">Vorname</th>
+			<th scope="col" class="mod" id="basic_1">Geschlecht</th>
+			#if($import.getChild("Uebersicht").getChild("Guts").getChild("Gut").getChild("email"))
+				<th scope="col" class="mod" id="basic_1">Email</th>
+			#end
+		</tr>
+		#set($lineBackGr = "mod_n_even")
+			#end
+			<tr>
+				<td class="$lineBackGr">$sb.getChildText("nachname")</td>
+				<td class="$lineBackGr">$sb.getChildText("vorname")</td>
+				<td class="$lineBackGr">$sb.getChildText("geschl")</td>
+				#if($sb.getChild("email"))
+					<td class="$lineBackGr"><a href="mailto:$!sb.getChildText("email")">$!sb.getChildText("email")</a></td>
+				#end
+			</tr>
+			#if($lineBackGr == "mod_n_even")#set($lineBackGr = "mod_n_odd")#else#set($lineBackGr = "mod_n_even")#end
+		#end
+	</table>
+</fieldset>
+#end
+##<fieldset style="display: block;">
+###XMLOut($import)
+##</fieldset>
+#if (!$contentVM)
+	#parse("foot.vm")
+</body>
+</html>
+#end

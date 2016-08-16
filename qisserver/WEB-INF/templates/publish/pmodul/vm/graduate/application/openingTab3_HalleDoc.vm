@@ -1,0 +1,101 @@
+<p>
+	<div style="$divStyle">
+		<label style="$labelStyle" for="appStatus" id="appStatus_label">* $lang.docAppPromoStat</label>
+		<select id="appStatus" name="open_appStatus" style="$selectStyle" required >
+			<option value="">$lang.docAppSelect</option>
+			#foreach($item in $import.getChild("application").getChild("ApplicantSatus").getChildren())
+				#if($!fillingData.getChildText("sos.bewstatus") == $item.getChildText("applicantstatusid"))
+					<option value="$item.getChildText("applicantstatusid")" selected>$item.getChildText("ltxt")</option>
+				#else
+					<option value="$item.getChildText("applicantstatusid")">$item.getChildText("ltxt")</option>
+				#end
+			#end
+		</select>
+	</div>
+	<div style="$divStyle">
+		<label style="$labelStyle" for="promoFaculty" id="promoFaculty_label">* $lang.docAppPromoFak</label>
+		<select id="promoFaculty" name="open_promoFaculty" style="$selectStyle" required >
+			<option value="">$lang.docAppSelect</option>
+			#foreach($item in $import.getChild("application").getChild("Faks").getChildren())
+				#if($!fillingData.getChildText("promotion.einrichtungid") == $item.getChildText("id"))
+					<option value="$item.getChildText("id")" selected>$item.getChildText("ltxt")</option>
+				#else
+					<option value="$item.getChildText("id")">$item.getChildText("ltxt")</option>
+				#end
+			#end
+		</select>
+	</div>
+	<div style="$divStyle"><label style="$labelStyle" for="institute" id="institute_label">$lang.docAppPromoInst</label><input id="institute" name="open_institute" type="text" style="$inputStyle" value="$!fillingData.getChildText("promotion.institute")" /></div>
+	<div style="$divStyle">
+		<label style="$labelStyle" for="gettingGrade" id="gettingGrade_label">* $lang.docAppPromoDeg</label>
+		<select id="gettingGrade" name="open_gettingGrade" style="$selectStyle" required >
+			<option value="">$lang.docAppSelect</option>
+			#foreach($item in $import.getChild("application").getChild("AkadGradesForPromotion").getChildren())
+				#if($!fillingData.getChildText("promotion.gradid") == $item.getChildText("gradid"))
+					<option value="$item.getChildText("gradid")" selected>$item.getChildText("ltxt") ($item.getChildText("dtxt"))</option>
+				#else
+					<option value="$item.getChildText("gradid")">$item.getChildText("ltxt") ($item.getChildText("dtxt"))</option>
+				#end
+			#end
+		</select>
+	</div>
+	<div style="$divStyle">
+		<label style="$labelStyle" for="courseOfStudy" id="courseOfStudy_label">* $lang.docAppPromoField</label>
+		<select id="courseOfStudy" name="open_courseOfStudy" style="$selectStyle" required >
+			<option value="">$lang.docAppSelect</option>
+			#foreach($item in $import.getChild("application").getChild("courseOfStudies").getChildren())
+				#if($!fillingData.getChildText("promotion.k_abstgv_id") == $item.getChildText("AbsID"))
+					<option value="$item.getChildText("AbsID")" selected>$item.getChildText("AbsDtx")</option>
+				#else
+					<option value="$item.getChildText("AbsID")">$item.getChildText("AbsDtx")</option>
+				#end
+			#end
+		</select>
+	</div>
+	<div style="$divStyle" ><label style="$labelStyle" for="title" id="title_label">* $lang.docAppPromoTitle</label><input id="title" name="open_title" type="text" style="$inputStyle" value="$!fillingData.getChildText("promotion.title")" required /></div>
+	<div style="$divStyle" >
+		<label style="$labelStyle" for="assumption" id="assumption_label">* $lang.docOpenConfAcceptance</label><input id="assumption" name="open_assumption" type="date" style="$inputStyle" value="$!fillingData.getChildText("promotion.assumptioncommitee")" required />
+		<label for="assumption" id="assumption_label" style="font-size:0.8em;">$lang.docAppDatForm</label>
+	</div>
+
+	#if($fillingData.getChildText("promotion_med.promotion_id").trim() != "")
+	<div style="$divStyle">
+		<label style="$labelStyle" for="typeOfDissertation" id="typeOfDissertation_label">* $lang.docOpenTypeOfDissertation</label>
+		<select id="typeOfDissertation" name="open_typeOfDissertation" style="$selectStyle" required >
+			<option value="">$lang.docAppSelect</option>
+			#foreach($item in $import.getChild("application").getChild("DissTypes").getChildren())
+				<option value="$item.getChildText("id")">$item.getChildText("dtxt")</option>
+			#end
+		</select>
+	</div>
+	#else
+	<div style="$divStyle">$lang.docOpenPromoType</div>
+	<div style="$divStyle"><label for="promoType1" style="$labelStyle">$lang.docAppYes</label><input name="open_promoType" id="promoType1" type="radio" value="j" $!checked1></div>
+	<div style="$divStyle"><label for="promoType2" style="$labelStyle">$lang.docAppNo</label><input name="open_promoType" id="promoType2" type="radio" value="n" $!checked2></div>
+	#end
+##XMLOut($import)
+	<div style="$divStyle">$lang.docAppPromoProg</div>
+	#set($checked1 = "") #set($checked2 = "checked") #set($showInput = "display:none;")
+	#if($!fillingData.getChildText("promotion.promoprogramm") == "j")
+		#set($checked1 = "checked") #set($checked2 = "") #set($showInput = "display:block;")
+	#end
+	<div style="$divStyle"><label for="prog1" style="$labelStyle">$lang.docAppYes</label><input name="open_prog" id="prog1" type="radio" value="j" show="progAddDiv" $!checked1></div>
+	<div style="$divStyle $showInput" id="progAddDiv">
+		<label for="progAdd" id="progAdd_label" style="$labelStyle">$lang.docAppPromoProg2</label><input name="open_progAdd" id="progAdd" type="text" style="$inputStyle" value="$!fillingData.getChildText("promotion.promoprogrammdetail")" /><br/>
+	</div>
+	<div style="$divStyle">
+		<label for="prog2" style="$labelStyle">$lang.docAppNo</label><input name="open_prog" id="prog2" type="radio" value="n" show="progAddDiv" $!checked2>
+	</div>
+	<div style="$divStyle">$lang.docAppPromoBi</div>
+	#set($checked1 = "") #set($checked2 = "checked") #set($showInput = "display:none;")
+	#if($!fillingData.getChildText("promotion.framework") == "j")
+		#set($checked1 = "checked") #set($checked2 = "") #set($showInput = "display:block;")
+	#end
+	<div style="$divStyle"><label for="binat1" style="$labelStyle">$lang.docAppYes</label><input name="open_binat" id="binat1" type="radio" value="j" show="binatAddDiv" $!checked1></div>
+	<div style="$divStyle $showInput" id="binatAddDiv">
+		<label for="binatAdd" id="binatAdd_label" style="$labelStyle">$lang.docAppPromoBi2</label><input name="open_binatAdd" id="binatAdd" type="text" style="$inputStyle" value="$!fillingData.getChildText("promotion.frameworkdetail")" /><br/>
+	</div>
+	<div style="$divStyle">
+		<label for="binat2" style="$labelStyle">$lang.docAppNo</label><input name="open_binat" id="binat2" type="radio" value="n" show="binatAddDiv" $!checked2>
+	</div>
+</p>

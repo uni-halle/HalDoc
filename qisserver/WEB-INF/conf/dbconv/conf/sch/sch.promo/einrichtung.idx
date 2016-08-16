@@ -1,0 +1,2 @@
+{### einrichtung #############################################################}
+CREATE unique index i_einrichtung on einrichtung (id);

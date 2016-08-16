@@ -1,0 +1,93 @@
+#########################################
+##GridInputBlock_Halleredesign.vm
+#########################################
+#set ($markMandatory = "horizontal")
+#set ($update = "n")
+#if ($servlet.update)
+    #set ($update = $servlet.update)
+#end
+#if ($servlet.rowMarker || $!rowMarker)
+    #set ($rowMarker = $servlet.rowMarker)
+#end
+#if ($change && $change.getAttributeValue("update"))
+    #set ($update = $change.getAttributeValue("update"))
+    #set ($rowupdate = $change.getAttributeValue("update"))
+#end
+#if (($tablevel == "oben") && ($servlet.additionalModuleParameter))
+    #set ($update = "n")
+#end
+#if ($update == "n")
+    #set ($readonly = "readonly") #*  ???  *#
+    #set ($class = "noinput")     #*  ???  *#
+#end
+#if ($additionalFirstModuleParameter)
+    #set ($additionalModuleParameter = $additionalFirstModuleParameter)
+#end
+#if ($servlet.additionalModuleParameter)
+    #set ($additionalModuleParameter = $servlet.additionalModuleParameter)
+#end
+#if ($uppertemplate)
+    #set ($uppertemplatepar = "&amp;uppertemplate=$uppertemplate")
+#end
+## Template für "Neu"-Button setzen
+#set ($next = "${specialtemplate}.vm")
+##<div align="$globalalign">
+#set ($rows = $!change.getChild('rows'))
+#set ($choices = $!change.getChild('choices'))
+#if($servlet.filter)
+    #set ($filter = "&amp;filter="+$servlet.filter)
+#end
+#if ($obenModuleParameter)
+    #set ($moduleParameter = $obenModuleParameter)
+    #set ($additionalModuleParameterEntry = "&amp;additionalModuleParameter=$servlet.moduleParameter")
+    #set ($section = "")
+    #set ($form = "")
+#else
+    #set ($moduleParameter = $servlet.moduleParameter)
+    #set ($additionalModuleParameterEntry = "")
+    #set ($section = "&amp;P_start=$!servlet.P_start&amp;P_anzahl=$!servlet.P_anzahl")
+    #set ($form = "&amp;_form=$!servlet.getProperty('_form')")
+    #if ($servlet.uppertemplate)
+        #set ($next = "${servlet.uppertemplate}.vm")
+    #end
+#end
+#if ($servlet.moduleParameterVm)
+    #set ($moduleParameterVm = "&amp;moduleParameterVm=$servlet.moduleParameterVm&amp;additionalModuleParameterVm=$!servlet.additionalModuleParameterVm&amp;table=$!servlet.table")
+#end
+#set ($no_empty_grid_message = (!$servlet.messagenogriddata || $rows.getChildren("row").size() > 0))
+<form action="$response.encodeURL("$servlet.SERVLETURL?state=change&amp;type=99&amp;moduleParameter=$moduleParameter$!moduleParameterVm$additionalModuleParameterEntry&amp;parentModuleParameter=$!servlet.parentModuleParameter&amp;next=${specialtemplate}.vm$!uppertemplatepar&amp;sqlmode=unknown&amp;subdir=$!servlet.subdir&amp;listchosen=$!servlet.listchosen$section$form$!stringUtil.escapeML($!servlet.queryParams)$!storeanyway$!deleteanyway$!partview&amp;termdisplayonly=y&amp;panelsection=$!servlet.getProperty('panelsection')&amp;rownumber=$!rownumber&amp;topitem=$!servlet.getProperty('topitem')&amp;subitem=$!servlet.getProperty('subitem')$!filter")" method="POST">
+	<input type="hidden" name="allrows" value="$!rows.getChildren().size()">
+    #foreach($art in $change.getChildren())
+    	#set($key = $art.getChildText("bewertungsart.key"))
+    	#set($id = $art.getChildText("bewertungsart.id"))
+    	#set($htmlID = "i_${key}_${id}")
+		<div style="clear: left;">
+			<label for="$htmlID" class="inputSearch marginTop10">$art.getChildText("bewertungsart.dtxt")</label>
+			#if($art.getChild("noten") && !$art.getChild("noten").getChildren().isEmpty())
+			<select id="$htmlID" name="$htmlID" class="input marginTop10 selectInChange" style="width: 200px" >
+				<option value="">$lang.choose</option>
+				#foreach($note in $art.getChild("noten").getChildren())
+					#set($text = $note.getChildText("bewertung.dtxt"))
+					#if($key.startsWith("dis") || $key.startsWith("vert"))
+						#set($noteInt = $stringUtil.parseDecimal($note.getChildText('bewertung.key'), 1) / 10)
+						#if(!$note.getChildText('bewertung.dtxt').replace(',','.').equals($noteInt.toString()))
+							#set($text = "$note.getChildText('bewertung.dtxt').replace(',','.') ($noteInt)")
+						#else
+							#set($text = "$note.getChildText('bewertung.dtxt')")
+						#end
+					#end
+					#set($selected = "")
+					#if($note.getChild("selected") && $note.getChildText("selected") == "y")
+						#set($selected = "selected")
+					#end
+					<option value="$note.getChildText("bewertung.id")" $selected>$text</option>
+				#end
+			</select>
+			#else
+			<input id="$htmlID" name="$htmlID" type="number" min="100" max="500" value="$!art.getChildText('value')" class="input marginTop10 " /><span style="padding-left:5px; font-size: 0.9em;">Bitte Werte zwischen 100 (für 1.0) und 500 (für 5.0) eingeben!</span>
+			#end
+		</div>												
+    #end
+	#parse("change/actionButtons.vm")
+</form>
+##XMLOut($change)

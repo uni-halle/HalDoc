@@ -1,0 +1,52 @@
+#if (!$contentVM)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    	
+<html>
+	<head>
+		<title>LSF</title>
+		<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+			#parse ("header.vm")
+	</head>
+	<body class="background">
+		#parse("head.vm")
+		#parse("Controls.vm")
+		#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+			#parse("wlogin/LoginInfo.vm")
+		#end
+#end
+##XMLOut($import)
+#if ($import.getChildren().size() != 0)
+	<h1>Abgeschlossene Promotionen</h1>
+	<h3>Anzahl: $import.getChildren().size()</h3>
+	##set($borderStyle = "border-bottom: black; border-bottom-style: solid; border-bottom-width: 1px;")
+	#set($printLink = "${servlet.SERVLETURL}?${servlet.QUERYSTRING}")
+	<div style="display: inline-block;">
+	<form action="$printLink" method="post">
+		<button type="submit" class="submit4" style="margin-top:5px;" name="app_button" value="sended">$lang.docAppSubmit</button>
+	</form>
+	</div>
+	<table summary="Grunddaten zum Student">
+		<tr>
+			<th class="mod" id="basic_1">Promo-ID</th>
+			<th class="mod" id="basic_1">Mtknr</th>
+			<th class="mod" id="basic_1">dateofcolloquium</th>
+		</tr>
+		#set($lineBackGr = "mod_n_odd")
+		#foreach ($sos in $import.getChildren("sos"))
+			#if(!$sos.getChild("Lab"))
+				<tr>
+					<td class="$lineBackGr" style="width: 0%; $!borderStyle" headers="basic_1">$!sos.getChildText("promotionid")</td>
+					<td class="$lineBackGr" style="width: 0%; $!borderStyle" headers="basic_1">$!sos.getChildText("mtknr")</td>
+					<td class="$lineBackGr" style="width: 0%; $!borderStyle" headers="basic_1" nowrap>$!sos.getChildText("dateofcolloquium")</td>
+				</tr>
+				#if($lineBackGr == "mod_n_even") #set($lineBackGr = "mod_n_odd") #else #set($lineBackGr = "mod_n_even") #end
+			#end
+		#end
+	</table>
+#else
+	<h1>$lang.Erg3_keine_daten</h1>
+#end
+#if (!$contentVM)
+		#parse("foot.vm")
+	</body>
+</html>
+#end

@@ -1,0 +1,823 @@
+#if (!$contentVM)
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    	
+	<html>
+		<head>
+			<title>LSF</title>
+			<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+				#parse ("header.vm")
+</head>
+<body class="background">
+	#parse("head.vm")
+	#parse("Controls.vm")
+	#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+		#parse("wlogin/LoginInfo.vm")
+	#end
+	<br>
+		<br>
+#end
+#set($heightForNationality = 950)
+#if($servlet.session_bereich == "promoverw")
+	#set($zusatz = "Ihrer Einrichtung")
+	#set($heightForNationality = 500)
+#end
+<h1>Statistiken $!zusatz</h1>
+#set($statistik = $import.getChild("Statistiken"))
+##XMLOut($statistik)
+<fieldset style="margin-bottom: 10px">
+	<legend>Allgemeine Übersicht</legend>
+	#set($chartTitle = "Promovierende nach Geschlecht")
+	<fieldset style="display: block; float: left; margin-right: 10px; margin-bottom: 10px">
+		<legend>$chartTitle</legend>
+		#set($pieNr = 0)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px;">
+			<datas>
+				<data data="$statistik.getChildText("countPromovendenAllFemale")" label="weiblich" color1="#8A0CCF"></data>
+				<data data="$statistik.getChildText("countPromovendenAllMale")" label="männlich"></data>
+				<data data="$statistik.getChildText("countPromovendenAllOther")" label="anderes"></data>
+				<data data="$statistik.getChildText("countPromovendenAllUnknown")" label="unbekannt"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">alle</title>
+				<title>Gesamtanzahl: $statistik.getChildText("countPromovendenAll")</title>
+			<titles>
+		</div>
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px;">
+			<datas>
+				<data data="$statistik.getChildText("countPromovendenActiveFemale")" label="weiblich"></data>
+				<data data="$statistik.getChildText("countPromovendenActiveMale")" label="männlich"></data>
+				<data data="$statistik.getChildText("countPromovendenActiveOther")" label="anderes"></data>
+				<data data="$statistik.getChildText("countPromovendenActiveUnknown")" label="unbekannt"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">aktive</title>
+				<title>Gesamtanzahl: $statistik.getChildText("countPromovendenActive")</title>
+			<titles>
+		</div>
+	</fieldset>
+	#set($chartTitle = "Dissertation im Rahmen eines strukturierten Promotionsprogrammes")
+	<fieldset style="display: block; float: left; margin-right: 10px; margin-bottom: 10px">
+		<legend>$chartTitle</legend>
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px;">
+			<datas>
+				<data data="$statistik.getChildText("countPromovendenAllProgramm")" label="innerhalb"></data>
+				#set($without = ($stringUtil.parseInt($statistik.getChildText("countPromovendenAll")) - $stringUtil.parseInt($statistik.getChildText("countPromovendenAllProgramm"))))
+				<data data="$without" label="ohne"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">alle</title>
+				<title>Gesamtanzahl: $statistik.getChildText("countPromovendenAll")</title>
+			<titles>
+		</div>
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px;">
+			<datas>
+				<data data="$statistik.getChildText("countPromovendenActiveProgramm")" label="innerhalb"></data>
+				#set($without = ($stringUtil.parseInt($statistik.getChildText("countPromovendenActive")) - $stringUtil.parseInt($statistik.getChildText("countPromovendenActiveProgramm"))))
+				<data data="$without" label="ohne"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">aktive</title>
+				<title>Gesamtanzahl: $statistik.getChildText("countPromovendenActive")</title>
+			<titles>
+		</div>
+	</fieldset>
+	#set($chartTitle = "Promovierende nach Uni oder FH")
+	<fieldset style="display: block; float: left; margin-right: 10px; margin-bottom: 10px">
+		<legend>$chartTitle</legend>
+		#set($pieNr = 0)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px;">
+			<datas>
+				<data data="$statistik.getChildText("countPromovendenAllFH")" label="FH" color1="#8A0CCF"></data>
+				<data data="$statistik.getChildText("countPromovendenAllUni")" label="Uni"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">alle</title>
+				<title>Gesamtanzahl: $statistik.getChildText("countPromovendenAll")</title>
+			<titles>
+		</div>
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px;">
+			<datas>
+				<data data="$statistik.getChildText("countPromovendenActiveFH")" label="FH"></data>
+				<data data="$statistik.getChildText("countPromovendenActiveUni")" label="Uni"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">aktive</title>
+				<title>Gesamtanzahl: $statistik.getChildText("countPromovendenActive")</title>
+			<titles>
+		</div>
+	</fieldset>
+	#set($chartTitle = "Dissertation im Rahmen eines bi-nationalen Promotionsverfahrens")
+	<fieldset style="display: block; float: left; margin-right: 10px; margin-bottom: 10px">
+		<legend>$chartTitle</legend>
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px;">
+			<datas>
+				<data data="$statistik.getChildText("countPromovendenAllBiNat")" label="innerhalb"></data>
+				#set($without = ($stringUtil.parseInt($statistik.getChildText("countPromovendenAll")) - $stringUtil.parseInt($statistik.getChildText("countPromovendenAllBiNat"))))
+				<data data="$without" label="ohne"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">alle</title>
+				<title>Gesamtanzahl: $statistik.getChildText("countPromovendenAll")</title>
+			<titles>
+		</div>
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px;">
+			<datas>
+				<data data="$statistik.getChildText("countPromovendenActiveBiNat")" label="innerhalb"></data>
+				#set($without = ($stringUtil.parseInt($statistik.getChildText("countPromovendenActive")) - $stringUtil.parseInt($statistik.getChildText("countPromovendenActiveBiNat"))))
+				<data data="$without" label="ohne"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">aktive</title>
+				<title>Gesamtanzahl: $statistik.getChildText("countPromovendenActive")</title>
+			<titles>
+		</div>
+	</fieldset>
+	#set($chartTitle = "Promovierende ob Absolvent der MLU oder nicht")
+	<fieldset style="display: block; float: left; margin-right: 10px; margin-bottom: 10px">
+		<legend>$chartTitle</legend>
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px;">
+			<datas>
+				<data data="$statistik.getChildText("countPromovendenAllMLUAbsolvent")" label="MLU"></data>
+				#set($without = ($stringUtil.parseInt($statistik.getChildText("countPromovendenAll")) - $stringUtil.parseInt($statistik.getChildText("countPromovendenAllMLUAbsolvent"))))
+				<data data="$without" label="Andere"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">alle</title>
+				<title>Gesamtanzahl: $statistik.getChildText("countPromovendenAll")</title>
+			<titles>
+		</div>
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px;">
+			<datas>
+				<data data="$statistik.getChildText("countPromovendenActiveMLUAbsolvent")" label="MLU"></data>
+				#set($without = ($stringUtil.parseInt($statistik.getChildText("countPromovendenActive")) - $stringUtil.parseInt($statistik.getChildText("countPromovendenActiveMLUAbsolvent"))))
+				<data data="$without" label="Andere"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">aktive</title>
+				<title>Gesamtanzahl: $statistik.getChildText("countPromovendenActive")</title>
+			<titles>
+		</div>
+	</fieldset>
+	#set($chartTitle = "Promovierende nach Status")
+	<fieldset style="display: block; float: left; margin-right: 10px; margin-bottom: 10px">
+		<legend>$chartTitle</legend>
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 590px; height: 200px; font-size: 11px;">
+			<datas>
+				#foreach($county in $statistik.getChild("StatusAll").getChildren())
+					<data data="$county.getChildText("count")" label="$county.getChildText("label")"></data>
+				#end
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">alle</title>
+			<titles>
+		</div>
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 590px; height: 200px; font-size: 11px;">
+			<datas>
+				#foreach($county in $statistik.getChild("StatusActive").getChildren())
+					<data data="$county.getChildText("count")" label="$county.getChildText("label")"></data>
+				#end
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">aktive</title>
+			<titles>
+		</div>
+	</fieldset>
+	#if($statistik.getChild("InstitutesAll").getChildren())
+	#set($chartTitle = "Promotionen nach Fakultäten")
+	<fieldset style="display: block; float: left; margin-right: 10px; margin-bottom: 10px">
+		<legend>$chartTitle</legend>
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 590px; height: 200px; font-size: 11px;">
+			<datas>
+				#foreach($county in $statistik.getChild("InstitutesAll").getChildren())
+					<data data="$county.getChildText("count")" label="$county.getChildText("label")"></data>
+				#end
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">alle</title>
+			<titles>
+		</div>
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 590px; height: 200px; font-size: 11px;">
+			<datas>
+				#foreach($county in $statistik.getChild("InstitutesActive").getChildren())
+					<data data="$county.getChildText("count")" label="$county.getChildText("label")"></data>
+				#end
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">aktive</title>
+			<titles>
+		</div>
+	</fieldset>
+	#end
+	#set($chartTitle = "Promovierende aus Deutschland")
+	<fieldset style="display: block; float: left; margin-right: 10px; margin-bottom: 10px">
+		<legend>$chartTitle</legend>
+		#set($german = $import.getChild("Statistiken").getChild("Germany"))
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px;">
+			<datas>
+				<data data="$german.getChild("All").getChildText("countPromovendenFemale")" label="weiblich"></data>
+				<data data="$german.getChild("All").getChildText("countPromovendenMale")" label="männlich"></data>
+				<data data="$german.getChild("All").getChildText("countPromovendenOther")" label="anderes"></data>
+				<data data="$german.getChild("All").getChildText("countPromovendenUnknown")" label="unbekannt"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">alle Promovierende nach Geschlecht</title>
+				<title>Gesamtanzahl: $german.getChild("All").getChildText("countPromovendenAllGermany")</title>
+			<titles>
+		</div>
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px;">
+			<datas>
+				<data data="$german.getChild("Active").getChildText("countPromovendenFemale")" label="weiblich"></data>
+				<data data="$german.getChild("Active").getChildText("countPromovendenMale")" label="männlich"></data>
+				<data data="$german.getChild("Active").getChildText("countPromovendenOther")" label="anderes"></data>
+				<data data="$german.getChild("Active").getChildText("countPromovendenUnknown")" label="unbekannt"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">aktive Promovierende nach Geschlecht</title>
+				<title>Gesamtanzahl: $german.getChild("Active").getChildText("countPromovendenActiveGermany")</title>
+			<titles>
+		</div>
+	</fieldset>
+	#set($chartTitle = "internationale Promovierende")
+	<fieldset style="display: block; float: left; margin-right: 10px; margin-bottom: 10px">
+		<legend>$chartTitle</legend>
+		#set($internatinal = $import.getChild("Statistiken").getChild("International"))
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px;">
+			<datas>
+				<data data="$internatinal.getChild("All").getChildText("countPromovendenFemale")" label="weiblich"></data>
+				<data data="$internatinal.getChild("All").getChildText("countPromovendenMale")" label="männlich"></data>
+				<data data="$internatinal.getChild("All").getChildText("countPromovendenOther")" label="anderes"></data>
+				<data data="$internatinal.getChild("All").getChildText("countPromovendenUnknown")" label="unbekannt"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">alle Promovierende nach Geschlecht</title>
+				<title>Gesamtanzahl: $internatinal.getChild("All").getChildText("countPromovendenAll")</title>
+			<titles>
+		</div>
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px;">
+			<datas>
+				<data data="$internatinal.getChild("Active").getChildText("countPromovendenFemale")" label="weiblich"></data>
+				<data data="$internatinal.getChild("Active").getChildText("countPromovendenMale")" label="männlich"></data>
+				<data data="$internatinal.getChild("Active").getChildText("countPromovendenOther")" label="anderes"></data>
+				<data data="$internatinal.getChild("Active").getChildText("countPromovendenUnknown")" label="unbekannt"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">aktive Promovierende nach Geschlecht</title>
+				<title>Gesamtanzahl: $internatinal.getChild("Active").getChildText("countPromovendenActive")</title>
+			<titles>
+		</div>
+	</fieldset>
+	#set($chartTitle = "Promovierende nach Nationalität")
+	<fieldset style="display: block; float: left; margin-right: 10px; margin-bottom: 10px">
+		<legend>$chartTitle</legend>
+		#set($dtAll = 0)
+		#set($ausAll = 0)
+		#set($dtActive = 0)
+		#set($ausActive = 0)
+		#foreach($county in $statistik.getChild("CountriesAllValue").getChildren())
+			#if(!$county.getChildText("label").equals("Deutschland"))
+				#set($temp = $stringUtil.parseInt($county.getChildText("Count")))
+				#set($ausAll = $ausAll + $temp)
+			#else
+				#set($dtAll = $county.getChildText("Count"))
+			#end
+		#end
+		#foreach($county in $statistik.getChild("CountriesActiveValue").getChildren())
+			#if(!$county.getChildText("label").equals("Deutschland"))
+				#set($temp = $stringUtil.parseInt($county.getChildText("Count")))
+				#set($ausActive = $ausActive + $temp)
+			#else
+				#set($dtActive = $county.getChildText("Count"))
+			#end
+		#end
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px; float: left;">
+			<datas>
+				<data data="$ausAll" label="Ausland"></data>
+				<data data="$dtAll" label="Deutschland"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">alle</title>
+			<titles>
+		</div>
+		#set($pieNr = $pieNr + 1)
+		<div id="pie$pieNr" name="pie" style="width: 400px; height: 200px; font-size: 11px;">
+			<datas>
+				<data data="$ausActive" label="Ausland"></data>
+				<data data="$dtActive" label="Deutschland"></data>
+			</datas>
+			<titles>
+				<title print="y">$chartTitle</title>
+				<title main="y">aktive</title>
+			<titles>
+		</div>
+
+		#set($length = $statistik.getChild("CountriesActiveLabel").getChildren().size())
+		#if($length > 30)
+			<div id="stacked1" name="stacked" style="width: 400px; height: 2000px; font-size: 11px; float: left;">
+				<datas>
+					#set($countCountry = 0)
+					#foreach($county in $statistik.getChild("CountriesAllValue").getChildren())
+						#if(!$county.getChildText("label").equals("Deutschland"))
+							<data data="$county.getChildText("Count")" label="$county.getChildText("label")" key="$county.getChildText("key")"></data>
+							#set($countCountry = $countCountry + 1)
+						#end
+					#end
+					<data data="$ausAll" label="alle" key="alle"></data>
+				</datas>
+				<titles>
+					<title print="y">$chartTitle</title>
+					<title main="y">alle ausländischen nach Werten</title>
+					<title>Anzahl der Nationalitäten: $countCountry</title>
+				<titles>
+			</div>
+			<div id="stacked2" name="stacked" style="width: 400px; height: 2000px; font-size: 11px;">
+				<datas>
+					#set($countCountry = 0)
+					#foreach($county in $statistik.getChild("CountriesActiveValue").getChildren())
+						#if(!$county.getChildText("label").equals("Deutschland"))
+							<data data="$county.getChildText("Count")" label="$county.getChildText("label")" key="$county.getChildText("key")"></data>
+							#set($countCountry = $countCountry + 1)
+						#end
+					#end
+					<data data="$ausActive" label="alle" key="alle"></data>
+				</datas>
+				<titles>
+					<title print="y">$chartTitle</title>
+					<title main="y">aktive ausländische nach Werten</title>
+					<title>Anzahl der Nationalitäten: $countCountry</title>
+				<titles>
+			</div>
+			<div id="stacked1" name="stacked" style="width: 400px; height: 2000px; font-size: 11px; float: left;">
+				<datas>
+					#foreach($county in $statistik.getChild("CountriesAllLabel").getChildren())
+						#if(!$county.getChildText("label").equals("Deutschland"))
+							<data data="$county.getChildText("Count")" label="$county.getChildText("label")" key="$county.getChildText("key")"></data>
+						#end
+					#end
+					<data data="$ausAll" label="alle" key="alle"></data>
+				</datas>
+				<titles>
+					<title print="y">$chartTitle</title>
+					<title main="y">alle ausländischen nach Ländern</title>
+				<titles>
+			</div>
+			<div id="stacked2" name="stacked" style="width: 400px; height: 2000px; font-size: 11px;">
+				<datas>
+					#foreach($county in $statistik.getChild("CountriesActiveLabel").getChildren())
+						#if(!$county.getChildText("label").equals("Deutschland"))
+							<data data="$county.getChildText("Count")" label="$county.getChildText("label")" key="$county.getChildText("key")"></data>
+						#end
+					#end
+					<data data="$ausActive" label="alle" key="alle"></data>
+				</datas>
+				<titles>
+					<title print="y">$chartTitle</title>
+					<title main="y">aktive ausländische nach Ländern</title>
+				<titles>
+			</div>
+		#else
+			#set($pieNr = $pieNr + 1)
+			<div id="pie$pieNr" name="pie" style="width: 800px; height: ${heightForNationality}px; font-size: 11px;" angle="0">
+				<datas>
+					#foreach($county in $statistik.getChild("CountriesAllLabel").getChildren())
+						#if(!$county.getChildText("label").equals("Deutschland"))
+							<data data="$county.getChildText("Count")" label="$county.getChildText("label")"></data>
+						#end
+					#end
+				</datas>
+				<titles>
+					<title print="y">$chartTitle</title>
+					<title main="y">alle ausländischen nach Ländern</title>
+				<titles>
+			</div>
+			#set($pieNr = $pieNr + 1)
+			<div id="pie$pieNr" name="pie" style="width: 800px; height: ${heightForNationality}px; font-size: 11px;" angle="0">
+				<datas>
+					#foreach($county in $statistik.getChild("CountriesActiveLabel").getChildren())
+						#if(!$county.getChildText("label").equals("Deutschland"))
+							<data data="$county.getChildText("Count")" label="$county.getChildText("label")"></data>
+						#end
+					#end
+				</datas>
+				<titles>
+					<title print="y">$chartTitle</title>
+					<title main="y">aktive ausländische nach Ländern</title>
+				<titles>
+			</div>
+			#set($pieNr = $pieNr + 1)
+			<div id="pie$pieNr" name="pie" style="width: 800px; height: ${heightForNationality}px; font-size: 11px;" angle="0">
+				<datas>
+					#foreach($county in $statistik.getChild("CountriesAllValue").getChildren())
+						#if(!$county.getChildText("label").equals("Deutschland"))
+							<data data="$county.getChildText("Count")" label="$county.getChildText("label")"></data>
+						#end
+					#end
+				</datas>
+				<titles>
+					<title print="y">$chartTitle</title>
+					<title main="y">alle ausländischen nach Werten</title>
+				<titles>
+			</div>
+			#set($pieNr = $pieNr + 1)
+			<div id="pie$pieNr" name="pie" style="width: 800px; height: ${heightForNationality}px; font-size: 11px;" angle="0">
+				<datas>
+					#foreach($county in $statistik.getChild("CountriesAllValue").getChildren())
+						#if(!$county.getChildText("label").equals("Deutschland"))
+							<data data="$county.getChildText("Count")" label="$county.getChildText("label")"></data>
+						#end
+					#end
+				</datas>
+				<titles>
+					<title print="y">$chartTitle</title>
+					<title main="y">aktive ausländische nach Werten</title>
+				<titles>
+			</div>
+		#end
+	</fieldset>
+	#if($statistik.getChild("BetreuungenAlle").getChild("Ausland"))
+		#set($BetreuungenAlle = $statistik.getChild("BetreuungenAlle"))
+		<fieldset style="display: block; float: left; margin-right: 10px; margin-bottom: 10px">
+			<legend>Top 10 Anzahl der Betreuungen (alle)</legend>
+			<table style="display: inline; float: left; width: 50%;">
+				<thead>
+					<tr>
+						<th class="mod" colspan="3">Ausländische Betreuungen</th>
+					</tr>
+					<tr>
+						<th class="mod">Mentor</th>
+						<th class="mod">Einrichtung</th>
+						<th class="mod">Anzahl</th>
+					</tr>
+				</thead>
+				<tbody>
+					#foreach($betr in $BetreuungenAlle.getChildren("Ausland"))
+						#if($lineBackGr == "mod_n_odd")#set($lineBackGr = "mod_n_even") #else #set($lineBackGr = "mod_n_odd") #end
+						#set($betreuer = "Herr")
+						#if($betr.getChild("Person").getChildText("Geschl") == "W")
+							#set($betreuer = "Frau")
+						#end
+						#if($betr.getChild("Person").getChildText("Titel") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("Titel"))
+						#end
+						#if($betr.getChild("Person").getChildText("Grad") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("Grad"))
+						#end
+						#if($betr.getChild("Person").getChildText("vorname") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("vorname"))
+						#end
+						#if($betr.getChild("Person").getChildText("nachname") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("nachname"))
+						#end
+						<tr>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betreuer</td>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betr.getChild("Person").getChildText("Einrichtung")</td>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betr.getChildText("Anzahl")</td>
+						</tr>
+					#end
+				</tbody>
+			</table>
+			<table style="display: inline; float: left; width: 50%;">
+				<thead>
+					<tr>
+						<th class="mod" colspan="3">Inländische Betreuungen</th>
+					</tr>
+					<tr>
+						<th class="mod">Mentor</th>
+						<th class="mod">Einrichtung</th>
+						<th class="mod">Anzahl</th>
+					</tr>
+				</thead>
+				<tbody>
+					#foreach($betr in $BetreuungenAlle.getChildren("Inland"))
+						#if($lineBackGr == "mod_n_odd")#set($lineBackGr = "mod_n_even") #else #set($lineBackGr = "mod_n_odd") #end
+						#set($betreuer = "Herr")
+						#if($betr.getChild("Person").getChildText("Geschl") == "W")
+							#set($betreuer = "Frau")
+						#end
+						#if($betr.getChild("Person").getChildText("Titel") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("Titel"))
+						#end
+						#if($betr.getChild("Person").getChildText("Grad") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("Grad"))
+						#end
+						#if($betr.getChild("Person").getChildText("vorname") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("vorname"))
+						#end
+						#if($betr.getChild("Person").getChildText("nachname") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("nachname"))
+						#end
+						<tr>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betreuer</td>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betr.getChild("Person").getChildText("Einrichtung")</td>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betr.getChildText("Anzahl")</td>
+						</tr>
+					#end
+				</tbody>
+			</table>
+			<table style="display: inline; float: left; width: 50%;">
+				<thead>
+					<tr>
+						<th class="mod" colspan="3">Alle Betreuungen</th>
+					</tr>
+					<tr>
+						<th class="mod">Mentor</th>
+						<th class="mod">Einrichtung</th>
+						<th class="mod">Anzahl</th>
+					</tr>
+				</thead>
+				<tbody>
+					#foreach($betr in $BetreuungenAlle.getChildren("Alle"))
+						#if($lineBackGr == "mod_n_odd")#set($lineBackGr = "mod_n_even") #else #set($lineBackGr = "mod_n_odd") #end
+						#set($betreuer = "Herr")
+						#if($betr.getChild("Person").getChildText("Geschl") == "W")
+							#set($betreuer = "Frau")
+						#end
+						#if($betr.getChild("Person").getChildText("Titel") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("Titel"))
+						#end
+						#if($betr.getChild("Person").getChildText("Grad") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("Grad"))
+						#end
+						#if($betr.getChild("Person").getChildText("vorname") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("vorname"))
+						#end
+						#if($betr.getChild("Person").getChildText("nachname") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("nachname"))
+						#end
+						<tr>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betreuer</td>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betr.getChild("Person").getChildText("Einrichtung")</td>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betr.getChildText("Anzahl")</td>
+						</tr>
+					#end
+				</tbody>
+			</table>
+			##XMLOut($BetreuungenAlle)
+		</fieldset>
+	#end
+	#if($statistik.getChild("BetreuungenActive").getChild("Ausland"))
+		#set($BetreuungenActive = $statistik.getChild("BetreuungenActive"))
+		<fieldset style="display: block; float: left; margin-right: 10px; margin-bottom: 10px">
+			<legend>Top 10 Anzahl der Betreuungen (aktive)</legend>
+			<table style="display: inline; float: left; width: 50%;">
+				<thead>
+					<tr>
+						<th class="mod" colspan="3">Ausländische Betreuungen</th>
+					</tr>
+					<tr>
+						<th class="mod">Mentor</th>
+						<th class="mod">Einrichtung</th>
+						<th class="mod">Anzahl</th>
+					</tr>
+				</thead>
+				<tbody>
+					#foreach($betr in $BetreuungenActive.getChildren("Ausland"))
+						#if($lineBackGr == "mod_n_odd")#set($lineBackGr = "mod_n_even") #else #set($lineBackGr = "mod_n_odd") #end
+						#set($betreuer = "Herr")
+						#if($betr.getChild("Person").getChildText("Geschl") == "W")
+							#set($betreuer = "Frau")
+						#end
+						#if($betr.getChild("Person").getChildText("Titel") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("Titel"))
+						#end
+						#if($betr.getChild("Person").getChildText("Grad") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("Grad"))
+						#end
+						#if($betr.getChild("Person").getChildText("vorname") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("vorname"))
+						#end
+						#if($betr.getChild("Person").getChildText("nachname") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("nachname"))
+						#end
+						<tr>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betreuer</td>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betr.getChild("Person").getChildText("Einrichtung")</td>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betr.getChildText("Anzahl")</td>
+						</tr>
+					#end
+				</tbody>
+			</table>
+			<table style="display: inline; float: left; width: 50%;">
+				<thead>
+					<tr>
+						<th class="mod" colspan="3">Inländische Betreuungen</th>
+					</tr>
+					<tr>
+						<th class="mod">Mentor</th>
+						<th class="mod">Einrichtung</th>
+						<th class="mod">Anzahl</th>
+					</tr>
+				</thead>
+				<tbody>
+					#foreach($betr in $BetreuungenActive.getChildren("Inland"))
+						#if($lineBackGr == "mod_n_odd")#set($lineBackGr = "mod_n_even") #else #set($lineBackGr = "mod_n_odd") #end
+						#set($betreuer = "Herr")
+						#if($betr.getChild("Person").getChildText("Geschl") == "W")
+							#set($betreuer = "Frau")
+						#end
+						#if($betr.getChild("Person").getChildText("Titel") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("Titel"))
+						#end
+						#if($betr.getChild("Person").getChildText("Grad") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("Grad"))
+						#end
+						#if($betr.getChild("Person").getChildText("vorname") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("vorname"))
+						#end
+						#if($betr.getChild("Person").getChildText("nachname") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("nachname"))
+						#end
+						<tr>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betreuer</td>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betr.getChild("Person").getChildText("Einrichtung")</td>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betr.getChildText("Anzahl")</td>
+						</tr>
+					#end
+				</tbody>
+			</table>
+			<table style="display: inline; float: left; width: 50%;">
+				<thead>
+					<tr>
+						<th class="mod" colspan="3">Alle Betreuungen</th>
+					</tr>
+					<tr>
+						<th class="mod">Mentor</th>
+						<th class="mod">Einrichtung</th>
+						<th class="mod">Anzahl</th>
+					</tr>
+				</thead>
+				<tbody>
+					#foreach($betr in $BetreuungenActive.getChildren("Alle"))
+						#if($lineBackGr == "mod_n_odd")#set($lineBackGr = "mod_n_even") #else #set($lineBackGr = "mod_n_odd") #end
+						#set($betreuer = "Herr")
+						#if($betr.getChild("Person").getChildText("Geschl") == "W")
+							#set($betreuer = "Frau")
+						#end
+						#if($betr.getChild("Person").getChildText("Titel") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("Titel"))
+						#end
+						#if($betr.getChild("Person").getChildText("Grad") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("Grad"))
+						#end
+						#if($betr.getChild("Person").getChildText("vorname") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("vorname"))
+						#end
+						#if($betr.getChild("Person").getChildText("nachname") != "")
+							#set($betreuer = $betreuer + " " + $betr.getChild("Person").getChildText("nachname"))
+						#end
+						<tr>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betreuer</td>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betr.getChild("Person").getChildText("Einrichtung")</td>
+							<td class="$lineBackGr" style="width: 0%" headers="basic_1">$betr.getChildText("Anzahl")</td>
+						</tr>
+					#end
+				</tbody>
+			</table>
+			##XMLOut($BetreuungenActive)
+		</fieldset>
+	#end
+</fieldset>
+#set($duration = $import.getChild("Statistiken").getChild("Zeiten"))
+#if($duration)
+<fieldset style="display: block; float: left; margin-right: 10px; margin-bottom: 10px">
+	<legend>Dauer der Promotionen (in Jahre / Tage)</legend>
+	<table style="width: 400px">
+		<tr>
+			<th class="mod" id="basic_1">Kategorie</th>
+			<th class="mod" id="basic_1">Bezeichnung</th>
+			<th class="mod" id="basic_1">Minimal</th>
+			<th class="mod" id="basic_1">Maximal</th>
+			<th class="mod" id="basic_1">&empty;</th>
+			#set($rowCount = 1 + $duration.getChild("gender").getChildren().size() + $duration.getChild("programm").getChildren().size() + $duration.getChild("institute").getChildren().size() + $duration.getChild("nationality").getChildren().size())
+			<td rowspan="$rowCount" valign="top">
+	<div id="float1" name="floatBar" style="width: 750px; height: 2500px; font-size: 11px;">
+		<datas>
+			#set($list = $duration.getChild("gender").getChildren())
+			#foreach($entry in $list)
+				<data min="$entry.getChild("minimal").getAttributeValue("years")" max="$entry.getChild("maximal").getAttributeValue("years")" avg="$entry.getChild("average").getAttributeValue("years")" label="$entry.getChildText("label")" kategorie="Geschlecht" color="#FF0F00"></data>
+			#end
+			#set($list = $duration.getChild("programm").getChildren())
+			#foreach($entry in $list)
+				<data min="$entry.getChild("minimal").getAttributeValue("years")" max="$entry.getChild("maximal").getAttributeValue("years")" avg="$entry.getChild("average").getAttributeValue("years")" label="$entry.getChildText("label")" kategorie="Promotion innerhalb strukturierter Programme" color="#cc5200"></data>
+			#end
+			#set($list = $duration.getChild("institute").getChildren())
+			#foreach($entry in $list)
+				<data min="$entry.getChild("minimal").getAttributeValue("years")" max="$entry.getChild("maximal").getAttributeValue("years")" avg="$entry.getChild("average").getAttributeValue("years")" label="$entry.getChildText("label")" kategorie="Fakultätszugehörigkeit" color="#FF9E01"></data>
+			#end
+			#set($list = $duration.getChild("nationality").getChildren())
+			#foreach($entry in $list)
+				<data min="$entry.getChild("minimal").getAttributeValue("years")" max="$entry.getChild("maximal").getAttributeValue("years")" avg="$entry.getChild("average").getAttributeValue("years")" label="$entry.getChildText("label")" kategorie="Nationalitäten" color="#FCD202"></data>
+			#end
+		</datas>
+	</div>
+			</td>
+		</tr>
+		#set($lineBackGr = "mod_n_odd")
+		#set($list = $duration.getChild("gender").getChildren())
+		#foreach($entry in $list)
+		<tr>
+			#if($velocityCount == 1)
+			<td rowspan="$list.size()" valign="top" class="mod" headers="basic_1">Geschlecht</td>
+			#end
+			<td class="$lineBackGr" headers="basic_1">$entry.getChildText("label")</td>
+			<td class="$lineBackGr" headers="basic_1">$entry.getChild("minimal").getAttributeValue("years") ($entry.getChildText("minimal"))</td>
+			<td class="$lineBackGr" headers="basic_1">$entry.getChild("maximal").getAttributeValue("years") ($entry.getChildText("maximal"))</td>
+			<td class="$lineBackGr" headers="basic_1">$entry.getChild("average").getAttributeValue("years") ($entry.getChildText("average"))</td>
+		</tr>
+		#end
+		#set($lineBackGr = "mod_n_even")
+		#set($list = $duration.getChild("programm").getChildren())
+		#foreach($entry in $list)
+		<tr>
+			#if($velocityCount == 1)
+			<td rowspan="$list.size()" valign="top" class="mod" headers="basic_1">Promotion innerhalb strukturierter Programme</td>
+			#end
+			<td class="$lineBackGr" headers="basic_1">$entry.getChildText("label")</td>
+			<td class="$lineBackGr" headers="basic_1">$entry.getChild("minimal").getAttributeValue("years") ($entry.getChildText("minimal"))</td>
+			<td class="$lineBackGr" headers="basic_1">$entry.getChild("maximal").getAttributeValue("years") ($entry.getChildText("maximal"))</td>
+			<td class="$lineBackGr" headers="basic_1">$entry.getChild("average").getAttributeValue("years") ($entry.getChildText("average"))</td>
+		</tr>
+		#end
+		#set($lineBackGr = "mod_n_odd")
+		#set($list = $duration.getChild("institute").getChildren())
+		#foreach($entry in $list)
+		<tr>
+			#if($velocityCount == 1)
+			<td rowspan="$list.size()" valign="top" class="mod" headers="basic_1">Fakultätszugehörigkeit</td>
+			#end
+			<td class="$lineBackGr" headers="basic_1">$entry.getChildText("label")</td>
+			<td class="$lineBackGr" headers="basic_1">$entry.getChild("minimal").getAttributeValue("years") ($entry.getChildText("minimal"))</td>
+			<td class="$lineBackGr" headers="basic_1">$entry.getChild("maximal").getAttributeValue("years") ($entry.getChildText("maximal"))</td>
+			<td class="$lineBackGr" headers="basic_1">$entry.getChild("average").getAttributeValue("years") ($entry.getChildText("average"))</td>
+		</tr>
+		#end
+		#set($lineBackGr = "mod_n_even")
+		#set($list = $duration.getChild("nationality").getChildren())
+		#foreach($entry in $list)
+		<tr>
+			#if($velocityCount == 1)
+			<td rowspan="$list.size()" valign="top" class="mod" headers="basic_1">Nationalitäten</td>
+			#end
+			<td class="$lineBackGr" headers="basic_1">$entry.getChildText("label")</td>
+			<td class="$lineBackGr" headers="basic_1">$entry.getChild("minimal").getAttributeValue("years") ($entry.getChildText("minimal"))</td>
+			<td class="$lineBackGr" headers="basic_1">$entry.getChild("maximal").getAttributeValue("years") ($entry.getChildText("maximal"))</td>
+			<td class="$lineBackGr" headers="basic_1">$entry.getChild("average").getAttributeValue("years") ($entry.getChildText("average"))</td>
+		</tr>
+		#end
+	</table>
+</fieldset>
+#end
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}jquery/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/amcharts/amcharts.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/amcharts/pie.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/amcharts/serial.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/amcharts/exporting/amexport.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/amcharts/exporting/rgbcolor.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/amcharts/exporting/canvg.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/amcharts/exporting/filesaver.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/myCharts_HalleMSRM.js"></script>
+
+#*
+<fieldset style="display: block;">
+#XMLOut($import)
+</fieldset>
+#*#
+#if (!$contentVM)
+	#parse("foot.vm")
+</body>
+</html>
+#end

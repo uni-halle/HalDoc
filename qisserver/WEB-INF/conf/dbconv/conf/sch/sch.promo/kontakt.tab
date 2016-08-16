@@ -1,0 +1,27 @@
+{### kontakt #################################################################}
+{
+   Diese Tabelle enthält "Kontakte" (in der Regel gleichzusetzen mit Anschriften)
+   für verschiedene Objekttypen wie Personen, Einrichtungen oder Räume.
+}
+CREATE TABLE kontakt
+   (              
+   kid             SERIAL NOT NULL,     { Primary Key                         }
+   aikz            CHAR(1),             { Aktiv/Inaktiv Kennzeichen           }
+   tabelle         VARCHAR(20),         { Name der Bezugs-Tabelle             }
+   typadrid        INTEGER,             { ->k_typadr                          }
+   tabpk           INTEGER,             { ->/Tabelle/                         }
+   adrzusatz       VARCHAR(150),        { Adresszusatz Zeile1                 }
+   adrzusatz2      VARCHAR(150),        { Adresszusatz Zeile2                 }
+   strasse         VARCHAR(50),         { Strasse                             }
+   plz             VARCHAR(10),         { PLZ                                 }
+   ort             VARCHAR(50),         { Ort                                 }
+   land            VARCHAR(5),          { Land                                }
+   bland           VARCHAR(5),          { Bundesland                          }
+   email           VARCHAR(255),        { E-Mail - Adresse                    }
+   telefon         VARCHAR(50),         { Telefonnummer                       }
+   fax             VARCHAR(50),         { Faxnummer                           }
+   handy           VARCHAR(20),         { Handynummer                         }
+   hyperlink       VARCHAR(255,0),      { WWW-Link                            }
+   einrichtung     VARCHAR(255,0),      { Name der Einrichtung                }
+  );
+

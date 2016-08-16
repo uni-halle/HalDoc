@@ -1,0 +1,11 @@
+{### link #########################################################}
+CREATE TABLE link
+   (              
+   lid             SERIAL NOT NULL,	{ Primary Key               }
+   sort            INTEGER,         { Sortierung                }             
+   aikz            CHAR(1),         { Aktiv/Inaktiv-Kennzeichen }
+   name            VARCHAR(255),    { Name                      }
+   link            VARCHAR(255),    { Link                      }
+   projektid       INTEGER,         {                           }
+   zeitstempel     DATETIME year to fraction(5)
+   );

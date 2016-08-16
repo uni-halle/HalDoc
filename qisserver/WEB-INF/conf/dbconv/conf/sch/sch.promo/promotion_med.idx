@@ -1,0 +1,3 @@
+{### promotion_med ################################################################}
+CREATE UNIQUE INDEX i_promotion_med_id ON promotion_med (id);
+CREATE UNIQUE INDEX i_promotion_med_promo_id ON promotion_med (promotion_id);

@@ -1,0 +1,128 @@
+<p>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_appStatus"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="appStatus" id="appStatus_label">* $lang.docAppPromoStat</label>
+		<select id="appStatus" name="app_appStatus" style="$selectStyle">
+			<option value="">$lang.docAppSelect</option>
+			#foreach($item in $import.getChild("application").getChild("ApplicantSatus").getChildren())
+				#if($valueElement.getChildText("app_appStatus") == $item.getChildText("applicantstatusid"))
+					<option value="$item.getChildText("applicantstatusid")" selected>$item.getChildText("ltxt")</option>
+				#else
+					<option value="$item.getChildText("applicantstatusid")">$item.getChildText("ltxt")</option>
+				#end
+			#end
+		</select>
+	</div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_promoFaculty"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="promoFaculty" id="promoFaculty_label">* $lang.docAppPromoFak</label>
+		<select id="promoFaculty" name="app_promoFaculty" style="$selectStyle" show="tabs-5-register" showOn="5">
+			<option value="">$lang.docAppSelect</option>
+			#foreach($item in $import.getChild("application").getChild("Faks").getChildren())
+				#if($valueElement.getChildText("app_promoFaculty") == $item.getChildText("id"))
+					<option value="$item.getChildText("id")" selected>$item.getChildText("ltxt")</option>
+				#else
+					<option value="$item.getChildText("id")">$item.getChildText("ltxt")</option>
+				#end
+			#end
+		</select>
+	</div>
+	<div style="$divStyle"><label style="$labelStyle" for="institute" id="institute_label">$lang.docAppPromoInst</label><input id="institute" name="app_institute" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_institute")" /></div>
+	<div style="$divStyle">$lang.docAppPromoProg</div>
+	#set($checked1 = "") #set($checked2 = "checked") #set($showInput = "display:none;")
+	#if($!valueElement.getChildText("app_prog") == "j")
+		#set($checked1 = "checked") #set($checked2 = "") #set($showInput = "display:block;")
+	#end
+	<div style="$divStyle"><label for="prog1" style="$labelStyle">$lang.docAppYes</label><input name="app_prog" id="prog1" type="radio" value="j" show="progAddDiv" $!checked1></div>
+	<div style="$divStyle $showInput" id="progAddDiv">
+		<label for="progAdd" id="progAdd_label" style="$labelStyle">$lang.docAppPromoProg2</label><input name="app_progAdd" id="progAdd" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_progAdd")" /><br/>
+	</div>
+	<div style="$divStyle">
+		<label for="prog2" style="$labelStyle">$lang.docAppNo</label><input name="app_prog" id="prog2" type="radio" value="n" show="progAddDiv" $!checked2>
+	</div>
+	<div style="$divStyle">$lang.docAppPromoBi</div>
+	#set($checked1 = "") #set($checked2 = "checked") #set($showInput = "display:none;")
+	#if($!valueElement.getChildText("app_binat") == "j")
+		#set($checked1 = "checked") #set($checked2 = "") #set($showInput = "display:block;")
+	#end
+	<div style="$divStyle"><label for="binat1" style="$labelStyle">$lang.docAppYes</label><input name="app_binat" id="binat1" type="radio" value="j" show="binatAddDiv" $!checked1></div>
+	<div style="$divStyle $showInput" id="binatAddDiv">
+		<label for="binatAdd" id="binatAdd_label" style="$labelStyle">$lang.docAppPromoBi2</label><input name="app_binatAdd" id="binatAdd" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_binatAdd")" /><br/>
+	</div>
+	<div style="$divStyle">
+		<label for="binat2" style="$labelStyle">$lang.docAppNo</label><input name="app_binat" id="binat2" type="radio" value="n" show="binatAddDiv" $!checked2>
+	</div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_gettingGrade"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="gettingGrade" id="gettingGrade_label">* $lang.docAppPromoDeg</label>
+		<select id="gettingGrade" name="app_gettingGrade" style="$selectStyle">
+			<option value="">$lang.docAppSelect</option>
+			#foreach($item in $import.getChild("application").getChild("AkadGradesForPromotion").getChildren())
+				#if($valueElement.getChildText("app_gettingGrade") == $item.getChildText("gradid"))
+					<option value="$item.getChildText("gradid")" selected>$item.getChildText("ltxt") ($item.getChildText("dtxt"))</option>
+				#else
+					<option value="$item.getChildText("gradid")">$item.getChildText("ltxt") ($item.getChildText("dtxt"))</option>
+				#end
+			#end
+		</select>
+	</div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_courseOfStudy"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="courseOfStudy" id="courseOfStudy_label">* $lang.docAppPromoField</label>
+		<select id="courseOfStudy" name="app_courseOfStudy" style="$selectStyle">
+			<option value="">$lang.docAppSelect</option>
+			#foreach($item in $import.getChild("application").getChild("courseOfStudies").getChildren())
+				#if($valueElement.getChildText("app_courseOfStudy") == $item.getChildText("AbsID"))
+					<option value="$item.getChildText("AbsID")" selected>$item.getChildText("AbsDtx")</option>
+				#else
+					<option value="$item.getChildText("AbsID")">$item.getChildText("AbsDtx")</option>
+				#end
+			#end
+		</select>
+	</div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_title"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass"><label style="$labelStyle" for="title" id="title_label">* $lang.docAppPromoTitle</label><input id="title" name="app_title" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_title")" /></div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_startingDate"))
+		#set($errorClass = "ui-state-error")
+	#end
+	#if($errorElementForCheck && $errorElementForCheck.getChild("ERROR").getChild("dateError").getChild("app_startingDate"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="startingDate" id="startingDate_label">* $lang.docAppPromoStart</label><input id="startingDate" name="app_startingDate" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_startingDate")" />
+		<label for="startingDate" id="startingDate_label" style="font-size:0.8em;">$lang.docAppDatForm</label>
+	</div>
+	<div style="$divStyle"><b>$lang.docAppPromoBetrHead (1)</b></div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_tutor1Name"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass"><label style="$labelStyle" for="tutor1Name" id="tutor1Name_label">* $lang.docAppPromoBetrName</label><input id="tutor1Name" name="app_tutor1Name" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_tutor1Name")" /></div>
+	#set($errorClass = "")
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild("app_tutor1Institute"))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass"><label style="$labelStyle" for="tutor1Institute" id="tutor1Institute_label">* $lang.docAppPromoBetrInst</label><input id="tutor1Institute" name="app_tutor1Institute" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_tutor1Institute")" /></div>
+	<div style="$divStyle"><b>$lang.docAppPromoBetrHead (2)</b></div>
+	<div style="$divStyle"><label style="$labelStyle" for="tutor2Name" id="tutor2Name_label">$lang.docAppPromoBetrName</label><input id="tutor2Name" name="app_tutor2Name" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_tutor2Name")" /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="tutor2Institute" id="tutor2Institute_label">$lang.docAppPromoBetrInst</label><input id="tutor2Institute" name="app_tutor2Institute" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_tutor2Institute")" /></div>
+	<div style="$divStyle"><b>$lang.docAppPromoBetrHead (3)</b></div>
+	<div style="$divStyle"><label style="$labelStyle" for="tutor3Name" id="tutor3Name_label">$lang.docAppPromoBetrName</label><input id="tutor3Name" name="app_tutor3Name" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_tutor3Name")" /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="tutor3Institute" id="tutor3Institute_label">$lang.docAppPromoBetrInst</label><input id="tutor3Institute" name="app_tutor3Institute" type="text" style="$inputStyle" value="$!valueElement.getChildText("app_tutor3Institute")" /></div>
+</p>

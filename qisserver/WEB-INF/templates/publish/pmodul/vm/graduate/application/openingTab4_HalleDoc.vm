@@ -1,0 +1,98 @@
+<p>
+	#set($einrichtungName = "")
+	#foreach($item in $import.getChild("application").getChild("Faks").getChildren())
+		#if($!fillingData.getChildText("promotion.einrichtungid") == $item.getChildText("id"))
+			#set($einrichtungName = $item.getChildText("ltxt"))
+		#end
+	#end
+	#if($fillingData.getChildText("mentor1.nachname"))
+		#set($ev1 = "")
+		#if($!fillingData.getChildText("mentor1.titel"))
+			#set($ev1 = $ev1 + $!fillingData.getChildText("mentor1.titel") + ", ")
+		#end
+		#if($!fillingData.getChildText("mentor1.grad"))
+			#set($ev1 = $ev1 + $!fillingData.getChildText("mentor1.grad") + ", ")
+		#end
+		#set($ev1 = $ev1 + $!fillingData.getChildText("mentor1.nachname") + ", ")
+		#if($!fillingData.getChildText("mentor1.vorname"))
+			#set($ev1 = $ev1 + $!fillingData.getChildText("mentor1.vorname"))
+		#end
+	#end
+	#if($fillingData.getChildText("mentor2.nachname"))
+		#set($ev2 = "")
+		#if($!fillingData.getChildText("mentor2.titel"))
+			#set($ev2 = $ev2 + $!fillingData.getChildText("mentor2.titel") + ", ")
+		#end
+		#if($!fillingData.getChildText("mentor2.grad"))
+			#set($ev2 = $ev2 + $!fillingData.getChildText("mentor2.grad") + ", ")
+		#end
+		#set($ev2 = $ev2 + $!fillingData.getChildText("mentor2.nachname") + ", ")
+		#if($!fillingData.getChildText("mentor2.vorname"))
+			#set($ev2 = $ev2 + $!fillingData.getChildText("mentor2.vorname"))
+		#end
+	#end
+	#if($fillingData.getChildText("mentor3.nachname"))
+		#set($ev3 = "")
+		#if($!fillingData.getChildText("mentor3.titel"))
+			#set($ev3 = $ev3 + $!fillingData.getChildText("mentor3.titel") + ", ")
+		#end
+		#if($!fillingData.getChildText("mentor3.grad"))
+			#set($ev3 = $ev3 + $!fillingData.getChildText("mentor3.grad") + ", ")
+		#end
+		#set($ev3 = $ev3 + $!fillingData.getChildText("mentor3.nachname") + ", ")
+		#if($!fillingData.getChildText("mentor3.vorname"))
+			#set($ev3 = $ev3 + $!fillingData.getChildText("mentor3.vorname"))
+		#end
+	#end
+	<div style="$divStyle"><b>$lang.docAppPromoBetrHead (1)</b></div>
+	<div style="$divStyle" class="$errorClass"><label style="$labelStyle" for="tutor1Name" id="tutor1Name_label">* $lang.docAppPromoBetrName</label><input id="tutor1Name" name="open_tutor1Name" type="text" style="$inputStyle" value="$!ev1.trim()" required /></div>
+	<div style="$divStyle"><b>$lang.docAppPromoBetrHead (2)</b></div>
+	<div style="$divStyle"><label style="$labelStyle" for="tutor2Name" id="tutor2Name_label">$lang.docAppPromoBetrName</label><input id="tutor2Name" name="open_tutor2Name" type="text" style="$inputStyle" value="$!ev2.trim()" /></div>
+	<div style="$divStyle"><b>$lang.docAppPromoBetrHead (3)</b></div>
+	<div style="$divStyle"><label style="$labelStyle" for="tutor3Name" id="tutor3Name_label">$lang.docAppPromoBetrName</label><input id="tutor3Name" name="open_tutor3Name" type="text" style="$inputStyle" value="$!ev3.trim()" /></div>
+
+	<div style="$divStyle"><b>$lang.docOpenPromoGutHead (1)</b></div>
+	<div style="$divStyle"><label style="$labelStyle" for="eval1Name" id="eval1Name_label">$lang.docAppPromoBetrName</label><input id="eval1Name" name="open_eval1Name" type="text" style="$inputStyle" /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="eval1Institute" id="eval1Institute_label">$lang.docOpenPromoGutInst</label><input id="eval1Institute" name="open_eval1Institute" type="text" style="$inputStyle" /></div>
+	<div style="$divStyle"><b>$lang.docOpenPromoGutHead (2)</b></div>
+	<div style="$divStyle"><label style="$labelStyle" for="eval2Name" id="eval2Name_label">$lang.docAppPromoBetrName</label><input id="eval2Name" name="open_eval2Name" type="text" style="$inputStyle" /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="eval2Institute" id="eval2Institute_label">$lang.docOpenPromoGutInst</label><input id="eval2Institute" name="open_eval2Institute" type="text" style="$inputStyle" /></div>
+	<div style="$divStyle"><b>$lang.docOpenPromoGutHead (3)</b></div>
+	<div style="$divStyle"><label style="$labelStyle" for="eval3Name" id="eval3Name_label">$lang.docAppPromoBetrName</label><input id="eval3Name" name="open_eval3Name" type="text" style="$inputStyle" /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="eval3Institute" id="eval3Institute_label">$lang.docOpenPromoGutInst</label><input id="eval3Institute" name="open_eval3Institute" type="text" style="$inputStyle" /></div>
+	<div style="$divStyle"><b>$lang.docOpenPromoGutHead (4)</b></div>
+	<div style="$divStyle"><label style="$labelStyle" for="eval4Name" id="eval4Name_label">$lang.docAppPromoBetrName</label><input id="eval4Name" name="open_eval4Name" type="text" style="$inputStyle" /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="eval4Institute" id="eval4Institute_label">$lang.docOpenPromoGutInst</label><input id="eval4Institute" name="open_eval4Institute" type="text" style="$inputStyle" /></div>
+	#if($einrichtungName.contains("Wirtschaftswiss") || $einrichtungName.contains("Department of Economics"))
+		#set($header = "Vorschlag für das Wahlmitglied der Prüfungskommission")
+		#if($servlet.language == "en")
+			#set($header = "Suggested additional member of the examination board")
+		#end
+		<div style="$divStyle"><b>$header (1)</b></div>
+		<div style="$divStyle"><label style="$labelStyle" for="kommis1Name" id="kommis1Name_label">$lang.docAppPromoBetrName</label><input id="kommis1Name" name="open_kommis1Name" type="text" style="$inputStyle" /></div>
+		<div style="$divStyle"><label style="$labelStyle" for="kommis1Institute" id="kommis1Institute_label">$lang.docOpenPromoGutInst</label><input id="kommis1Institute" name="open_kommis1Institute" type="text" style="$inputStyle" /></div>
+		#set($header = "Vorschlag für das Wahlmitglied der Prüfungskommission")
+		#if($servlet.language == "en")
+			#set($header = "Suggested additional member of the examination board")
+		#end
+		<div style="$divStyle"><b>$header (2)</b></div>
+		<div style="$divStyle"><label style="$labelStyle" for="kommis2Name" id="kommis2Name_label">$lang.docAppPromoBetrName</label><input id="kommis2Name" name="open_kommis2Name" type="text" style="$inputStyle" /></div>
+		<div style="$divStyle"><label style="$labelStyle" for="kommis2Institute" id="kommis2Institute_label">$lang.docOpenPromoGutInst</label><input id="kommis2Institute" name="open_kommis2Institute" type="text" style="$inputStyle" /></div>
+		#set($header = "Vorschlag für das Wahlmitglied der Prüfungskommission")
+		#if($servlet.language == "en")
+			#set($header = "Suggested additional member of the examination board")
+		#end
+		<div style="$divStyle"><b>$header (3)</b></div>
+		<div style="$divStyle"><label style="$labelStyle" for="kommis3Name" id="kommis3Name_label">$lang.docAppPromoBetrName</label><input id="kommis3Name" name="open_kommis3Name" type="text" style="$inputStyle" /></div>
+		<div style="$divStyle"><label style="$labelStyle" for="kommis3Institute" id="kommis3Institute_label">$lang.docOpenPromoGutInst</label><input id="kommis3Institute" name="open_kommis3Institute" type="text" style="$inputStyle" /></div>
+	#end
+	#if($einrichtungName.contains("Phil"))
+		#set($header = "Vorschlag für das Wahlmitglied der Prüfungskommission")
+		#if($servlet.language == "en")
+			#set($header = "Suggested electoral member of the examination board")
+		#end
+		<div style="$divStyle"><b>$header</b></div>
+		<div style="$divStyle"><label style="$labelStyle" for="kommisName" id="kommisName_label">$lang.docAppPromoBetrName</label><input id="kommisName" name="open_kommisName" type="text" style="$inputStyle" /></div>
+		<div style="$divStyle"><label style="$labelStyle" for="kommisInstitute" id="kommisInstitute_label">$lang.docOpenPromoGutInst</label><input id="kommisInstitute" name="open_kommisInstitute" type="text" style="$inputStyle" /></div>
+	#end
+</p>

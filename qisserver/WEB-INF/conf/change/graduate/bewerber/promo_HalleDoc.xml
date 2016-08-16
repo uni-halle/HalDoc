@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<promo active="y" object="promo" objectid="promotion.promotionid" protsuppl="Promotion" modules="PROMO">
+	<subitem>promo</subitem>
+	<dbhandlername>promo</dbhandlername>
+	<title>$lang.editpromotion</title>
+	<insert />
+	<update protocol="y" />
+	<delete protocol="y" />
+	<header />
+	<size>63</size>
+	<rights ignoreParentRights="y">
+		<admin>
+			<noinsert />
+			<update />
+			<nodelete />
+			<select />
+		</admin>
+		<promoverw>
+			<noinsert />
+			<update />
+			<nodelete />
+			<select />
+		</promoverw>
+	</rights>
+	<change>
+		SELECT DISTINCT promotion.promotionid AS ID, promotion.title as Titel, promotion.gradid AS AkadGrad, promotion.k_abstgv_id AS Promotionsfach, mentor1name, mentor1einrich, 
+		mentor2name, mentor2einrich, mentor3name, mentor3einrich, 
+		promotion.institute AS Institut, promotion.einrichtungid AS Einrichtung
+		FROM promotion
+		WHERE promotion.bid=[bewerber.bid]
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<column name="Titel" />
+		<column name="Status" listonly="-&gt;promo.k_promotionstatus" />
+		<column name="AkadGrad" listboxsize="34" listonly="-&gt;promo.k_akadgradPromo" cssclass="selectInChange" />
+		<column name="Promotionsfach" listboxsize="34" listonly="-&gt;promo.v_k_abstgv" noupdate="y" />
+
+		<column name="mentor1name" label="Name Mentor 1" />
+		<column name="mentor1einrich" label="Einrichtung Mentor 1" />
+		<column name="mentor2name" label="Name Mentor 2" />
+		<column name="mentor2einrich" label="Einrichtung Mentor 2" />
+		<column name="mentor3name" label="Name Mentor 3" />
+		<column name="mentor3einrich" label="Einrichtung Mentor 3" />
+
+		<column name="Institut" />
+		<column name="programm" />
+		<column name="framework" />
+		<column name="Einrichtung" default="SELECT einrichtungid FROM personal WHERE pid=[session_ident_M]" listonly="->promo.einrichtungFaks" noshow="promoverw" listboxsize="34" cssclass="selectInChange" />
+	</change_prop>
+	<parentModuleParameter>application</parentModuleParameter>
+</promo>

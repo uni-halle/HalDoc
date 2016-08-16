@@ -1,0 +1,308 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ingra mischattribut="ElementName" WriteXMLFileTo1="D://temp//export.xml" global="[_timestemp]">
+	<overview 
+		RootName="webPublish" 
+		database="promoNatFak1" 
+		VMFile="publish/pmodul/vm/graduate/abgleich.vm" 
+		useCache="n" 
+		nologin="n"
+		PageFormat="n"
+		context="admin">
+		<!-- IW -->
+		<Transform.SQL ElementName="Promo">
+			SELECT id, name AS nachname, vorname AS vorname, staatsangehoerigkeit AS gebort, geburtsdatum AS gebdat, geschl AS geschl
+			FROM promo_iw
+			WHERE mtknr IS null AND staatsangehoerigkeit IS NOT NULL
+			ORDER BY nachname, vorname
+			<Transform.SubSQL ElementName="Student" database="sosposProd" active="n">
+				SELECT nachname, vorname, gebort, gebdat, mtknr, status, geschl
+				FROM sos
+				WHERE (trim(nachname)='[nachname]' OR trim(gebname)='[nachname]') AND trim(vorname)='[vorname]'
+				ORDER BY nachname,vorname
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Student" database="sosposProd" active="n">
+				SELECT nachname, vorname, gebort, gebdat, mtknr, status, geschl
+				FROM sos
+				WHERE gebdat='[gebdat]' AND trim(vorname)='[vorname]'
+				ORDER BY nachname,vorname
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Student" database="sosposProd" active="y">
+				SELECT nachname, vorname, gebort, gebdat, mtknr, status, geschl
+				FROM sos
+				WHERE gebdat='[gebdat]' AND (trim(nachname)='[nachname]' OR trim(gebname)='[nachname]')
+				ORDER BY nachname,vorname
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Student" database="sosposProd" active="n">
+				SELECT nachname, vorname, gebort, gebdat, mtknr, status, geschl
+				FROM sos
+				WHERE gebdat='[gebdat]'
+				ORDER BY nachname,vorname
+			</Transform.SubSQL>
+		</Transform.SQL>
+		<!-- Nat.-Fak. I -->
+		<!--Transform.SQL ElementName="Promo">
+			SELECT "ID" AS id, "Name" AS nachname, "Vorname" AS vorname, "Geburtsort" AS gebort, geboren AS gebdat, "Geschlecht" AS geschl
+			FROM "T: Promotionen" 
+			WHERE "Merker"='0' and mtknr IS null AND geboren IS NOT NULL
+			ORDER BY "Name", "Vorname"
+			<Transform.SubSQL ElementName="Student" database="sosposProd" active="n">
+				SELECT nachname, vorname, gebort, gebdat, mtknr, status, geschl
+				FROM sos
+				WHERE (trim(nachname)='[nachname]' OR trim(gebname)='[nachname]') AND trim(vorname)='[vorname]'
+				ORDER BY nachname,vorname
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Student" database="sosposProd" active="n">
+				SELECT nachname, vorname, gebort, gebdat, mtknr, status, geschl
+				FROM sos
+				WHERE gebdat='[gebdat]' AND trim(vorname)='[vorname]'
+				ORDER BY nachname,vorname
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Student" database="sosposProd" active="y">
+				SELECT nachname, vorname, gebort, gebdat, mtknr, status, geschl
+				FROM sos
+				WHERE gebdat='[gebdat]' AND (trim(nachname)='[nachname]' OR trim(gebname)='[nachname]')
+				ORDER BY nachname,vorname
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Student" database="sosposProd" active="n">
+				SELECT nachname, vorname, gebort, gebdat, mtknr, status, geschl
+				FROM sos
+				WHERE gebdat='[gebdat]'
+				ORDER BY nachname,vorname
+			</Transform.SubSQL>
+		</Transform.SQL-->
+		<!-- Phil.-Fak. I -->
+		<!--Transform.SQL ElementName="Promo">
+			SELECT id,nachname, vorname, geburtsdatum AS gebdat, '' AS gebort, '' AS geschl
+			FROM promo_barth
+			WHERE mtknr IS null AND geburtsdatum IS NOT NULL and id != 14
+			ORDER BY nachname, vorname
+			<Transform.SubSQL ElementName="Student" database="sosposProd" active="n">
+				SELECT nachname, vorname, gebort, gebdat, mtknr, status, geschl
+				FROM sos
+				WHERE (trim(nachname)='[nachname]' OR trim(gebname)='[nachname]') AND trim(vorname)='[vorname]'
+				ORDER BY nachname,vorname
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Student" database="sosposProd" active="n">
+				SELECT nachname, vorname, gebort, gebdat, mtknr, status, geschl
+				FROM sos
+				WHERE gebdat='[gebdat]' AND trim(vorname)='[vorname]'
+				ORDER BY nachname,vorname
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Student" database="sosposProd" active="n">
+				SELECT nachname, vorname, gebort, gebdat, mtknr, status, geschl
+				FROM sos
+				WHERE gebdat='[gebdat]' AND (trim(nachname)='[nachname]' OR trim(gebname)='[nachname]')
+				ORDER BY nachname,vorname
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Student" database="sosposProd" active="n">
+				SELECT nachname, vorname, gebort, gebdat, mtknr, status, geschl
+				FROM sos
+				WHERE gebdat='[gebdat]'
+				ORDER BY nachname,vorname
+			</Transform.SubSQL>
+		</Transform.SQL-->
+	</overview>
+	<natfak1Betr1 RootName="promo-collection" database="promoNatFak1"
+		useCache="n" nologin="n" PageFormat="n" VMFile="publish/pmodul/vm/graduate/abgleichBetr.vm" context="admin">
+		<Transform.SQL ElementName="promo">
+			SELECT "ID" AS id, "erster Gutachter" AS nachname, "Vorname1" AS vorname, "Titel1" AS titel, "Anschrift1" AS anschrift, "GeschlGut1" AS geschl
+			FROM "T: Promotionen" 
+			WHERE "Merker"='0' and gut1id IS null AND "erster Gutachter" IS NOT NULL
+			ORDER BY 2,3
+			<Transform.SubSQL ElementName="Person" database="promo">
+				SELECT nachname, vorname, pid, geschl,perstatusid, titelid
+				FROM personal
+				WHERE perstatusid IS DISTINCT FROM 5 AND perstatusid IS NOT NULL AND trim(nachname)='[nachname]'
+				ORDER BY nachname,vorname
+				<Transform.SubSQL ElementName="Titel" database="promo">
+					SELECT ktxt
+					FROM k_titel
+					WHERE titelid=[titelid]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Adresse" database="promo">
+					SELECT adrzusatz,adrzusatz2,einrichtung,ort,strasse
+					FROM kontakt
+					WHERE tabelle='personal' AND tabpk=[pid]
+				</Transform.SubSQL>
+			</Transform.SubSQL>
+		</Transform.SQL>
+	</natfak1Betr1>
+	<natfak1Betr2 RootName="promo-collection" database="promoNatFak1"
+		useCache="n" nologin="n" PageFormat="n" VMFile="publish/pmodul/vm/graduate/abgleichBetr.vm" context="admin">
+		<Transform.SQL ElementName="promo">
+			SELECT "ID" AS id, "zweiter Gutachter" AS nachname, "Vorname2" AS vorname, "Titel2" AS titel, "Anschrift2" AS anschrift, "GeschlGut2" AS geschl
+			FROM "T: Promotionen" 
+			WHERE "Merker"='0' and gut2id IS null AND "zweiter Gutachter" IS NOT NULL
+			ORDER BY 2,3
+			<Transform.SubSQL ElementName="Person" database="promo">
+				SELECT nachname, vorname, pid, geschl,perstatusid, titelid
+				FROM personal
+				WHERE perstatusid IS DISTINCT FROM 5 AND perstatusid IS NOT NULL AND trim(nachname)='[nachname]'
+				ORDER BY nachname,vorname
+				<Transform.SubSQL ElementName="Titel" database="promo">
+					SELECT ktxt
+					FROM k_titel
+					WHERE titelid=[titelid]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Adresse" database="promo">
+					SELECT adrzusatz,adrzusatz2,einrichtung,ort,strasse
+					FROM kontakt
+					WHERE tabelle='personal' AND tabpk=[pid]
+				</Transform.SubSQL>
+			</Transform.SubSQL>
+		</Transform.SQL>
+	</natfak1Betr2>
+	<natfak1Betr3 RootName="promo-collection" database="promoNatFak1"
+		useCache="n" nologin="n" PageFormat="n" VMFile="publish/pmodul/vm/graduate/abgleichBetr.vm" context="admin">
+		<Transform.SQL ElementName="promo">
+			SELECT "ID" AS id, "dritter Gutachter" AS nachname, "Vorname3" AS vorname, "Titel3" AS titel, "Anschrift3" AS anschrift, "GeschlGut3" AS geschl
+			FROM "T: Promotionen" 
+			WHERE "Merker"='0' and gut3id IS null AND "dritter Gutachter" IS NOT NULL
+			ORDER BY 2,3
+			<Transform.SubSQL ElementName="Person" database="promo">
+				SELECT nachname, vorname, pid, geschl,perstatusid, titelid
+				FROM personal
+				WHERE perstatusid IS DISTINCT FROM 5 AND perstatusid IS NOT NULL AND trim(nachname)='[nachname]'
+				ORDER BY nachname,vorname
+				<Transform.SubSQL ElementName="Titel" database="promo">
+					SELECT ktxt
+					FROM k_titel
+					WHERE titelid=[titelid]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Adresse" database="promo">
+					SELECT adrzusatz,adrzusatz2,einrichtung,ort,strasse
+					FROM kontakt
+					WHERE tabelle='personal' AND tabpk=[pid]
+				</Transform.SubSQL>
+			</Transform.SubSQL>
+		</Transform.SQL>
+	</natfak1Betr3>
+	<natfak1 RootName="promo-collection" database="promoNatFak1"
+		useCache="n" nologin="n" PageFormat="n" context="admin">
+		<Transform.SQL ElementName="promo">
+			SELECT "ID","Merker","Name","Vorname","Geschlecht",geboren,"Geburtsort","Adresse","Telefon","Fax","Email","Beginn der Arbeit an der Diss" AS beginn,"Status bei Antragstellung" AS status,"Eröffnung am FB" AS open,
+				"Übergabe Dissertation" AS uebergabe,"Thema der Dissertation" AS thema,"Note erstes Gutachen" AS noteg1,"Note zweites Gutachten" AS noteg2,"Note drittes Gutachten" AS noteg3,"Auslage",
+				"Akte zur Verteidgung an Institut am" as akteAnInstitut,"Institut","Note Vortrag" as noteVortrag,"Note Diskussion" as noteDiskuss,"Gesamtnote" as praedikat,"akademGrad" as gradDr,"Datum Verteidigung" as datumVerteidigung,
+				"Akte an MNT-Fakultät" as akteAnFak,mtknr,betr1id,betr2id,vorsitzid,gut1id,gut2id,gut3id,betr3id,"GesamtnoteZahl",gradid, "erworbener Grad" AS grad, getgradid
+			FROM "T: Promotionen"
+			WHERE "Merker" = '0'
+			ORDER BY "ID"
+		</Transform.SQL>
+	</natfak1>
+	<philfak1 RootName="promo-collection" database="promoNatFak1"
+		useCache="n" nologin="n" PageFormat="n" context="admin">
+		<Transform.SQL ElementName="promo">
+			SELECT id, pe AS antragAnnahme,nachname,vorname,geburtsdatum,annahme_im_promotionsausschuss,rigorosum,vors_promotionskomm,verteidigung,verlags_vertrag,pflichtexempl,
+				uebergabe_der_urkunde,bemerkungen_praedikat,archiv,gebname,mtknr,betr1id,betr2id,gradid,akad_grad,k_abstgv_id,vorsitzid
+			FROM promo_barth
+			ORDER BY nachname,vorname
+		</Transform.SQL>
+	</philfak1>
+	<iw RootName="promo-collection" database="promoNatFak1"
+		useCache="n" nologin="n" PageFormat="n" context="admin">
+		<Transform.SQL ElementName="promo">
+			SELECT id, name AS nachname,vorname,geburtsdatum,geschl,staat,zulassung AS antragAnnahme,eroeffnung,bemerkungen AS title,mtknr,betr1id,betr2id,gradid,abschluss AS akad_grad,statusid
+			FROM promo_iw
+			ORDER BY nachname,vorname
+		</Transform.SQL>
+	</iw>
+	<wrong RootName="promo-collection" VMFile="publish/pmodul/vm/graduate/wrong.vm" database="sosposProd" useCache="n" nologin="n" PageFormat="n" context="admin">
+		<Transform.SQL ElementName="sos">
+			SELECT distinct sos.mtknr AS mtknr, sos.exmandat AS exmandat, k_gdex.ktxt||' ('||sos.exmgrund||')' AS exmgrund, sos.exmdat AS exmdat
+			FROM sos,stg,k_gdex 
+			WHERE sos.mtknr=stg.mtknr AND sos.status='Y' and (stg.abschl!='06' or stg.status in ('R','E','N','R')) AND sos.exmgrund=k_gdex.gdex
+			ORDER BY mtknr
+			<Transform.SubSQL ElementName="stgCount" singleTag="stgCount">
+				SELECT count(mtknr) AS stgCount FROM stg WHERE mtknr=[mtknr] 
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="stg">
+				SELECT mtknr,stg,abschl,stgnr, max(semester) AS semester
+				FROM stg 
+				WHERE mtknr=[mtknr] 
+				GROUP BY mtknr,stg,abschl,stgnr
+				ORDER BY mtknr,abschl,semester,stgnr
+				<Transform.SubSQL ElementName="stg2">
+					SELECT endedat, status, statusex 
+					FROM stg 
+					WHERE mtknr=[mtknr] AND stg='[stg]' AND abschl='[abschl]' AND stgnr='[stgnr]' AND semester=[semester]
+				</Transform.SubSQL>
+			</Transform.SubSQL>
+		</Transform.SQL>
+	</wrong>
+	<double RootName="promo-collection" VMFile="publish/pmodul/vm/graduate/double.vm" database="promoProd" useCache="n" nologin="n" PageFormat="n" context="admin">
+		<Transform.SQL ElementName="sos">
+			select distinct v_sos.mtknr AS mtknr, v_sos.nachname AS nachname, v_sos.vorname AS vorname, v_sos.gebdat AS gebdat, v_sos.gebort AS gebort, v_sos.geschl AS geschl, pv1.phoneticvalue as nachnameHash, pv2.phoneticvalue as vornameHash
+			from v_sos,person_phoneticvalue pv1, person_phoneticvalue pv2 
+			where v_sos.mtknr=pv1.mtknr and pv1.mtknr=pv2.mtknr and pv1.person_attributename='nachname' and pv2.person_attributename='vorname' and v_sos.status='Y'
+			and v_sos.mtknr >= 215000000
+			and v_sos.mtknr not in (216100744,215249569,206229391,215249585,208239356,206100984,207103656,207103656,207104190,206106436,207233401,216100674,216100674,215250895,215248773,209228353,206100210,214104994,206101642,215235555,
+			215235568,206101655,216100757,211251561,205227316,205110427,208238627,215215693,214105243,215215406,206200701,215214226,207102617,206229388,215244707,207104736,208105277,215207930,215248223,206200657,216101316,209104053,
+			204248424,203289975,215235779,206102003,214237980,209245262,215104991,215248249,206200686,207233513,212255298,210248487,215248111,207104228,212247992,211105354,204248622,213244662,207105113,206100351,207233315,215250908,
+			204248961,203113004,215213542,216100760,206101530,214238338,206100319,207233328,207104231,206106829,206200110,212104903,214238341,215248814,208238515,213247957,211252018,215201350,215220937,215245082,216100773,215105237,
+			215249642,215220911,215248843,215248856,215221020,215217566,215244666,215105039,215236312,215249879,216100843,215249837,205201350,216100111,215215307,215221088,215235498,215248885,215215744,215248901,215221158,215249840,
+			215216866,215221260,215249134,215250671,215248434,215216697,215222791,215105240,215222101,215222098,215207972,215250626,215246907,215225213,216101192,216101217,215251128,216100885,215226319,215237140,215248939,215217074,
+			215248942,215105112,215105253,215207873,215246980,215237463,215249329,215226348,215223727,215245727,215249345,215238444,215248971,215201149,215223488,215105266,215247156,215247169,215104889,215226434,215104834,215201420,
+			215222788,215228821,215226111,215248984,215201165,215240991,215241026,215237757,215251400,215249163,215251595,215220193,215226307,215251579,215241209,215225255,215251496,215208739,215208755,215220346,215241240,216100096,
+			215249192,216102007,216103068,216102256,216102272,215238374)
+			<!--and v_sos.mtknr=215247213-->
+			ORDER BY v_sos.nachname,v_sos.vorname
+			<!--  and v_sos.mtknr=900000011 -->
+			<Transform.SubSQL ElementName="sos2">
+				select distinct v_sos.mtknr AS mtknr, v_sos.nachname AS nachname, v_sos.vorname AS vorname, v_sos.gebdat AS gebdat, v_sos.gebort AS gebort, v_sos.geschl AS geschl
+				from v_sos,person_phoneticvalue pv1, person_phoneticvalue pv2 
+				where v_sos.mtknr=pv1.mtknr and pv1.mtknr=pv2.mtknr and pv1.person_attributename='nachname' and pv2.person_attributename='vorname'
+				and pv1.phoneticvalue='[nachnameHash]' and pv2.phoneticvalue='[vornameHash]' and v_sos.mtknr!=[mtknr]
+				ORDER BY v_sos.nachname,v_sos.vorname
+			</Transform.SubSQL>
+		</Transform.SQL>
+	</double>
+	<double2 RootName="promo-collection" VMFile="publish/pmodul/vm/graduate/doubleForm.vm" database="promoProd" useCache="n" nologin="n" PageFormat="n" context="admin">
+		<Transform.SQL ElementName="sos">
+			select count(v_sos.mtknr) from v_sos where v_sos.mtknr in ([mtknrs])
+			<Transform.Plugin ElementName="sendMail">
+				<class name="de.mlu.printout.publishModul.plugins.DoublePlugin">
+					<params>
+						<promoDbh>promoProd</promoDbh>
+						<sosposDbh>sosposProd</sosposDbh>
+						<SQL_sos>select distinct oid, mtknr, status, nachname, vorname, gebdat, gebort, anti, gebname, sortname,geschl, staat,anschrkz,postrasse,pokfz,poplz,poort,potel,sperrart1,sperrsem1,sperrart2,sperrsem2,res11,res12,res13,staatkez,gebland from sos where mtknr in ([mtknrs]) ORDER BY mtknr</SQL_sos>
+						<SQL_stg>select distinct oid, mtknr, status, semester,stgnr,abschl,stg from stg where mtknr=[mtknr] order by semester,stgnr</SQL_stg>
+						<SQL_anschri>select distinct oid, identnr,mtknr,anschrkz,strasse,zusatz,kfz,plz,ort,tel,email from anschri where mtknr=[mtknr]</SQL_anschri>
+						<SQL_promo>select distinct oid, promotionid,promoprogramm,promoprogrammdetail,framework,frameworkdetail,gradid,title,mentor1id,mentor2id,zeitstempel,mentor3id,institute,applicationofassumption,assumptioncommitee,applicationofadmission,openingofprocedure,forwardingoffile,forwardingforcommitee,dateofcolloquium,dateofpublishing,handovertolibrary,dateforcertificate,finalgrade,filetoarchive,archivenumber,einrichtungid,k_abstgv_id,vorsitzid,mtknr,bid,startofdoctoralstudies,mentor1name,mentor1einrich,mentor2name,mentor2einrich,mentor3name,mentor3einrich,evaluator1id,evaluator2id,evaluator3id,dateofcontractwithpublisher,evaluator4id,dateofrigorosum,date_for_cancel from promotion where mtknr=[mtknr]</SQL_promo>
+						<SQL_bewerber>select distinct oid, bid, mtknr, vorname, nachname, geschl from bewerber where mtknr=[mtknr]</SQL_bewerber>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</double2>
+	<mailError RootName="promo-collection" VMFile="publish/pmodul/vm/graduate/mailError.vm" database="promo" useCache="n" nologin="n" PageFormat="n" context="gradakad,admin">
+		<Transform.SQL ElementName="sos">
+			SELECT 1 AS init
+			<Transform.Plugin ElementName="mailError">
+				<class name="de.mlu.printout.publishModul.plugins.WrongEmails">
+					<params>
+						<promoDbh>promo</promoDbh>
+						<sosposDbh>sospos</sosposDbh>
+						<SQL_mtknr>SELECT DISTINCT email,verbindung_integer, mtknr FROM anschri LEFT JOIN identroll ON (anschri.identnr=identroll.identnr) WHERE email='[email]'</SQL_mtknr>
+						<SQL_promo>SELECT DISTINCT einrichtungid, email, dtxt FROM promotion, kontakt, einrichtung WHERE promotion.einrichtungid=einrichtung.id AND promotion.einrichtungid=kontakt.tabpk AND tabelle='einrichtung' AND mtknr=[mtknr]</SQL_promo>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</mailError>
+	<gradings RootName="promo-collection" VMFile="publish/pmodul/vm/graduate/gradings.vm" database="promo" useCache="n" nologin="n" PageFormat="n" context="gradakad,admin">
+		<Transform.SQL ElementName="sos"><!-- dateofcolloquium >= '2015-10-01' AND dateofcolloquium &lt;= '2016-03-31' -->
+			SELECT promotionid,mtknr,dateofcolloquium FROM promotion WHERE dateofcolloquium IS NOT NULL AND k_abstgv_id IS NOT NULL and mtknr NOT IN (SELECT DISTINCT mtknr FROM v_lab WHERE abschl='06')
+			<Transform.Plugin ElementName="Grading">
+				<class name="de.mlu.printout.publishModul.plugins.GenerateGrading">
+					<params>
+						<promoDbh>promo</promoDbh>
+						<sosposDbh>sospos</sosposDbh>
+					</params>
+				</class>
+			</Transform.Plugin>
+			<Transform.SubSQL ElementName="Lab" database="sospos">
+				SELECT labnr,mtknr,abschl FROM lab WHERE mtknr=[mtknr] AND abschl='06'
+			</Transform.SubSQL>
+		</Transform.SQL>
+	</gradings>
+</ingra>

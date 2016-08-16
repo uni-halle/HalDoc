@@ -1,0 +1,4 @@
+R_PERSONEDIT=admin|fachbereich|stgadmin|appladmin|einradmin|personaladmin|promoverw|biblio
+R_PERSONEDITALWAYS=admin|biblio
+R_PROMOEDIT=admin|promovend|promoverw
+R_PROMOEDITALL=admin|biblio

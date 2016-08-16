@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<personSearch version="1.0" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<session>moduleParameter</session>
+	<title>$lang.searchPromoApplication</title>
+	<size>50</size>
+	<rights>
+		<admin>
+			<select />
+		</admin>
+		<promoverw>
+			<select />
+		</promoverw>
+	</rights>
+	<SearchOptions>
+		<option default="y">10</option>
+		<option>20</option>
+		<option>30</option>
+		<option>50</option>
+		<option value="999" context="admin">$lang.all</option>
+	</SearchOptions>
+	<Suchfelder>
+		<Number type="input" db="bewerber.bid" size="50" label="Bewerbernummer" />
+		<Nachname type="input" db="bewerber.nachname" ignorecase="y" size="50" checktype="wildcard" />
+		<Vorname type="input" db="bewerber.vorname" ignorecase="y" size="50" checktype="wildcard" />
+		<Geschlecht type="listbox" db="bewerber.geschl" prop="_stripkey" lookup="-&gt;sex" emptyallowed="y" cssclass="selectInChange" listboxsize="27" />
+		<Fakultät type="listbox" db="promotion.einrichtungid" emptyallowed="admin" lookup="promo.einrichtungFaks" listboxsize="27" cssclass="selectInChange">
+			<restrictions>
+				<promoverw>AND einrichtung.id = [session_AssignedFak]</promoverw>
+			</restrictions>
+		</Fakultät>
+		<Nationalität type="listbox" db="bewerber.staat" lookup="-&gt;promo.v_k_akfz" emptyallowed="y" cssclass="selectInChange" listboxsize="27" />
+	</Suchfelder>
+	<auswahl>
+		state=verpublish&amp;publishContainer=applicationSearchList&amp;fromsearch=y&amp;menu_open=n
+	</auswahl>
+</personSearch>
+

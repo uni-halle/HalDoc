@@ -1,0 +1,169 @@
+## Menüpunkte
+ingra=Promovierendenverwaltung der InGra
+functionsInGra=Promovierendenverwaltung der InGra
+menuPromoEdit=Promovierendenverwaltung
+promoAntragBewerbung=Antrag auf Annahme als Doktorand/in
+promoApplication=Antragsteller/in bearbeiten
+
+searchPromotions=Suche nach Promotionen
+newpromotion=Neue Promotion
+editpromotion=Promotion bearbeiten
+sendEmails=Emails versenden
+statForInGra=Übersichtsstatistik anzeigen
+semStat=Semesterstatistik anzeigen
+uebForInGra=Übersichten anzeigen
+faultyAdresses=Fehlerhafte Emailadressen
+
+promoSachbearb=Sachbearbeiter
+promoEval=Gutachter / Betreuer
+
+sexPromo=(W weiblich,M männlich,U unbekannt, O anderes)
+
+## Dialoge
+searchpersonpromov=Suche nach Doktorand/in
+editpersonpromov=Doktorand/in bearbeiten
+newpersonpromov=Doktorand/in anlegen
+searchPromoApplication=Suche nach Antragsteller/in
+editPromoApplication=Antragsteller/in bearbeiten
+belonging_promo=Zugeordnete Promotionen
+belonging_promo_asFirst=Betreute Promotionen (Erstbetreuer)
+belonging_promo_asSecond=Betreute Promotionen (Zweitbetreuer)
+belonging_promo_asThird=Betreute Promotionen (Drittbetreuer)
+
+belonging_promo_asFirstGut=Erstgutachter
+belonging_promo_asSecondGut=Zweitgutachter
+belonging_promo_asThirdGut=Drittgutachter
+belonging_promo_asForthGut=Viertgutachter
+
+Erg2alles_Birth=Angaben zur Geburt
+Erg2alles_Academic=Akademische Angaben
+Erg2alles_Process=Prozessverlauf
+
+mentorNameSubheader=Betreuende Hochschullehrerin bzw. betreuender Hochschullehrer
+
+studentStatus=(Y Promovend, X Exmatrikuliert, E Ersteingeschrieben, W Wiedereingeschrieben, R Rückgemeldet)
+
+applicationOfAssumption=Antrag auf Annahme
+assumptionCommitee=Annahme durch Ausschuss
+applicationOfAdmission=Antrag an Kommision
+openingOfProcedure=Eröffnung des Verfahrens
+forwardingOfFile=Promotionsakte an FSK
+forwardingForCommitee=Akte an Kommision
+dateOfColloquium=Datum der Verteidigung
+dateOfPublishing=Datum der Veröffentlichung
+handoverToLibrary=Pflichtexemplar eingereicht
+dateForCertificate=Übergabe der Urkunde
+fileToArchive=Akte ins Archiv
+archiveNumber=Archivnummer
+error_message_promo01=Die eingegebenen Daten existieren bereits in der Studierendenverwaltung. Mit den folgenden Links können Sie den entsprechenden Studierenden aufrufen
+error_message_promo02=- meinten Sie ggf: <a href="[SERVLETURL]?state=change&type=2&moduleParameter=newPromo&nextdir=change&next=SingleInput.vm&subdir=graduate/promo&sos.mtknr=[v_sos.mtknr]&P_start=0&P_anzahl=10&_form=newPromo&asi=[session_asi]">[v_sos.mtknr] [v_sos.vorname] [v_sos.nachname]</a>
+error_message_person01=Es existiert bereits mind. eine Person mit den von Ihnen eingegebenen Daten. Mit den folgenden Links können Sie die entsprechende Person aufrufen
+error_message_person02=- meinten Sie ggf: <a href="[SERVLETURL]?state=change&type=2&moduleParameter=person&nextdir=change&next=SingleInput.vm&subdir=graduate/person&personal.pid=[personal.pid]&P_start=0&P_anzahl=10&asi=[session_asi]">[personal.vorname] [personal.nachname]</a>
+error_message_bew01=Die eingegebenen Daten existieren bereits in der Promovierendenverwaltung als Antragsteller/in. Sie können Sich nur einmal registrieren.
+error_message_bew02=Sie haben eine Matrikelnummer eingegeben. Diese ist entweder &lt;u&gt;keine&lt;/u&gt; Matrikelnummer der Universität Halle oder Sie haben einen Schreibfehler. Bitte korrigieren Sie die Matrikelnummer oder lassen das Feld leer.
+error_message_bew03=Die von Ihnen eingegebenen Daten passen nicht zu den Daten, welche wir zu Ihrer Matrikelnummer gespeichert haben. Abgeglichen werden hier die Grunddaten und die Angaben zu Ihrer Geburt.
+error_message_bew04=Das Geburtsdatum kann nicht validiert werden, da ein falsches Format angegeben wurde.
+error_message_bew05=Die eingegebenen Daten existieren bereits in der Promovierendenverwaltung als Promovend/in. Sie können Sich nicht nocheinmal registrieren.
+error_message_bew06=Es wurden in der Studierendendatenbank Daten mit Ihren Angaben gefunden. Bitte geben Sie Ihre Matrikelnummer ein. Sollten Sie diese nicht mehr kennen, kontaktieren Sie Ihre zuständige Fakultät oder das Immatrikulationsamt.
+error_message_bew07=Sie sind derzeit in einem Studiengang eingeschrieben, daher können Sie sich im Moment nicht registrieren. Bitte klären Sie dies mit Ihrer Fakultät und dem Immatrikulationsamt.
+error_message_bew_contact=Bitte setzen Sie sich mit Ihrer Fakultät in Verbindung, damit Ihr Problem gelöst werden kann.
+
+## Antragsformular
+docAppHeader=Antrag auf Annahme als Doktorand/in
+docAppSubmit=senden
+docAppPrint=Antrag drucken
+docAppConfirm=Sie haben sich erfolgreich registriert. Ihnen wurde eine Bestätigungsemail mit allen eingegebnen Daten zugesandt.<br/>Bitte drucken Sie den Antrag aus und reichen Sie diesen mit den notwendigen Unterlagen in Ihrer Einrichtung ein.
+docAppSelect=bitte wählen
+docAppDatForm=Format: (TT.MM.JJJJ)
+docAppYes=ja
+docAppNo=nein
+docAppTabPersData=Personendaten
+docAppTabOffice=Dienstl. Kontaktdaten
+docAppTabDegree=Akadem. Grade
+docAppTabPromo=Angaben zur Promotion
+docAppTabMed=Angaben zur Med.-Fak.
+docAppTabPers=Betreuer(innen)
+docAppPersDataInfo=Sollten Sie Ihren Abschluss an der Martin-Luther-Universität Halle-Wittenberg erreicht haben, geben Sie bitte Ihre Matrikelnummer an, damit Ihre Daten automatisch korrekt aus der Studierendendatenbank übernommen werden können.
+docAppPersDataBasic=Grunddaten
+docAppPersDataLName=Nachname
+docAppPersDataFName=Vorname
+docAppPersDataGName=Geburtsname
+docAppPersDataGen=Geschlecht
+docAppPersDataF=weiblich
+docAppPersDataM=männlich
+docAppPersDataMtkNr=Matrikelnummer
+docAppPersDataGebDat=Geburtstag
+docAppPersDataGebOrt=Geburtsort
+docAppPersDataGebLand=Geburtsland
+docAppPersDataNat=Nationalität
+docAppPersDataCont=Kontaktdaten
+docAppPersDataStr=Straße
+docAppPersDataCity=Ort
+docAppPersDataPLZ=PLZ
+docAppPersDataLand=Land
+docAppPersDataMail=eMail
+docAppPersDataTel=Telefon
+docAppOffInfo=Ein Arbeitsrechtsverhältnis besteht zur Zeit der Antragstellung mit
+docAppOffName=Name der Institution
+docAppOffAs=Beschäftigt als
+docAppOffStr=Straße
+docAppOffPLZ=PLZ
+docAppOffCity=Ort
+docAppOffMail=eMail
+docAppOffTel=Telefon
+docAppOffFax=Fax
+docAppDegInfo=Welche akademischen Abschlüsse haben Sie bisher erreicht?
+docAppDegDeg=Akademischer Grad
+docAppDegWhen=wann erworben
+docAppDegHS=von welcher Hochschule
+docAppDegFH=an einer FH?
+docAppSonst=sonstiges
+docAppDegDel=löschen
+docAppDegAdd=weiterer hinzugügen
+docAppPromoStat=Aktueller Bewerberstatus
+docAppPromoFak=Einrichtung, in welcher Sie Ihre Promotion durchführen
+docAppPromoInst=Institut
+docAppPromoProg=Die Erarbeitung der Dissertation erfolgt im Rahmen eines strukturierten Promotionsprogrammes.
+docAppPromoProg2=gegebenenfalls Institution und Bezeichnung des Programmes
+docAppPromoBi=Die Erarbeitung der Dissertation erfolgt im Rahmen eines bi-nationalen Promotionsverfahrens (Cotutelle de thèse).
+docAppPromoBi2=gegebenenfalls Institution und Land
+docAppPromoDeg=Angestrebter akademischer Grad
+docAppPromoField=Fachgebiet der angestrebten Promotion
+docAppPromoTitle=Arbeitstitel der Dissertation
+docAppPromoStart=Beginn der Arbeit an der Dissertation
+docAppPromoBetrHead=Betreuende Hochschullehrerin bzw. betreuender Hochschullehrer
+docAppPromoBetrName=akademischer Titel, akademischer Grad, Name, Vorname
+docAppPromoBetrInst=Wissenschaftliche Einrichtung, Institut
+docAppPromoPhysDate=ggf. Datum des Physikums
+docAppPromoPjDate=Datum Beginn PJ
+docAppDissLang=Sprache der einzureichenden Dissertation
+docAppVertLang=Sprache der Verteidigung
+docAppCenterOfResearch=Forschungsschwerpunkt
+docAppEthicalCommitee=Beurteilung durch die Ethik-Kommission notwendig?
+docAppEthicalCommiteeDate=Datum der Beurteilung
+docAppResearchTrainingGroup=Teilnahme Graduiertenkolleg
+docAppResearchTrainingGroupDetail=Name des Kollegs
+docAppStatisticalConsulting=Statistische Beratung geplant
+docAppStatisticalConsultingDetail=Name der Einrichtung
+docAppStudyStartSemester=Studienzeitraum Beginn
+docAppStudyEndSemester=Studienzeitraum Ende
+docAppPreviousAttempts=Frühere Promotionsversuche
+docAppPreviousAttemptsWhere=wo
+
+docOpenHeader=Antrag auf Zulassung zum Promotionsverfahren
+docOpenPromoGutHead=Vorschlag für Gutachter
+docOpenPromoGutInst=Wissenschaftliche Einrichtung, Adresse (postal. Adresse, Email und Telefon)
+docOpenInfo=Bitte geben Sie Ihre eMail-Adresse ein, welche Sie hier im System hinterlegt haben. Anschließend senden wir Ihnen eine eMail, welche weitere Informationen zum Antrag auf Zulassung zu einem Promotionsverfahren enthält.
+docOpenInfo2=Bitte prüfen Sie Ihre Daten und korrigieren Sie diese gegebenenfalls.
+docOpenEmail=eMail-Adresse
+docOpenPersDataMtkNr=Registrierungs-/Matrikelnummer
+docOpenConfAcceptance=Annahme als Doktorand/in am
+docOpenPromoType=Kumulative Dissertation
+docOpenTypeOfDissertation=Form der Dissertation
+docOpenErrorHeader=Bitte folgende Felder korrekt ausfüllen
+docOpenDegreeDate=Datum des Hochschulabschlusses
+docOpenLicenseDate=ggf. Datum der Approbation
+
+error_msg_opening_01=Die eingegebene Email-Adresse konnte im System nicht gefunden werden. Versuchen Sie es mit einer anderen Adresse oder füllen das Fomular per Hand aus.
+error_msg_opening_02=Leider konnte Ihnen aus technischen Gründen keine Email zugesandt werden. Bitte versuchen Sie es später erneut.
+confirm_msg_opening_01=Wir haben Ihnen eine Email zugesandt, in welcher weitere Anweisungen enthalten sind.

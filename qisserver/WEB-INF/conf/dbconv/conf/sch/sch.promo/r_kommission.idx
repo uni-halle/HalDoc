@@ -1,0 +1,2 @@
+{### r_kommission ##############################################################}
+CREATE unique index i_r_kommission on r_kommission (kid);    

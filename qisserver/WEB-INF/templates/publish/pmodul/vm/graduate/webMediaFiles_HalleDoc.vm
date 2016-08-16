@@ -1,0 +1,31 @@
+#if ($Promotion.getChild("Dokumente").getChildren("Dokument").size() > 0)
+<br>
+	<a name="mediafiles"></a>
+	<h2>
+		$lang.academic_achievements
+	</h2>
+	<table summary="Externe Dokumente">
+		<tr >
+    		<th scope="col" class="mod" id="basic_1">
+    			$lang.Erg4_name
+    		</th>
+    		<th scope="col" class="mod" id="basic_2">
+    			$lang.filename
+    		</th>
+		</tr>
+		#set($lineBackGr = "mod_n_even")
+		#foreach ($mf in $Promotion.getChild("Dokumente").getChildren("Dokument"))
+			#if($lineBackGr == "mod_n_odd")#set($lineBackGr = "mod_n_even") #else #set($lineBackGr = "mod_n_odd") #end
+			<tr >
+				<td class="$lineBackGr" headers="basic_1">
+					$!mf.getChildText("description")
+					#set($downloadfile="$servlet.SERVLETURL?state=medialoader&amp;objectid=$!mf.getChildText('mfid')&amp;application=promo")
+				</td>
+				<td class="$lineBackGr" headers="basic_2">
+					<a href="$downloadfile">$!mf.getChildText("filename")</a>
+				</td>
+			</tr>
+		#end
+	</table>
+#end
+

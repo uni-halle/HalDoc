@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<medialoader>
+	<promo dbname="promo">
+		<r_mediafiles>
+			SELECT tabelle, tabpk, filename, description, mediatype, mfid FROM r_mediafiles [from] WHERE 1=1 [where]
+		</r_mediafiles>
+		<s_objprivacy>
+			SELECT tabelle, tabpk, filename, description, mediatype, mfid FROM r_mediafiles WHERE 1=0
+		</s_objprivacy>
+	</promo>
+</medialoader>

@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objectContainer>
+	<emailErrors>
+		<status value="init" />
+		<vmfile value="no" />
+		<!--moduleCall value="emailErrors" />
+		<publishConfFile value="ingra" /-->
+		<moduleCall value="mailError" />
+		<publishConfFile value="import" />
+		<publishSubDir value="graduate" />
+	</emailErrors>
+	<applicationPrint>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="applicationPrint" />
+		<publishConfFile value="application" />
+		<publishSubDir value="graduate" />
+	</applicationPrint>
+	<promoHandbuch1>
+		<status value="transform" />
+		<vmfile value="no" />
+		<moduleCall value="promoHandbuch1" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</promoHandbuch1>
+	<biblioBesch>
+		<status value="transform" />
+		<vmfile value="no" />
+		<moduleCall value="biblioBesch" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</biblioBesch>
+	<overviewIngra>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="overview" />
+		<publishConfFile value="ingra" />
+		<publishSubDir value="graduate" />
+	</overviewIngra>
+	<applicationSearchList>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="applicationSearchList" />
+		<publishConfFile value="webInfoPromotion" />
+		<publishSubDir value="graduate" />
+		<orderby default="bewerber.bid">
+		</orderby>
+	</applicationSearchList>
+	<applicationForm1>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="applicationForm" />
+		<publishConfFile value="application" />
+		<publishSubDir value="graduate" />
+	</applicationForm1>
+	<applicationForm2>
+		<status value="transform" />
+		<vmfile value="no" />
+		<moduleCall value="applicationForm" />
+		<publishConfFile value="application" />
+		<publishSubDir value="graduate" />
+	</applicationForm2>
+	<openingForm>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="openingForm" />
+		<publishConfFile value="application" />
+		<publishSubDir value="graduate" />
+	</openingForm>
+	<openingForm2>
+		<status value="transform" />
+		<vmfile value="no" />
+		<moduleCall value="openingForm" />
+		<publishConfFile value="application" />
+		<publishSubDir value="graduate" />
+	</openingForm2>
+	<promoAntrag>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="promoAntrag" />
+		<publishConfFile value="webInfoPromotion" />
+		<publishSubDir value="graduate" />
+	</promoAntrag>
+	<promoAntragPrint>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="promoAntragPrint" />
+		<publishConfFile value="webInfoPromotion" />
+		<publishSubDir value="graduate" />
+	</promoAntragPrint>
+	<printApplication>
+		<status value="transform" />
+		<vmfile value="no" />
+		<moduleCall value="printApplication" />
+		<publishConfFile value="webInfoPromotion" />
+		<publishSubDir value="graduate" />
+	</printApplication>
+	<zulAntrag>
+		<status value="transform" />
+		<vmfile value="no" />
+		<moduleCall value="webInfo" />
+		<publishConfFile value="webInfoPromotion" />
+		<publishSubDir value="graduate" />
+	</zulAntrag>
+	<getMailForAkad>
+		<status value="init" />
+		<vmfile value="no" />
+		<!--moduleCall value="getMailForAkad" />
+		<publishConfFile value="mailService" />
+		<publishSubDir value="tools" /-->
+		<moduleCall value="mail" />
+		<publishConfFile value="mail" />
+		<publishSubDir value="graduate" />
+	</getMailForAkad>
+	<semStatForFaks>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="semStatForFaks" />
+		<publishConfFile value="ingra" />
+		<publishSubDir value="graduate" />
+	</semStatForFaks>
+	<semStat>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="semStat" />
+		<publishConfFile value="ingra" />
+		<publishSubDir value="graduate" />
+	</semStat>
+	<statForInGra>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="statForInGra" />
+		<publishConfFile value="ingra" />
+		<publishSubDir value="graduate" />
+	</statForInGra>
+	<statForFaks>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="statForFaks" />
+		<publishConfFile value="ingra" />
+		<publishSubDir value="graduate" />
+	</statForFaks>
+	<webInfoListPromos>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="webInfoList" />
+		<publishConfFile value="webInfoPromotion" />
+		<publishSubDir value="graduate" />
+		<orderby default="promotion.title">
+			<title value="promotion.title" />
+			<titleDESC value="promotion.title DESC" />
+			<promov value="v_sos.nachname, v_sos.vorname" />
+			<promovDESC value="v_sos.nachname DESC, v_sos.vorname DESC" />
+			<beginn value="promotion.assumptioncommitee" />
+			<beginnDESC value="promotion.assumptioncommitee DESC" />
+			<opening value="promotion.openingofprocedure" />
+			<openingDESC value="promotion.openingofprocedure DESC" />
+			<abgabe value="promotion.handovertolibrary" />
+			<abgabeDESC value="promotion.handovertolibrary DESC" />
+			<AkteFsk value="promotion.forwardingoffile" />
+			<AkteFskDESC value="promotion.forwardingoffile DESC" />
+			<colloquium value="promotion.dateofcolloquium" />
+			<colloquiumDESC value="promotion.dateofcolloquium DESC" />
+		</orderby>
+	</webInfoListPromos>
+	<webInfoListPromosExport>
+		<status value="transform" />
+		<vmfile value="no" />
+		<moduleCall value="webInfoList" />
+		<publishConfFile value="webInfoPromotion" />
+		<publishSubDir value="graduate" />
+	</webInfoListPromosExport>
+	<AnnahmeErklaerung>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="AnnahmeErklaerung" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</AnnahmeErklaerung>
+	<AnnahmeErklaerungZusatz>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="AnnahmeErklaerungZusatz" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</AnnahmeErklaerungZusatz>
+	<Ablehnung>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="Ablehnung" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</Ablehnung>
+	<Eroeffnung>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="Eroeffnung" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</Eroeffnung>
+	<NichtEroeffnung>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="NichtEroeffnung" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</NichtEroeffnung>
+	<Kommission>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="Kommission" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</Kommission>
+	<Gutachter>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="Gutachter" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</Gutachter>
+	<Gutachtermahnung>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="Gutachtermahnung" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</Gutachtermahnung>
+	<Weiterfuehrung>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="Weiterfuehrung" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</Weiterfuehrung>
+	<ListeEinsichtnahme>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="ListeEinsichtnahme" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</ListeEinsichtnahme>
+	<AushangVerteidigung>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="AushangVerteidigung" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</AushangVerteidigung>
+	<Certificate>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="Certificate" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</Certificate>
+	<Empfang>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="Empfang" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</Empfang>
+	<Deckblatt>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="Deckblatt" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</Deckblatt>
+	<AppForCertificate>
+		<status value="init" />
+		<vmfile value="no" />
+		<moduleCall value="AppForCertificate" />
+		<publishConfFile value="prints" />
+		<publishSubDir value="graduate" />
+	</AppForCertificate>
+</objectContainer>

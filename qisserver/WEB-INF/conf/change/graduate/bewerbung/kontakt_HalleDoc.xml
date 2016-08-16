@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dienstadresse active="y" protsuppl="Dienstadresse" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>33</size>
+	<session>moduleParameter</session>
+	<update protocol="y" />
+	<insert protocol="y" />
+	<delete protocol="y" />
+	<success-redirect>next</success-redirect>
+	<buttons>
+		<store>Speichern &amp; weiter</store>
+	</buttons>
+	<change>SELECT DISTINCT kid AS ID,tabelle AS Tabelle,tabpk AS PrimaryKey,strasse AS Strasse,plz AS PLZ,ort AS Ort,land AS Land,email AS eMail,telefon AS Telefon, kontakt.typadrid AS Kennzeichen
+		FROM kontakt
+		WHERE tabpk = [bewerber.bid] AND tabelle = 'bewerber' AND kontakt.typadrid = 0
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<column name="Strasse" subHeader="Kontaktdaten" mandatory="y" />
+		<column name="PLZ" mandatory="y" />
+		<column name="Ort" mandatory="y" />
+		<column name="Land" listboxsize="19" listonly="-&gt;promo.v_k_akfz" default="D" mandatory="y" cssclass="selectInChange" />
+		<column name="eMail" datatype="email" mandatory="y" />
+		<column name="Telefon" mandatory="y" />
+		<column name="Kennzeichen" default="0" noshow="y" />
+		<column name="Tabelle" default="bewerber" noshow="y" />
+		<column name="PrimaryKey" default="[bewerber.bid]" noshow="y" />
+	</change_prop>
+	<parentModuleParameter>bewerber</parentModuleParameter>
+</dienstadresse>
+

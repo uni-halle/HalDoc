@@ -1,0 +1,13 @@
+{### k_titel #######################################################}
+{ Die Spalte "geschl" dient dazu, geschlechtsspezifische Versionen des Titels abzuspeichen.
+  leer=gechlechtsneutral, M=Männliche Version, W=Weibliche Version
+}
+CREATE TABLE k_titel (
+   titelid	SERIAL NOT NULL,           { Primary Key                      }
+   aikz		CHAR(1),             { Aktiv/-Inaktiv-Kennzeichen       }	
+   ktxt		CHAR(10),            { Kurztext				  }
+   dtxt		CHAR(25),            { Drucktext			        }
+   ltxt		VARCHAR(255,0),      { Langtext				  }
+   zeitstempel	DATETIME year to fraction(5),  { Aenderungsdatum/-zeit  }
+   geschl		CHAR(1)              { Gechlecht (leer,M,W)		  }
+);

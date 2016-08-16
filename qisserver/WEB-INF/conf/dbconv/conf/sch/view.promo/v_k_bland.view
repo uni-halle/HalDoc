@@ -1,0 +1,2 @@
+CREATE VIEW v_k_bland (bland,aikz,ktxt,dtxt,ltxt,astat) AS 
+	SELECT bland,aikz,ktxt,dtxt,ltxt,astat FROM public.k_bland;

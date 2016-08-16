@@ -1,0 +1,7 @@
+{### r_promotion_k_reason_for_cancel ###############################################################}
+CREATE TABLE r_promotion_k_reason_for_cancel (              
+   id         						SERIAL NOT NULL,	{ Primary Key						}
+   promotion_id						INTEGER,					{ ->promotion						}
+   k_reason_for_cancel_id	INTEGER,					{ ->k_reason_for_cancel	}
+   zeitstempel						DATETIME year to fraction(5)
+);

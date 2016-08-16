@@ -1,0 +1,33 @@
+<akadgrad active="y" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>60</size>
+	<session>moduleParameter</session>
+	<title>Einrichtungen</title>
+	<noheader />
+	<rowMarker>y</rowMarker>
+	<insert />
+	<update />
+	<delete />
+	<rights>
+		<admin>
+			<insert />
+			<update />
+			<delete />
+			<select />
+		</admin>
+	</rights>
+	<change>
+		SELECT k_akadgrad.gradid AS ID, k_akadgrad.aikz AS Aktiv, k_akadgrad.ktxt AS Kurz, k_akadgrad.dtxt AS Druck, k_akadgrad.ltxt AS Name, k_akadgrad.forpromotion AS forpromotion, k_akadgrad.position AS Position
+		FROM k_akadgrad
+		ORDER BY ltxt
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<column name="Aktiv" list="$lang.iakz" prop="_stripkey" mandatory="y" />
+		<column name="Kurz" size="10" mandatory="y" />
+		<column name="Druck" size="10" mandatory="y" />
+		<column name="Name" size="40" mandatory="y" />
+		<column name="forpromotion" list="(J Ja, N Nein)" prop="_stripkey" />
+		<column name="Position" list="(V vor, N nach)" prop="_stripkey" mandatory="y" />
+	</change_prop>
+</akadgrad>

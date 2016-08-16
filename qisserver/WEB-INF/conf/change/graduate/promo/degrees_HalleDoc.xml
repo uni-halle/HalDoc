@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<degrees active="y" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>60</size>
+	<session>sos.mtknr, promotion.promotionid, moduleParameter</session>
+	<title>$lang.editpersonpromov</title>
+	<rowMarker>y</rowMarker>
+	<insert />
+	<update />
+	<nodelete />
+	<rights ignoreParentRights="y">
+		<admin>
+			<noinsert />
+			<noupdate />
+			<nodelete />
+			<select />
+		</admin>
+		<promoverw>
+			<noinsert />
+			<noupdate />
+			<nodelete />
+			<select />
+		</promoverw>
+	</rights>
+	<change>
+		SELECT r_personal_akadgrad.id, r_personal_akadgrad.gradid, r_personal_akadgrad.sonst, r_personal_akadgrad.date, r_personal_akadgrad.place, r_personal_akadgrad.isappliedsience
+		FROM r_personal_akadgrad, promotion
+		WHERE r_personal_akadgrad.bid=promotion.bid AND promotion.promotionid=[promotion.promotionid]
+		ORDER BY date
+	</change>
+	<change_prop>
+		<column name="r_personal_akadgrad.id" key="y" serial="y" noshow="y" />
+		<column name="r_personal_akadgrad.gradid" listonly="->promo.k_akadgradAlle" />
+	</change_prop>
+	<parentModuleParameter>personPromov</parentModuleParameter>
+</degrees>
+

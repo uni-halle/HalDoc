@@ -1,0 +1,70 @@
+<p>
+	<div style="$divStyle"><b>$lang.docAppPersDataBasic</b></div>
+	<div style="$divStyle"><label style="$labelStyle" for="firstname" id="firstname_label">* $lang.docAppPersDataFName</label><input id="firstname" name="open_firstname" type="text" style="$inputStyle" value="$!fillingData.getChildText("sos.vorname")" required /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="lastname" id="lastname_label">* $lang.docAppPersDataLName</label><input id="lastname" name="open_lastname" type="text" style="$inputStyle" value="$!fillingData.getChildText("sos.nachname")" required /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="birthname" id="birthname_label">$lang.docAppPersDataGName</label><input id="birthname" name="open_birthname" type="text" style="$inputStyle" value="$!fillingData.getChildText("sos.gebname")" /></div>
+	<div style="$divStyle">
+		<label style="$labelStyle" for="gender" id="gender_label">* $lang.docAppPersDataGen</label>
+		<select id="gender" name="open_gender" style="$selectStyle" required>
+			<option value="">$lang.docAppSelect</option>
+			#if($!fillingData.getChildText("sos.geschl") == "W")
+				<option value="W" selected>$lang.docAppPersDataF</option>
+			#else
+				<option value="W">$lang.docAppPersDataF</option>
+			#end
+			#if($!fillingData.getChildText("sos.geschl") == "M")
+				<option value="M" selected>$lang.docAppPersDataM</option>
+			#else
+				<option value="M">$lang.docAppPersDataM</option>
+			#end
+		</select>
+	</div>
+	<div style="$divStyle"><label style="$labelStyle" for="registernr" id="registernr_label">$lang.docOpenPersDataMtkNr</label><input id="registernr" name="open_registernr" type="text" style="$inputStyle" value="$!fillingData.getChildText("sos.mtknr")" required /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="dateOfBirth" id="dateOfBirth_label">* $lang.docAppPersDataGebDat</label><input id="dateOfBirth" name="open_dateOfBirth" type="date" style="$inputStyle" value="$!fillingData.getChildText("sos.gebdat")" required /><label for="dateOfBirth" id="dateOfBirth_label" style="font-size:0.8em;">$lang.docAppDatForm</label></div>
+	<div style="$divStyle"><label style="$labelStyle" for="placeOfBirth" id="placeOfBirth_label">* $lang.docAppPersDataGebOrt</label><input id="placeOfBirth" name="open_placeOfBirth" type="text" style="$inputStyle" value="$!fillingData.getChildText("sos.gebort")" required /></div>
+	<div style="$divStyle">
+		<label style="$labelStyle" for="countryOfBirth" id="countryOfBirth_label">* $lang.docAppPersDataGebLand</label>
+		<select id="countryOfBirth" name="open_countryOfBirth" style="$selectStyle" required >
+			<option value="">$lang.docAppSelect</option>
+			#foreach($country in $import.getChild("application").getChild("Countries").getChildren())
+				#if($fillingData.getChildText("sos.gebland") == $country.getChildText("akfz") || ($country.getChildText("akfz") == "D" && ($fillingData.getChildText("sos.gebland") == "" || !$fillingData.getChildText("sos.gebland"))))
+					<option value="$country.getChildText("akfz")" selected>$country.getChildText("dtxt")</option>
+				#else
+					<option value="$country.getChildText("akfz")">$country.getChildText("dtxt")</option>
+				#end
+			#end
+		</select>
+	</div>
+	<div style="$divStyle">
+		<label style="$labelStyle" for="national" id="national_label">* $lang.docAppPersDataNat</label>
+		<select id="national" name="open_national" style="$selectStyle" required >
+			<option value="">$lang.docAppSelect</option>
+			#foreach($country in $import.getChild("application").getChild("Countries").getChildren())
+				#if($fillingData.getChildText("sos.staat") == $country.getChildText("akfz") || ($country.getChildText("akfz") == "D" && ($fillingData.getChildText("sos.staat") == "" || !$fillingData.getChildText("sos.staat"))))
+					<option value="$country.getChildText("akfz")" selected>$country.getChildText("dtxt")</option>
+				#else
+					<option value="$country.getChildText("akfz")">$country.getChildText("dtxt")</option>
+				#end
+			#end
+		</select>
+	</div>
+	<div style="$divStyle"><b>$lang.docAppPersDataCont</b></div>
+	<div style="$divStyle"><label style="$labelStyle" for="street" id="street_label">* $lang.docAppPersDataStr</label><input id="street" name="open_street" type="text" style="$inputStyle" value="$!fillingData.getChildText("anschri.strasse.H").trim()" required /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="postcode" id="postcode_label">* $lang.docAppPersDataPLZ</label><input id="postcode" name="open_postcode" type="text" style="$inputStyle" value="$!fillingData.getChildText("anschri.plz.H").trim()" required /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="city" id="city_label">* $lang.docAppPersDataCity</label><input id="city" name="open_city" type="text" style="$inputStyle" value="$!fillingData.getChildText("anschri.ort.H").trim()" required /></div>
+	<div style="$divStyle">
+		<label style="$labelStyle" for="country" id="country_label">* $lang.docAppPersDataLand</label>
+		<select id="country" name="open_country" style="$selectStyle" required >
+			<option value="">$lang.docAppSelect</option>
+			#foreach($country in $import.getChild("application").getChild("Countries").getChildren())
+				#if($fillingData.getChildText("anschri.land.H") == $country.getChildText("akfz") || ($country.getChildText("akfz") == "D" &&  ($fillingData.getChildText("anschri.land.H") == "" || !$fillingData.getChildText("anschri.land.H"))))
+					<option value="$country.getChildText("akfz")" selected>$country.getChildText("dtxt")</option>
+				#else
+					<option value="$country.getChildText("akfz")">$country.getChildText("dtxt")</option>
+				#end
+			#end
+		</select>
+	</div>
+	<div style="$divStyle"><label style="$labelStyle" for="email" id="email_label">* $lang.docAppPersDataMail</label><input id="email" name="open_email" type="text" style="$inputStyle" value="$!fillingData.getChildText("anschri.email.H").trim()" required /></div>
+	<div style="$divStyle"><label style="$labelStyle" for="telefon" id="telefon_label">* $lang.docAppPersDataTel</label><input id="telefon" name="open_telefon" type="text" style="$inputStyle" value="$!fillingData.getChildText("anschri.telefon.H").trim()" required /></div>
+</p>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jobConfiguration>
+	<!-- default 2 Wochen -->
+	<pufferForMessageInWeeks>2</pufferForMessageInWeeks>
+	<emailProps>
+		<!-- default HOCHSCHUL_EMAIL -->
+		<senderEmail>michael.schaefer@itz.uni-halle.de</senderEmail>
+		<subject>Promotionsanmeldungen laufen bald ab</subject>
+		<texte>
+			<!-- folgende Variablen stehen zur Verfügung:
+				- [pufferForMessageInWeeks] Angabe als Zahl von oben
+				- [weeksText] Woche/Wochen abhängig von [pufferForMessageInWeeks]
+				- [promotionList] Liste der Promotionen nach der unteren Vorlage
+			 -->
+			<mailText>
+Folgende Promotionsanmeldungen laufen in [pufferForMessageInWeeks] [weeksText] ab:
+[promotionList]
+
+Die ist eine automatisch erzeugte EMail!
+
+Mit freundlichen Grüßen
+Ihr HalDoc-System
+			</mailText>
+			<!-- folgende Variablen stehen zur Verfügung:
+				- [titel] Titel der Promotion
+				- [anrede] Anrede des Promovenden (Herrn/Frau)
+				- [vorname] Vorname des Promovenden
+				- [nachname] Nachname des Promovenden
+				- [openingofprocedure] Datum der Verfahrenseröffnung
+				- [ending] potentielles Datum der Bearbeitungsfrist
+			 -->
+			<listEntry>"[titel]" von [anrede] [vorname] [nachname]: Diese Promotion wurde am [openingofprocedure] angemeldet und die Anmeldung läuft am [ending] ab!</listEntry>
+		</texte>
+	</emailProps>
+</jobConfiguration>

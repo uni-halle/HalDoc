@@ -1,0 +1,14 @@
+{### qis_nutzer ##################################################################}
+CREATE TABLE qis_nutzer
+   (
+   nid             SERIAL NOT NULL,     { PrimaryKey                          }
+   domainid        INTEGER,             { deprecated                          }
+   login           VARCHAR(50),         { Username                            }
+   password        VARCHAR(254),        { Passwort                            }
+   ustatus         CHAR(1),             { UserStatus: I=Initial, U=Unverschluesselt
+                                          H=Einwegverschluessung (MD5-Hash mit Salt) }
+   pwdbeginn       DATE,                { pwd ungueltig vor Datum, leer unbegrenzt }
+   pwdende         DATE,                { pwd ungueltig nach Datum, leer unbegrenzt }
+   lastlogin       DATETIME year to fraction (5), {letztes erfolg. Login }
+   zeitstempel     DATETIME year to fraction(5) { Aenderungszeit              }
+   );

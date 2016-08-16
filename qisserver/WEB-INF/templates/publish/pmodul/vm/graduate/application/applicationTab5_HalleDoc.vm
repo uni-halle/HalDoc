@@ -1,0 +1,212 @@
+<p>
+	#set($errorClass = "")
+	#set($fieldId = "studyStartSemester")
+	#set($elementId = "app_" + $fieldId)
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild($elementId))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="$fieldId" id="$fieldId_label">$lang.docAppStudyStartSemester</label>
+		<select id="$fieldId" name="$elementId" style="$selectStyle">
+			<option value="">$lang.docAppSelect</option>
+			#foreach($item in $import.getChild("application").getChild("SemesterList").getChildren())
+				#set($semesterTxt = $lang.db_zulsys_ss)
+				#if($item.getChildText("ktxt").substring(4,5).equals("2"))
+					#set($semesterTxt = $lang.db_zulsys_ws)
+				#end
+				#if($valueElement.getChildText($elementId) == $item.getChildText("id"))
+					<option value="$item.getChildText("id")" selected>$semesterTxt $item.getChildText("ktxt").substring(0,4)</option>
+				#else
+					<option value="$item.getChildText("id")">$semesterTxt $item.getChildText("ktxt").substring(0,4)</option>
+				#end
+			#end
+		</select>
+	</div>
+
+	#set($errorClass = "")
+	#set($fieldId = "studyEndSemester")
+	#set($elementId = "app_" + $fieldId)
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild($elementId))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="$fieldId" id="$fieldId_label">$lang.docAppStudyEndSemester</label>
+		<select id="$fieldId" name="$elementId" style="$selectStyle">
+			<option value="">$lang.docAppSelect</option>
+			#foreach($item in $import.getChild("application").getChild("SemesterList").getChildren())
+				#set($semesterTxt = $lang.db_zulsys_ss)
+				#if($item.getChildText("ktxt").substring(4,5).equals("2"))
+					#set($semesterTxt = $lang.db_zulsys_ws)
+				#end
+				#if($valueElement.getChildText($elementId) == $item.getChildText("id"))
+					<option value="$item.getChildText("id")" selected>$semesterTxt $item.getChildText("ktxt").substring(0,4)</option>
+				#else
+					<option value="$item.getChildText("id")">$semesterTxt $item.getChildText("ktxt").substring(0,4)</option>
+				#end
+			#end
+		</select>
+	</div>
+
+	#set($errorClass = "")
+	#set($fieldId = "physDate")
+	#set($elementId = "app_" + $fieldId)
+	#if($errorElementForCheck && $errorElementForCheck.getChild("ERROR").getChild("dateError").getChild($elementId))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="startingDate" id="$fieldId_label">$lang.docAppPromoPhysDate</label><input id="$fieldId" name="app_$fieldId" type="text" style="$inputStyle" value="$!valueElement.getChildText($elementId)" />
+		<label for="$fieldId" id="$fieldId_label" style="font-size:0.8em;">$lang.docAppDatForm</label>
+	</div>
+
+	#set($errorClass = "")
+	#set($fieldId = "pjDate")
+	#set($elementId = "app_" + $fieldId)
+	#if($errorElementForCheck && $errorElementForCheck.getChild("ERROR").getChild("dateError").getChild($elementId))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="startingDate" id="$fieldId_label">$lang.docAppPromoPjDate</label><input id="$fieldId" name="app_$fieldId" type="text" style="$inputStyle" value="$!valueElement.getChildText($elementId)" />
+		<label for="$fieldId" id="$fieldId_label" style="font-size:0.8em;">$lang.docAppDatForm</label>
+	</div>
+
+	#set($errorClass = "")
+	#set($fieldId = "dissLang")
+	#set($elementId = "app_" + $fieldId)
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild($elementId))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="$fieldId" id="$fieldId_label">$lang.docAppDissLang</label>
+		<select id="$fieldId" name="$elementId" style="$selectStyle">
+			<option value="">$lang.docAppSelect</option>
+			#foreach($item in $import.getChild("application").getChild("Languages").getChildren())
+				#if($valueElement.getChildText($elementId) == $item.getChildText("id"))
+					<option value="$item.getChildText("id")" selected>$item.getChildText("dtxt")</option>
+				#else
+					<option value="$item.getChildText("id")">$item.getChildText("dtxt")</option>
+				#end
+			#end
+		</select>
+	</div>
+
+	#set($errorClass = "")
+	#set($fieldId = "vertLang")
+	#set($elementId = "app_" + $fieldId)
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild($elementId))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="$fieldId" id="$fieldId_label">$lang.docAppVertLang</label>
+		<select id="$fieldId" name="$elementId" style="$selectStyle">
+			<option value="">$lang.docAppSelect</option>
+			#foreach($item in $import.getChild("application").getChild("Languages").getChildren())
+				#if($valueElement.getChildText($elementId) == $item.getChildText("id"))
+					<option value="$item.getChildText("id")" selected>$item.getChildText("dtxt")</option>
+				#else
+					<option value="$item.getChildText("id")">$item.getChildText("dtxt")</option>
+				#end
+			#end
+		</select>
+	</div>
+
+	#set($fieldId = "prevPromo")
+	#set($elementId = "app_" + $fieldId)
+	#set($fieldAddId = $fieldId + "Where")
+	#set($elemenAddtId = $elementId + "Where")
+	<div style="$divStyle">$lang.docAppPreviousAttempts</div>
+	#set($checked1 = "") #set($checked2 = "checked") #set($showInput = "display:none;")
+	#if($!valueElement.getChildText("app_prog") == "j")
+		#set($checked1 = "checked") #set($checked2 = "") #set($showInput = "display:block;")
+	#end
+	<div style="$divStyle">
+		<label for="${fieldId}1" style="$labelStyle">$lang.docAppYes</label><input name="$elementId" id="${fieldId}1" type="radio" value="j" show="${fieldAddId}Div" $!checked1>
+	</div>
+	<div style="$divStyle $showInput" id="${fieldAddId}Div">
+		<label for="$fieldAddId" id="${fieldAddId}_label" style="$labelStyle">$lang.docAppPreviousAttemptsWhere</label>
+		<input name="$elemenAddtId" id="$fieldAddId" type="text" style="$inputStyle" value="$!valueElement.getChildText($elemenAddtId)" /><br/>
+	</div>
+	<div style="$divStyle">
+		<label for="${fieldId}2" style="$labelStyle">$lang.docAppNo</label><input name="$elementId" id="${fieldId}2" type="radio" value="n" show="${fieldAddId}Div" $!checked2>
+	</div>
+
+	#set($errorClass = "")
+	#set($fieldId = "centResearch")
+	#set($elementId = "app_" + $fieldId)
+	#if($errorElementForMandatory && $errorElementForMandatory.getChild($elementId))
+		#set($errorClass = "ui-state-error")
+	#end
+	<div style="$divStyle" class="$errorClass">
+		<label style="$labelStyle" for="$fieldId" id="$fieldId_label">$lang.docAppCenterOfResearch</label>
+		<select id="$fieldId" name="$elementId" style="$selectStyle">
+			<option value="">$lang.docAppSelect</option>
+			#foreach($item in $import.getChild("application").getChild("ResearchCenters").getChildren())
+				#if($valueElement.getChildText($elementId) == $item.getChildText("id"))
+					<option value="$item.getChildText("id")" selected>$item.getChildText("dtxt")</option>
+				#else
+					<option value="$item.getChildText("id")">$item.getChildText("dtxt")</option>
+				#end
+			#end
+		</select>
+	</div>
+
+	#set($fieldId = "ethical")
+	#set($elementId = "app_" + $fieldId)
+	#set($fieldAddId = $fieldId + "Add")
+	#set($elemenAddtId = $elementId + "Add")
+	<div style="$divStyle">$lang.docAppEthicalCommitee</div>
+	#set($checked1 = "") #set($checked2 = "checked") #set($showInput = "display:none;")
+	#if($!valueElement.getChildText("app_prog") == "j")
+		#set($checked1 = "checked") #set($checked2 = "") #set($showInput = "display:block;")
+	#end
+	<div style="$divStyle">
+		<label for="${fieldId}1" style="$labelStyle">$lang.docAppYes</label><input name="$elementId" id="${fieldId}1" type="radio" value="j" show="${fieldAddId}Div" $!checked1>
+	</div>
+	<div style="$divStyle $showInput" id="${fieldAddId}Div">
+		<label for="$fieldAddId" id="${fieldAddId}_label" style="$labelStyle">$lang.docAppEthicalCommiteeDate</label>
+		<input name="$elemenAddtId" id="$fieldAddId" type="text" style="$inputStyle" value="$!valueElement.getChildText($elemenAddtId)" />
+		<label for="$fieldAddId" id="${fieldAddId}_label" style="font-size:0.8em;">$lang.docAppDatForm</label><br/>
+	</div>
+	<div style="$divStyle">
+		<label for="${fieldId}2" style="$labelStyle">$lang.docAppNo</label><input name="$elementId" id="${fieldId}2" type="radio" value="n" show="${fieldAddId}Div" $!checked2>
+	</div>
+
+	#set($fieldId = "resTrGroup")
+	#set($elementId = "app_" + $fieldId)
+	#set($fieldAddId = $fieldId + "Add")
+	#set($elemenAddtId = $elementId + "Add")
+	<div style="$divStyle">$lang.docAppResearchTrainingGroup</div>
+	#set($checked1 = "") #set($checked2 = "checked") #set($showInput = "display:none;")
+	#if($!valueElement.getChildText("app_prog") == "j")
+		#set($checked1 = "checked") #set($checked2 = "") #set($showInput = "display:block;")
+	#end
+	<div style="$divStyle">
+		<label for="${fieldId}1" style="$labelStyle">$lang.docAppYes</label><input name="$elementId" id="${fieldId}1" type="radio" value="j" show="${fieldAddId}Div" $!checked1>
+	</div>
+	<div style="$divStyle $showInput" id="${fieldAddId}Div">
+		<label for="$fieldAddId" id="${fieldAddId}_label" style="$labelStyle">$lang.docAppResearchTrainingGroupDetail</label>
+		<input name="$elemenAddtId" id="$fieldAddId" type="text" style="$inputStyle" value="$!valueElement.getChildText($elemenAddtId)" /><br/>
+	</div>
+	<div style="$divStyle">
+		<label for="${fieldId}2" style="$labelStyle">$lang.docAppNo</label><input name="$elementId" id="${fieldId}2" type="radio" value="n" show="${fieldAddId}Div" $!checked2>
+	</div>
+
+	#set($fieldId = "statistic")
+	#set($elementId = "app_" + $fieldId)
+	#set($fieldAddId = $fieldId + "Add")
+	#set($elemenAddtId = $elementId + "Add")
+	<div style="$divStyle">$lang.docAppStatisticalConsulting</div>
+	#set($checked1 = "") #set($checked2 = "checked") #set($showInput = "display:none;")
+	#if($!valueElement.getChildText("app_prog") == "j")
+		#set($checked1 = "checked") #set($checked2 = "") #set($showInput = "display:block;")
+	#end
+	<div style="$divStyle">
+		<label for="${fieldId}1" style="$labelStyle">$lang.docAppYes</label><input name="$elementId" id="${fieldId}1" type="radio" value="j" show="${fieldAddId}Div" $!checked1>
+	</div>
+	<div style="$divStyle $showInput" id="${fieldAddId}Div">
+		<label for="$fieldAddId" id="${fieldAddId}_label" style="$labelStyle">$lang.docAppStatisticalConsultingDetail</label>
+		<input name="$elemenAddtId" id="$fieldAddId" type="text" style="$inputStyle" value="$!valueElement.getChildText($elemenAddtId)" /><br/>
+	</div>
+	<div style="$divStyle">
+		<label for="${fieldId}2" style="$labelStyle">$lang.docAppNo</label><input name="$elementId" id="${fieldId}2" type="radio" value="n" show="${fieldAddId}Div" $!checked2>
+	</div>
+</p>

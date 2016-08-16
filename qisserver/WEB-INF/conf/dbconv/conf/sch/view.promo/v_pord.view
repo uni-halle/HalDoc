@@ -1,0 +1,2 @@
+CREATE VIEW v_pord (pordnr,abschl,stg,kzfa,pversion,ppflicht) AS 
+	SELECT pordnr,abschl,stg,kzfa,pversion,ppflicht FROM public.pord;

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mailService>
+	<getMailForAkad 
+		database="promo" 
+		context="gradakad,admin"
+		PageFormat="n"
+		VMFile="publish/pmodul/vm/tools/getMailForAkad.vm"
+		statistics="small"
+		extDataAccess="y">
+		<!-- Ursprungsselect für die Anfragen -->
+		<Transform.SQL ElementName="recipients">
+			SELECT v_sos.mtknr AS Recipient, v_sos.nachname AS Name, v_sos.vorname AS Firstname
+			FROM v_sos,promotion [from]
+			WHERE v_sos.mtknr=promotion.mtknr AND handovertolibrary IS NULL [where]
+			ORDER BY nachname,vorname
+		</Transform.SQL>
+		<HelpText>
+			<de>Schreiben Sie bitte in das nachfolgende Formular Ihre Nachricht an die Empfängerliste. Sie bekommen automatisch eine Mail, an wen die Mail versandt wurde. 
+				Sie können im Text der Mail die folgenden Variablen nutzen: &lt;br /&gt;
+				&lt;ul&gt;
+					&lt;li&gt;[Nachname]: Nachname des Promovierenden&lt;/li&gt;
+					&lt;li&gt;[Vorname]: Vorname des Promovierenden&lt;/li&gt;				
+				&lt;/ul&gt;
+			</de>
+			<en>Please write in the form below your message to the recipient list. You will automatically receive an email, to whom the mail was sent.</en>
+		</HelpText>
+	</getMailForAkad>
+</mailService>

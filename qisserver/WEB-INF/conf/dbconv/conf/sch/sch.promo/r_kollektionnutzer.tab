@@ -1,0 +1,10 @@
+{### r_kollektionnutzer ######################################################}
+CREATE TABLE r_kollektionnutzer
+   (              
+   knid            SERIAL NOT NULL,     { PrimaryKey                          }
+   nid             INTEGER,             { ->nutzer.nid                        }
+   kollid          INTEGER,             { ->k_kollektion.kollid               }
+   sortierung      INTEGER,		    { Sortiernummer			      }
+   zeitstempel     DATETIME year to fraction(5) { Aenderungszeit              }
+   );
+           

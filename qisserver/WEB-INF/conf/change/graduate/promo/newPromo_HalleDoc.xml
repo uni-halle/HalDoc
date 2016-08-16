@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<person active="y" object="personal" objectid="personal.pid" protsuppl="Personal" modules="PROMO">
+	<global>
+		<chooseSomethingForInputWhenMandatory active="y" ueberschreiben="y">y</chooseSomethingForInputWhenMandatory>
+	</global>
+	<subitem>editperson</subitem>
+	<dbhandlername>sospos</dbhandlername>
+	<title>
+		<new>$lang.newpersonpromov</new>
+		<edit>$lang.editpersonpromov</edit>
+	</title>
+	<insert />
+	<update protocol="y" />
+	<delete protocol="y" />
+	<header>
+		SELECT DISTINCT sos.mtknr as ID, 'Name:' AS txt1, sos.vorname
+		as Vorname, sos.nachname as Nachname
+		FROM sos
+		WHERE
+		sos.mtknr=[sos.mtknr]
+	</header>
+	<success-redirect>next</success-redirect>
+	<buttons>
+		<store>Speichern &amp; weiter</store>
+	</buttons>
+	<size>33</size>
+	<script>calendar</script>
+	<helptext><![CDATA[
+<div>
+<span class='warnung'>Bitte hier <b><u>nur angenommene</u></b> Promovierende eingeben!</span>
+</div>
+	]]></helptext>
+	<session>sos.mtknr, promotion.promotionid</session>
+	<trigger name="MtknrTrigger" active="y">
+		de.mlu.change.trigger.MtknrTrigger
+	</trigger>
+	<trigger name="AdditionalDataTrigger" active="y">
+		de.mlu.change.trigger.AdditionalDataTrigger
+		<actions>
+			<insert>
+				<action type="update" table="sos" where="mtknr=[sos.mtknr]">
+					<anti>(SELECT dtxt FROM k_akadgrad WHERE gradid=[sos.res12])</anti>
+					<sortname>[sos.nachname], [sos.vorname]</sortname>
+					<hmkfzkz>(select CASE WHEN '[sos.staat]' = 'D' THEN 'I' ELSE 'A' END)</hmkfzkz>
+				</action>
+				<action type="insert" table="anschri">
+					<identnr>[ident.identnr]</identnr>
+					<mtknr>[sos.mtknr]</mtknr>
+					<anschrkz>H</anschrkz>
+				</action>
+				<action type="insert" table="promotion" database="promo">
+					<mtknr>[sos.mtknr]</mtknr>
+					<einrichtungid>[session_AssignedFak]</einrichtungid>
+				</action>
+			</insert>
+			<update>
+				<action type="update" table="anschri" where="identnr=[ident.identnr] AND anschrkz='H'">
+					<identnr>[ident.identnr]</identnr>
+					<mtknr>[sos.mtknr]</mtknr>
+				</action>
+				<action type="insert" table="anschri" condition="!SELECT count(*) FROM anschri WHERE (identnr=[ident.identnr] OR mtknr=[sos.mtknr]) AND anschrkz='H'">
+					<identnr>[ident.identnr]</identnr>
+					<mtknr>[sos.mtknr]</mtknr>
+					<anschrkz>H</anschrkz>
+				</action>
+			</update>
+		</actions>
+	</trigger>
+	<trigger name="setPromotionID">
+		de.mlu.change.trigger.MLUSetValueTrigger
+		<set if="[sos.mtknr]!=" name="promotion.promotionid" value="SELECT promotionid FROM promotion WHERE mtknr=[sos.mtknr]" database="promo" />
+	</trigger>
+	<rights>
+		<admin>
+			<insert />
+			<update />
+			<delete negation="y">SELECT count(*) FROM lab WHERE
+				mtknr=[sos.mtknr]</delete>
+			<select />
+		</admin>
+		<biblio>
+			<noinsert />
+			<update />
+			<nodelete />
+			<select />
+		</biblio>
+		<promoverw>
+			<insert />
+			<update />
+			<delete negation="y">SELECT count(*) FROM lab WHERE
+				mtknr=[sos.mtknr]</delete>
+			<select />
+		</promoverw>
+	</rights>
+	<search>
+		SELECT DISTINCT sos.mtknr as ID, sos.nachname as Nachname,
+		sos.vorname as Vorname
+		FROM sos [from]
+		WHERE res11::integer=(SELECT
+		perstatusid FROM k_perstatus WHERE ktxt='Pro') [where] [restriction]
+	</search>
+	<searchOrder template="y" default="ORDER BY 2, 3">ORDER BY [orderby]
+		[orderdesc]</searchOrder>
+	<searchParameter>state=verpublish&amp;status=init&amp;vmfile=no&amp;moduleCall=webInfo&amp;publishConfFile=webInfoPerson&amp;publishSubDir=graduate
+	</searchParameter>
+	<change>
+		SELECT DISTINCT sos.mtknr as ID, sos.nachname as Nachname,
+		sos.vorname as Vorname, sos.geschl AS Geschlecht, sos.res11 As
+		PersonalStatus, sos.status As Status, sos.gebname AS GebName, sos.gebdat AS GebDat,
+		sos.gebort AS GebOrt, sos.gebland AS GebLand, sos.staat AS Nationality, sos.zweitstaat AS Nationality2,
+		sos.res12 AS AkadGradID, sos.res13 AS BewerberStatus, sos.semester,
+		sos.hrst, sos.immdat, sos.wahlfb,
+		sos.kravers, sos.gebn, sos.gebnsoll, sos.gebn_sws, sos.semn, sos.geba,
+		sos.gebasoll, sos.geba_sws, sos.sema, sos.hzbkfzkz, sos.erhskfz,
+		sos.erhsart, sos.erhssembrd, sos.erstsemhs,
+		sos.hssem, sos.hssemgewicht, sos.staatkez, sos.semv, sos.gebv, sos.gebvsoll,
+		sos.gebv_sws, sos.darlehen_v, sos.darlehen_a, sos.darlehen_n,
+		sos.sperrart1, sos.sperrsem1, sos.datlae As Zeitstempel
+		FROM sos
+		WHERE
+		sos.mtknr = [sos.mtknr]
+		ORDER BY 2, 3, 1
+	</change>
+	<change_prop>
+		<column name="ID" key="y" noupdate="y" subHeader="$lang.Erg2alles_Basics" />
+		<column name="Nachname" mandatory="y" link="sos.mtknr" update="admin,promoverw" />
+		<column name="GebName" update="admin,promoverw" subHeader="$lang.Erg2alles_Birth" />
+		<column name="Vorname" mandatory="y" update="admin,promoverw" />
+		<column name="Geschlecht" mandatory="y" stripkey="y" listboxsize="19" listonly="-&gt;sexPromo" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="GebDat" mandatory="y" datatype="date" update="admin,promoverw" />
+		<column name="GebOrt" mandatory="y" update="admin,promoverw" />
+		<column name="GebLand" mandatory="y" default="D" listboxsize="19" listonly="-&gt;promo.v_k_akfz" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="Nationality" mandatory="n" default="D" listboxsize="19" listonly="-&gt;promo.v_k_akfz" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="Nationality2" mandatory="n" listboxsize="19" listonly="-&gt;promo.v_k_akfz" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="AkadGradID" mandatory="n" listboxsize="19" listonly="-&gt;promo.k_akadgradAlle" subHeader="$lang.Erg2alles_Academic" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="BewerberStatus" mandatory="n" listboxsize="19" listonly="-&gt;promo.k_applicantstatus" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="PersonalStatus" default="SELECT perstatusid FROM k_perstatus WHERE ktxt='Pro'" noshow="y" />
+		<column name="Status" default="Y" noshow="y" />
+		<column name="Zeitstempel" noupdate="y" noshow="y" />
+		<column name="sos.semester" default="SELECT aktsem FROM sossys WHERE aikz='A'" noshow="y" />
+		<column name="sos.hrst" default="H" noshow="y" />
+		<column name="sos.immdat" default="[_timestamp]" noshow="y" />
+		<column name="sos.wahlfb" default="HC" noshow="y" />
+		<column name="sos.kravers" default="N" noshow="y" />
+		<column name="sos.gebn" default="0" noshow="y" />
+		<column name="sos.gebnsoll" default="0" noshow="y" />
+		<column name="sos.gebn_sws" default="0" noshow="y" />
+		<column name="sos.semn" default="SELECT nextsem FROM sossys WHERE aikz='A'" noshow="y" />
+		<column name="sos.geba" default="0" noshow="y" />
+		<column name="sos.gebasoll" default="0" noshow="y" />
+		<column name="sos.geba_sws" default="0" noshow="y" />
+		<column name="sos.sema" default="SELECT aktsem FROM sossys WHERE aikz='A'" noshow="y" />
+		<column name="sos.hzbkfzkz" default="I" noshow="y" />
+		<column name="sos.erhskfz" default="HAL" noshow="y" />
+		<column name="sos.erhsart" default="U" noshow="y" />
+		<column name="sos.erhssembrd" default="SELECT aktsem FROM sossys WHERE aikz='A'" noshow="y" />
+		<column name="sos.erstsemhs" default="SELECT aktsem FROM sossys WHERE aikz='A'" noshow="y" />
+		<column name="sos.hssem" default="1" noshow="y" />
+		<column name="sos.hssemgewicht" default="1" noshow="y" />
+		<column name="sos.staatkez" default="D" noshow="y" />
+		<column name="sos.semv" default="SELECT vorsem FROM sossys WHERE aikz='A'" noshow="y" />
+		<column name="sos.gebv" default="0" noshow="y" />
+		<column name="sos.gebvsoll" default="0" noshow="y" />
+		<column name="sos.gebv_sws" default="0" noshow="y" />
+		<column name="sos.darlehen_v" default="0" noshow="y" />
+		<column name="sos.darlehen_a" default="0" noshow="y" />
+		<column name="sos.darlehen_n" default="0" noshow="y" />
+		<column name="sos.darlehen_a" default="0" noshow="y" />
+		<column name="sos.darlehen_n" default="0" noshow="y" />
+		<column name="sos.sperrart1" default="06" noshow="y" />
+		<column name="sos.sperrsem1" default="SELECT aktsem+40 FROM sossys WHERE aikz='A'" noshow="y" />
+	</change_prop>
+	<etceteras context="admin,promoverw">
+		<gradfh label="von einer FH" comment="Akademischer Grad an einer FH erlangt" parentElement="AkadGradID" inputtype="checkbox" action="gradfh" checked="select" />
+	</etceteras>
+	<actions>
+		<gradfh>
+			<select>SELECT count(*) AS anzahl FROM sos WHERE sos.mtknr=[sos.mtknr] AND res5='J'</select>
+			<checked>UPDATE sos SET res5 = 'J' WHERE sos.mtknr=[sos.mtknr]</checked>
+			<unchecked>UPDATE sos SET res5 = 'N' WHERE sos.mtknr=[sos.mtknr]</unchecked>
+		</gradfh>
+	</actions>
+	<additionalDBActions>
+		<update>
+			<action type="update" table="sos" where="mtknr=[sos.mtknr]">
+				<!--status>Y</status-->
+				<res11>(SELECT perstatusid FROM k_perstatus WHERE ktxt='Pro')</res11>
+			</action>
+			<action type="insert" table="promotion" condition="!SELECT count(*) FROM v_promotion WHERE mtknr=[sos.mtknr]" database="promo">
+				<mtknr>[sos.mtknr]</mtknr>
+				<einrichtungid>[session_AssignedFak]</einrichtungid>
+			</action>
+		</update>
+		<delete>
+			<action type="delete" table="employment" where="employment.mtknr = [sos.mtknr]" database="promo" />
+			<action type="delete" table="anschri" where="anschri=[sos.mtknr]" />
+			<action type="delete" table="add_infos" where="tab='promotion' AND tabpk = (SELECT DISTINCT promotionid FROM promotion WHERE mtknr=[sos.mtknr])" database="promo" />
+			<action type="delete" table="promotion" where="promotion.mtknr=[sos.mtknr]" database="promo" />
+		</delete>
+	</additionalDBActions>
+	<links align1="left">
+		<link moduleParameter="newPromo" key="sos.mtknr" lookup="sos.mtknr" template="SingleInput.vm" type="2">
+			<de>Person</de>
+			<en>Person</en>
+		</link>
+		<link moduleParameter="kontakt" key="sos.mtknr" lookup="sos.mtknr" template="SingleInput.vm" type="2" context="admin,promoverw">
+			<de>Kontaktdaten</de>
+			<en>contact datas</en>
+		</link>
+		<link moduleParameter="employment" active="n" key="sos.mtknr" lookup="sos.mtknr" template="SingleInput.vm" type="2" condition="SELECT count(*) FROM sos WHERE mtknr=[sos.mtknr] AND res13::integer=(SELECT applicantstatusid FROM k_applicantstatus WHERE ktxt='EXT')" context="admin,promoverw">
+			<de>Beschäftigung</de>
+			<en>employment</en>
+		</link>
+		<link moduleParameter="promo" key="sos.mtknr" lookup="sos.mtknr" template="SingleInput.vm" type="2">
+			<de>Promotion</de>
+			<en>Promotion</en>
+		</link>
+		<link moduleParameter="infos" active="y" key="sos.mtknr" lookup="sos.mtknr" template="GridInput.vm" type="2" context="admin,promoverw">
+			<de>zusätzliche Informationen</de>
+			<en>additional Informations</en>
+		</link>
+		<link moduleParameter="process" key="sos.mtknr" lookup="sos.mtknr" template="SingleInput.vm" type="2" condition="SELECT count(*) FROM v_promotion WHERE mtknr=[sos.mtknr]">
+			<de>Ablauf</de>
+			<en>Process</en>
+		</link>
+	</links>
+	<specialPlausis>
+		<PhoneticPlausi>
+			<class>de.mlu.busobjs.PhoneticPlausi</class>
+			<params>
+				<dbhandler>promo</dbhandler>
+				<tablename>sos</tablename>
+				<!-- 
+					Es können drei Attribute getestet werden: checkVorname, checkNachname und checkGeburtsname.
+					Die Elemente enthalten den entsprechenden Spaltennamen aus <tablename>.
+				 -->
+				<checkVorname>vorname</checkVorname>
+				<checkNachname>nachname</checkNachname>
+				<checkGeburtsname>gebname</checkGeburtsname>
+				<exceptSoll>sos.mtknr</exceptSoll>
+				<!-- erste Spalte muss immer der Identifier sein -->
+				<selectColumns>v_sos.mtknr, v_sos.nachname, v_sos.vorname</selectColumns>
+				<selectTables>v_sos</selectTables>
+				<selectWheres>v_sos.geschl='[sos.geschl]' AND v_sos.gebdat='[sos.gebdat]'</selectWheres>
+				<error>$lang.error_message_promo01</error>
+				<error_subText>$lang.error_message_promo02</error_subText>
+				<errorlevel>error</errorlevel>
+			</params>
+		</PhoneticPlausi>
+	</specialPlausis>
+</person>
+

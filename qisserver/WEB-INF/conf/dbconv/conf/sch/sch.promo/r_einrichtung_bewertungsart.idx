@@ -1,0 +1,2 @@
+{### r_einrichtung_bewertungsart #################################################################}
+CREATE UNIQUE INDEX i_r_einrichtung_bewertungsart ON r_einrichtung_bewertungsart (id);

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<person active="y" object="promotion_med" objectid="promotion.promotionid" protsuppl="Medinicine" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<title>$lang.editpersonpromov</title>
+	<session>sos.mtknr, promotion.promotionid</session>
+	<noinsert />
+	<update protocol="y" />
+	<delete protocol="y" />
+	<size>33</size>
+	<script>calendar</script>
+	<change>
+		SELECT DISTINCT promotion_med.id AS ID, 
+			promotion_med.promotion_id, 
+			promotion_med.study_start_semester, 
+			promotion_med.study_end_semester, 
+			promotion_med.date_of_physikum,
+			promotion_med.date_of_pj,
+			promotion_med.date_of_degree,
+			promotion_med.date_of_medicinelicense,
+			promotion_med.diss_lang_id, 
+			promotion_med.vert_lang_id, 
+			promotion_med.prev_promo_where, 
+			promotion_med.center_of_research_id,
+			promotion_med.eval_ethnical_com_date,
+			promotion_med.research_training_group_detail, 
+			promotion_med.statistical_consulting_detail, 
+			promotion_med.type_of_dissertation_id, 
+			promotion_med.zeitstempel AS Zeitstempel
+		FROM promotion_med, promotion
+		WHERE promotion_med.promotion_id=promotion.promotionid AND promotion_med.promotion_id=[promotion.promotionid]
+	</change>
+	<change_prop>
+		<column name="ID" key="y" noshow="y" />
+		<column name="promotion_med.promotion_id" noshow="y" />
+		<column name="promotion_med.study_start_semester" stripkey="y" listboxsize="19" listonly="-&gt;promo.k_semester" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="promotion_med.study_end_semester" stripkey="y" listboxsize="19" listonly="-&gt;promo.k_semester" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="promotion_med.date_of_physikum" datatype="date" update="admin,promoverw" />
+		<column name="promotion_med.date_of_pj" datatype="date" update="admin,promoverw" />
+		<column name="promotion_med.date_of_degree" datatype="date" update="admin,promoverw" />
+		<column name="promotion_med.date_of_medicinelicense" datatype="date" update="admin,promoverw" />
+		<column name="promotion_med.diss_lang_id" stripkey="y" listboxsize="19" listonly="-&gt;promo.k_language" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="promotion_med.vert_lang_id" stripkey="y" listboxsize="19" listonly="-&gt;promo.k_language" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="promotion_med.center_of_research_id" stripkey="y" listboxsize="19" listonly="-&gt;promo.k_center_of_research" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="promotion_med.eval_ethnical_com_date" datatype="date" update="admin,promoverw" />
+		<column name="promotion_med.type_of_dissertation_id" stripkey="y" listboxsize="19" listonly="-&gt;promo.k_type_of_dissertation" update="admin,promoverw" cssclass="selectInChange" />
+		<column name="Zeitstempel" noupdate="y" noshow="y" />
+	</change_prop>
+	
+	<etceteras context="admin,promoverw">
+		<previous label="bisherige Promotionsversuche" parentElement="promotion_med.vert_lang_id" inputtype="checkbox" action="previous" checked="select" />
+		<ethic label="Ethik-Kommission" parentElement="promotion_med.center_of_research_id" inputtype="checkbox" action="ethic" checked="select" />
+		<kolleg label="Graduiertenkolleg" parentElement="promotion_med.eval_ethnical_com_date" inputtype="checkbox" action="kolleg" checked="select" />
+		<statistic label="Statistische Beratung" parentElement="promotion_med.research_training_group_detail" inputtype="checkbox" action="statistic" checked="select" />
+	</etceteras>
+	<actions>
+		<previous>
+			<select>SELECT count(*) AS anzahl FROM promotion_med WHERE promotion_med.promotion_id=[promotion.promotionid] AND promotion_med.prev_promo='J'</select>
+			<checked>UPDATE promotion_med SET prev_promo = 'J' WHERE promotion_med.promotion_id=[promotion.promotionid]</checked>
+			<unchecked>UPDATE promotion_med SET prev_promo = 'N' WHERE promotion_med.promotion_id=[promotion.promotionid]</unchecked>
+		</previous>
+		<ethic>
+			<select>SELECT count(*) AS anzahl FROM promotion_med WHERE promotion_med.promotion_id=[promotion.promotionid] AND promotion_med.eval_ethnical_com='J'</select>
+			<checked>UPDATE promotion_med SET eval_ethnical_com = 'J' WHERE promotion_med.promotion_id=[promotion.promotionid]</checked>
+			<unchecked>UPDATE promotion_med SET eval_ethnical_com = 'N' WHERE promotion_med.promotion_id=[promotion.promotionid]</unchecked>
+		</ethic>
+		<kolleg>
+			<select>SELECT count(*) AS anzahl FROM promotion_med WHERE promotion_med.promotion_id=[promotion.promotionid] AND promotion_med.research_training_group='J'</select>
+			<checked>UPDATE promotion_med SET research_training_group = 'J' WHERE promotion_med.promotion_id=[promotion.promotionid]</checked>
+			<unchecked>UPDATE promotion_med SET research_training_group = 'N' WHERE promotion_med.promotion_id=[promotion.promotionid]</unchecked>
+		</kolleg>
+		<statistic>
+			<select>SELECT count(*) AS anzahl FROM promotion_med WHERE promotion_med.promotion_id=[promotion.promotionid] AND promotion_med.statistical_consulting='J'</select>
+			<checked>UPDATE promotion_med SET statistical_consulting = 'J' WHERE promotion_med.promotion_id=[promotion.promotionid]</checked>
+			<unchecked>UPDATE promotion_med SET statistical_consulting = 'N' WHERE promotion_med.promotion_id=[promotion.promotionid]</unchecked>
+		</statistic>
+	</actions>
+	
+	<parentModuleParameter>personPromov</parentModuleParameter>
+</person>
+

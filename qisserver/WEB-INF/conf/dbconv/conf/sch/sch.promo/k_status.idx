@@ -1,0 +1,2 @@
+{### k_status #######################################################}
+CREATE unique index i_k_status on k_status (statusid);

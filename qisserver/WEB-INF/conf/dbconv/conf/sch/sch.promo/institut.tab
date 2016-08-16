@@ -1,0 +1,11 @@
+{### institut #############################################################}
+CREATE TABLE institut (              
+   id             SERIAL NOT NULL,     { PrimaryKey:                         }
+   aikz            CHAR(1),             { Aktiv/Inaktiv-Kennzeichen           }
+   inst_nr         CHAR(10),            { Institut (Ident, Schlüssel)         }
+   ktxt            CHAR(10),            { Kurztext                            }
+   dtxt            VARCHAR(255,0),      { Drucktext                           }
+   ltxt            VARCHAR(255,0),      { Langtext                            }
+   kostenst        CHAR(20),		    { Kostenstelle                        }
+   zeitstempel     DATETIME year to fraction(5)  { Aenderungsdatum/-zeit      }
+);

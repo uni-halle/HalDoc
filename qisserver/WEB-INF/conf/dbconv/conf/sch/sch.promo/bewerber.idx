@@ -1,0 +1,2 @@
+{### bewerber ################################################################}
+CREATE UNIQUE INDEX i_bid  ON bewerber (bid);

@@ -1,0 +1,10 @@
+{### r_pernutzer #############################################################}
+CREATE TABLE r_pernutzer
+   (              
+   pnid            SERIAL NOT NULL,     { PrimaryKey                          }
+   nid             INTEGER,             { ->nutzer.nid                        }
+   mtknr           INTEGER,             { Matrikelnummer                      }
+   pid             INTEGER,             { ->personal.pid                      }
+   zeitstempel     DATETIME year to fraction(5) { Aenderungszeit              }
+   );
+

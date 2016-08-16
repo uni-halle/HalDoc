@@ -1,0 +1,67 @@
+#if (!$contentVM)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    	
+<html>
+	<head>
+		<title>LSF</title>
+		<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+			#parse ("header.vm")
+	</head>
+	<body class="background">
+		#parse("head.vm")
+		#parse("Controls.vm")
+		#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+			#parse("wlogin/LoginInfo.vm")
+		#end
+#end
+
+##XMLOut($import)
+#if ($import.getChildren().size() != 0)
+	<h1>Gefundene Betreuer</h1>
+	<table summary="Grunddaten zum Betreuer">
+		<tr>
+			<th class="mod" id="basic_1">ID</th>
+			<th class="mod" id="basic_1">Nachname</th>
+			<th class="mod" id="basic_1">Vorname</th>
+			<th class="mod" id="basic_1">Titel</th>
+			<th class="mod" id="basic_1">geschl</th>
+			<th class="mod" id="basic_1">Anschrift</th>
+			<th class="mod" id="basic_1">Status</th>
+		</tr>
+		#set($lineBackGr = "mod_n_odd")
+		#foreach ($Promotion in $import.getChildren("promo"))
+			#if($Promotion.getChild("Person").getChild("nachname"))
+		<tr>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Promotion.getChildText("id")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Promotion.getChildText("nachname")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Promotion.getChildText("vorname")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Promotion.getChildText("titel")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Promotion.getChildText("geschl")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Promotion.getChildText("anschrift")</td>
+		</tr>
+				#foreach ($Person in $Promotion.getChildren("Person"))
+		<tr>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Person.getChildText("pid")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Person.getChildText("nachname")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Person.getChildText("vorname")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Person.getChild("Titel").getChildText("ktxt")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Person.getChildText("geschl")</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">
+					#foreach ($Adresse in $Person.getChildren("Adresse"))
+						$!Adresse.getChildText("einrichtung"), $!Adresse.getChildText("adrzusatz2"), $!Adresse.getChildText("adrzusatz"), $!Adresse.getChildText("ort"), $!Adresse.getChildText("strasse")
+					#end
+			</td>
+			<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!Person.getChildText("perstatusid")</td>
+		</tr>
+				#end
+				#if($lineBackGr == "mod_n_even") #set($lineBackGr = "mod_n_odd") #else #set($lineBackGr = "mod_n_even") #end
+			#end
+		#end
+	</table>
+#else
+	<h1>$lang.Erg3_keine_daten</h1>
+#end
+#if (!$contentVM)
+		#parse("foot.vm")
+	</body>
+</html>
+#end

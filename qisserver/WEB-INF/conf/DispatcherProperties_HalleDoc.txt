@@ -1,0 +1,10 @@
+﻿### Verschicken von Mails
+# Mailserver fuer ausgehende Mails
+# MAIL_SERVER=localhost
+# Absender von erzeugten E-Mails (bitte E-Mail-Adresse in die <> schreiben)
+# MAIL_FROM=QIS <>
+# Eindeutiger Domain-Name (sollte keinen DNS-Eintrag haben): z.B.: lsf.his1871.his.de
+# UNIQUE_FQDN=hamster.localhost
+# SERVERNAME={dieser Wert wird normalerweise automatisch erkannt}
+
+session_USERSTYLESHEET1=js/jquery-ui-1.11.2/themes/smoothness/jquery-ui

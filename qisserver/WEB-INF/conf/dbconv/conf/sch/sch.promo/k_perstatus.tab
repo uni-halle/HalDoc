@@ -1,0 +1,12 @@
+{### k_perstatus #############################################################}
+CREATE TABLE k_perstatus
+   (              
+   perstatusid     SERIAL NOT NULL,     { PrimaryKey                          }
+   aikz            CHAR(1),             { Aktiv/Inaktiv-Kennzeichen           }
+   ktxt            CHAR(10),            { Kurztext                            }
+   dtxt            VARCHAR(255,0),      { Drucktext                           }
+   ltxt            VARCHAR(255,0),      { Langtext                            }
+   lehrende        CHAR(1),             { Lehrende (J/N)                      }
+   zeitstempel     DATETIME year to fraction(5) {Aenderungsdatum/-zeit        }
+   );             
+

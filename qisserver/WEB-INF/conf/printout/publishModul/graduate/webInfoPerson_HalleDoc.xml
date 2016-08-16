@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webInfoPersonal	mischattribut="ElementName" WriteXMLFileTo1="D://temp//export.xml" global="[_timestemp]">
+	<webInfo ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		VMFile="publish/pmodul/vm/graduate/person/webPerson.vm" 
+		useCache="n" 
+		nologin="n"
+		htmlheader="Person: [PerNam] [PerVor] [PerNac]"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="personal.pid"  useLangID="PerID">
+			SELECT DISTINCT pid AS ID, nachname AS PerNac, namenbestand, vorname AS PerVor, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl, personal.perstatusid AS PersonalStatus
+			FROM personal
+			WHERE personal.pid = [personal.pid]
+			<Transform.KeyAccess ElementName="Perstatus" checkID="PersonalStatus" columnID="1" useLangID="k_perstatus.perstatusid">
+				SELECT k_perstatus.perstatusid, 
+				k_perstatus.dtxt As PerStatus
+				FROM k_perstatus 
+			</Transform.KeyAccess>
+			<Transform.KeyAccess ElementName="AkadGradVor" checkID="AkadGradID" columnID="1" useLangID="k_akadgrad.gradid">
+				SELECT k_akadgrad.gradid, 
+				k_akadgrad.dtxt AS dtxt 
+				FROM k_akadgrad
+			</Transform.KeyAccess>
+			<Transform.KeyAccess ElementName="AkadGradNach" checkID="AkadGradNachID" columnID="1" useLangID="k_akadgrad.gradid">
+				SELECT k_akadgrad.gradid, 
+				k_akadgrad.dtxt AS dtxt 
+				FROM k_akadgrad
+			</Transform.KeyAccess>
+			<!-- Personalstatus -->
+			<Transform.SubSQL ElementName="PromosASFirst" useLangID="PID">
+				SELECT DISTINCT promotionid AS PromoID, v_sos.nachname AS Nachname, v_sos.vorname AS Vorname, 
+				title AS Titel, assumptioncommitee AS Beginn
+				FROM promotion, v_sos
+				WHERE mentor1id =  [ID] AND v_sos.mtknr=promotion.mtknr
+				ORDER BY Beginn DESC
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="PromosASSecond" useLangID="PID">
+				SELECT DISTINCT promotionid AS PromoID, v_sos.nachname AS Nachname, v_sos.vorname AS Vorname, 
+				title AS Titel, assumptioncommitee AS Beginn
+				FROM promotion, v_sos
+				WHERE mentor2id =  [ID] AND v_sos.mtknr=promotion.mtknr
+				ORDER BY Beginn DESC
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="PromosASThird" useLangID="PID">
+				SELECT DISTINCT promotionid AS PromoID, v_sos.nachname AS Nachname, v_sos.vorname AS Vorname, 
+				title AS Titel, assumptioncommitee AS Beginn
+				FROM promotion, v_sos
+				WHERE mentor3id =  [ID] AND v_sos.mtknr=promotion.mtknr
+				ORDER BY Beginn DESC
+			</Transform.SubSQL>
+			<!-- Personalstatus -->
+			<Transform.SubSQL ElementName="PromosASFirstGut" useLangID="PID">
+				SELECT DISTINCT promotionid AS PromoID, v_sos.nachname AS Nachname, v_sos.vorname AS Vorname, 
+				title AS Titel, assumptioncommitee AS Beginn
+				FROM promotion, v_sos
+				WHERE evaluator1id =  [ID] AND v_sos.mtknr=promotion.mtknr
+				ORDER BY Beginn DESC
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="PromosASSecondGut" useLangID="PID">
+				SELECT DISTINCT promotionid AS PromoID, v_sos.nachname AS Nachname, v_sos.vorname AS Vorname, 
+				title AS Titel, assumptioncommitee AS Beginn
+				FROM promotion, v_sos
+				WHERE evaluator2id =  [ID] AND v_sos.mtknr=promotion.mtknr
+				ORDER BY Beginn DESC
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="PromosASThirdGut" useLangID="PID">
+				SELECT DISTINCT promotionid AS PromoID, v_sos.nachname AS Nachname, v_sos.vorname AS Vorname, 
+				title AS Titel, assumptioncommitee AS Beginn
+				FROM promotion, v_sos
+				WHERE evaluator3id =  [ID] AND v_sos.mtknr=promotion.mtknr
+				ORDER BY Beginn DESC
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="PromosASForthGut" useLangID="PID">
+				SELECT DISTINCT promotionid AS PromoID, v_sos.nachname AS Nachname, v_sos.vorname AS Vorname, 
+				title AS Titel, assumptioncommitee AS Beginn
+				FROM promotion, v_sos
+				WHERE evaluator3id =  [ID] AND v_sos.mtknr=promotion.mtknr
+				ORDER BY Beginn DESC
+			</Transform.SubSQL>
+		</Transform.SQL>
+	</webInfo>
+</webInfoPersonal>

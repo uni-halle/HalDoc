@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<mediaFiles active="y" protsuppl="AkadGrade" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>25</size>
+	<session>moduleParameter</session>
+	<helptext>
+		<de>Welche akademischen Abschlüsse haben Sie bisher erreicht?</de>
+		<en>What academic degrees you have achieved so far?</en>
+	</helptext>
+	<update protocol="y" />
+	<insert protocol="y" />
+	<delete protocol="y" />
+	<rights ignoreParentRights="y">
+		<public>
+			<insert />
+			<update />
+			<delete />
+			<select />
+		</public>
+		<admin>
+			<insert />
+			<update />
+			<nodelete />
+			<select />
+		</admin>
+		<promoverw>
+			<insert />
+			<update />
+			<nodelete />
+			<select />
+		</promoverw>
+	</rights>
+	<script>calendar</script>
+	<success-redirect>next</success-redirect>
+	<buttons>
+		<store>Speichern &amp; weiter</store>
+	</buttons>
+	<change>
+		SELECT DISTINCT r_personal_akadgrad.id AS ID, r_personal_akadgrad.gradid AS GradID, r_personal_akadgrad.bid AS ApplID, r_personal_akadgrad.date AS GradDate, 
+			r_personal_akadgrad.place AS Hochschule, r_personal_akadgrad.isappliedsience AS VonFH, r_personal_akadgrad.zeitstempel AS Zeitstempel
+		FROM r_personal_akadgrad
+		WHERE bid = [bewerber.bid]
+		ORDER BY Date
+	</change>
+	<change_prop>
+		<column name="ID" where="y" key="y" serial="y" noshow="y" />
+		<column name="ApplID" default="[bewerber.bid]" noshow="y" />
+		<column name="GradID" mandatory="y" list="-&gt;promo.k_akadgradAlle" />
+		<column name="GradDate" datatype="date" mandatory="y" size="10" />
+		<column name="Hochschule" mandatory="y" />
+		<column name="VonFH" listonly="(X)" />
+		<column name="Zeitstempel" noshow="y" />
+	</change_prop>
+	<parentModuleParameter>bewerber</parentModuleParameter>
+</mediaFiles>
+

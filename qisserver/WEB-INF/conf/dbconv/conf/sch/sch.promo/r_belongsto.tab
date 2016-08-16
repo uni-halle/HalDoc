@@ -1,0 +1,28 @@
+{### r_belongsto ###############################################################}
+{
+Speichert "Eigentumsverhältnisse" verschiedener Objekte zu Besitzern.<p>
+Die Art des besitzenden Objekts wird in "ownertab" gespeichert, die ID in "ownerid".
+Beispiele für Besitzertypen sind "einrichtung" oder "personal".<p>
+Der Objektname des zugehörigen Objekts wird in "tabelle" und die Objektid 
+des zugehörigen Objekts in "tabpk" gespeichert.<p>
+Zusätzlich kann noch die Art der Zuordnung gespeichert werden.<p>
+Dazu dienen die Spalten "belongstotype" und "belongstovalue".<p>
+Diese Werte wurden neu aufgenommen, um insbesondere rechtebezogene Zuordnungen
+von anderen unterscheiden zu können.
+}
+{2.0}
+CREATE TABLE r_belongsto
+   (              
+   beltoid         SERIAL NOT NULL,     { Primary Key                         }
+   aikz            CHAR(1),             { Aktiv/Inaktiv Kennzeichen           }
+   ownertab        VARCHAR(20),         { Name der Eigentümer-Tabelle         }
+   ownerid         INTEGER,		        { ->/Eigentümer-ID/                   }
+   tabelle         VARCHAR(20),         { Name der Bezugs-Tabelle             }
+   tabpk           INTEGER,             { ->/Tabelle/                         }
+   belongstotype   VARCHAR(20),         { Art der Zuordnung                   }
+   belongstovalue  VARCHAR(20),         { Wert der Zuordnung, bezogen auf Art }
+   sortierung      INTEGER,             { Sortiernummer			              }
+   semester        INTEGER,			    { Semester: yyyys Jahr Semester       }   
+   zeitstempel     DATETIME year to fraction(5)
+   );
+

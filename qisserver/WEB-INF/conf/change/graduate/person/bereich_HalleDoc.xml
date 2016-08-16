@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bereich active="y" protsuppl="Bereich für LSF-Rechte" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>20</size>
+	<session>moduleParameter, qis_nutzer.nid</session>
+	<update protocol="y" />
+	<insert protocol="y" />
+	<delete protocol="y" />
+	<rowMarker>y</rowMarker>
+	<protProcessor>
+		<r_kollektionnutzer.knid>
+			<ignore>y</ignore>
+		</r_kollektionnutzer.knid>
+		<r_kollektionnutzer.nid>
+			<ignore>y</ignore>
+		</r_kollektionnutzer.nid>
+		<r_kollektionnutzer.kollid>
+			<label>Bereich für LSF-Rechte</label>
+		</r_kollektionnutzer.kollid>
+		<r_kollektionnutzer.sortierung>
+			<label>Reihenfolge</label>
+		</r_kollektionnutzer.sortierung>
+		<r_kollektionnutzer.zeitstempel>
+			<ignore>y</ignore>
+		</r_kollektionnutzer.zeitstempel>
+	</protProcessor>
+	<change>
+		SELECT DISTINCT r_kollektionnutzer.knid As KollID,
+		r_kollektionnutzer.nid As KNid,
+		r_kollektionnutzer.kollid As KollektID,
+		r_kollektionnutzer.zeitstempel As Zeitstempel,
+		r_kollektionnutzer.sortierung As Reihenfolge
+		FROM r_kollektionnutzer, qis_nutzer, r_pernutzer
+		WHERE qis_nutzer.nid = r_kollektionnutzer.nid
+		AND r_pernutzer.nid = r_kollektionnutzer.nid
+		AND r_pernutzer.pid = [personal.pid]
+		AND r_kollektionnutzer.nid = [qis_nutzer.nid]
+		ORDER BY 5, 1, 2, 3
+	</change>
+	<change_prop>
+		<column name="KNid" noshow="y" default="[qis_nutzer.nid]" />
+		<column name="KollID" where="y" key="y" serial="y" noshow="y" />
+		<column name="KollektID" session="y" keepAs="r_kollektionnutzer.kollid" label="$lang.domain_lsf_rights" update="y" show="y"
+			unique="SELECT k_kollektion.dtxt FROM r_kollektionnutzer, k_kollektion WHERE r_kollektionnutzer.kollid = [_aktvalue] AND r_kollektionnutzer.nid = [qis_nutzer.nid] AND k_kollektion.kollid = r_kollektionnutzer.kollid"
+			stripkey="y" listmatch="SELECT DISTINCT k_kollektion.kollid AS ID, k_kollektion.dtxt AS rolle FROM k_kollektion ORDER BY 2" size="25" />
+		<column name="Reihenfolge" datatype="int" />
+		<column name="Zeitstempel" noshow="y" />
+	</change_prop>
+	<additionalDBActions>
+		<!-- Entfernen der Rechte für... Inhalte, sofern die Rolle hierfür freigeschaltet wurde -->
+		<delete>
+			<!--action type="delete" table="r_belongsto" where="ownerid=[personal.pid] AND ownertab='personal' AND tabelle='einrichtung' AND belongstotype='rolle' AND belongstovalue='fachbereich'" condition="SELECT 
+				count(*) AS anzahl FROM k_kollektion WHERE k_kollektion.controlid IN (1) AND k_kollektion.kollid IN ([r_kollektionnutzer.kollid])"/ -->
+			<action type="delete" table="r_belongsto" where="ownerid=[personal.pid] AND ownertab='personal' AND tabelle='einrichtung' AND belongstotype='rolle' AND belongstovalue='fachbereich'"
+				condition="SELECT count(*) AS anzahl FROM k_kollektion WHERE NOT EXISTS(SELECT k_kollektion.kollid FROM r_kollektionnutzer, r_pernutzer, k_kollektion WHERE r_pernutzer.pid=[personal.pid] AND r_kollektionnutzer.nid=r_pernutzer.nid AND k_kollektion.kollid=r_kollektionnutzer.kollid AND k_kollektion.controlid=1 AND k_kollektion.kollid NOT IN ([r_kollektionnutzer.kollid])) " />
+			<action condition="select count(*) from  k_kollektion where  k_kollektion.kollid = [r_kollektionnutzer.kollid]  AND k_kollektion.session ='raumverwalter'" type="delete" table="r_belongsto"
+				where="ownertab = 'personal' AND ownerid = [personal.pid]  AND belongstotype = 'rolle' AND belongstovalue = 'raumverwalter'" />
+		</delete>
+	</additionalDBActions>
+	<parentModuleParameter>person</parentModuleParameter>
+</bereich>
+

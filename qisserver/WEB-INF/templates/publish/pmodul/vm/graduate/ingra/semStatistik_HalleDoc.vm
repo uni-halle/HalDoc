@@ -1,0 +1,199 @@
+#if (!$contentVM)
+	<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    	
+	<html>
+		<head>
+			<title>LSF</title>
+			<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+				#parse ("header.vm")
+</head>
+<body class="background">
+	#parse("head.vm")
+	#parse("Controls.vm")
+	#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+		#parse("wlogin/LoginInfo.vm")
+	#end
+	<br>
+		<br>
+#end
+#set($statistik = $import.getChild("Statistiken").getChild("Statistik"))
+#set($semList = $import.getChild("Statistiken").getChild("SemesterData"))
+#set($printLink = "${servlet.SERVLETURL}?${servlet.QUERYSTRING}")
+##XMLOut($semList)
+##XMLOut($statistik)
+
+#set($heightForNationality = 950)
+#if($servlet.session_bereich == "promoverw")
+	#set($zusatz = "Ihrer Einrichtung")
+#end
+#if($servlet.labSemester)
+	#set($semtext = " für ")
+	#foreach($item in $semList.getChildren())
+		#if($!servlet.labSemester == $item.getChildText("SemId"))
+			#set($semester = $item.getChildText("Label"))
+			#set($semtext = $semtext + $semester)
+		#end
+	#end
+	#set($StatHeader = "Statistiken $!zusatz$!semtext")
+	#set($showCharts = true)
+#else
+	#set($StatHeader = "Bitte Semester wählen!")
+	#set($showCharts = false)
+#end
+<h1>$StatHeader</h1>
+<div style="display: inline-block; padding-bottom: 10px;">
+	<form action="$printLink" method="post">
+		<select id="labSemester" name="labSemester">
+			#foreach($item in $semList.getChildren())
+				#if($!servlet.labSemester == $item.getChildText("SemId"))
+					<option value="$item.getChildText("SemId")" selected>$item.getChildText("Label")</option>
+				#else
+					<option value="$item.getChildText("SemId")">$item.getChildText("Label")</option>
+				#end
+			#end
+		</select>
+		<button type="submit" class="submit4" style="float: right!important;" >$lang.docAppSubmit</button>
+	</form>
+</div>
+#if($showCharts)
+<fieldset style="margin-bottom: 10px">
+	<legend>Allgemeine Übersicht</legend>
+	#set($table = $statistik.getChild("Table"))
+	##XMLOut($table)
+	<table>
+		<tr>
+			<th class="mod" id="basic_1">Fakultät</th>
+			<th class="mod" id="basic_1">Promotionsfach</th>
+			<th class="mod" id="basic_1">Promovierende</th>
+			<th class="mod" id="basic_1">davon weiblich</th>
+			<th class="mod" id="basic_1">davon männlich</th>
+			<th class="mod" id="basic_1">immatrikulierte Promovierende</th>
+			<th class="mod" id="basic_1">davon weiblich</th>
+			<th class="mod" id="basic_1">davon männlich</th>
+		</tr>
+		#set($lineBackGr = "mod_n_odd")
+		#set($gesPromo = 0)
+		#set($gesPromoW = 0)
+		#set($gesPromoM = 0)
+		#set($gesImmaPromo = 0)
+		#set($gesImmaPromoW = 0)
+		#set($gesImmaPromoM = 0)
+		#foreach($fak in $table.getChildren())
+			#foreach($stg in $fak.getChildren("Stg"))
+				#set($gesPromo = $gesPromo + $stringUtil.parseInt($stg.getChildText("countAll")))
+				#set($gesPromoW = $gesPromoW + $stringUtil.parseInt($stg.getChildText("countAllFemale")))
+				#set($gesPromoM = $gesPromoM + $stringUtil.parseInt($stg.getChildText("countAllMale")))
+				#set($gesImmaPromo = $gesImmaPromo + $stringUtil.parseInt($stg.getChildText("countImma")))
+				#set($gesImmaPromoW = $gesImmaPromoW + $stringUtil.parseInt($stg.getChildText("countImmaFemale")))
+				#set($gesImmaPromoM = $gesImmaPromoM + $stringUtil.parseInt($stg.getChildText("countImmaMale")))
+			#end
+		#end
+		<tr>
+			<th class="mod" rowspan="$rowCount" id="basic_1">Gesamt</th>
+			<th class="mod" id="basic_1">&nbsp;</th>
+			<td class="$lineBackGr" headers="basic_1">$gesPromo</td>
+			<td class="$lineBackGr" headers="basic_1">$gesPromoW</td>
+			<td class="$lineBackGr" headers="basic_1">$gesPromoM</td>
+			<td class="$lineBackGr" headers="basic_1">$gesImmaPromo</td>
+			<td class="$lineBackGr" headers="basic_1">$gesImmaPromoW</td>
+			<td class="$lineBackGr" headers="basic_1">$gesImmaPromoM</td>
+		</tr>
+		#foreach($fak in $table.getChildren())
+			#set($showFak = true)
+			#set($fakCount = $table.getChildren().size())
+			#set($rowCount = 0)
+			#foreach($stg in $fak.getChildren("Stg"))
+				#if($stringUtil.parseInt($stg.getChildText("countAll")) > 0)
+					#set($rowCount = $rowCount + 1)
+				#end
+			#end
+			##set($rowCount = $fak.getChildren("Stg").size())
+			#if($rowCount > 1 && $fakCount > 1)
+				#set($rowCount = $rowCount + 1)
+				#set($lineBackGr = "mod_n_odd")
+				#set($gesPromo = 0)
+				#set($gesPromoW = 0)
+				#set($gesPromoM = 0)
+				#set($gesImmaPromo = 0)
+				#set($gesImmaPromoW = 0)
+				#set($gesImmaPromoM = 0)
+				#foreach($stg in $fak.getChildren("Stg"))
+					#set($gesPromo = $gesPromo + $stringUtil.parseInt($stg.getChildText("countAll")))
+					#set($gesPromoW = $gesPromoW + $stringUtil.parseInt($stg.getChildText("countAllFemale")))
+					#set($gesPromoM = $gesPromoM + $stringUtil.parseInt($stg.getChildText("countAllMale")))
+					#set($gesImmaPromo = $gesImmaPromo + $stringUtil.parseInt($stg.getChildText("countImma")))
+					#set($gesImmaPromoW = $gesImmaPromoW + $stringUtil.parseInt($stg.getChildText("countImmaFemale")))
+					#set($gesImmaPromoM = $gesImmaPromoM + $stringUtil.parseInt($stg.getChildText("countImmaMale")))
+				#end
+			#end
+			
+			#foreach($stg in $fak.getChildren("Stg"))
+				#if($stringUtil.parseInt($stg.getChildText("countAll")) > 0)
+					#if($lineBackGr == "mod_n_odd") #set($lineBackGr = "mod_n_even") #else #set($lineBackGr = "mod_n_odd") #end
+					<tr>
+						#if($showFak)
+							<th class="mod" rowspan="$rowCount" id="basic_1">$fak.getChildText("FakName")</th>
+						#end
+						#if($showFak && $rowCount > 1 && $fakCount > 1)
+						<th class="mod" id="basic_1">Gesamt</th>
+						<td class="$lineBackGr" headers="basic_1">$gesPromo</td>
+						<td class="$lineBackGr" headers="basic_1">$gesPromoW</td>
+						<td class="$lineBackGr" headers="basic_1">$gesPromoM</td>
+						<td class="$lineBackGr" headers="basic_1">$gesImmaPromo</td>
+						<td class="$lineBackGr" headers="basic_1">$gesImmaPromoW</td>
+						<td class="$lineBackGr" headers="basic_1">$gesImmaPromoM</td>
+					</tr>
+					<tr>
+						#if($lineBackGr == "mod_n_odd") #set($lineBackGr = "mod_n_even") #else #set($lineBackGr = "mod_n_odd") #end
+						#end
+						<th class="mod" id="basic_1">$stg.getChildText("StgName")</th>
+						<td class="$lineBackGr" headers="basic_1">$stg.getChildText("countAll")</td>
+						<td class="$lineBackGr" headers="basic_1">$stg.getChildText("countAllFemale")</td>
+						<td class="$lineBackGr" headers="basic_1">$stg.getChildText("countAllMale")</td>
+						<td class="$lineBackGr" headers="basic_1">$stg.getChildText("countImma")</td>
+						<td class="$lineBackGr" headers="basic_1">$stg.getChildText("countImmaFemale")</td>
+						<td class="$lineBackGr" headers="basic_1">$stg.getChildText("countImmaMale")</td>
+					</tr>
+					#set($showFak = false)
+				#end
+			#end
+		#end
+	</table>
+	#set($ages = $statistik.getChild("Ages"))
+	##XMLOut($ages)
+		#*
+		#foreach($age in [19,20,21,4,5,6,7,8,9])
+			$age; 
+		#end
+		*#
+	<div id="ages" name="column" style="width: 100%; height: 300px; font-size: 11px;">
+		<datas>
+			#foreach($age in $ages.getChildren("Age"))
+				<data data="$age.getChildText("ageCount")" label="$age.getChildText("Age")"></data>
+			#end
+		</datas>
+		<titles>
+			<title main="y">Altersverteilung der Promovierenden im $semester</title>
+		<titles>
+	</div>
+</fieldset>
+#end
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}jquery/jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/amcharts/amcharts.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/amcharts/pie.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/amcharts/serial.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/amcharts/exporting/amexport.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/amcharts/exporting/rgbcolor.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/amcharts/exporting/canvg.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/amcharts/exporting/filesaver.js"></script>
+<script type="text/javascript" src="${servlet.SERVER_URL}${servlet.PUBURLROOT}js/myCharts_HalleMSRM.js"></script>
+
+#*
+<fieldset style="display: block;">
+#XMLOut($import)
+</fieldset>
+#*#
+#if (!$contentVM)
+	#parse("foot.vm")
+</body>
+</html>
+#end

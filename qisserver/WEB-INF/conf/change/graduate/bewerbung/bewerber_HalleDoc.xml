@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bewerber active="y" object="bewerber" objectid="bewerber.bid" protsuppl="Bewerber" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<helptext>
+		Sollten Sie Ihren Abschluss an der Martin-Luther-Universität Halle/Wittenberg erreicht haben, 
+		geben Sie bitte Ihre Matrikelnummer an, damit Ihre Daten automatisch korrekt aus der Studierendendatenbank übernommen werden können.
+	</helptext>
+	<title>
+		<new>$lang.newpersonpromov</new>
+		<edit>$lang.editpersonpromov</edit>
+	</title>
+	<insert protocol="y" />
+	<update protocol="y" />
+	<delete protocol="y" />
+	<header>
+		SELECT DISTINCT vorname as Vorname, nachname as Nachname
+		FROM bewerber
+		WHERE bid=[bewerber.bid]
+	</header>
+	<success-redirect>next</success-redirect>
+	<buttons>
+		<store>Speichern &amp; weiter</store>
+	</buttons>
+	<size>33</size>
+	<script>calendar</script>
+	<session />
+	<rights>
+		<public>
+			<insert />
+			<update />
+			<nodelete />
+			<select />
+		</public>
+		<admin>
+			<insert />
+			<update />
+			<nodelete />
+			<select />
+		</admin>
+		<promoverw>
+			<insert />
+			<update />
+			<nodelete />
+			<select />
+		</promoverw>
+	</rights>
+	<change>
+		SELECT DISTINCT bewerber.bid AS ID, bewerber.nachname AS Nachname, bewerber.vorname AS Vorname,bewerber.geschl AS Geschlecht,
+			bewerber.mtknr AS MtkNr,bewerber.gebdat AS GebDat,bewerber.gebort AS GebOrt,bewerber.gebland AS GebLand,
+			bewerber.staat AS Nationality,bewerber.applicantstatusid AS BewerberStatus
+		FROM bewerber
+		WHERE bid=[bewerber.bid]
+	</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+		<column name="Nachname" mandatory="y" subHeader="$lang.Erg2alles_Basics" />
+		<column name="Vorname" mandatory="y" />
+		<column name="Geschlecht" mandatory="y" stripkey="y" listboxsize="19" listonly="-&gt;sex" cssclass="selectInChange" />
+		<column name="GebDat" mandatory="y" datatype="date" subHeader="$lang.Erg2alles_Birth" />
+		<column name="GebOrt" mandatory="y" />
+		<column name="GebLand" mandatory="y" default="D" listboxsize="19" listonly="-&gt;promo.v_k_akfz" cssclass="selectInChange" />
+		<column name="Nationality" mandatory="y" default="D" listboxsize="19" listonly="-&gt;promo.v_k_akfz" cssclass="selectInChange" />
+		<column name="BewerberStatus" mandatory="y" listboxsize="19" listonly="-&gt;promo.k_applicantstatusLang" subHeader="Zusatzinformationen" cssclass="selectInChange" />
+		<column name="Zeitstempel" noupdate="y" noshow="y" />
+	</change_prop>
+	<links align1="left">
+		<link moduleParameter="bewerber" key="bewerber.bid" lookup="bewerber.bid" template="SingleInput.vm" type="2">
+			<de>Person</de>
+			<en>Person</en>
+		</link>
+		<link moduleParameter="kontakt" key="bewerber.bid" lookup="bewerber.bid" template="SingleInput.vm" type="2">
+			<de>private Kontaktdaten</de>
+			<en>private contact datas</en>
+		</link>
+		<link moduleParameter="employment" active="y" key="bewerber.bid" lookup="bewerber.bid" template="SingleInput.vm" type="2">
+			<de>dienstliche Kontaktdaten</de>
+			<en>working contact datas</en>
+		</link>
+		<link moduleParameter="akadGrad" key="bewerber.bid" lookup="bewerber.bid" template="GridInput.vm" type="2">
+			<de>Akademische Grade</de>
+			<en>academic degrees</en>
+		</link>
+		<link moduleParameter="promo" key="bewerber.bid" lookup="bewerber.bid" template="SingleInput.vm" type="2" condition="SELECT count(*) FROM kontakt WHERE tabpk=[bewerber.bid] AND tabelle='bewerber'">
+			<de>Promotion</de>
+			<en>Promotion</en>
+		</link>
+	</links>
+	<specialPlausis>
+		<zwillingPlausi>
+			<class>de.his.busobjs.ConflictChecker</class>
+			<params>
+				<select>SELECT DISTINCT bewerber.nachname, bewerber.vorname FROM bewerber WHERE bewerber.nachname='[bewerber.nachname]' AND bewerber.vorname='[bewerber.vorname]' AND bewerber.geschl='[bewerber.geschl]' AND bewerber.gebdat='[bewerber.gebdat]'</select>
+				<error>$lang.error_message_bew01</error>
+				<errorlevel>error</errorlevel>
+			</params>
+		</zwillingPlausi>
+		<MtknrPlausi>
+			<class>de.mlu.busobjs.MtknrPlausi</class>
+			<params>
+				<checkedDB>sospos</checkedDB>
+				<checkedSelect>SELECT mtknr, nachname, vorname, geschl, gebort, gebland, gebdat, staat FROM sos WHERE mtknr=[bewerber.mtknr]</checkedSelect>
+				<error>$lang.error_message_bew02</error>
+				<errorData>$lang.error_message_bew03</errorData>
+				<errorParseDateOfBirth>$lang.error_message_bew04</errorParseDateOfBirth>
+				<errorlevel>error</errorlevel>
+			</params>
+		</MtknrPlausi>
+	</specialPlausis>
+</bewerber>

@@ -1,0 +1,2 @@
+CREATE VIEW v_promotion (promotionid, promoprogramm, promoprogrammdetail, framework, frameworkdetail, field, gradid, title, zeitstempel, institute, einrichtungid, k_abstgv_id, mtknr, finalgrade, dateofcolloquium, date_for_cancel, vorsitzid, mentor1id, mentor2id, mentor3id, bid) AS 
+	SELECT promotionid, promoprogramm, promoprogrammdetail, framework, frameworkdetail, field, gradid, title, zeitstempel, institute, einrichtungid, k_abstgv_id, mtknr, finalgrade, dateofcolloquium, date_for_cancel, vorsitzid, mentor1id, mentor2id, mentor3id, bid FROM promo.promotion;

@@ -1,0 +1,2 @@
+{### qis_nutzer ##################################################################}
+CREATE unique index i_qis_nutzer on qis_nutzer (nid);            

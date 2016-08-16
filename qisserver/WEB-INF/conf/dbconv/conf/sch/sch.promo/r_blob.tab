@@ -1,0 +1,12 @@
+{### r_blob  #################################################################}
+CREATE TABLE r_blob 
+   (
+{10.2} aikz         CHAR(1),             { Aktiv-/Inaktiv-Kennzeichen          }
+   rblobid         SERIAL NOT NULL,     { Primary Key                         }
+   tabelle         VARCHAR(50),         { Name der Tabelle                    }
+   tabpk           INTEGER,             { ->/Tabelle/                         }
+   spalte          VARCHAR(18),         { Name der Spalte                     }
+   blobid          INTEGER,             { -> blob.blobid                      }
+   sprache         CHAR(2),             { Sprache (de, en, ...)               }
+   zeitstempel     DATETIME year to fraction(5) { Aenderungszeit              }
+);

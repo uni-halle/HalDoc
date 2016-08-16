@@ -1,0 +1,5 @@
+{### r_promotion_status ##############################################################}
+CREATE unique index i_r_promotion_status on r_promotion_status (id);  
+CREATE index i_r_promstat1 on r_promotion_status (promotionid);
+CREATE index i_r_promstat2 on r_promotion_status (statusid);
+CREATE index i_r_promstat3 on r_promotion_status (editorid);

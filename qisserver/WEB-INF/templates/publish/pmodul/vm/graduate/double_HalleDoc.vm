@@ -1,0 +1,69 @@
+#if (!$contentVM)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    	
+<html>
+	<head>
+		<title>LSF</title>
+		<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+			#parse ("header.vm")
+	</head>
+	<body class="background">
+		#parse("head.vm")
+		#parse("Controls.vm")
+		#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+			#parse("wlogin/LoginInfo.vm")
+		#end
+#end
+##XMLOut($import)
+#if ($import.getChildren().size() != 0)
+	<h1>Gefundene Betreuer</h1>
+	#set($borderStyle = "border-bottom: black; border-bottom-style: solid; border-bottom-width: 1px;")
+	<table summary="Grunddaten zum Student">
+		<tr>
+			<th class="mod" id="basic_1">Mtknr</th>
+			<th class="mod" id="basic_1">nachname</th>
+			<th class="mod" id="basic_1">vorname</th>
+			<th class="mod" id="basic_1">gebdat</th>
+			<th class="mod" id="basic_1">gebort</th>
+			<th class="mod" id="basic_1">geschl</th>
+			<th class="mod" id="basic_1">Aktion</th>
+		</tr>
+		#set($lineBackGr = "mod_n_odd")
+		#foreach ($sos in $import.getChildren("sos"))
+			#if($sos.getChildren("sos2").size() > 0)
+			<tr>
+				<td class="$lineBackGr" style="width: 0%; $borderStyle" headers="basic_1">$!sos.getChildText("mtknr")</td>
+				<td class="$lineBackGr" style="width: 0%; $borderStyle" headers="basic_1">$!sos.getChildText("nachname")</td>
+				<td class="$lineBackGr" style="width: 0%; $borderStyle" headers="basic_1" nowrap>$!sos.getChildText("vorname")</td>
+				<td class="$lineBackGr" style="width: 0%; $borderStyle" headers="basic_1">$!sos.getChildText("gebdat")</td>
+				<td class="$lineBackGr" style="width: 0%; $borderStyle" headers="basic_1">$!sos.getChildText("gebort")</td>
+				<td class="$lineBackGr" style="width: 0%; $borderStyle" headers="basic_1">$!sos.getChildText("geschl")</td>
+				<td class="$lineBackGr" style="width: 0%; $borderStyle" headers="basic_1" />
+			</tr>
+				#foreach ($stg in $sos.getChildren("sos2"))
+			<tr>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!stg.getChildText("mtknr")</td>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!stg.getChildText("nachname")</td>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1" nowrap>$!stg.getChildText("vorname")</td>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!stg.getChildText("gebdat")</td>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!stg.getChildText("gebort")</td>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1">$!stg.getChildText("geschl")</td>
+				<td class="$lineBackGr" style="width: 0%" headers="basic_1">
+					#set($mtknrs = $!sos.getChildText("mtknr") + "," + $!stg.getChildText("mtknr"))
+					#set ($pageUrl = "state=verpublish&status=init&vmfile=no&moduleCall=double2&mtknrs=$mtknrs&publishConfFile=import&publishSubDir=graduate")
+					#set ($link = $response.encodeURL("$servlet.SERVLETURL?$pageUrl"))
+					<a href="$link"><img class="regular" src="$servlet.IMAGEURL/$servlet.B_STIFTEDIT" alt="Fall bearbeiten" title="Fall bearbeiten" height="20" /></a>
+				</td>
+			</tr>
+				#end
+				#if($lineBackGr == "mod_n_even") #set($lineBackGr = "mod_n_odd") #else #set($lineBackGr = "mod_n_even") #end
+			#end
+		#end
+	</table>
+#else
+	<h1>$lang.Erg3_keine_daten</h1>
+#end
+#if (!$contentVM)
+		#parse("foot.vm")
+	</body>
+</html>
+#end

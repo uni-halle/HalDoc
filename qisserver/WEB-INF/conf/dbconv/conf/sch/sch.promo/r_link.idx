@@ -1,0 +1,4 @@
+{### r_link ##############################################################}
+CREATE UNIQUE INDEX i_r_link ON r_link (linkid);
+CREATE INDEX i_r_link_tabelle ON r_link (tabelle);
+CREATE INDEX i_r_link_tabpk ON r_link (tabpk);

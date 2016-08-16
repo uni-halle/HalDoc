@@ -1,0 +1,9 @@
+{### r_texte ############################################################}
+CREATE unique index i_r_texteid on r_texte (rtexteid);
+CREATE INDEX i_r_texte_tab ON r_texte (tabelle);
+CREATE INDEX i_r_texte_col ON r_texte (spalte);
+CREATE INDEX i_r_texte_pk ON r_texte (tabpk);
+CREATE INDEX i_r_texte_id ON r_texte (texteid);
+
+
+

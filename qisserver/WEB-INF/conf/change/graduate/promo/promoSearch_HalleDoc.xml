@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<promoSearch version="1.0" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<session>moduleParameter</session>
+	<title>$lang.searchPromotions</title>
+	<size>50</size>
+	<rights>
+		<admin>
+			<select />
+		</admin>
+		<promoverw>
+			<select />
+		</promoverw>
+		<biblio>
+			<select />
+		</biblio>
+		<intoffice>
+			<select />
+		</intoffice>
+	</rights>
+	<SearchOptions>
+		<option default="y">10</option>
+		<option>20</option>
+		<option>30</option>
+		<option>50</option>
+		<option value="999" context="admin">$lang.all</option>
+	</SearchOptions>
+	<Suchfelder>
+		<Titel type="input" db="promotion.title" ignorecase="y" size="50" checktype="wildcard" />
+		<Mtknr type="input" db="v_sos.mtknr" size="50" checktype="wildcard" />
+		<Nachname type="input" db="v_sos.nachname" ignorecase="y" size="50" checktype="wildcard" />
+		<Vorname type="input" db="v_sos.vorname" ignorecase="y" size="50" checktype="wildcard" />
+		<Geschlecht type="listbox" db="v_sos.geschl" listboxsize="27.5" prop="_stripkey" lookup="-&gt;sexPromo" emptyallowed="y" cssclass="selectInChange" />
+		<Fakultät type="listbox" db="promotion.einrichtungid" emptyallowed="admin,gradakad,biblio,intoffice" lookup="promo.einrichtungFaks" listboxsize="27.5" cssclass="selectInChange">
+			<restrictions>
+				<promoverw>AND einrichtung.id = [session_AssignedFak]</promoverw>
+			</restrictions>
+		</Fakultät>
+		<Institut type="input" db="promotion.institute" ignorecase="y" size="50" checktype="wildcard" />
+		
+		<applicationofadmission type="input" db="promotion.applicationofadmission" label="Antrag auf Zulassung an Kommission/FSK" size="50" checktype="date" cssclass="marginBottom12" />
+		<openingofprocedure type="input" db="promotion.openingofprocedure" label="Eröffnung des Verfahrens" size="50" checktype="date" cssclass="marginBottom12" />
+		<forwardingoffile type="input" db="promotion.forwardingoffile" label="Promotionsakte an Kommision/FSK" size="50" checktype="date" cssclass="marginBottom12" />
+		<forwardingforcommitee type="input" db="promotion.forwardingforcommitee" label="Akte an Vorsitz der Promo.-Kommision" size="50" checktype="date" cssclass="marginBottom12" />
+		<dateofcolloquium type="input" db="promotion.dateofcolloquium" label="Verteidigt am" size="50" checktype="date" />
+		<closed type="input" db="promotion.handovertolibrary" label="abgeschlossen am / ab" size="50" checktype="date" />
+		<closed2 type="input" db="promotion.handovertolibrary" dbalias="closed2" label="abgeschlossen am / bis" size="50" checktype="date" />
+		<Nationalität type="listbox" db="v_sos.staat" listboxsize="27.5" lookup="-&gt;promo.v_k_akfz" emptyallowed="y" cssclass="selectInChange" />
+		<Bet1 type="listbox" label="1. Betreuer" db="promotion.mentor1id" listboxsize="27.5" lookup="-&gt;promo.betreuer" emptyallowed="y" cssclass="selectInChange" />
+		<Bet2 type="listbox" label="2. Betreuer" db="promotion.mentor2id" listboxsize="27.5" lookup="-&gt;promo.betreuer" emptyallowed="y" cssclass="selectInChange" />
+		<Bet3 type="listbox" label="3. Betreuer" db="promotion.mentor3id" listboxsize="27.5" lookup="-&gt;promo.betreuer" emptyallowed="y" cssclass="selectInChange" />
+		<!--Bet4 type="listbox" label="4. Betreuer" db="promotion.evaluator4id" listboxsize="27.5" lookup="-&gt;promo.betreuer" emptyallowed="y" cssclass="selectInChange" /-->
+		<Programm type="checkbox" db="promotion.promoprogramm" value="J" label="Promotionsprogramm" />
+		<Framework type="checkbox" db="promotion.framework" value="J" label="Promotionsverfahren" />
+	</Suchfelder>
+	<auswahl>state=verpublish&amp;publishContainer=webInfoListPromos&amp;fromsearch=y</auswahl>
+	<new moduleParameter="promo" user="admin,promoverw" active="n">
+		<de>Neue Promotion</de>
+		<en>New promotion</en>
+	</new>
+</promoSearch>

@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<webInfoPersonal	mischattribut="ElementName" WriteXMLFileTo1="D://temp//export.xml" global="[_timestemp]">
+	<applicationForm ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		VMFile="publish/pmodul/vm/graduate/application/application.vm" 
+		XSLFile="publish/pmodul/xslfo/graduate/PromoApplication.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="y"
+		PageFormat="n" 
+		directPDF="y" 
+		htmlheader="Antrag auf Annahme als Doktorand/in"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="application">
+			SELECT 1 AS init
+			<Transform.Plugin ElementName="DoctoralApplication">
+				<class name="de.mlu.printout.publishModul.plugins.DoctoralApplication">
+					<params>
+						<sendMail>true</sendMail>
+						<checkedDB>sospos</checkedDB>
+						<checkedSelect>SELECT mtknr, nachname, vorname, geschl, gebort, gebland, gebdat, staat FROM sos WHERE mtknr=[app_registernr]</checkedSelect>
+						<error>$lang.error_message_bew02</error>
+						<errorData>$lang.error_message_bew03</errorData>
+						<errorParseDateOfBirth>$lang.error_message_bew04</errorParseDateOfBirth>
+						<promoDB>promo</promoDB>
+						<mandatoryError>Es müssen alle Pflichtfelder mit einem Stern ausgefüllt werden!</mandatoryError>
+						<zwillingSelect_1>SELECT DISTINCT bewerber.nachname, bewerber.vorname FROM bewerber WHERE bewerber.nachname='[app_lastname]' AND bewerber.vorname='[app_firstname]' AND bewerber.geschl='[app_gender]' AND bewerber.gebdat='[app_dateOfBirth]'</zwillingSelect_1>
+						<zwillingSelect_2>SELECT DISTINCT bewerber.nachname, bewerber.vorname FROM bewerber WHERE bewerber.nachname='[app_birthname]' AND bewerber.vorname='[app_firstname]' AND bewerber.geschl='[app_gender]' AND bewerber.gebdat='[app_dateOfBirth]'</zwillingSelect_2>
+						<zwillingError>$lang.error_message_bew01</zwillingError>
+						<dateError>Das Datumsformat muss dd.mm.jjjj sein!</dateError>
+						<mailError>Es ist ein technischer Fehler aufgetreten. Bitte versuchen Sie die Registrierung später erneut.</mailError>
+						<listFak>SELECT id, ltxt FROM einrichtung WHERE id=[id]</listFak>
+						<listGrade>SELECT gradid, ltxt FROM k_akadgrad WHERE gradid=[id]</listGrade>
+						<listStatus>SELECT applicantstatusid, ltxt FROM k_applicantstatus WHERE applicantstatusid=[id]</listStatus>
+						<listCountry>SELECT akfz, dtxt FROM v_k_akfz WHERE akfz='[id]'</listCountry>
+						<SQLFromHash>SELECT bid,nachname,gebname,vorname,mtknr,geschl,applicantstatusid,gebdat,gebort,gebland,staat from bewerber where md5(bid||';'||geschl||';'||gebland||';'||staat||';'||'[salt]') = '[app_hash]'</SQLFromHash>
+						<SQLBewKontakt>SELECT strasse,plz,ort,land,email,telefon FROM kontakt WHERE tabelle='bewerber' AND tabpk=[bewerber.bid] AND typadrid=0</SQLBewKontakt>
+						<SQLBewEmployment>SELECT id,name,job,strasse,plz,ort,land,email,telefon,fax FROM employment,kontakt WHERE tabelle='employment' AND tabpk=id AND typadrid=1 AND bid=[bewerber.bid]</SQLBewEmployment>
+						<SQLBewAka>SELECT gradid,sonst,date,place,isappliedsience FROM r_personal_akadgrad WHERE bid=[bewerber.bid] ORDER BY date</SQLBewAka>
+						<SQLBewPromo>
+							SELECT promoprogramm,promoprogrammdetail,framework,frameworkdetail,gradid,title,institute,einrichtungid,k_abstgv_id,startofdoctoralstudies,mentor1name,mentor1einrich,mentor2name,mentor2einrich,mentor3name,mentor3einrich,
+								study_start_semester, study_end_semester, prev_promo, prev_promo_where, eval_ethnical_com, eval_ethnical_com_date, date_of_physikum, date_of_pj, vert_lang_id, diss_lang_id, statistical_consulting,
+								statistical_consulting_detail, research_training_group, research_training_group_detail, center_of_research_id
+							FROM promotion LEFT JOIN promotion_med ON (promotion.promotionid=promotion_med.promotion_id)
+							WHERE bid=[bewerber.bid]</SQLBewPromo>
+						<salt>d684c0715db228edcd6d0b56ce6add07</salt>
+						<copyAppSelect>SELECT DISTINCT bewerber.bid AS ID, bewerber.vorname AS Vorname, bewerber.nachname AS Nachname, bewerber.gebname AS GebName, bewerber.mtknr AS MtkNr, bewerber.geschl AS Geschl, bewerber.applicantstatusid AS StatusID, bewerber.gebdat AS GebDat, bewerber.gebort AS GebOrt, bewerber.gebland AS GebLand, bewerber.staat AS Nationalitaet, promotion.promoprogramm AS Programm, promotion.promoprogrammdetail AS ProgrammDetail, promotion.frameworkdetail AS FrameworkDetail, promotion.framework AS Framework, promotion.gradid AS GradID, promotion.title AS Titel, promotion.institute AS Institut, promotion.einrichtungid AS eID, promotion.startofdoctoralstudies AS Start, promotion.promotionid AS pID, promotion.k_abstgv_id AS StgID FROM (bewerber LEFT JOIN promotion ON (bewerber.bid=promotion.bid)) WHERE promotion.mtknr IS NULL AND bewerber.bid=[bewID]</copyAppSelect>
+						<sperrArt>06</sperrArt>
+						<kontaktSQL>SELECT strasse, plz, ort, land, email, telefon FROM kontakt WHERE tabelle='bewerber' AND typadrid=0 AND tabpk=[bewerber.bid]</kontaktSQL>
+					</params>
+				</class>
+			</Transform.Plugin>
+			<Transform.SubSQL ElementName="sub1" singleTag="aktsem" database="sospos">
+				SELECT DISTINCT aktsem FROM sossys WHERE sembg &lt;= current_date AND semende >= current_date
+			</Transform.SubSQL>
+			<Transform.Parent ElementName="Faks">
+				<Transform.SubSQL ElementName="Fak" useLangID="einrichtung.id">
+					SELECT einrichtung.id AS id, einrichtung.ltxt AS ltxt, einrichtung.ktxt AS ktxt, einrichtung.farbe AS farbe FROM einrichtung WHERE kostenst IS NOT NULL AND farbe IS NOT NULL ORDER BY inst_nr
+					<Transform.SubSQL ElementName="Faculty" singleTag="ltxtEn">
+						SELECT DISTINCT txt AS ltxtEn
+						FROM texte,r_texte
+						WHERE texte.texteid=r_texte.texteid AND tabelle='einrichtung' AND spalte='ltxt' AND sprache='en' AND tabpk = [id]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="Countries">
+				<Transform.SubSQL ElementName="Country">
+					SELECT akfz, dtxt FROM v_k_akfz WHERE aikz='A' AND akfz!='ZZZ' ORDER BY dtxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="AkadGrades">
+				<Transform.SubSQL ElementName="AkadGrade">
+					SELECT gradid, dtxt, ltxt FROM k_akadgrad WHERE aikz='A' AND forpromotion='N' OR forpromotion IS NULL AND gradid > -1 ORDER BY ltxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="AkadGradesForPromotion">
+				<Transform.SubSQL ElementName="AkadGrade">
+					SELECT gradid, dtxt, ltxt, sort FROM k_akadgrad WHERE aikz='A' AND forpromotion='J' ORDER BY sort,dtxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="ApplicantSatus">
+				<Transform.SubSQL ElementName="Status">
+					SELECT applicantstatusid, dtxt, ltxt FROM k_applicantstatus ORDER BY applicantstatusid
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="courseOfStudies">
+				<Transform.SubSQL ElementName="courseOfStudy">
+					SELECT DISTINCT v_k_abstgv.abstgvnr AS AbsID, v_k_abstgv.ltxt AS AbsDtx FROM v_k_abstgv WHERE v_k_abstgv.dtxt IS NOT NULL AND v_k_abstgv.aikz &lt;&gt; 'I' AND v_k_abstgv.dtxt &lt;&gt; '' AND abschl='06' ORDER BY AbsDtx
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="Languages">
+				<Transform.SubSQL ElementName="Language" useLangID="k_language.id">
+					SELECT k_language.id AS id, k_language.dtxt AS dtxt FROM k_language WHERE aikz='A' ORDER BY dtxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="ResearchCenters">
+				<Transform.SubSQL ElementName="ResearchCenter">
+					SELECT id, dtxt FROM k_center_of_research WHERE aikz='A' ORDER BY dtxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="DissTypes">
+				<Transform.SubSQL ElementName="DissType">
+					SELECT id, dtxt FROM k_type_of_dissertation WHERE aikz='A' ORDER BY dtxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="SemesterList">
+				<Transform.SubSQL ElementName="Semester">
+					SELECT id, ktxt, dtxt FROM v_k_semester ORDER BY id DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+		</Transform.SQL>
+	</applicationForm>
+	<applicationPrint ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		XSLFile="publish/pmodul/xslfo/graduate/PromoApplication.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"
+		PageFormat="n" 
+		directPDF="y">
+		<Transform.SQL ElementName="application" ignoreFields="bid">
+			SELECT 1 AS init, bewerber.bid AS bid FROM bewerber WHERE bewerber.bid=[bewerber.bid]
+			<Transform.Parent ElementName="pluginReturn">
+				<Transform.SubSQL ElementName="valueElement" ignoreFields="bid">
+					SELECT land AS app_country, strasse AS app_street, ort AS app_city, plz AS app_postcode, email AS app_email, telefon AS app_telefon, staat AS app_national, vorname AS app_firstname,
+						nachname AS app_lastname, geschl AS app_gender, applicantstatusid AS app_appStatus, gebdat AS app_dateOfBirth, gebort AS app_placeOfBirth, gebland AS app_countryOfBirth,
+						institute AS app_institute, 'print' AS app_print, startofdoctoralstudies AS app_startingDate, einrichtungid AS app_promoFaculty, mentor1name AS app_tutor1Name, mentor1einrich AS app_tutor1Institute, 
+						mentor2name AS app_tutor2Name, mentor2einrich AS app_tutor2Institute, mentor3name AS app_tutor3Name, mentor3einrich AS app_tutor3Institute, k_abstgv_id AS app_courseOfStudy, promotion.gradid AS app_gettingGrade,
+						title AS app_title, lower(promoprogramm) AS app_prog, promoprogrammdetail AS app_progAdd, lower(framework) AS app_binat, frameworkdetail AS app_binatAdd, bewerber.bid AS bid,
+						bewerber.gebname AS app_birthname, study_start_semester AS app_studyStartSemester, study_end_semester AS app_studyEndSemester, prev_promo AS app_prevPromo, prev_promo_where AS app_prevPromoAdd,
+						eval_ethnical_com AS app_ethical, eval_ethnical_com_date AS app_ethicalAdd, date_of_physikum AS app_physDate, date_of_pj AS app_pjDate, vert_lang_id AS app_vertLang, diss_lang_id AS app_dissLang, statistical_consulting AS app_statistic,
+						statistical_consulting_detail AS app_statisticAdd, research_training_group AS app_resTrGroup, research_training_group_detail AS app_resTrGroupAdd, center_of_research_id AS app_centResearch
+					FROM ((promotion INNER JOIN bewerber ON (promotion.bid=bewerber.bid)) INNER JOIN kontakt ON (tabelle='bewerber' AND tabpk=bewerber.bid)) LEFT JOIN promotion_med ON (promotion.promotionid=promotion_med.promotion_id)
+					WHERE bewerber.bid=[bid] AND promotion.bid=bewerber.bid AND tabelle='bewerber' AND tabpk=bewerber.bid
+					<Transform.Parent ElementName="degrees">
+						<Transform.SubSQL ElementName="app_degree">
+							SELECT gradid AS degree, date AS when, place AS where, sonst AS degree_add, CASE WHEN isappliedsience='X' THEN 'on' ELSE 'off' END AS fh
+							FROM r_personal_akadgrad
+							WHERE bid=[bid]
+							ORDER BY date
+						</Transform.SubSQL>
+					</Transform.Parent>
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.SubSQL ElementName="sub1" singleTag="aktsem" database="sospos">
+				SELECT DISTINCT aktsem FROM sossys WHERE sembg &lt;= current_date AND semende >= current_date
+			</Transform.SubSQL>
+			<Transform.Parent ElementName="Faks">
+				<Transform.SubSQL ElementName="Fak" useLangID="einrichtung.id">
+					SELECT einrichtung.id AS id, einrichtung.ltxt AS ltxt, einrichtung.ktxt AS ktxt, einrichtung.farbe AS farbe FROM einrichtung WHERE kostenst IS NOT NULL AND farbe IS NOT NULL ORDER BY inst_nr
+					<Transform.SubSQL ElementName="Faculty" singleTag="ltxtEn">
+						SELECT DISTINCT txt AS ltxtEn
+						FROM texte,r_texte
+						WHERE texte.texteid=r_texte.texteid AND tabelle='einrichtung' AND spalte='ltxt' AND sprache='en' AND tabpk = [id]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="Countries">
+				<Transform.SubSQL ElementName="Country">
+					SELECT akfz, dtxt FROM v_k_akfz WHERE aikz='A' AND akfz!='ZZZ' ORDER BY dtxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="AkadGrades">
+				<Transform.SubSQL ElementName="AkadGrade">
+					SELECT gradid, dtxt, ltxt FROM k_akadgrad WHERE aikz='A' AND forpromotion='N' OR forpromotion IS NULL AND gradid > -1 ORDER BY ltxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="AkadGradesForPromotion">
+				<Transform.SubSQL ElementName="AkadGrade">
+					SELECT gradid, dtxt, ltxt, sort FROM k_akadgrad WHERE aikz='A' AND forpromotion='J' ORDER BY sort,dtxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="ApplicantSatus">
+				<Transform.SubSQL ElementName="Status">
+					SELECT applicantstatusid, dtxt, ltxt FROM k_applicantstatus ORDER BY applicantstatusid
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="courseOfStudies">
+				<Transform.SubSQL ElementName="courseOfStudy">
+					SELECT DISTINCT v_k_abstgv.abstgvnr AS AbsID, v_k_abstgv.ltxt AS AbsDtx FROM v_k_abstgv WHERE v_k_abstgv.dtxt IS NOT NULL AND v_k_abstgv.aikz &lt;&gt; 'I' AND v_k_abstgv.dtxt &lt;&gt; '' AND abschl='06' ORDER BY AbsDtx
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="Languages">
+				<Transform.SubSQL ElementName="Language" useLangID="k_language.id">
+					SELECT k_language.id AS id, k_language.dtxt AS dtxt FROM k_language WHERE aikz='A' ORDER BY dtxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="ResearchCenters">
+				<Transform.SubSQL ElementName="ResearchCenter">
+					SELECT id, dtxt FROM k_center_of_research WHERE aikz='A' ORDER BY dtxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="DissTypes">
+				<Transform.SubSQL ElementName="DissType">
+					SELECT id, dtxt FROM k_type_of_dissertation WHERE aikz='A' ORDER BY dtxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="SemesterList">
+				<Transform.SubSQL ElementName="Semester">
+					SELECT id, ktxt, dtxt FROM v_k_semester ORDER BY id DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+		</Transform.SQL>
+	</applicationPrint>
+	<openingForm ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		VMFile="publish/pmodul/vm/graduate/application/opening.vm" 
+		XSLFile="publish/pmodul/xslfo/graduate/PromoZul.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="y"
+		PageFormat="n" 
+		directPDF="y" 
+		htmlheader="Antrag auf Zulassung zum Promotionsverfahren"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="application">
+			SELECT 1 AS init
+			<Transform.Plugin ElementName="DoctoralApplication">
+				<class name="de.mlu.printout.publishModul.plugins.DoctoralApplication">
+					<params>
+						<sendMail>true</sendMail>
+						<checkedDB>sospos</checkedDB>
+						<promoDB>promo</promoDB>
+						<searchMail>SELECT v_sos.nachname AS Nachname, v_sos.geschl AS Geschl, v_anschri.mtknr AS MtkNr, v_anschri.email AS eMail, promotionid FROM v_anschri,promotion,v_sos WHERE v_sos.mtknr=v_anschri.mtknr AND v_anschri.mtknr=promotion.mtknr AND lower(v_anschri.email) = lower('[open_searchmail]')</searchMail>
+						<SQLFromHash>SELECT v_sos.mtknr AS MtkNr,nachname,vorname,gebname,geschl,gebdat,gebort,gebland,staat,promotionid,v_sos.res13 AS BewerberStatus from v_sos,promotion where v_sos.mtknr=promotion.mtknr AND md5(promotionid||';'||v_sos.mtknr||';'||'[salt]') = '[open_hash]' AND handovertolibrary IS NULL</SQLFromHash>
+						<SQLKontakt>SELECT strasse,plz,ort,kfz AS land,email,tel AS telefon,fax FROM v_anschri WHERE mtknr=[sos.mtknr] AND anschrkz='H'</SQLKontakt>
+						<!--SQLBewEmployment>SELECT id,name,job,strasse,plz,ort,land,email,telefon,fax FROM employment,kontakt WHERE tabelle='employment' AND tabpk=id AND typadrid=1 AND bid=[bewerber.bid]</SQLBewEmployment-->
+						<!--SQLBewAka>SELECT gradid,sonst,date,place,isappliedsience FROM r_personal_akadgrad WHERE bid=[bewerber.bid] ORDER BY date</SQLBewAka-->
+						<SQLPromo>
+							SELECT promoprogramm,promoprogrammdetail,framework,frameworkdetail,gradid,title,institute,einrichtungid,k_abstgv_id,assumptioncommitee,mentor1id,mentor2id,mentor3id,evaluator1id,evaluator2id,
+								evaluator3id,evaluator4id, study_start_semester AS open_studyStartSemester, study_end_semester AS open_studyEndSemester, prev_promo AS open_prevPromo, prev_promo_where AS open_prevPromoAdd,
+						eval_ethnical_com AS open_ethical, eval_ethnical_com_date AS open_ethicalAdd, date_of_physikum AS open_physDate, date_of_pj AS open_pjDate, vert_lang_id AS open_vertLang, diss_lang_id AS open_dissLang, statistical_consulting AS open_statistic,
+						statistical_consulting_detail AS open_statisticAdd, research_training_group AS open_resTrGroup, research_training_group_detail AS open_resTrGroupAdd, center_of_research_id AS open_centResearch, 
+						promotion_id, date_of_degree, date_of_medicinelicense
+							FROM promotion LEFT JOIN promotion_med ON (promotion.promotionid=promotion_med.promotion_id) 
+							WHERE mtknr=[sos.mtknr]
+						</SQLPromo>
+						<SQLPerson>SELECT personal.pid AS pid, personal.vorname AS vorname, personal.nachname AS nachname, personal.gradid AS gradid, k_akadgrad.dtxt AS grad, personal.titelid AS gradid, k_titel.ktxt AS titel FROM (personal LEFT JOIN k_akadgrad ON (k_akadgrad.gradid=personal.gradid) LEFT JOIN k_titel ON (k_titel.titelid=personal.titelid)) WHERE personal.pid=[personal.pid]</SQLPerson>
+						<salt>d684c0715db228edcd6d0b56ce6add07</salt>
+					</params>
+				</class>
+			</Transform.Plugin>
+			<Transform.Parent ElementName="Faks">
+				<Transform.SubSQL ElementName="Fak" useLangID="einrichtung.id">
+					SELECT einrichtung.id AS id, einrichtung.ltxt AS ltxt, einrichtung.ktxt AS ktxt, einrichtung.farbe AS farbe FROM einrichtung WHERE kostenst IS NOT NULL AND farbe IS NOT NULL ORDER BY inst_nr
+					<Transform.SubSQL ElementName="Faculty" singleTag="ltxtEn">
+						SELECT DISTINCT txt AS ltxtEn
+						FROM texte,r_texte
+						WHERE texte.texteid=r_texte.texteid AND tabelle='einrichtung' AND spalte='ltxt' AND sprache='en' AND tabpk = [id]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="Countries">
+				<Transform.SubSQL ElementName="Country">
+					SELECT akfz, dtxt FROM v_k_akfz WHERE aikz='A' AND akfz!='ZZZ' ORDER BY dtxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="AkadGrades">
+				<Transform.SubSQL ElementName="AkadGrade">
+					SELECT gradid, dtxt, ltxt FROM k_akadgrad WHERE aikz='A' AND forpromotion='N' OR forpromotion IS NULL AND gradid > -1 ORDER BY ltxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="AkadGradesForPromotion">
+				<Transform.SubSQL ElementName="AkadGrade">
+					SELECT gradid, dtxt, ltxt, sort FROM k_akadgrad WHERE aikz='A' AND forpromotion='J' ORDER BY sort,dtxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="ApplicantSatus">
+				<Transform.SubSQL ElementName="Status">
+					SELECT applicantstatusid, dtxt, ltxt FROM k_applicantstatus ORDER BY applicantstatusid
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="courseOfStudies">
+				<Transform.SubSQL ElementName="courseOfStudy">
+					SELECT DISTINCT v_k_abstgv.abstgvnr AS AbsID, v_k_abstgv.ltxt AS AbsDtx FROM v_k_abstgv WHERE v_k_abstgv.ltxt IS NOT NULL AND v_k_abstgv.aikz &lt;&gt; 'I' AND v_k_abstgv.ltxt &lt;&gt; '' AND abschl='06' ORDER BY AbsDtx
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="Languages">
+				<Transform.SubSQL ElementName="Language" useLangID="k_language.id">
+					SELECT k_language.id AS id, k_language.dtxt AS dtxt FROM k_language WHERE aikz='A' ORDER BY dtxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="ResearchCenters">
+				<Transform.SubSQL ElementName="ResearchCenter">
+					SELECT id, dtxt FROM k_center_of_research WHERE aikz='A' ORDER BY dtxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="DissTypes">
+				<Transform.SubSQL ElementName="DissType">
+					SELECT id, dtxt FROM k_type_of_dissertation WHERE aikz='A' ORDER BY dtxt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="SemesterList">
+				<Transform.SubSQL ElementName="Semester">
+					SELECT id, ktxt, dtxt FROM v_k_semester ORDER BY id DESC
+				</Transform.SubSQL>
+			</Transform.Parent>
+		</Transform.SQL>
+	</openingForm>
+</webInfoPersonal>

@@ -1,0 +1,2 @@
+{### k_reason_for_cancel #######################################################}
+CREATE unique index i_k_reason_for_cancel on k_reason_for_cancel (id);

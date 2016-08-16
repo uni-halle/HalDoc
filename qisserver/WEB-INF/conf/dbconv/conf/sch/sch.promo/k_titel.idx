@@ -1,0 +1,2 @@
+{### k_titel #######################################################}
+CREATE unique index i_k_titel on k_titel (titelid);

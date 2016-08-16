@@ -1,0 +1,1386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<prints	mischattribut="ElementName" WriteXMLFileTo1="D://temp//export.xml">
+	<biblioBesch RootElement="webPublish" 
+		database="promo" 
+		XSLFile="publish/pmodul/xslfo/graduate/BiblioBesch.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml"
+		outFileNam1e="Nutzerhandbuch HalDoc" 
+		useCache="n" 
+		nologin="y"
+		PageFormat="n" 
+		directPDF="y"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="promotion">
+			SELECT DISTINCT v_sos.mtknr AS PerID, 
+			v_sos.res12 AS PerAkaVor,
+			v_sos.res5 AS gradfh,
+			v_sos.vorname AS PerVor, 
+			v_sos.nachname AS PerNac, 
+			v_sos.geschl AS Geschl, 
+			v_sos.mtknr AS MtkNr,
+			v_sos.res11 As PersonalStatus,
+			v_sos.res13 AS AppStatusID,
+			v_sos.gebdat AS GebDat,
+			v_sos.gebort AS GebOrt,
+			v_sos.gebland AS GebLandID,
+			v_sos.staat AS NationID
+			FROM v_sos, promotion
+			WHERE v_sos.mtknr=promotion.mtknr AND promotion.promotionid=[promotion.promotionid]
+			ORDER BY PerNac
+			<Transform.GlobalObjects file="prints.xml" subdir="printout/publishModul/graduate" object="Infos"/>
+		</Transform.SQL>
+	</biblioBesch>
+	<promoHandbuch1 RootElement="webPublish" 
+		database="promo" 
+		XSLFile="publish/pmodul/xslfo/graduate/handbuch/PromoHandbuch.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml"
+		outFileName="Nutzerhandbuch HalDoc" 
+		useCache="n" 
+		nologin="y"
+		PageFormat="n" 
+		directPDF="y"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="application">
+			SELECT 1 AS init
+		</Transform.SQL>
+	</promoHandbuch1>
+	<!--biblioBesch ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile1="publish/pmodul/xslfo/graduate/AnnahmeErklaerung.xsl"
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n">
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			
+		</Transform.SQL>
+	</biblioBesch-->
+	<AnnahmeErklaerung ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile="publish/pmodul/xslfo/graduate/AnnahmeErklaerung.xsl"
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			SELECT DISTINCT v_sos.mtknr AS PerID, 
+			v_sos.res12 AS PerAkaVor,
+			v_sos.res5 AS gradfh,
+			v_sos.vorname AS PerVor, 
+			v_sos.nachname AS PerNac, 
+			v_sos.geschl AS Geschl, 
+			v_sos.mtknr AS MtkNr,
+			v_sos.res11 As PersonalStatus,
+			v_sos.res13 AS AppStatusID,
+			v_sos.gebdat AS GebDat,
+			v_sos.gebort AS GebOrt,
+			v_sos.gebland AS GebLandID,
+			v_sos.staat AS NationID
+			FROM v_sos, promotion
+			WHERE v_sos.mtknr=promotion.mtknr AND promotion.promotionid = [where]
+			ORDER BY PerNac
+			<Transform.GlobalObjects file="prints.xml" subdir="printout/publishModul/graduate" object="Infos"/>
+			<Transform.Plugin ElementName="Protocol">
+				<class name="de.mlu.printout.publishModul.plugins.ProtocolPlugin">
+					<params>
+						<objectSuppl>Bestätigung Annahme als Doktorand oder Doktorandin</objectSuppl>
+						<objectIdValue>[MyPromo.ID]</objectIdValue>
+						<objectId>promotion.promotionid</objectId>
+						<object>AnnahmeErklaerung</object>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</AnnahmeErklaerung>
+	<AnnahmeErklaerungZusatz ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile="publish/pmodul/xslfo/graduate/AnnahmeErklaerungZusatz.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			SELECT DISTINCT v_sos.mtknr AS PerID, 
+			v_sos.res12 AS PerAkaVor,
+			v_sos.res5 AS gradfh,
+			v_sos.vorname AS PerVor, 
+			v_sos.nachname AS PerNac, 
+			v_sos.geschl AS Geschl, 
+			v_sos.mtknr AS MtkNr,
+			v_sos.res11 As PersonalStatus,
+			v_sos.res13 AS AppStatusID,
+			v_sos.gebdat AS GebDat,
+			v_sos.gebort AS GebOrt,
+			v_sos.gebland AS GebLandID,
+			v_sos.staat AS NationID
+			FROM v_sos, promotion
+			WHERE v_sos.mtknr=promotion.mtknr AND promotion.promotionid = [where]
+			ORDER BY PerNac
+			<Transform.GlobalObjects file="prints.xml" subdir="printout/publishModul/graduate" object="Infos"/>
+			<Transform.Plugin ElementName="Protocol">
+				<class name="de.mlu.printout.publishModul.plugins.ProtocolPlugin">
+					<params>
+						<objectSuppl>Bestätigung Annahme als Doktorand oder Doktorandin mit zusätzlichen Leistungen</objectSuppl>
+						<objectIdValue>[MyPromo.ID]</objectIdValue>
+						<objectId>promotion.promotionid</objectId>
+						<object>AnnahmeErklaerungZusatz</object>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</AnnahmeErklaerungZusatz>
+	<Ablehnung ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile="publish/pmodul/xslfo/graduate/Ablehnung.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			SELECT DISTINCT bewerber.bid AS PerID, 
+			bewerber.gradid AS PerAkaVor,
+			bewerber.gradfh AS gradfh,
+			bewerber.vorname AS PerVor, 
+			bewerber.nachname AS PerNac, 
+			bewerber.geschl AS Geschl, 
+			bewerber.mtknr AS MtkNr,
+			bewerber.status As PersonalStatus,
+			bewerber.applicantstatusid AS AppStatusID,
+			bewerber.gebdat AS GebDat,
+			bewerber.gebort AS GebOrt,
+			bewerber.gebland AS GebLandID,
+			bewerber.staat AS NationID,
+			promotion.promotionid AS PromoID
+			FROM bewerber, promotion
+			WHERE bewerber.bid=promotion.bid AND bewerber.bid = [where]
+			ORDER BY PerNac
+			<Transform.SubSQL ElementName="IDTitel" singleTag="Titel">
+				SELECT DISTINCT ktxt AS Titel
+				FROM k_titel
+				WHERE titelid = [IDTitel]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="PerAkaVor" singleTag="AkadGradVor">
+				SELECT DISTINCT dtxt AS AkadGradVor
+				FROM k_akadgrad
+				WHERE gradid = [PerAkaVor]
+			</Transform.SubSQL>
+			<!-- Dienstadresse -->
+			<Transform.SubSQL ElementName="Dienstadresse" useLangID="KontID">
+				 SELECT DISTINCT kontakt.kid AS KontID, 
+				 kontakt.plz As PLZ, 
+				 kontakt.ort As Ort, 
+				 kontakt.strasse As Strasse, 
+				 kontakt.telefon As Telefon, 
+				 kontakt.fax As Fax, 
+				 kontakt.email As eMail, 
+				 kontakt.tabpk AS PerID			 
+				 FROM kontakt 
+				 WHERE kontakt.tabpk = [PerID] AND kontakt.tabelle='bewerber' AND kontakt.typadrid = 0 
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="MyPromo" useLangID="PID">
+				SELECT DISTINCT promotion.promotionid AS ID, promotion.institute AS Institut, promotion.promoprogramm AS promoprogramm, promotion.promoprogrammdetail AS promoprogrammdetail,
+				promotion.framework
+				AS framework, promotion.frameworkdetail AS frameworkdetail, promotion.field AS field, promotion.gradid AS AkadGradID,
+				promotion.title as Titel, promotion.mentor1id AS MentorID1, promotion.mentor2id AS MentorID2, promotion.mentor3id AS MentorID3, 
+				promotion.evaluator1id AS EvalID1, promotion.evaluator2id AS EvalID2, promotion.evaluator3id AS EvalID3, promotion.evaluator4id AS EvalID4, promotion.vorsitzid AS VorsitzID,
+				promotion.zeitstempel AS Zeitstempel, promotion.personid AS PersonID, '' AS StatusID, '' AS StatusTxt, '' AS
+				StatusProzessID, promotion.einrichtungid AS EinrichtungID, promotion.finalgrade AS FinalGrade
+				FROM promotion
+				WHERE promotion.bid =  [PerID]
+				<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGrad,AkadGradKurz">
+					SELECT DISTINCT ltxt AS AkadGrad, ktxt AS AkadGradKurz
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Mentor1">
+					SELECT DISTINCT pid AS ID, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+					FROM personal
+					WHERE personal.pid = [MentorID1]
+					<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+						SELECT DISTINCT ktxt AS Titel
+						FROM k_titel
+						WHERE titelid = [TitelID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+						SELECT DISTINCT dtxt AS AkadGradVor
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+						SELECT DISTINCT dtxt AS AkadGradNach
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradNachID]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Mentor2">
+					SELECT DISTINCT pid AS ID, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+					FROM personal
+					WHERE personal.pid = [MentorID2]
+					<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+						SELECT DISTINCT ktxt AS Titel
+						FROM k_titel
+						WHERE titelid = [TitelID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+						SELECT DISTINCT dtxt AS AkadGradVor
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+						SELECT DISTINCT dtxt AS AkadGradNach
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradNachID]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Mentor3">
+					SELECT DISTINCT pid AS ID, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+					FROM personal
+					WHERE personal.pid = [MentorID3]
+					<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+						SELECT DISTINCT ktxt AS Titel
+						FROM k_titel
+						WHERE titelid = [TitelID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+						SELECT DISTINCT dtxt AS AkadGradVor
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+						SELECT DISTINCT dtxt AS AkadGradNach
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradNachID]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Evaluator">
+					SELECT DISTINCT pid AS ID, '1' AS Nr, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+					FROM personal
+					WHERE personal.pid = [EvalID1]
+					<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+						SELECT DISTINCT ktxt AS Titel
+						FROM k_titel
+						WHERE titelid = [TitelID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+						SELECT DISTINCT dtxt AS AkadGradVor
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+						SELECT DISTINCT dtxt AS AkadGradNach
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradNachID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="Address">
+						SELECT strasse, plz, ort
+						FROM kontakt
+						WHERE tabelle='personal' AND tabpk=[ID]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Evaluator">
+					SELECT DISTINCT pid AS ID, '2' AS Nr, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+					FROM personal
+					WHERE personal.pid = [EvalID2]
+					<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+						SELECT DISTINCT ktxt AS Titel
+						FROM k_titel
+						WHERE titelid = [TitelID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+						SELECT DISTINCT dtxt AS AkadGradVor
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+						SELECT DISTINCT dtxt AS AkadGradNach
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradNachID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="Address">
+						SELECT strasse, plz, ort
+						FROM kontakt
+						WHERE tabelle='personal' AND tabpk=[ID]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Evaluator">
+					SELECT DISTINCT pid AS ID, '3' AS Nr, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+					FROM personal
+					WHERE personal.pid = [EvalID3]
+					<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+						SELECT DISTINCT ktxt AS Titel
+						FROM k_titel
+						WHERE titelid = [TitelID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+						SELECT DISTINCT dtxt AS AkadGradVor
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+						SELECT DISTINCT dtxt AS AkadGradNach
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradNachID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="Address">
+						SELECT strasse, plz, ort
+						FROM kontakt
+						WHERE tabelle='personal' AND tabpk=[ID]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Evaluator">
+					SELECT DISTINCT pid AS ID, '4' AS Nr, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+					FROM personal
+					WHERE personal.pid = [EvalID4]
+					<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+						SELECT DISTINCT ktxt AS Titel
+						FROM k_titel
+						WHERE titelid = [TitelID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+						SELECT DISTINCT dtxt AS AkadGradVor
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+						SELECT DISTINCT dtxt AS AkadGradNach
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradNachID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="Address">
+						SELECT strasse, plz, ort
+						FROM kontakt
+						WHERE tabelle='personal' AND tabpk=[ID]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Vorsitz">
+					SELECT DISTINCT pid AS ID, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+					FROM personal
+					WHERE personal.pid = [VorsitzID]
+					<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+						SELECT DISTINCT ktxt AS Titel
+						FROM k_titel
+						WHERE titelid = [TitelID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+						SELECT DISTINCT dtxt AS AkadGradVor
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradID]
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+						SELECT DISTINCT dtxt AS AkadGradNach
+						FROM k_akadgrad
+						WHERE gradid = [AkadGradNachID]
+					</Transform.SubSQL>
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Process">
+					SELECT DISTINCT 
+						promotion.applicationOfAssumption AS applicationOfAssumption,
+						promotion.assumptionCommitee AS assumptionCommitee,
+						promotion.applicationOfAdmission AS applicationOfAdmission,
+						promotion.openingOfProcedure AS openingOfProcedure,
+						promotion.forwardingOfFile AS forwardingOfFile,
+						promotion.forwardingForCommitee AS forwardingForCommitee,
+						promotion.dateOfColloquium AS dateOfColloquium,
+						promotion.dateOfPublishing AS dateOfPublishing,
+						promotion.handoverToLibrary AS handoverToLibrary,
+						promotion.dateForCertificate AS dateForCertificate,
+						promotion.fileToArchive AS fileToArchive,
+						promotion.archiveNumber AS archiveNumber
+					FROM promotion
+					WHERE promotion.promotionid=[ID]
+				</Transform.SubSQL>
+				<Transform.Parent ElementName="Infos">
+					<Transform.SubSQL ElementName="Auflage">
+						SELECT DISTINCT id, txt, sort
+						FROM add_infos
+						WHERE tabpk=[ID] AND tab='promotion' AND type='Z'
+						ORDER BY sort,txt
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="Ablehnung">
+						SELECT DISTINCT id, txt, sort
+						FROM add_infos
+						WHERE tabpk=[ID] AND tab='promotion' AND type='A'
+						ORDER BY sort,txt
+					</Transform.SubSQL>
+					<Transform.SubSQL ElementName="Nachreichung">
+						SELECT DISTINCT id, txt, sort
+						FROM add_infos
+						WHERE tabpk=[ID] AND tab='promotion' AND type='N'
+						ORDER BY sort,txt
+					</Transform.SubSQL>
+				</Transform.Parent>
+				<Transform.Parent ElementName="Texte">
+					<Transform.SubSQL ElementName="text1" singleTag="Mahnung">
+						SELECT blobs.txt AS Mahnung
+						FROM blobs, r_blob
+						WHERE blobs.blobid = r_blob.blobid AND r_blob.tabelle = 'drucktexte' AND r_blob.tabpk = [EinrichtungID] AND r_blob.spalte='mahnung'
+					</Transform.SubSQL>
+				</Transform.Parent>
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="MyInfos">
+				SELECT DISTINCT personal.pid AS PerID, 
+				personal.gradid AS AkadGradID,
+				personal.gradid_nach AS AkadGradNachID, 
+				personal.gradfh AS gradfh,
+				personal.vorname AS PerVor, 
+				personal.nachname AS PerNac, 
+				personal.namenbestand AS PerNam, 
+				personal.geschl AS Geschl, 
+				personal.mtknr AS MtkNr,
+				personal.perstatusid As PersonalStatus,
+				personal.applicantstatusid AS AppStatusID,
+				personal.status As Status,
+				personal.titelid AS IDTitel,
+				personal.namenbestand AS Bestandteil,
+				personal.gebdat AS GebDat,
+				personal.gebort AS GebOrt,
+				personal.gebland AS GebLandID,
+				personal.staat AS NationID,
+				personal.einrichtungid AS eid
+				FROM personal
+				WHERE personal.pid = [session_ident_M]
+				<Transform.SubSQL ElementName="IDTitel" singleTag="Titel">
+					SELECT DISTINCT ktxt AS Titel
+					FROM k_titel
+					WHERE titelid = [IDTitel]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+					SELECT DISTINCT dtxt AS AkadGradVor
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+					SELECT DISTINCT dtxt AS AkadGradNach
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradNachID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Dienstadresse" useLangID="KontID">
+					 SELECT DISTINCT kontakt.kid AS KontID, 
+					 kontakt.aikz As Aktiv, 
+					 kontakt.plz As PLZ, 
+					 kontakt.ort As Ort, 
+					 kontakt.strasse As Strasse, 
+					 kontakt.telefon As Telefon, 
+					 kontakt.fax As Fax, 
+					 kontakt.email As eMail, 
+					 kontakt.hyperlink As Hyperlink,
+					 kontakt.adrzusatz AS Zusatz,
+					 kontakt.tabelle AS Tab, 
+					 kontakt.typadrid As TypAdr,
+					 kontakt.tabpk,
+					 personal.pid AS PerID			 
+					 FROM kontakt, personal 
+					 WHERE  personal.pid = kontakt.tabpk 
+					 AND (kontakt.aikz='A' OR kontakt.aikz IS NULL)
+					 AND kontakt.tabelle IN ('personal') 
+					 AND kontakt.tabpk = [PerID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Einrichtung" useLangID="KontID">
+					 SELECT DISTINCT id AS eID, dtxt, ltxt, farbe, utxt
+					 FROM einrichtung
+					 WHERE id = [eid]
+				</Transform.SubSQL>
+			</Transform.SubSQL>
+			<Transform.Plugin ElementName="Protocol">
+				<class name="de.mlu.printout.publishModul.plugins.ProtocolPlugin">
+					<params>
+						<objectSuppl>Ablehnungsbescheid</objectSuppl>
+						<objectIdValue>[MyPromo.ID]</objectIdValue>
+						<objectId>promotion.promotionid</objectId>
+						<object>Ablehnung</object>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</Ablehnung>
+	<Eroeffnung ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile="publish/pmodul/xslfo/graduate/Eroeffnung.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			SELECT DISTINCT v_sos.mtknr AS PerID, 
+			v_sos.res12 AS PerAkaVor,
+			v_sos.res5 AS gradfh,
+			v_sos.vorname AS PerVor, 
+			v_sos.nachname AS PerNac, 
+			v_sos.geschl AS Geschl, 
+			v_sos.mtknr AS MtkNr,
+			v_sos.res11 As PersonalStatus,
+			v_sos.res13 AS AppStatusID,
+			v_sos.gebdat AS GebDat,
+			v_sos.gebort AS GebOrt,
+			v_sos.gebland AS GebLandID,
+			v_sos.staat AS NationID
+			FROM v_sos, promotion
+			WHERE v_sos.mtknr=promotion.mtknr AND promotion.promotionid = [where]
+			ORDER BY PerNac
+			<Transform.GlobalObjects file="prints.xml" subdir="printout/publishModul/graduate" object="Infos"/>
+			<Transform.Plugin ElementName="Protocol">
+				<class name="de.mlu.printout.publishModul.plugins.ProtocolPlugin">
+					<params>
+						<objectSuppl>Eröffnung Ihres Promotionsverfahrens</objectSuppl>
+						<objectIdValue>[MyPromo.ID]</objectIdValue>
+						<objectId>promotion.promotionid</objectId>
+						<object>Eroeffnung</object>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</Eroeffnung>
+	<NichtEroeffnung ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile="publish/pmodul/xslfo/graduate/NichtEroeffnung.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			SELECT DISTINCT v_sos.mtknr AS PerID, 
+			v_sos.res12 AS PerAkaVor,
+			v_sos.res5 AS gradfh,
+			v_sos.vorname AS PerVor, 
+			v_sos.nachname AS PerNac, 
+			v_sos.geschl AS Geschl, 
+			v_sos.mtknr AS MtkNr,
+			v_sos.res11 As PersonalStatus,
+			v_sos.res13 AS AppStatusID,
+			v_sos.gebdat AS GebDat,
+			v_sos.gebort AS GebOrt,
+			v_sos.gebland AS GebLandID,
+			v_sos.staat AS NationID
+			FROM v_sos, promotion
+			WHERE v_sos.mtknr=promotion.mtknr AND promotion.promotionid = [where]
+			ORDER BY PerNac
+			<Transform.GlobalObjects file="prints.xml" subdir="printout/publishModul/graduate" object="Infos"/>
+			<Transform.Plugin ElementName="Protocol">
+				<class name="de.mlu.printout.publishModul.plugins.ProtocolPlugin">
+					<params>
+						<objectSuppl>Nicht-Eröffnung Ihres Promotionsverfahrens</objectSuppl>
+						<objectIdValue>[MyPromo.ID]</objectIdValue>
+						<objectId>promotion.promotionid</objectId>
+						<object>NichtEroeffnung</object>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</NichtEroeffnung>
+	<Kommission ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile="publish/pmodul/xslfo/graduate/Kommission.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			SELECT DISTINCT v_sos.mtknr AS PerID, 
+			v_sos.res12 AS PerAkaVor,
+			v_sos.res5 AS gradfh,
+			v_sos.vorname AS PerVor, 
+			v_sos.nachname AS PerNac, 
+			v_sos.geschl AS Geschl, 
+			v_sos.mtknr AS MtkNr,
+			v_sos.res11 As PersonalStatus,
+			v_sos.res13 AS AppStatusID,
+			v_sos.gebdat AS GebDat,
+			v_sos.gebort AS GebOrt,
+			v_sos.gebland AS GebLandID,
+			v_sos.staat AS NationID
+			FROM v_sos, promotion
+			WHERE v_sos.mtknr=promotion.mtknr AND promotion.promotionid = [where]
+			ORDER BY PerNac
+			<Transform.Parent ElementName="Form">
+				<Transform.SubSQL ElementName="freiText" singleTag="Nachname,Vorname,Geschl,Titel,Strasse,PLZ,Ort">
+					SELECT '[nachname]' AS Nachname, '[vorname]' AS Vorname, '[gender]' AS Geschl, '[title]' AS Titel, '[street]' AS Strasse, '[plz]' AS PLZ, '[ort]' AS Ort
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.GlobalObjects file="prints.xml" subdir="printout/publishModul/graduate" object="Infos"/>
+			<Transform.Plugin ElementName="Protocol">
+				<class name="de.mlu.printout.publishModul.plugins.ProtocolPlugin">
+					<params>
+						<objectSuppl>Mitglied in Promotionskommission</objectSuppl>
+						<objectIdValue>[MyPromo.ID]</objectIdValue>
+						<objectId>promotion.promotionid</objectId>
+						<object>Kommission</object>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</Kommission>
+	<Gutachter ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile="publish/pmodul/xslfo/graduate/Gutachter.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			SELECT DISTINCT v_sos.mtknr AS PerID, 
+			v_sos.res12 AS PerAkaVor,
+			v_sos.res5 AS gradfh,
+			v_sos.vorname AS PerVor, 
+			v_sos.nachname AS PerNac, 
+			v_sos.geschl AS Geschl, 
+			v_sos.mtknr AS MtkNr,
+			v_sos.res11 As PersonalStatus,
+			v_sos.res13 AS AppStatusID,
+			v_sos.gebdat AS GebDat,
+			v_sos.gebort AS GebOrt,
+			v_sos.gebland AS GebLandID,
+			v_sos.staat AS NationID
+			FROM v_sos, promotion
+			WHERE v_sos.mtknr=promotion.mtknr AND promotion.promotionid = [where]
+			ORDER BY PerNac
+			<Transform.Parent ElementName="Form">
+				<Transform.SubSQL ElementName="freiText" singleTag="EvalID,Frist,Language">
+					SELECT '[eval]' AS EvalID, '[time]' AS Frist, '[lang]' AS Language
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.GlobalObjects file="prints.xml" subdir="printout/publishModul/graduate" object="Infos"/>
+			<Transform.Plugin ElementName="Protocol">
+				<class name="de.mlu.printout.publishModul.plugins.ProtocolPlugin">
+					<params>
+						<objectSuppl>Gutachteranschreiben</objectSuppl>
+						<objectIdValue>[MyPromo.ID]</objectIdValue>
+						<objectId>promotion.promotionid</objectId>
+						<object>Gutachter</object>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</Gutachter>
+	<Gutachtermahnung ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile="publish/pmodul/xslfo/graduate/Gutachtermahnung.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			SELECT DISTINCT v_sos.mtknr AS PerID, 
+			v_sos.res12 AS PerAkaVor,
+			v_sos.res5 AS gradfh,
+			v_sos.vorname AS PerVor, 
+			v_sos.nachname AS PerNac, 
+			v_sos.geschl AS Geschl, 
+			v_sos.mtknr AS MtkNr,
+			v_sos.res11 As PersonalStatus,
+			v_sos.res13 AS AppStatusID,
+			v_sos.gebdat AS GebDat,
+			v_sos.gebort AS GebOrt,
+			v_sos.gebland AS GebLandID,
+			v_sos.staat AS NationID
+			FROM v_sos, promotion
+			WHERE v_sos.mtknr=promotion.mtknr AND promotion.promotionid = [where]
+			ORDER BY PerNac
+			<Transform.Parent ElementName="Form">
+				<Transform.SubSQL ElementName="freiText" singleTag="EvalID,Text,Language">
+					SELECT '[eval]' AS EvalID, '[lang]' AS Language, '[text]' AS Text
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.GlobalObjects file="prints.xml" subdir="printout/publishModul/graduate" object="Infos"/>
+			<Transform.Plugin ElementName="Protocol">
+				<class name="de.mlu.printout.publishModul.plugins.ProtocolPlugin">
+					<params>
+						<objectSuppl>Gutachtermahnung</objectSuppl>
+						<objectIdValue>[MyPromo.ID]</objectIdValue>
+						<objectId>promotion.promotionid</objectId>
+						<object>Gutachtermahnung</object>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</Gutachtermahnung>
+	<ListeEinsichtnahme ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile="publish/pmodul/xslfo/graduate/ListeEinsichtnahme.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			SELECT DISTINCT v_sos.mtknr AS PerID, 
+			v_sos.res12 AS PerAkaVor,
+			v_sos.res5 AS gradfh,
+			v_sos.vorname AS PerVor, 
+			v_sos.nachname AS PerNac, 
+			v_sos.geschl AS Geschl, 
+			v_sos.mtknr AS MtkNr,
+			v_sos.res11 As PersonalStatus,
+			v_sos.res13 AS AppStatusID,
+			v_sos.gebdat AS GebDat,
+			v_sos.gebort AS GebOrt,
+			v_sos.gebland AS GebLandID,
+			v_sos.staat AS NationID
+			FROM v_sos, promotion
+			WHERE v_sos.mtknr=promotion.mtknr AND promotion.promotionid = [where]
+			ORDER BY PerNac
+			<Transform.Parent ElementName="Form">
+				<Transform.SubSQL ElementName="freiText" singleTag="AuslageVon,AuslageBis">
+					SELECT '[from]' AS AuslageVon, '[to]' AS AuslageBis
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.GlobalObjects file="prints.xml" subdir="printout/publishModul/graduate" object="Infos"/>
+			<Transform.Plugin ElementName="Protocol">
+				<class name="de.mlu.printout.publishModul.plugins.ProtocolPlugin">
+					<params>
+						<objectSuppl>Liste zur Einsichtnahme in Dissertation und Gutachten</objectSuppl>
+						<objectIdValue>[MyPromo.ID]</objectIdValue>
+						<objectId>promotion.promotionid</objectId>
+						<object>ListeEinsichtnahme</object>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</ListeEinsichtnahme>
+	<AushangVerteidigung ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile="publish/pmodul/xslfo/graduate/AushangVerteidigung.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			SELECT DISTINCT v_sos.mtknr AS PerID, 
+			v_sos.res12 AS PerAkaVor,
+			v_sos.res5 AS gradfh,
+			v_sos.vorname AS PerVor, 
+			v_sos.nachname AS PerNac, 
+			v_sos.geschl AS Geschl, 
+			v_sos.mtknr AS MtkNr,
+			v_sos.res11 As PersonalStatus,
+			v_sos.res13 AS AppStatusID,
+			v_sos.gebdat AS GebDat,
+			v_sos.gebort AS GebOrt,
+			v_sos.gebland AS GebLandID,
+			v_sos.staat AS NationID
+			FROM v_sos, promotion
+			WHERE v_sos.mtknr=promotion.mtknr AND promotion.promotionid = [where]
+			ORDER BY PerNac
+			<Transform.Parent ElementName="Form">
+				<Transform.SubSQL ElementName="freiText" singleTag="TimeOfColloquium,PlaceOfColloquium">
+					SELECT '[time]' AS TimeOfColloquium, '[place]' AS PlaceOfColloquium
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.GlobalObjects file="prints.xml" subdir="printout/publishModul/graduate" object="Infos"/>
+			<Transform.Plugin ElementName="Protocol">
+				<class name="de.mlu.printout.publishModul.plugins.ProtocolPlugin">
+					<params>
+						<objectSuppl>Aushang Verteidigung</objectSuppl>
+						<objectIdValue>[MyPromo.ID]</objectIdValue>
+						<objectId>promotion.promotionid</objectId>
+						<object>AushangVerteidigung</object>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</AushangVerteidigung>
+	<Certificate ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile="publish/pmodul/xslfo/graduate/Certificate.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			SELECT DISTINCT v_sos.mtknr AS PerID, 
+			v_sos.res12 AS PerAkaVor,
+			v_sos.res5 AS gradfh,
+			v_sos.vorname AS PerVor, 
+			v_sos.nachname AS PerNac, 
+			v_sos.geschl AS Geschl, 
+			v_sos.mtknr AS MtkNr,
+			v_sos.res11 As PersonalStatus,
+			v_sos.res13 AS AppStatusID,
+			v_sos.gebdat AS GebDat,
+			v_sos.gebort AS GebOrt,
+			v_sos.gebland AS GebLandID,
+			v_sos.staat AS NationID
+			FROM v_sos, promotion
+			WHERE v_sos.mtknr=promotion.mtknr AND promotion.promotionid = [where]
+			ORDER BY PerNac
+			<Transform.Parent ElementName="Form">
+				<Transform.SubSQL ElementName="freiText" singleTag="Nachname,Vorname,Language,Titel,Rolle">
+					SELECT '[nachname]' AS Nachname, '[vorname]' AS Vorname, '[lang]' AS Language, '[title]' AS Titel, '[ia]' AS Rolle
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="Gradings">
+				<Transform.SubSQL ElementName="Grading">
+					SELECT bewertung_id AS BewertungID, bewertungsart_id AS ArtID, bewertungsart.key AS Key, bewertungsart.sort AS Order, bewertungsart.dtxt AS Art, bewertung.dtxt AS Bewertung
+					FROM (gratings LEFT JOIN bewertungsart ON (gratings.bewertungsart_id=bewertungsart.id)) LEFT JOIN bewertung ON (gratings.bewertung_id=bewertung.id)
+					WHERE promotion_id=[promotion.promotionid]
+					ORDER BY bewertungsart.sort::integer
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.GlobalObjects file="prints.xml" subdir="printout/publishModul/graduate" object="Infos"/>
+			<Transform.Plugin ElementName="Protocol">
+				<class name="de.mlu.printout.publishModul.plugins.ProtocolPlugin">
+					<params>
+						<objectSuppl>Bescheinigung über erbrachte Leistungen</objectSuppl>
+						<objectIdValue>[MyPromo.ID]</objectIdValue>
+						<objectId>promotion.promotionid</objectId>
+						<object>Certificate</object>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</Certificate>
+	<AppForCertificate ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile="publish/pmodul/xslfo/graduate/AppForCertificate.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			SELECT DISTINCT v_sos.mtknr AS PerID, 
+			v_sos.res12 AS PerAkaVor,
+			v_sos.res5 AS gradfh,
+			v_sos.vorname AS PerVor, 
+			v_sos.nachname AS PerNac, 
+			v_sos.geschl AS Geschl, 
+			v_sos.mtknr AS MtkNr,
+			v_sos.res11 As PersonalStatus,
+			v_sos.res13 AS AppStatusID,
+			v_sos.gebdat AS GebDat,
+			v_sos.gebort AS GebOrt,
+			v_sos.gebland AS GebLandID,
+			v_sos.staat AS NationID
+			FROM v_sos, promotion
+			WHERE v_sos.mtknr=promotion.mtknr AND promotion.promotionid = [where]
+			ORDER BY PerNac
+			<Transform.Parent ElementName="Form">
+				<Transform.SubSQL ElementName="freiText" singleTag="Rektorat,Rektor,Dekan">
+					SELECT '[rektorat]' AS Rektorat, '[rektor]' AS Rektor, '[dekan]' AS Dekan
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="Gradings">
+				<Transform.SubSQL ElementName="Grading">
+					SELECT bewertung_id AS BewertungID, bewertungsart_id AS ArtID, bewertungsart.key AS Key, bewertungsart.sort AS Order, bewertungsart.dtxt AS Art, bewertung.dtxt AS Bewertung
+					FROM (gratings LEFT JOIN bewertungsart ON (gratings.bewertungsart_id=bewertungsart.id)) LEFT JOIN bewertung ON (gratings.bewertung_id=bewertung.id)
+					WHERE promotion_id=[promotion.promotionid]
+					ORDER BY bewertungsart.sort::integer
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.GlobalObjects file="prints.xml" subdir="printout/publishModul/graduate" object="Infos"/>
+			<Transform.Plugin ElementName="Protocol">
+				<class name="de.mlu.printout.publishModul.plugins.ProtocolPlugin">
+					<params>
+						<objectSuppl>Bescheinigung über erbrachte Leistungen</objectSuppl>
+						<objectIdValue>[MyPromo.ID]</objectIdValue>
+						<objectId>promotion.promotionid</objectId>
+						<object>Certificate</object>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</AppForCertificate>
+	<Weiterfuehrung ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile="publish/pmodul/xslfo/graduate/Weiterfuehrung.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			SELECT DISTINCT v_sos.mtknr AS PerID, 
+			v_sos.res12 AS PerAkaVor,
+			v_sos.res5 AS gradfh,
+			v_sos.vorname AS PerVor, 
+			v_sos.nachname AS PerNac, 
+			v_sos.geschl AS Geschl, 
+			v_sos.mtknr AS MtkNr,
+			v_sos.res11 As PersonalStatus,
+			v_sos.res13 AS AppStatusID,
+			v_sos.gebdat AS GebDat,
+			v_sos.gebort AS GebOrt,
+			v_sos.gebland AS GebLandID,
+			v_sos.staat AS NationID
+			FROM v_sos, promotion
+			WHERE v_sos.mtknr=promotion.mtknr AND promotion.promotionid = [where]
+			ORDER BY PerNac
+			<Transform.GlobalObjects file="prints.xml" subdir="printout/publishModul/graduate" object="Infos"/>
+			<Transform.Plugin ElementName="Protocol">
+				<class name="de.mlu.printout.publishModul.plugins.ProtocolPlugin">
+					<params>
+						<objectSuppl>Weiterführung Verfahren nach Gutachteneingang</objectSuppl>
+						<objectIdValue>[MyPromo.ID]</objectIdValue>
+						<objectId>promotion.promotionid</objectId>
+						<object>Weiterfuehrung</object>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</Weiterfuehrung>
+	<Empfang ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile="publish/pmodul/xslfo/graduate/Empfang.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			SELECT DISTINCT v_sos.mtknr AS PerID, 
+			v_sos.res12 AS PerAkaVor,
+			v_sos.res5 AS gradfh,
+			v_sos.vorname AS PerVor, 
+			v_sos.nachname AS PerNac, 
+			v_sos.geschl AS Geschl, 
+			v_sos.mtknr AS MtkNr,
+			v_sos.res11 As PersonalStatus,
+			v_sos.res13 AS AppStatusID,
+			v_sos.gebdat AS GebDat,
+			v_sos.gebort AS GebOrt,
+			v_sos.gebland AS GebLandID,
+			v_sos.staat AS NationID
+			FROM v_sos, promotion
+			WHERE v_sos.mtknr=promotion.mtknr AND promotion.promotionid = [where]
+			ORDER BY PerNac
+			<Transform.GlobalObjects file="prints.xml" subdir="printout/publishModul/graduate" object="Infos"/>
+			<Transform.Plugin ElementName="Protocol">
+				<class name="de.mlu.printout.publishModul.plugins.ProtocolPlugin">
+					<params>
+						<objectSuppl>Empfangsbestätigung Urkunde</objectSuppl>
+						<objectIdValue>[MyPromo.ID]</objectIdValue>
+						<objectId>promotion.promotionid</objectId>
+						<object>Empfang</object>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</Empfang>
+	<Deckblatt ResultCache1="publishid, personal.pid" 
+		CacheObject1="personal" 
+		RootElement="webPublish" 
+		database="promo" 
+		directPDF="y"
+		XSLFile="publish/pmodul/xslfo/graduate/Deckblatt.xsl" 
+		userConfigFile="WEB-INF/conf/printout/userconfig_HalleDoc.xml" 
+		useCache="n" 
+		nologin="n"> 
+		<!-- Persongrundinformationen -->
+		<Transform.SQL ElementName="Person" lookup="promotion.promotionid"  useLangID="PerID">
+			SELECT DISTINCT v_sos.mtknr AS PerID, 
+			v_sos.res12 AS PerAkaVor,
+			v_sos.res5 AS gradfh,
+			v_sos.vorname AS PerVor, 
+			v_sos.nachname AS PerNac, 
+			v_sos.geschl AS Geschl, 
+			v_sos.mtknr AS MtkNr,
+			v_sos.res11 As PersonalStatus,
+			v_sos.res13 AS AppStatusID,
+			v_sos.gebdat AS GebDat,
+			v_sos.gebort AS GebOrt,
+			v_sos.gebland AS GebLandID,
+			v_sos.staat AS NationID
+			FROM v_sos, promotion
+			WHERE v_sos.mtknr=promotion.mtknr AND promotion.promotionid = [where]
+			ORDER BY PerNac
+			<Transform.GlobalObjects file="prints.xml" subdir="printout/publishModul/graduate" object="Infos"/>
+			<Transform.Plugin ElementName="Protocol">
+				<class name="de.mlu.printout.publishModul.plugins.ProtocolPlugin">
+					<params>
+						<objectSuppl>Deckblatt zur Promotionsakte</objectSuppl>
+						<objectIdValue>[MyPromo.ID]</objectIdValue>
+						<objectId>promotion.promotionid</objectId>
+						<object>Deckblatt</object>
+					</params>
+				</class>
+			</Transform.Plugin>
+		</Transform.SQL>
+	</Deckblatt>
+	<Infos>
+		<Transform.SubSQL ElementName="IDTitel" singleTag="Titel">
+			SELECT DISTINCT ktxt AS Titel
+			FROM k_titel
+			WHERE titelid = [IDTitel]
+		</Transform.SubSQL>
+		<Transform.SubSQL ElementName="PerAkaVor" singleTag="AkadGradVor">
+			SELECT DISTINCT dtxt AS AkadGradVor
+			FROM k_akadgrad
+			WHERE gradid = [PerAkaVor]
+		</Transform.SubSQL>
+		<Transform.SubSQL ElementName="PersonalStatus" singleTag="PersonalStatusTxt">
+			SELECT DISTINCT dtxt AS PersonalStatusTxt
+			FROM k_applicantstatus
+			WHERE applicantstatusid = [AppStatusID]
+		</Transform.SubSQL>
+		<!-- Dienstadresse -->
+		<Transform.SubSQL ElementName="Dienstadresse" useLangID="KontID">
+			 SELECT DISTINCT v_anschri.anschrinr AS KontID, 
+			 v_anschri.plz As PLZ, 
+			 v_anschri.ort As Ort, 
+			 v_anschri.strasse As Strasse, 
+			 v_anschri.tel As Telefon, 
+			 v_anschri.fax As Fax, 
+			 v_anschri.email As eMail, 
+			 v_anschri.mtknr AS PerID			 
+			 FROM v_sos, v_anschri 
+			 WHERE v_sos.mtknr=v_anschri.mtknr
+			 AND v_anschri.mtknr = [PerID] AND v_anschri.anschrkz = 'H' 
+		</Transform.SubSQL>
+		<Transform.SubSQL ElementName="MyPromo" useLangID="PID" storeFields="ID,Titel">
+			SELECT DISTINCT promotion.promotionid AS ID, promotion.institute AS Institut, promotion.promoprogramm AS promoprogramm, promotion.promoprogrammdetail AS promoprogrammdetail,
+			promotion.framework
+			AS framework, promotion.frameworkdetail AS frameworkdetail, promotion.field AS field, promotion.gradid AS AkadGradID,
+			promotion.title as Titel, promotion.mentor1id AS MentorID1, promotion.mentor2id AS MentorID2, promotion.mentor3id AS MentorID3, 
+			promotion.evaluator1id AS EvalID1, promotion.evaluator2id AS EvalID2, promotion.evaluator3id AS EvalID3, promotion.evaluator4id AS EvalID4, promotion.vorsitzid AS VorsitzID,
+			promotion.zeitstempel AS Zeitstempel, promotion.personid AS PersonID, '' AS StatusID, '' AS StatusTxt, '' AS StatusProzessID, promotion.einrichtungid AS EinrichtungID, 
+			promotion.finalgrade AS FinalGrade, promotion.k_abstgv_id AS StgId
+			FROM promotion
+			WHERE promotion.mtknr =  [PerID]
+			<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGrad,AkadGradKurz">
+				SELECT DISTINCT ltxt AS AkadGrad, dtxt AS AkadGradKurz
+				FROM k_akadgrad
+				WHERE gradid = [AkadGradID]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Mentor1">
+				SELECT DISTINCT pid AS ID, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+				FROM personal
+				WHERE personal.pid = [MentorID1]
+				<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+					SELECT DISTINCT ktxt AS Titel
+					FROM k_titel
+					WHERE titelid = [TitelID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+					SELECT DISTINCT dtxt AS AkadGradVor
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+					SELECT DISTINCT dtxt AS AkadGradNach
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradNachID]
+				</Transform.SubSQL>
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Mentor2">
+				SELECT DISTINCT pid AS ID, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+				FROM personal
+				WHERE personal.pid = [MentorID2]
+				<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+					SELECT DISTINCT ktxt AS Titel
+					FROM k_titel
+					WHERE titelid = [TitelID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+					SELECT DISTINCT dtxt AS AkadGradVor
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+					SELECT DISTINCT dtxt AS AkadGradNach
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradNachID]
+				</Transform.SubSQL>
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Mentor3">
+				SELECT DISTINCT pid AS ID, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+				FROM personal
+				WHERE personal.pid = [MentorID3]
+				<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+					SELECT DISTINCT ktxt AS Titel
+					FROM k_titel
+					WHERE titelid = [TitelID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+					SELECT DISTINCT dtxt AS AkadGradVor
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+					SELECT DISTINCT dtxt AS AkadGradNach
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradNachID]
+				</Transform.SubSQL>
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Evaluator">
+				SELECT DISTINCT pid AS ID, '1' AS Nr, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+				FROM personal
+				WHERE personal.pid = [EvalID1]
+				<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+					SELECT DISTINCT ktxt AS Titel
+					FROM k_titel
+					WHERE titelid = [TitelID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+					SELECT DISTINCT dtxt AS AkadGradVor
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+					SELECT DISTINCT dtxt AS AkadGradNach
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradNachID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Address">
+					SELECT strasse, plz, ort, adrzusatz2 AS Institut, adrzusatz, einrichtung
+					FROM kontakt
+					WHERE tabelle='personal' AND tabpk=[ID]
+				</Transform.SubSQL>
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Evaluator">
+				SELECT DISTINCT pid AS ID, '2' AS Nr, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+				FROM personal
+				WHERE personal.pid = [EvalID2]
+				<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+					SELECT DISTINCT ktxt AS Titel
+					FROM k_titel
+					WHERE titelid = [TitelID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+					SELECT DISTINCT dtxt AS AkadGradVor
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+					SELECT DISTINCT dtxt AS AkadGradNach
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradNachID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Address">
+					SELECT strasse, plz, ort, adrzusatz2 AS Institut, adrzusatz, einrichtung
+					FROM kontakt
+					WHERE tabelle='personal' AND tabpk=[ID]
+				</Transform.SubSQL>
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Evaluator">
+				SELECT DISTINCT pid AS ID, '3' AS Nr, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+				FROM personal
+				WHERE personal.pid = [EvalID3]
+				<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+					SELECT DISTINCT ktxt AS Titel
+					FROM k_titel
+					WHERE titelid = [TitelID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+					SELECT DISTINCT dtxt AS AkadGradVor
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+					SELECT DISTINCT dtxt AS AkadGradNach
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradNachID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Address">
+					SELECT strasse, plz, ort, adrzusatz2 AS Institut, adrzusatz, einrichtung
+					FROM kontakt
+					WHERE tabelle='personal' AND tabpk=[ID]
+				</Transform.SubSQL>
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Evaluator">
+				SELECT DISTINCT pid AS ID, '4' AS Nr, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+				FROM personal
+				WHERE personal.pid = [EvalID4]
+				<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+					SELECT DISTINCT ktxt AS Titel
+					FROM k_titel
+					WHERE titelid = [TitelID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+					SELECT DISTINCT dtxt AS AkadGradVor
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+					SELECT DISTINCT dtxt AS AkadGradNach
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradNachID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Address">
+					SELECT strasse, plz, ort, adrzusatz2 AS Institut, adrzusatz, einrichtung
+					FROM kontakt
+					WHERE tabelle='personal' AND tabpk=[ID]
+				</Transform.SubSQL>
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Vorsitz">
+				SELECT DISTINCT pid AS ID, nachname, namenbestand, vorname, titelid AS TitelID, personal.gradid AS AkadGradID, personal.gradid_nach AS AkadGradNachID, personal.geschl AS Geschl
+				FROM personal
+				WHERE personal.pid = [VorsitzID]
+				<Transform.SubSQL ElementName="TitelID" singleTag="Titel">
+					SELECT DISTINCT ktxt AS Titel
+					FROM k_titel
+					WHERE titelid = [TitelID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+					SELECT DISTINCT dtxt AS AkadGradVor
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradID]
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+					SELECT DISTINCT dtxt AS AkadGradNach
+					FROM k_akadgrad
+					WHERE gradid = [AkadGradNachID]
+				</Transform.SubSQL>
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Process">
+				SELECT DISTINCT 
+					promotion.applicationOfAssumption AS applicationOfAssumption,
+					promotion.assumptionCommitee AS assumptionCommitee,
+					promotion.applicationOfAdmission AS applicationOfAdmission,
+					promotion.openingOfProcedure AS openingOfProcedure,
+					promotion.forwardingOfFile AS forwardingOfFile,
+					promotion.forwardingForCommitee AS forwardingForCommitee,
+					promotion.dateOfColloquium AS dateOfColloquium,
+					promotion.dateOfPublishing AS dateOfPublishing,
+					promotion.handoverToLibrary AS handoverToLibrary,
+					promotion.handovertype AS handoverType,
+					promotion.handovercount AS handoverCount,
+					promotion.dateForCertificate AS dateForCertificate,
+					promotion.fileToArchive AS fileToArchive,
+					promotion.archiveNumber AS archiveNumber
+				FROM promotion
+				WHERE promotion.promotionid=[ID]
+			</Transform.SubSQL>
+			<Transform.Parent ElementName="Infos">
+				<Transform.SubSQL ElementName="Auflage">
+					SELECT DISTINCT id, txt, sort
+					FROM add_infos
+					WHERE tabpk=[ID] AND tab='promotion' AND type='Z'
+					ORDER BY sort,txt
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Ablehnung">
+					SELECT DISTINCT id, txt, sort
+					FROM add_infos
+					WHERE tabpk=[ID] AND tab='promotion' AND type='A'
+					ORDER BY sort,txt
+				</Transform.SubSQL>
+				<Transform.SubSQL ElementName="Nachreichung">
+					SELECT DISTINCT id, txt, sort
+					FROM add_infos
+					WHERE tabpk=[ID] AND tab='promotion' AND type='N'
+					ORDER BY sort,txt
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.Parent ElementName="Texte">
+				<Transform.SubSQL ElementName="text1" singleTag="Mahnung">
+					SELECT blobs.txt AS Mahnung
+					FROM blobs, r_blob
+					WHERE blobs.blobid = r_blob.blobid AND r_blob.tabelle = 'drucktexte' AND r_blob.tabpk = [EinrichtungID] AND r_blob.spalte='mahnung'
+				</Transform.SubSQL>
+			</Transform.Parent>
+			<Transform.SubSQL ElementName="Einrichtung" useLangID="KontID">
+				 SELECT DISTINCT id AS eID, dtxt, ltxt, farbe, utxt
+				 FROM einrichtung
+				 WHERE id = [EinrichtungID]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Studiengang">
+				 SELECT DISTINCT abstgvnr AS ID, dtxt, ltxt
+				 FROM v_k_abstgv
+				 WHERE abstgvnr = [StgId]
+			</Transform.SubSQL>
+		</Transform.SubSQL>
+		<Transform.SubSQL ElementName="MyInfos">
+			SELECT DISTINCT personal.pid AS PerID, 
+			personal.gradid AS AkadGradID,
+			personal.gradid_nach AS AkadGradNachID, 
+			personal.gradfh AS gradfh,
+			personal.vorname AS PerVor, 
+			personal.nachname AS PerNac, 
+			personal.namenbestand AS PerNam, 
+			personal.geschl AS Geschl, 
+			personal.mtknr AS MtkNr,
+			personal.perstatusid As PersonalStatus,
+			personal.applicantstatusid AS AppStatusID,
+			personal.status As Status,
+			personal.titelid AS IDTitel,
+			personal.namenbestand AS Bestandteil,
+			personal.gebdat AS GebDat,
+			personal.gebort AS GebOrt,
+			personal.gebland AS GebLandID,
+			personal.staat AS NationID,
+			personal.einrichtungid AS eid
+			FROM personal
+			WHERE personal.pid = [session_ident_M]
+			<Transform.SubSQL ElementName="IDTitel" singleTag="Titel">
+				SELECT DISTINCT ktxt AS Titel
+				FROM k_titel
+				WHERE titelid = [IDTitel]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="AkadGradID" singleTag="AkadGradVor">
+				SELECT DISTINCT dtxt AS AkadGradVor
+				FROM k_akadgrad
+				WHERE gradid = [AkadGradID]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="AkadGradNachID" singleTag="AkadGradNach">
+				SELECT DISTINCT dtxt AS AkadGradNach
+				FROM k_akadgrad
+				WHERE gradid = [AkadGradNachID]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Dienstadresse" useLangID="KontID">
+				 SELECT DISTINCT kontakt.kid AS KontID, 
+				 kontakt.aikz As Aktiv, 
+				 kontakt.plz As PLZ, 
+				 kontakt.ort As Ort, 
+				 kontakt.strasse As Strasse, 
+				 kontakt.telefon As Telefon, 
+				 kontakt.fax As Fax, 
+				 kontakt.email As eMail, 
+				 kontakt.hyperlink As Hyperlink,
+				 kontakt.adrzusatz AS Zusatz,
+				 kontakt.adrzusatz2 AS Institut,
+				 kontakt.tabelle AS Tab, 
+				 kontakt.typadrid As TypAdr,
+				 kontakt.tabpk,
+				 personal.pid AS PerID			 
+				 FROM kontakt, personal 
+				 WHERE  personal.pid = kontakt.tabpk 
+				 AND (kontakt.aikz='A' OR kontakt.aikz IS NULL)
+				 AND kontakt.tabelle IN ('personal') 
+				 AND kontakt.tabpk = [PerID]
+			</Transform.SubSQL>
+			<Transform.SubSQL ElementName="Einrichtung" useLangID="KontID">
+				 SELECT DISTINCT id AS eID, dtxt, ltxt, farbe, utxt
+				 FROM einrichtung
+				 WHERE id = [eid]
+			</Transform.SubSQL>
+		</Transform.SubSQL>
+	</Infos>
+</prints>

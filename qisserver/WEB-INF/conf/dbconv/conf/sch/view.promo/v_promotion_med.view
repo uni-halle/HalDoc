@@ -1,0 +1,2 @@
+CREATE VIEW v_promotion_med (id, promotion_id) AS 
+	SELECT id, promotion_id FROM promo.promotion_med;

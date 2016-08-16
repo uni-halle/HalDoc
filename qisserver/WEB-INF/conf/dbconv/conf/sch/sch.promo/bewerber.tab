@@ -1,0 +1,21 @@
+{### bewerber ################################################################}
+CREATE TABLE bewerber (              
+	bid                SERIAL NOT NULL,    { Primary Key                               }
+	vorname            VARCHAR(50),	       { Vorname 	                                 }
+	nachname           NVARCHAR(50),	     { Nachname      	                           }
+	gebname            NVARCHAR(50),	     { Geburtsname   	                           }
+	mtknr              INTEGER,            { Matrikelnummer                            }
+	geschl             CHAR(01),           { Geschlecht  M=maennl., W=weibl.           }
+	applicantstatusid  INTEGER,            { ->k_applicantstatus.k_applicantstatusid   }
+	status             CHAR(1),	           { E, I (Extern, Intern) bzw.                  
+	                                           hochschulfremd, hochschulangehoerig     }
+	titelid            INTEGER,            { ->k_titel                                 }
+	gradid             INTEGER,            { ->k_akadgrad                              }
+	gradfh							CHAR(1),					 { Akademischer Grad an einer FH bekommen		 }
+	gebdat             DATE,               { Geburtsdatum                              }
+	gebort             VARCHAR(50),        { Geburtsort                                }
+	gebland            VARCHAR(5),         { Geburtsland                               }
+	staat              VARCHAR(5),         { Nationalität                              }
+	gradid_nach        INTEGER,		       	 { nachgestellter akademischer Grad (z.B. M.A.)}
+	zeitstempel        DATETIME year to fraction(5) { Aenderungsdatum-/zeit             }
+);

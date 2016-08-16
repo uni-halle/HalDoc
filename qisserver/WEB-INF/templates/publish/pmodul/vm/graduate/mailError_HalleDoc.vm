@@ -1,0 +1,93 @@
+#if (!$contentVM)
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">    	
+<html>
+	<head>
+		<title>LSF</title>
+		<link rel="stylesheet" type="text/css" href="$!StyleSheet">
+			#parse ("header.vm")
+	</head>
+	<body class="background">
+		#parse("head.vm")
+		#parse("Controls.vm")
+		#if (${servlet.type} && (${servlet.type} == "0" || ${servlet.type} == "5") && $Login && !$Login.trim().equals(""))
+			#parse("wlogin/LoginInfo.vm")
+		#end
+#end
+##XMLOut($import)
+#if ($import.getChild("sos").getChild("pluginReturn").getChildren().size() != 0)
+<fieldset style="margin-bottom: 10px; padding: 10px; margin-top: 20px;">
+	<legend>Übersicht über die Sachbearbeiter</legend>
+	<table>
+		<tr>
+			<th scope="col" class="mod" id="basic_1">Emailadresse</th>
+			<th scope="col" class="mod" id="basic_1">Nachname</th>
+			<th scope="col" class="mod" id="basic_1">Vorname</th>
+			<th scope="col" class="mod" id="basic_1">Geschlecht</th>
+			<th scope="col" class="mod" id="basic_1">Einrichtung</th>
+			<th scope="col" class="mod" id="basic_1">MtkNr</th>
+		</tr>
+		#set($lineBackGr = "mod_n_even")
+		#foreach($case in $import.getChild("sos").getChild("pluginReturn").getChildren("Einrichtung"))
+			#set($isNewEinrichtung = 0)
+			#if($eid != $case.getAttributeValue("id"))
+				#set($isNewEinrichtung = 1)
+			#end
+			#set($eid = $case.getAttributeValue("id"))
+			#if($isNewEinrichtung == 1)
+				#set($msg = "Liebe Kolleginnen und Kollegen,\n\nHerr Meinicke sind mal wieder fehlerhafte Emailadressen im HalDoc aufgefallen. Wir bitten Sie hiermit diese zu prüfen und ggf. direkt in HalDoc zu korrigieren.\nSollte keine Korrektur möglich sein, dann bitte löschen.")
+				#set($msg = $msg + "\n\nEmailAdresse; Nachname; Vorname; Geschlecht; MtkNr:\n")
+				#foreach($case2 in $case.getChildren())
+					#set($msg = $msg + "- "+ $case2.getAttributeValue("email") +"; "+ $case2.getAttributeValue("nachname") +"; "+ $case2.getAttributeValue("vorname") +"; "+ $case2.getAttributeValue("geschl") +"; "+ $case2.getAttributeValue("mtknr") + "...\n")
+			<tr>
+				<td class="$lineBackGr">$case2.getAttributeValue("email")</td>
+				<td class="$lineBackGr">$case2.getAttributeValue("nachname")</td>
+				<td class="$lineBackGr">$case2.getAttributeValue("vorname")</td>
+				<td class="$lineBackGr">$case2.getAttributeValue("geschl")</td>
+				<td class="$lineBackGr">$case2.getAttributeValue("mtknr")</td>
+			</tr>
+				#end
+				#set($msg = $msg + "\n\nVielen Dank und mit freundlichen Grüßen\n")
+				#set($msg = $msg.replace(" ", "%20"))
+				#set($msg = $msg.replace("\n", "%0D%0A"))
+				#set($msg = $msg.replace("\t", "%09"))
+				#set($msg = $msg.replace("ä", "%E4"))
+				#set($msg = $msg.replace("ö", "%F6"))
+				#set($msg = $msg.replace("ü", "%FC"))
+				#set($msg = $msg.replace("Ä", "%C4"))
+				#set($msg = $msg.replace("Ö", "%D6"))
+				#set($msg = $msg.replace("Ü", "%DC"))
+				#set($msg = $msg.replace("ß", "%DF"))
+
+				#set($mailtoAddr = $case.getAttributeValue("email"))
+				#set($hilfeText = "Link zum Versenden der Liste an die Einrichtung: " + $case.getAttributeValue("name"))
+				<tr>
+					<td class="mod_n_odd" colspan="7"><a title="$hilfeText" alt="$hilfeText" href="mailto:$mailtoAddr?subject=Fehlerhafte%20Emailadressen&body=$msg">Link zum Versenden der Email an $case.getAttributeValue("name")</a></td>
+				</tr>
+			#end
+			#if($lineBackGr == "mod_n_even")#set($lineBackGr = "mod_n_odd")#else#set($lineBackGr = "mod_n_even")#end
+		#end
+	</table>
+	#if($import.getChild("sos").getChild("pluginReturn").getChild("notFounded"))
+	<h2>Emails, welche aufgrund ihrer Schreibweise nicht zugeordnet werden konnten!</h2>
+	<ul>
+		#foreach($case in $import.getChild("sos").getChild("pluginReturn").getChild("notFounded").getChildren())
+			<li>$case.getText();</li>
+		#end
+	</ul>
+	#end
+</fieldset>
+#else
+<fieldset style="margin-bottom: 10px; padding: 10px; margin-top: 20px;">
+	Hier bitte eine Liste aller Emailadressen der Rückläufer eintragen. Die Emailadressen müssen als Trennzeichen ein Semikolon ";" besitzen!<br/>
+	Anschließend wird eine Liste aller gefundenen Adressen mit den dazugehörigen Einrichtungen angezeigt.
+	<form method="post">
+		<textarea name="emailAddresses" id="emailAddresses" cols="100" rows="20"></textarea><br/>
+		<input type="submit" value="Senden" />
+	</form>
+</fieldset>
+#end
+#if (!$contentVM)
+		#parse("foot.vm")
+	</body>
+</html>
+#end

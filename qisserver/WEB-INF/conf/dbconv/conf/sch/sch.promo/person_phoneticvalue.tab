@@ -1,0 +1,12 @@
+{### person_phoneticvalue #################################################################}
+{
+   Diese Tabelle enthält Phoneticwerte um Dubletten finden zu können.
+}
+CREATE TABLE person_phoneticvalue (
+	id	SERIAL NOT NULL,										{ PrimaryKey                          }
+	person_id	INTEGER,											{ ->personal                          }
+	mtknr	INTEGER,													{ ->v_sos		                          }
+	person_attributename	VARCHAR NOT NULL,	{ Spalte aus der Tabelle personal     }
+	phoneticvalue	VARCHAR NOT NULL,					{ phonetischer Wert                   }
+	PRIMARY KEY (id)
+);

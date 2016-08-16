@@ -1,0 +1,14 @@
+{### r_refextobj ###############################################################}
+
+CREATE TABLE r_refextobj
+   (              
+   refextobjid				SERIAL NOT NULL,			{ Primary Key								}
+   aikz							CHAR(1),							{ Aktiv/Inaktiv Kennzeichen		}
+   tabelle						VARCHAR(20),					{ Name der Bezugs-Tabelle			}
+   tabpk						INTEGER,							{ ->/Tabelle/								}
+   refsystem					INTEGER,							{ ->k_refsystem							}
+   refid							VARCHAR(255),					{ Ext. ID										}
+   sortierung					INTEGER,             			{ Sortiernummer			      			}
+   zeitstempel	DATETIME year to fraction(5)		{ Aenderungsdatum/-zeit  			}
+   );
+

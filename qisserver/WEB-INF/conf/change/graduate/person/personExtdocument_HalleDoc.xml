@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extdocument active="y" protsuppl="ExtDokument, Zuordnung" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>75</size>
+	<session>moduleParameter</session>
+	<insert protocol="y" />
+	<update protocol="y" />
+	<delete>n</delete>
+	<protProcessor>
+		<r_mediafiles.mfid>
+			<ignore>y</ignore>
+		</r_mediafiles.mfid>
+		<r_mediafiles.tabpk>
+			<ignore>y</ignore>
+		</r_mediafiles.tabpk>
+		<r_mediafiles.tabelle>
+			<ignore>y</ignore>
+		</r_mediafiles.tabelle>
+		<r_mediafiles.mediatype>
+			<ignore>y</ignore>
+		</r_mediafiles.mediatype>
+		<r_mediafiles.description>
+			<label>Name</label>
+		</r_mediafiles.description>
+		<r_mediafiles.filename>
+			<label>Ursprünglicher Dateiname</label>
+		</r_mediafiles.filename>
+	</protProcessor>
+	<change>SELECT r_mediafiles.mfid AS ID, r_mediafiles.filename, r_mediafiles.mediatype, r_mediafiles.tabelle AS tabelle FROM r_mediafiles WHERE r_mediafiles.mfid = [r_mediafiles.mfid]</change>
+	<change_prop>
+		<column name="ID" key="y" serial="y" noshow="y" />
+	</change_prop>
+	<upload />
+	<filename>[r_mediafiles.tabelle]/[r_mediafiles.mfid].[r_mediafiles.mediatype]</filename>
+	<parentModuleParameter>person</parentModuleParameter>
+</extdocument>
+

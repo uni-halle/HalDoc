@@ -1,0 +1,14 @@
+<br>
+	<a name="printProtocol"></a>
+	<h2>Druck-Protokoll</h2>
+	#set($lineBackGr = "mod_n_even")
+	##XMLOut($Promotion.getChild("DruckProtokolle"))
+<table summary="$title">
+	<caption class="t_capt">Ausdrucke</caption>
+	#foreach($prot in $!Promotion.getChild("DruckProtokolle").getChildren())
+	<tr>
+		<th class="mod" id="basic_3">$prot.getChildText("Description")</th>
+		<td class="mod_n_basic" colspan="3" headers="basic_3">$prot.getChildText("MaxTime")</td>
+	</tr>
+	#end
+</table>

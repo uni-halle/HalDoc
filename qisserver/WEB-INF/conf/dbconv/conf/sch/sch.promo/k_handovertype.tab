@@ -1,0 +1,11 @@
+{### k_handovertype #######################################################}
+{ Aushändigungstypen für die Bibliothek
+}
+CREATE TABLE k_handovertype (
+   id	SERIAL NOT NULL,         { Primary Key                      }
+   aikz		CHAR(1),             { Aktiv/-Inaktiv-Kennzeichen       }	
+   ktxt		CHAR(10),            { Kurztext				  }
+   dtxt		CHAR(25),            { Drucktext			        }
+   ltxt		VARCHAR(255,0),      { Langtext				  }
+   zeitstempel	DATETIME year to fraction(5)  { Aenderungsdatum/-zeit  }
+);

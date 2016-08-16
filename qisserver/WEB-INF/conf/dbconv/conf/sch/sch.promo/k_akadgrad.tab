@@ -1,0 +1,16 @@
+{### k_akadgrad #######################################################}
+{ Die Spalte "geschl" dient dazu, geschlechtsspezifische Versionen des akademischen Grades abzuspeichen.
+  leer=gechlechtsneutral, M=Männliche Version, W=Weibliche Version
+}
+CREATE TABLE k_akadgrad (
+   gradid	SERIAL NOT NULL,           { Primary Key                      }
+   aikz		CHAR(1),             { Aktiv/-Inaktiv-Kennzeichen       }	
+   ktxt		CHAR(10),            { Kurztext				  }
+   dtxt		CHAR(25),            { Drucktext			        }
+   ltxt		VARCHAR(255,0),      { Langtext				  }
+   zeitstempel	DATETIME year to fraction(5),  { Aenderungsdatum/-zeit  }
+   geschl		CHAR(1),               { Gechlecht (leer,M,W)		  }
+   sort	Integer,							{Sortierung für die Anzeige}
+   forpromotion		CHAR(1),         { Für eine Promotion relevant (leer,J,N)		  }
+   position		CHAR(1)              { Position (leer,V-orgestellt,N-achgestellt)		  }
+);

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<refsystem active="y" modules="PROMO">
+	<dbhandlername>promo</dbhandlername>
+	<size>20</size>
+	<session>moduleParameter, r_refextobj.refextobjid</session>
+	<update />
+	<insert />
+	<delete />
+	<deletewarning>Soll diese Zuordnung gelöscht werden?</deletewarning>
+	<change>SELECT DISTINCT r_refextobj.refextobjid AS ID,
+		r_refextobj.aikz As Aktiv,
+		r_refextobj.tabelle As Tabelle,
+		r_refextobj.tabpk As Tabpk,
+		r_refextobj.refsystem AS RefSys,
+		r_refextobj.refid As RefID,
+		r_refextobj.sortierung As Sort,
+		r_refextobj.zeitstempel As Zeitstempel
+		FROM r_refextobj
+		WHERE r_refextobj.tabpk = [personal.pid]
+		AND r_refextobj.tabelle = 'personal'
+		ORDER BY 5
+	</change>
+	<change_prop>
+		<column name="ID" update="y" key="y" serial="y" noshow="y" keepAs="r_refextobj.refextobjid" />
+		<column name="Aktiv" show="y" default="A" listboxsize="5" stripkey="y" listonly="-&gt;iakz" />
+		<column name="Tabelle" update="y" noshow="y" />
+		<column name="Tabpk" update="y" noshow="y" />
+		<column name="RefSys" update="y" show="y" listboxsize="10" stripkey="y" listonly="-&gt;k_refsystem" />
+		<column name="RefID" update="y" show="y" size="10" />
+		<column name="Sort" label="$lang.missing_reihenfolge" update="y" show="y" size="10" />
+		<column name="Zeitstempel" noupdate="y" noshow="y" />
+	</change_prop>
+	<hidden>tabelle=personal, tabpk=[personal.pid]</hidden>
+	<parentModuleParameter>person</parentModuleParameter>
+	<specialPlausis>
+		<zwillingPlausi>
+			<class>de.his.busobjs.ConflictChecker</class>
+			<params>
+				<select>SELECT r_refextobj.refextobjid
+					FROM r_refextobj
+					WHERE r_refextobj.tabelle = 'personal'
+					AND r_refextobj.tabpk = [personal.pid]
+					AND r_refextobj.refsystem = [r_refextobj.refsystem]
+				</select>
+				<error>System ist schon zugeordnet</error>
+			</params>
+		</zwillingPlausi>
+	</specialPlausis>
+</refsystem>
+
