@@ -229,7 +229,7 @@
 						<promoDB>promo</promoDB>
 						<searchMail>SELECT v_sos.nachname AS Nachname, v_sos.geschl AS Geschl, v_anschri.mtknr AS MtkNr, v_anschri.email AS eMail, promotionid FROM v_anschri,promotion,v_sos WHERE v_sos.mtknr=v_anschri.mtknr AND v_anschri.mtknr=promotion.mtknr AND lower(v_anschri.email) = lower('[open_searchmail]')</searchMail>
 						<SQLFromHash>SELECT v_sos.mtknr AS MtkNr,nachname,vorname,gebname,geschl,gebdat,gebort,gebland,staat,promotionid,v_sos.res13 AS BewerberStatus from v_sos,promotion where v_sos.mtknr=promotion.mtknr AND md5(promotionid||';'||v_sos.mtknr||';'||'[salt]') = '[open_hash]' AND handovertolibrary IS NULL</SQLFromHash>
-						<SQLKontakt>SELECT strasse,plz,ort,kfz AS land,email,tel AS telefon,fax FROM v_anschri WHERE mtknr=[sos.mtknr] AND anschrkz='H'</SQLKontakt>
+						<SQLKontakt>SELECT strasse,plz,ort,kfz AS land,email,tel AS telefon,fax FROM v_sos LEFT JOIN v_anschri ON (v_sos.mtknr = v_anschri.mtknr AND v_anschri.anschrkz = v_sos.anschrkz) WHERE v_sos.mtknr=[sos.mtknr] AND v_anschri.anschrkz=v_sos.anschrkz</SQLKontakt>
 						<!--SQLBewEmployment>SELECT id,name,job,strasse,plz,ort,land,email,telefon,fax FROM employment,kontakt WHERE tabelle='employment' AND tabpk=id AND typadrid=1 AND bid=[bewerber.bid]</SQLBewEmployment-->
 						<!--SQLBewAka>SELECT gradid,sonst,date,place,isappliedsience FROM r_personal_akadgrad WHERE bid=[bewerber.bid] ORDER BY date</SQLBewAka-->
 						<SQLPromo>

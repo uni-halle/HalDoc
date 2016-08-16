@@ -256,10 +256,8 @@
 					 v_anschri.fax As Fax, 
 					 v_anschri.email As eMail, 
 					 v_sos.mtknr AS PerID			 
-					 FROM v_anschri, v_sos 
-					 WHERE  v_sos.mtknr = v_anschri.mtknr 
-					 AND v_anschri.anschrkz = 'H'
-					 AND v_anschri.mtknr = [PerID]
+					 FROM v_sos LEFT JOIN v_anschri ON (v_sos.mtknr = v_anschri.mtknr AND v_anschri.anschrkz = v_sos.anschrkz) 
+					 WHERE v_anschri.mtknr = [PerID]
 				</Transform.SubSQL>
 			</Transform.SubSQL>
 			<Transform.Parent ElementName="Texte">
@@ -342,7 +340,7 @@
 			v_anschri.tel AS Telefon, v_anschri.email AS Email, promotion.mentor1id AS Mentor1, promotion.mentor2id AS Mentor2, promotion.mentor3id AS Mentor3
 			FROM [(...] ((promotion
 				JOIN v_sos ON (promotion.mtknr=v_sos.mtknr))
-				LEFT JOIN v_anschri ON (promotion.mtknr=v_anschri.mtknr AND v_anschri.anschrkz='H'))
+				LEFT JOIN v_anschri ON (promotion.mtknr=v_anschri.mtknr AND v_anschri.anschrkz=v_sos.anschrkz))
 				[from]
 			WHERE 1=1 [where]
 			ORDER BY [orderby]

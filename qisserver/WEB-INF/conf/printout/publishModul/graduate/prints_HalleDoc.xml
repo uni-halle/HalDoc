@@ -1061,9 +1061,8 @@
 			 v_anschri.fax As Fax, 
 			 v_anschri.email As eMail, 
 			 v_anschri.mtknr AS PerID			 
-			 FROM v_sos, v_anschri 
-			 WHERE v_sos.mtknr=v_anschri.mtknr
-			 AND v_anschri.mtknr = [PerID] AND v_anschri.anschrkz = 'H' 
+			 FROM v_sos LEFT JOIN v_anschri ON (v_sos.mtknr = v_anschri.mtknr AND v_anschri.anschrkz = v_sos.anschrkz)
+			 AND v_anschri.mtknr = [PerID]
 		</Transform.SubSQL>
 		<Transform.SubSQL ElementName="MyPromo" useLangID="PID" storeFields="ID,Titel">
 			SELECT DISTINCT promotion.promotionid AS ID, promotion.institute AS Institut, promotion.promoprogramm AS promoprogramm, promotion.promoprogrammdetail AS promoprogrammdetail,

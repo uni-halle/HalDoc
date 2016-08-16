@@ -45,6 +45,14 @@ public class Promotion {
   private HISDate dateforcertificate = null;//				DATE,         		{ Übergabe Urkunde			            				}
   private HISDate date_for_cancel = null;//					DATE,							{ Datum des Abbruchs												}
   private HISDate filetoarchive = null;//						DATE,         		{ Akte ins Archiv			            					}
+  private HISDate evaluator1reminder1 = null;// date, -- Datum der ersten Erinnerung Gutachter 1
+  private HISDate evaluator1reminder2 = null;// date, -- Datum der zweiten Erinnerung Gutachter 1
+  private HISDate evaluator2reminder1 = null;// date, -- Datum der ersten Erinnerung Gutachter 2
+  private HISDate evaluator2reminder2 = null;// date, -- Datum der zweiten Erinnerung Gutachter 2
+  private HISDate evaluator3reminder1 = null;// date, -- Datum der ersten Erinnerung Gutachter 3
+  private HISDate evaluator3reminder2 = null;// date, -- Datum der zweiten Erinnerung Gutachter 3
+  private HISDate evaluator4reminder1 = null;// date, -- Datum der ersten Erinnerung Gutachter 4
+  private HISDate evaluator4reminder2 = null;// date, -- Datum der zweiten Erinnerung Gutachter 4
   private Integer archivenumber, k_abstgv_id = null;
 	
 	private DBHandler dbhPromo = null;
@@ -53,6 +61,7 @@ public class Promotion {
 	private String promoSQL = "SELECT DISTINCT promotionid,promoprogramm,promoprogrammdetail,framework,frameworkdetail,field,gradid,title,personid,mentor1id,mentor2id,mentor3id,institute,applicationofassumption,"
 			+ "assumptioncommitee,applicationofadmission,openingofprocedure,forwardingoffile,forwardingforcommitee,dateofcolloquium,dateofpublishing,handovertolibrary,dateforcertificate,finalgrade,filetoarchive,archivenumber,"
 			+ "einrichtungid,k_abstgv_id,vorsitzid,bid,startofdoctoralstudies,evaluator1id,evaluator2id,evaluator3id,evaluator4id,dateofcontractwithpublisher,dateofrigorosum,date_for_cancel,handovertype,handovercount"
+			+ "evaluator1reminder1,evaluator1reminder2,evaluator2reminder1,evaluator2reminder2,evaluator3reminder1,evaluator3reminder2,evaluator4reminder1,evaluator4reminder2"
 			+ " FROM promotion WHERE mtknr=[promotion.mtknr]";
 
 	public Promotion(DBHandler promoDbh, DBHandler sosposDbh, Integer mtknr) {
@@ -153,6 +162,46 @@ public class Promotion {
 		sourceVar = this.props.getProperty("filetoarchive");
 		if(sourceVar != null && !sourceVar.trim().isEmpty()) {
 			try {this.filetoarchive = HISDate.valueOf(sourceVar);
+			} catch (HISDateException e) {logger.error(e.getMessage());}
+		}
+		sourceVar = this.props.getProperty("evaluator1reminder1");
+		if(sourceVar != null && !sourceVar.trim().isEmpty()) {
+			try {this.evaluator1reminder1 = HISDate.valueOf(sourceVar);
+			} catch (HISDateException e) {logger.error(e.getMessage());}
+		}
+		sourceVar = this.props.getProperty("evaluator1reminder2");
+		if(sourceVar != null && !sourceVar.trim().isEmpty()) {
+			try {this.evaluator1reminder2 = HISDate.valueOf(sourceVar);
+			} catch (HISDateException e) {logger.error(e.getMessage());}
+		}
+		sourceVar = this.props.getProperty("evaluator2reminder1");
+		if(sourceVar != null && !sourceVar.trim().isEmpty()) {
+			try {this.evaluator2reminder1 = HISDate.valueOf(sourceVar);
+			} catch (HISDateException e) {logger.error(e.getMessage());}
+		}
+		sourceVar = this.props.getProperty("evaluator2reminder2");
+		if(sourceVar != null && !sourceVar.trim().isEmpty()) {
+			try {this.evaluator2reminder2 = HISDate.valueOf(sourceVar);
+			} catch (HISDateException e) {logger.error(e.getMessage());}
+		}
+		sourceVar = this.props.getProperty("evaluator3reminder1");
+		if(sourceVar != null && !sourceVar.trim().isEmpty()) {
+			try {this.evaluator3reminder1 = HISDate.valueOf(sourceVar);
+			} catch (HISDateException e) {logger.error(e.getMessage());}
+		}
+		sourceVar = this.props.getProperty("evaluator3reminder2");
+		if(sourceVar != null && !sourceVar.trim().isEmpty()) {
+			try {this.evaluator3reminder2 = HISDate.valueOf(sourceVar);
+			} catch (HISDateException e) {logger.error(e.getMessage());}
+		}
+		sourceVar = this.props.getProperty("evaluator4reminder1");
+		if(sourceVar != null && !sourceVar.trim().isEmpty()) {
+			try {this.evaluator4reminder1 = HISDate.valueOf(sourceVar);
+			} catch (HISDateException e) {logger.error(e.getMessage());}
+		}
+		sourceVar = this.props.getProperty("evaluator4reminder2");
+		if(sourceVar != null && !sourceVar.trim().isEmpty()) {
+			try {this.evaluator4reminder2 = HISDate.valueOf(sourceVar);
 			} catch (HISDateException e) {logger.error(e.getMessage());}
 		}
 
@@ -297,11 +346,11 @@ public class Promotion {
 		int savedRows = -1;
 
 		Properties saveProp = new Properties();
-		QISPropUtil.putIgnoreNull(saveProp, "promoprogramm", this.getBooleanValue(this.promoprogramm));
+		QISPropUtil.putIgnoreNull(saveProp, "promoprogramm", MLUUtil.getBooleanValue(this.promoprogramm));
 		QISPropUtil.putIgnoreNull(saveProp, "promoprogrammdetail", MLUUtil.getTransformedString(this.promoprogrammdetail));
-		QISPropUtil.putIgnoreNull(saveProp, "framework", this.getBooleanValue(this.framework));
+		QISPropUtil.putIgnoreNull(saveProp, "framework", MLUUtil.getBooleanValue(this.framework));
 		QISPropUtil.putIgnoreNull(saveProp, "frameworkdetail", MLUUtil.getTransformedString(this.frameworkdetail));
-		QISPropUtil.putIgnoreNull(saveProp, "gradid", this.getIntegerString(this.getGradid));
+		QISPropUtil.putIgnoreNull(saveProp, "gradid", MLUUtil.getIntegerString(this.getGradid));
 		if(this.title != null) {
 			QISPropUtil.putIgnoreNull(saveProp, "title", MLUUtil.getTransformedString(this.title));
 		}
@@ -316,32 +365,42 @@ public class Promotion {
 		QISPropUtil.putIgnoreNull(saveProp, "mentor3name", MLUUtil.getTransformedString(this.mentor3name));
 		QISPropUtil.putIgnoreNull(saveProp, "mentor3einrich", MLUUtil.getTransformedString(this.mentor3einrich));
 		QISPropUtil.putIgnoreNull(saveProp, "institute", MLUUtil.getTransformedString(this.institute));
-		QISPropUtil.putIgnoreNull(saveProp, "applicationofassumption", this.getDateString(this.applicationofassumption));
-		QISPropUtil.putIgnoreNull(saveProp, "assumptioncommitee", this.getDateString(this.assumptioncommitee));
-		QISPropUtil.putIgnoreNull(saveProp, "applicationofadmission", this.getDateString(this.applicationofadmission));
-		QISPropUtil.putIgnoreNull(saveProp, "openingofprocedure", this.getDateString(this.openingofprocedure));
-		QISPropUtil.putIgnoreNull(saveProp, "forwardingoffile", this.getDateString(this.forwardingoffile));
-		QISPropUtil.putIgnoreNull(saveProp, "forwardingforcommitee", this.getDateString(this.forwardingforcommitee));
-		QISPropUtil.putIgnoreNull(saveProp, "dateofcolloquium", this.getDateString(this.dateofcolloquium));
-		QISPropUtil.putIgnoreNull(saveProp, "dateofpublishing", this.getDateString(this.dateofpublishing));
-		QISPropUtil.putIgnoreNull(saveProp, "handovertolibrary", this.getDateString(this.handovertolibrary));
-		QISPropUtil.putIgnoreNull(saveProp, "dateforcertificate", this.getDateString(this.dateforcertificate));
-		QISPropUtil.putIgnoreNull(saveProp, "archivenumber", this.getIntegerString(this.archivenumber));
-		QISPropUtil.putIgnoreNull(saveProp, "filetoarchive", this.getDateString(this.filetoarchive));
-		QISPropUtil.putIgnoreNull(saveProp, "startofdoctoralstudies", this.getDateString(this.startofdoctoralstudies));
-		QISPropUtil.putIgnoreNull(saveProp, "dateofcontractwithpublisher", this.getDateString(this.dateofcontractwithpublisher));
-		QISPropUtil.putIgnoreNull(saveProp, "dateofrigorosum", this.getDateString(this.dateofrigorosum));
-		QISPropUtil.putIgnoreNull(saveProp, "date_for_cancel", this.getDateString(this.date_for_cancel));
-		QISPropUtil.putIgnoreNull(saveProp, "k_abstgv_id", this.getIntegerString(this.k_abstgv_id));
+		QISPropUtil.putIgnoreNull(saveProp, "applicationofassumption", MLUUtil.getDateString(this.applicationofassumption));
+		QISPropUtil.putIgnoreNull(saveProp, "assumptioncommitee", MLUUtil.getDateString(this.assumptioncommitee));
+		QISPropUtil.putIgnoreNull(saveProp, "applicationofadmission", MLUUtil.getDateString(this.applicationofadmission));
+		QISPropUtil.putIgnoreNull(saveProp, "openingofprocedure", MLUUtil.getDateString(this.openingofprocedure));
+		QISPropUtil.putIgnoreNull(saveProp, "forwardingoffile", MLUUtil.getDateString(this.forwardingoffile));
+		QISPropUtil.putIgnoreNull(saveProp, "forwardingforcommitee", MLUUtil.getDateString(this.forwardingforcommitee));
+		QISPropUtil.putIgnoreNull(saveProp, "dateofcolloquium", MLUUtil.getDateString(this.dateofcolloquium));
+		QISPropUtil.putIgnoreNull(saveProp, "dateofpublishing", MLUUtil.getDateString(this.dateofpublishing));
+		QISPropUtil.putIgnoreNull(saveProp, "handovertolibrary", MLUUtil.getDateString(this.handovertolibrary));
+		QISPropUtil.putIgnoreNull(saveProp, "dateforcertificate", MLUUtil.getDateString(this.dateforcertificate));
+		QISPropUtil.putIgnoreNull(saveProp, "archivenumber", MLUUtil.getIntegerString(this.archivenumber));
+		QISPropUtil.putIgnoreNull(saveProp, "filetoarchive", MLUUtil.getDateString(this.filetoarchive));
+		QISPropUtil.putIgnoreNull(saveProp, "startofdoctoralstudies", MLUUtil.getDateString(this.startofdoctoralstudies));
+		QISPropUtil.putIgnoreNull(saveProp, "dateofcontractwithpublisher", MLUUtil.getDateString(this.dateofcontractwithpublisher));
+		QISPropUtil.putIgnoreNull(saveProp, "dateofrigorosum", MLUUtil.getDateString(this.dateofrigorosum));
+		QISPropUtil.putIgnoreNull(saveProp, "date_for_cancel", MLUUtil.getDateString(this.date_for_cancel));
+		QISPropUtil.putIgnoreNull(saveProp, "k_abstgv_id", MLUUtil.getIntegerString(this.k_abstgv_id));
 		logger.debug("k_abstgv_id-3: " + saveProp.getProperty("k_abstgv_id"));
-		QISPropUtil.putIgnoreNull(saveProp, "vorsitzid", this.getIntegerString(this.vorsitzid));
-		QISPropUtil.putIgnoreNull(saveProp, "mtknr", this.getIntegerString(this.mtknr));
-		QISPropUtil.putIgnoreNull(saveProp, "bid", this.getIntegerString(this.bid));
-		QISPropUtil.putIgnoreNull(saveProp, "evaluator1id", this.getIntegerString(this.evaluator1id));
-		QISPropUtil.putIgnoreNull(saveProp, "evaluator2id", this.getIntegerString(this.evaluator2id));
-		QISPropUtil.putIgnoreNull(saveProp, "evaluator3id", this.getIntegerString(this.evaluator3id));
-		QISPropUtil.putIgnoreNull(saveProp, "evaluator4id", this.getIntegerString(this.evaluator4id));
-		QISPropUtil.putIgnoreNull(saveProp, "einrichtungid", this.getIntegerString(this.einrichtungid));
+		QISPropUtil.putIgnoreNull(saveProp, "vorsitzid", MLUUtil.getIntegerString(this.vorsitzid));
+		QISPropUtil.putIgnoreNull(saveProp, "mtknr", MLUUtil.getIntegerString(this.mtknr));
+		QISPropUtil.putIgnoreNull(saveProp, "bid", MLUUtil.getIntegerString(this.bid));
+		QISPropUtil.putIgnoreNull(saveProp, "evaluator1id", MLUUtil.getIntegerString(this.evaluator1id));
+		QISPropUtil.putIgnoreNull(saveProp, "evaluator2id", MLUUtil.getIntegerString(this.evaluator2id));
+		QISPropUtil.putIgnoreNull(saveProp, "evaluator3id", MLUUtil.getIntegerString(this.evaluator3id));
+		QISPropUtil.putIgnoreNull(saveProp, "evaluator4id", MLUUtil.getIntegerString(this.evaluator4id));
+		QISPropUtil.putIgnoreNull(saveProp, "einrichtungid", MLUUtil.getIntegerString(this.einrichtungid));
+		QISPropUtil.putIgnoreNull(saveProp, "evaluator1reminder1", MLUUtil.getDateString(this.evaluator1reminder1));
+		QISPropUtil.putIgnoreNull(saveProp, "evaluator1reminder2", MLUUtil.getDateString(this.evaluator1reminder2));
+		QISPropUtil.putIgnoreNull(saveProp, "evaluator2reminder1", MLUUtil.getDateString(this.evaluator2reminder1));
+		QISPropUtil.putIgnoreNull(saveProp, "evaluator2reminder2", MLUUtil.getDateString(this.evaluator2reminder2));
+		QISPropUtil.putIgnoreNull(saveProp, "evaluator3reminder1", MLUUtil.getDateString(this.evaluator3reminder1));
+		QISPropUtil.putIgnoreNull(saveProp, "evaluator3reminder2", MLUUtil.getDateString(this.evaluator3reminder2));
+		QISPropUtil.putIgnoreNull(saveProp, "evaluator4reminder1", MLUUtil.getDateString(this.evaluator4reminder1));
+		QISPropUtil.putIgnoreNull(saveProp, "evaluator4reminder2", MLUUtil.getDateString(this.evaluator4reminder2));
+		
+		
 		saveProp.put("zeitstempel", DateUtil.getKeyWordForTimestamp(this.dbhPromo));
 		savedRows = this.dbhPromo.execUpdate(action, "promotion", saveProp, where);
 		if(action.equals(DBAction.INSERT)) {
@@ -366,8 +425,8 @@ public class Promotion {
 		int savedRows = -1;
 		
 		Properties getProp = new Properties();
-		QISPropUtil.putIgnoreNull(getProp, "k_abstgv_id", this.getIntegerString(this.k_abstgv_id));
-		QISPropUtil.putIgnoreNull(getProp, "mtknr", this.getIntegerString(this.mtknr));
+		QISPropUtil.putIgnoreNull(getProp, "k_abstgv_id", MLUUtil.getIntegerString(this.k_abstgv_id));
+		QISPropUtil.putIgnoreNull(getProp, "mtknr", MLUUtil.getIntegerString(this.mtknr));
 
 		String sql = this.dbhSospos.argsubstSQL("SELECT * FROM stg WHERE mtknr=[mtknr] AND abschl='06'", getProp);
 		String[][] data = this.dbhSospos.getData(sql);
@@ -445,30 +504,6 @@ public class Promotion {
 		return hasSaved;
 	}
 
-	private String getIntegerString(Integer value) {
-		String returnValue = null;
-		if(value != null) {
-			returnValue = value.toString();
-		}
-		return returnValue;
-	}
-	
-	private String getDateString(HISDate date) {
-		String returnValue = null;
-		if(date != null) {
-			returnValue = date.toSQLString();
-		}
-		return returnValue;
-	}
-	
-	private String getBooleanValue(Boolean bool) {
-		String returnValue = "J";
-		if(bool.equals(Boolean.FALSE)) {
-			returnValue = "N";
-		}
-		return returnValue;
-	}
-	
 	public Integer getPromotionId() {
 		return this.promotionid;
 	}

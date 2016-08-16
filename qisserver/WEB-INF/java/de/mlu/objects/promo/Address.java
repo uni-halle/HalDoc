@@ -58,9 +58,10 @@ public class Address {
 	public Boolean saveData(String mtknr, int identNr, DBHandler dbhSospos) {
 		Boolean hasSaved = Boolean.TRUE;
 		Properties kontaktProp = new Properties();
-		kontaktProp.put("anschrkz", "H");
 		kontaktProp.put("mtknr", mtknr);
 		kontaktProp.put("identnr", Integer.valueOf(identNr).toString());
+		String anschrkz = MLUUtil.getInfo(dbhSospos, 0, "SELECT anschrkz FROM sos WHERE mtknr=[mtknr]", (Properties) kontaktProp.clone(), "H");
+		kontaktProp.put("anschrkz", anschrkz);
 		QISPropUtil.putIgnoreNull(kontaktProp, "strasse", this.street);
 		QISPropUtil.putIgnoreNull(kontaktProp, "plz", this.postcode);
 		QISPropUtil.putIgnoreNull(kontaktProp, "ort", this.city);
@@ -73,7 +74,7 @@ public class Address {
 		QISPropUtil.putIgnoreNull(kontaktProp, "zusastrasse", this.institut);
 		QISPropUtil.putIgnoreNull(kontaktProp, "zusaort", this.additional);
 		
-		String testSQL = "SELECT mtknr FROM anschri WHERE anschrkz='H' AND (mtknr=[mtknr] OR identnr=[identnr])";
+		String testSQL = "SELECT mtknr FROM anschri WHERE anschrkz=[anschrkz] AND (mtknr=[mtknr] OR identnr=[identnr])";
 		Properties cloneProp = (Properties) kontaktProp.clone();
 		testSQL = dbhSospos.argsubstSQL(testSQL, cloneProp);
 		String[][] data = dbhSospos.getData(testSQL);

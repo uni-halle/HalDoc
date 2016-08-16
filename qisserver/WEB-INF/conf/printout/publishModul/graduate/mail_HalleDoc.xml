@@ -11,10 +11,10 @@
 				<class name="de.mlu.printout.publishModul.plugins.MailPlugin">
 					<params>
 						<database>promo</database>
-						<objectIds>SELECT distinct promotion.promotionid AS ID FROM v_anschri,promotion,v_sos [from]  WHERE v_anschri.mtknr=promotion.mtknr AND v_sos.mtknr=promotion.mtknr AND v_anschri.anschrkz='H' AND handovertolibrary IS NULL AND date_for_cancel IS NULL [where]</objectIds>
+						<objectIds>SELECT distinct promotion.promotionid AS ID FROM v_anschri,promotion,v_sos [from]  WHERE v_anschri.mtknr=promotion.mtknr AND v_sos.mtknr=promotion.mtknr AND v_anschri.anschrkz=v_sos.anschrkz AND handovertolibrary IS NULL AND date_for_cancel IS NULL [where]</objectIds>
 						<!--objectIds>SELECT promotion.promotionid AS ID FROM promotion [from] WHERE handovertolibrary IS NULL [where]</objectIds-->
 						<!-- Emailadresse immer als erstes. Anschließend Informationen für das Mapping -->
-						<addresses>SELECT v_anschri.email AS Address, v_sos.geschl AS geschl, v_sos.nachname AS nachname, v_sos.vorname AS vorname, v_sos.mtknr AS id FROM v_anschri,promotion,v_sos WHERE v_sos.mtknr=promotion.mtknr AND v_anschri.mtknr=promotion.mtknr AND promotion.promotionid IN ([objectIds]) AND v_anschri.anschrkz='H'</addresses>
+						<addresses>SELECT v_anschri.email AS Address, v_sos.geschl AS geschl, v_sos.nachname AS nachname, v_sos.vorname AS vorname, v_sos.mtknr AS id FROM v_anschri,promotion,v_sos WHERE v_sos.mtknr=promotion.mtknr AND v_anschri.mtknr=promotion.mtknr AND promotion.promotionid IN ([objectIds]) AND v_anschri.anschrkz=v_sos.anschrkz</addresses>
 						<!-- Standard ist der Eintrag aus der DispatcherProperties.txt -->
 						<from>SELECT email FROM kontakt WHERE tabelle='personal' AND tabpk=[session_ident_M]</from>
 						<!--from default="ssc@uni-halle.de" databases="nutzerprojekt">SELECT DISTINCT MAIL as email FROM HIS_MITARBEITER_LOGIN_TBL WHERE NKZ='[session_username]'</from-->

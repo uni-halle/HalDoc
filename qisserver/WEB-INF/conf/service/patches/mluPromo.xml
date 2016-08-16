@@ -2,8 +2,8 @@
 <patches>
     <patch name="Basic">
         <file name="WEB-INF/conf/DispatcherProperties_HalleDoc.txt" />
-        <file name="WEB-INF/conf/LoginConf_HalleDoc.xml" />
-        <file name="WEB-INF/conf/modules_HalleDoc.xml" />
+        <!--file name="WEB-INF/conf/LoginConf_HalleDoc.xml" />
+        <file name="WEB-INF/conf/modules_HalleDoc.xml" /-->
         <file name="WEB-INF/conf/wsearchv/rollenansichten_HalleDoc.txt" />
         <file name="WEB-INF/conf/user/user_HalleDoc.xml" />
         <file name="WEB-INF/conf/service/medialoader_HalleDoc.xml" />
